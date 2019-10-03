@@ -20,7 +20,7 @@
         /// <summary>
         /// Measured value
         /// </summary>
-        public double Value { get; set; }
+        public double Value;
 
         /// <summary>
         /// Measured value plus bias
