@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:UI.Views"
       xmlns:halconDotNet="clr-namespace:HalconDotNet;assembly=halcondotnet"
       xmlns:viewModels="clr-namespace:UI.ViewModels"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
       d:DesignHeight="600"
       d:DesignWidth="800"
@@ -22,15 +23,24 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
+            <!-- EXECUTE -->
+                <Border Grid.Row="0">
+                    <materialDesign:Badged
+                        x:Name="CountingBadge"
+                        BadgeColorZoneMode="PrimaryDark">
+                        <Button Style="{StaticResource MaterialDesignRaisedLightButton}" Content="Execute once"/>
+                    </materialDesign:Badged>
+                </Border>
             <!-- ImageProvider Area -->
-            <Border Grid.Row="0">
+            <Border Grid.Row="1">
                 <local:ImageProviderView></local:ImageProviderView>
+                <!-- FAI LIST -->
             </Border>
-            <!-- FAI list -->
-            <Border Grid.Row="1"></Border>
+            <Border Grid.Row="2"></Border>
         </Grid>
     </Grid>
 </local:PageBase>
