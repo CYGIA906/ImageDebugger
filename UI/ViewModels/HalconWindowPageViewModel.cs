@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using HalconDotNet;
+using UI.Commands;
 using UI.ImageProcessing;
 
 // TODO: Finish displaying part
@@ -24,6 +26,8 @@ namespace UI.ViewModels
             }
         }
 
+        public ICommand ExecuteCommand { get; }
+
         HDevelopExport _halconScript = new HDevelopExport();
         private HTuple _shapeModelHandle;
         private double[] _thresholds = { 128, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 };
@@ -31,6 +35,8 @@ namespace UI.ViewModels
 
         public void Process(HImage image)
         {
+            if(!image.IsInitialized()) return;
+
             HObject imageUndistorted, lineRegions, findLineRects;
             HTuple measuredValues, pixelValues, ptXsUsed, ptYsUsed, ptXsIgnored, ptYsIgnored, interXs, interYs;
             _halconScript.I94TopFaceMeasurement(image, out imageUndistorted, out lineRegions, out findLineRects,
@@ -103,6 +109,16 @@ namespace UI.ViewModels
             FaiItems.Add(new FaiItem("FAI20.1") {  MaxBoundary = 19.353, MinBoundary = 19.253});
             FaiItems.Add(new FaiItem("FAI20.2") {  MaxBoundary = 19.353, MinBoundary = 19.253});
 
+
+            // Init commands
+            ExecuteCommand = new ParameterizedCommand(param =>
+            {
+                var image = (HImage) param;
+                Process(image);
+            });
+
+            //TODO: make this elegant
+            ModelPath = @"C:\Users\afterbunny\Documents\Projects\Hdevs\ModelTopViewI94";
         }
 
 

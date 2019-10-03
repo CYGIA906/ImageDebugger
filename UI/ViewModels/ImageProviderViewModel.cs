@@ -18,6 +18,8 @@ namespace UI.ViewModels
         {
             get
             {
+                if(_imageDirectory == null) return new HImage();
+
                 var imagePath = _imagePaths.Dequeue();
                 return new HImage(imagePath);
             }
