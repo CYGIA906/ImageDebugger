@@ -12,31 +12,32 @@
                 d:DesignWidth="800"
                 Title="HalconWindowPage">
     <Grid>
-<Grid.Resources>
-    <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
-        </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="800" />
+            <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
 
 
-        <halconDotNet:HSmartWindowControlWPF Grid.Column="0" />
+        <halconDotNet:HSmartWindowControlWPF Grid.Column="0" Grid.RowSpan="3"/>
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100" />
-                <RowDefinition Height="100" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+       
 
             <!-- EXECUTE -->
-            <Border Grid.Row="0">
+            <Border Grid.Row="0" Grid.Column="1">
                 <materialDesign:Badged
                     x:Name="CountingBadge"
                     BadgeColorZoneMode="PrimaryDark">
@@ -44,130 +45,30 @@
                 </materialDesign:Badged>
             </Border>
             <!-- ImageProvider Area -->
-            <Border Grid.Row="1">
+            <Border Grid.Row="1" Grid.Column="1">
                 <local:ImageProviderView />
             </Border>
 
             <!-- FAI LIST -->
-            <Border Grid.Row="2">
-                <DataGrid
-                    ItemsSource="{Binding FaiItems}"
-                    CanUserSortColumns="True"
-                    CanUserAddRows="False">
+                <Expander Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                    ExpandDirection="Left">
+                    <Expander.Header>
+                        <TextBlock
+                            Text="Outputs"
+                            RenderTransformOrigin=".5,.5">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform
+                                    Angle="90" />
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+                    <DataGrid
+                        ItemsSource="{Binding FaiItems}"
+                        CanUserSortColumns="True"
+                        CanUserAddRows="False" />
+                </Expander>
 
-                    <!-- <DataGrid.Columns> -->
-                    <!--     ~1~ Name column @1@ -->
-                    <!--     <materialDesign:MaterialDataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" Width="100" Binding="{Binding Name}" Header="Fai Name"> -->
-                    <!--         <DataGridTextColumn.HeaderStyle> -->
-                    <!--             <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--                 <Setter Property="ContentTemplate"> -->
-                    <!--                     <Setter.Value> -->
-                    <!--                         <DataTemplate> -->
-                    <!--                             <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Right"/> -->
-                    <!--                         </DataTemplate> -->
-                    <!--                     </Setter.Value> -->
-                    <!--                 </Setter> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.HeaderStyle> -->
-                    <!--         <DataGridTextColumn.ElementStyle> -->
-                    <!--             <Style TargetType="{x:Type TextBlock}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.ElementStyle> -->
-                    <!--     </materialDesign:MaterialDataGridTextColumn> -->
-                    <!-- -->
-                    <!--     ~1~ Max column @1@ -->
-                    <!--     <materialDesign:MaterialDataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" Width="100" Binding="{Binding MaxBoundary}" Header="Fai Name"> -->
-                    <!--         <DataGridTextColumn.HeaderStyle> -->
-                    <!--             <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--                 <Setter Property="ContentTemplate"> -->
-                    <!--                     <Setter.Value> -->
-                    <!--                         <DataTemplate> -->
-                    <!--                             <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Right"/> -->
-                    <!--                         </DataTemplate> -->
-                    <!--                     </Setter.Value> -->
-                    <!--                 </Setter> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.HeaderStyle> -->
-                    <!--         <DataGridTextColumn.ElementStyle> -->
-                    <!--             <Style TargetType="{x:Type TextBlock}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.ElementStyle> -->
-                    <!--     </materialDesign:MaterialDataGridTextColumn> -->
-                    <!-- -->
-                    <!--     ~1~ Min column @1@ -->
-                    <!--     <materialDesign:MaterialDataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" Width="100" Binding="{Binding MinBoundary}" Header="Fai Name"> -->
-                    <!--         <DataGridTextColumn.HeaderStyle> -->
-                    <!--             <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--                 <Setter Property="ContentTemplate"> -->
-                    <!--                     <Setter.Value> -->
-                    <!--                         <DataTemplate> -->
-                    <!--                             <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Right"/> -->
-                    <!--                         </DataTemplate> -->
-                    <!--                     </Setter.Value> -->
-                    <!--                 </Setter> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.HeaderStyle> -->
-                    <!--         <DataGridTextColumn.ElementStyle> -->
-                    <!--             <Style TargetType="{x:Type TextBlock}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.ElementStyle> -->
-                    <!--     </materialDesign:MaterialDataGridTextColumn> -->
-                    <!-- -->
-                    <!--     ~1~ ValueBiased column @1@ -->
-                    <!--     <materialDesign:MaterialDataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" Width="100" Binding="{Binding ValueBiased}" Header="Fai Name"> -->
-                    <!--         <DataGridTextColumn.HeaderStyle> -->
-                    <!--             <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--                 <Setter Property="ContentTemplate"> -->
-                    <!--                     <Setter.Value> -->
-                    <!--                         <DataTemplate> -->
-                    <!--                             <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Right"/> -->
-                    <!--                         </DataTemplate> -->
-                    <!--                     </Setter.Value> -->
-                    <!--                 </Setter> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.HeaderStyle> -->
-                    <!--         <DataGridTextColumn.ElementStyle> -->
-                    <!--             <Style TargetType="{x:Type TextBlock}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.ElementStyle> -->
-                    <!--     </materialDesign:MaterialDataGridTextColumn> -->
-                    <!-- -->
-                    <!-- -->
-                    <!--     ~1~ Bias column @1@ -->
-                    <!--     <materialDesign:MaterialDataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" Width="100" Binding="{Binding Bias}" Header="Fai Name"> -->
-                    <!--         <DataGridTextColumn.HeaderStyle> -->
-                    <!--             <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--                 <Setter Property="ContentTemplate"> -->
-                    <!--                     <Setter.Value> -->
-                    <!--                         <DataTemplate> -->
-                    <!--                             <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Right"/> -->
-                    <!--                         </DataTemplate> -->
-                    <!--                     </Setter.Value> -->
-                    <!--                 </Setter> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.HeaderStyle> -->
-                    <!--         <DataGridTextColumn.ElementStyle> -->
-                    <!--             <Style TargetType="{x:Type TextBlock}"> -->
-                    <!--                 <Setter Property="HorizontalAlignment" Value="Right" /> -->
-                    <!--             </Style> -->
-                    <!--         </DataGridTextColumn.ElementStyle> -->
-                    <!--     </materialDesign:MaterialDataGridTextColumn> -->
-                    <!-- -->
-                    <!-- </DataGrid.Columns> -->
-                    <!-- -->
+             
 
-                </DataGrid>
-
-            </Border>
-        </Grid>
     </Grid>
 </local:PageBase>

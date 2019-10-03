@@ -5,7 +5,7 @@
         /// <summary>
         /// Fai name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
         /// Max boundary of the fai item
@@ -38,6 +38,9 @@
         /// </summary>
         public bool Passed => ValueBiased > MinBoundary && ValueBiased < MaxBoundary;
 
-
+        public FaiItem(string name)
+        {
+            Name = name;
+        }
     }
 }
