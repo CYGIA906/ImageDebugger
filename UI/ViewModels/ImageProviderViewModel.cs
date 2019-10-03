@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Windows.Input;
 using HalconDotNet;
+using UI.Commands;
 using UI.Interfaces;
 
 namespace UI.ViewModels
@@ -74,18 +76,18 @@ namespace UI.ViewModels
 
         public ImageProviderViewModel()
         {
-//            SelectImageDirCommand = new RelayCommand(() =>
-//            {
-//                using (var fbd = new FolderBrowserDialog())
-//                {
-//                    DialogResult result = fbd.ShowDialog();
-//
-//                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-//                    {
-//                        ImageDirectory = fbd.SelectedPath;
-//                    }
-//                }
-//            });
+            SelectImageDirCommand = new RelayCommand(() =>
+            {
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        ImageDirectory = fbd.SelectedPath;
+                    }
+                }
+            });
         }
     }
 }
