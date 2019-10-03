@@ -72,8 +72,10 @@
     <Compile Include="Commands\ParameterizedCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Hdevs\I94.cs" />
+    <Compile Include="ImageProcessing\IMeasurementProcedure.cs" />
     <Compile Include="Interfaces\IImageProvider.cs" />
     <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />
+    <Compile Include="ViewModels\FaiItem.cs" />
     <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />
     <Compile Include="ViewModels\ImageProviderViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
