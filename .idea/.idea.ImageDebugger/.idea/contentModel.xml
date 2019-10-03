@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\afterbunny\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\afterbunny\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.-166347473.00" t="ExcludeRecursive" />
+    <e p="C:\Users\afterbunny\RiderProjects\ImageDebugger" t="IncludeFlat">
+      <e p="ImageDebugger.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="UI" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="App.xaml" t="Include" />
+        <e p="App.xaml.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Commands" t="Include" />
+        <e p="Interfaces" t="Include">
+          <e p="IImageProvider.cs" t="Include" />
+        </e>
+        <e p="MainWindow.xaml" t="Include" />
+        <e p="MainWindow.xaml.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+        </e>
+        <e p="UI.csproj" t="IncludeRecursive" />
+        <e p="ViewModels" t="Include">
+          <e p="AttachedPropertyOwnerBase.cs" t="Include" />
+          <e p="HalconWindowPageViewModel.cs" t="Include" />
+          <e p="ImageProviderViewModel.cs" t="Include" />
+          <e p="ViewModelBase.cs" t="Include" />
+        </e>
+        <e p="Views" t="Include">
+          <e p="HalconWindowPage.xaml" t="Include" />
+          <e p="HalconWindowPage.xaml.cs" t="Include" />
+          <e p="ImageProviderView.xaml" t="Include" />
+          <e p="ImageProviderView.xaml.cs" t="Include" />
+          <e p="PageBase.cs" t="Include" />
+          <e p="UserControlBase.cs" t="Include" />
+        </e>
+      </e>
+    </e>
+  </component>
+</project>

@@ -3,12 +3,11 @@ using UI.ViewModels;
 
 namespace UI.Views
 {
-    public partial class ImageProviderView : UserControl
+    public partial class ImageProviderView : UserControlBase<ImageProviderViewModel>
     {
         public ImageProviderView()
         {
             InitializeComponent();
-            DataContext = new ImageProviderViewModel();
         }
     }
 }
