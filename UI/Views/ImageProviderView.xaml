@@ -17,7 +17,7 @@
         <materialDesign:Badged BadgeColorZoneMode="PrimaryDark" Margin="5" Badge="{Binding NumImages}">
 
             <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}},Path=DataContext.ExecuteCommand}" CommandParameter="{Binding Path=NextImage}">Next</Button>
+                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}},Path=DataContext.ExecuteCommand}" CommandParameter="{Binding NextImage}">Next</Button>
         </materialDesign:Badged>
 
     </StackPanel>

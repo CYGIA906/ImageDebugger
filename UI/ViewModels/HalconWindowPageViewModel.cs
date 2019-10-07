@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Forms;
 using System.Windows.Input;
 using HalconDotNet;
 using UI.Commands;
@@ -12,6 +15,8 @@ namespace UI.ViewModels
     public class HalconWindowPageViewModel : ViewModelBase, IMeasurementProcedure
     {
         public ObservableCollection<FaiItem> FaiItems { get; }
+
+        private HWindow _windowHandle;
 
         /// <summary>
         /// Path to the shape model in disk
@@ -37,14 +42,16 @@ namespace UI.ViewModels
         {
             if(!image.IsInitialized()) return;
 
-            HObject imageUndistorted, lineRegions, findLineRects;
-            HTuple measuredValues, pixelValues, ptXsUsed, ptYsUsed, ptXsIgnored, ptYsIgnored, interXs, interYs;
-            _halconScript.I94TopFaceMeasurement(image, out imageUndistorted, out lineRegions, out findLineRects,
-                _shapeModelHandle, 0, 0, _thresholds, out measuredValues, out ptXsUsed, out ptYsUsed, out ptXsIgnored,
-                out ptYsIgnored, out interXs, out interYs, out pixelValues);
+            ShowImageAndGraphics(image, new HObject());
+            
 
+        }
 
-            FillFaiItems(measuredValues);
+        private void ShowImageAndGraphics(HImage image, HObject graphics)
+        {
+            HOperatorSet.ClearWindow(_windowHandle);
+            image.DispObj(_windowHandle);
+            if(graphics.IsInitialized()) graphics.DispObj(_windowHandle);
         }
 
 
@@ -67,8 +74,11 @@ namespace UI.ViewModels
         }
 
 
-        public HalconWindowPageViewModel()
+        public HalconWindowPageViewModel(HWindow windowHandle)
         {
+
+            _windowHandle = windowHandle;
+
             FaiItems = new ObservableCollection<FaiItem>();
             FaiItems.Add(new FaiItem("FAI2") { MaxBoundary = 15.49, MinBoundary = 15.390});
 
@@ -111,10 +121,34 @@ namespace UI.ViewModels
 
 
             // Init commands
-            ExecuteCommand = new ParameterizedCommand(param =>
+            ExecuteCommand = new RelayCommand(() =>
             {
-                var image = (HImage) param;
+                string imagePath;
+                try
+                {
+                    imagePath = _imagePaths.Dequeue();
+                }
+                catch (InvalidOperationException e)
+                {
+                    MessageBox.Show("Images all gone.");
+                    return;
+                }
+
+                var image = new HImage(imagePath);
                 Process(image);
+            });
+
+            SelectImageDirCommand = new RelayCommand(() =>
+            {
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        ImageDirectory = fbd.SelectedPath;
+                    }
+                }
             });
 
             //TODO: make this elegant
@@ -122,5 +156,66 @@ namespace UI.ViewModels
         }
 
 
+        #region Image Providing Logic
+
+        /// <summary>
+        /// Provide next image
+        /// <exception cref="InvalidDataException">When images are all consumed</exception>
+        /// </summary>
+        public string NextImage => NumImages == 0 ? string.Empty : _imagePaths.Dequeue();
+
+
+        /// <summary>
+        /// The number of images available
+        /// </summary>
+        public int NumImages => _imagePaths.Count;
+
+        /// <summary>
+        /// Image paths to be read
+        /// </summary>
+        private Queue<string> _imagePaths = new Queue<string>();
+
+        /// <summary>
+        /// Known list of image extensions to filter non-image files
+        /// </summary>
+        private static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".TIF", ".PNG" };
+
+        private string _imageDirectory;
+
+        /// <summary>
+        /// Directory to images 
+        /// </summary>
+        public string ImageDirectory
+        {
+            get => _imageDirectory;
+            set
+            {
+                _imageDirectory = value;
+                string[] imagePaths = Directory.GetFiles(_imageDirectory);
+
+                foreach (var imagePath in imagePaths)
+                {
+                    if (IsImageFile(imagePath))
+                    {
+                        _imagePaths.Enqueue(imagePath);
+                    }
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Filter image files based on file extension
+        /// </summary>
+        /// <param name="imagePath"></param>
+        /// <returns></returns>
+        private bool IsImageFile(string imagePath)
+        {
+            return ImageExtensions.Contains(Path.GetExtension(imagePath)?.ToUpper());
+        }
+
+        public ICommand SelectImageDirCommand { get; private set; }
+
+        #endregion
     }
 }
