@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HalconDotNet;
 using UI.ViewModels;
@@ -9,7 +10,7 @@ namespace UI.ImageProcessing
     {
         ObservableCollection<FaiItem> FaiItems { get; }
 
-        void Process(HImage image);
+        void Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle9);
 
     }
 }

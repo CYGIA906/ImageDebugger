@@ -8,48 +8,33 @@ using HalconDotNet;
 using UI.Commands;
 using UI.ImageProcessing;
 
-// TODO: Finish displaying part
 
 namespace UI.ViewModels
 {
-    public class HalconWindowPageViewModel : ViewModelBase, IMeasurementProcedure
+    public class HalconWindowPageViewModel : ViewModelBase
     {
         public ObservableCollection<FaiItem> FaiItems { get; }
 
         private HWindow _windowHandle;
 
-        /// <summary>
-        /// Path to the shape model in disk
-        /// </summary>
-        public string ModelPath
-        {
-            get => _modelPath;
-            set
-            {
-                _modelPath = value;
-                HOperatorSet.ReadShapeModel(_modelPath, out _shapeModelHandle);
-            }
-        }
+        private FindLineConfigs _findLineConfigs;
+
+        private IMeasurementProcedure measurementUnit = new I94TopViewMeasure();
 
         public ICommand ExecuteCommand { get; }
 
-        HDevelopExport _halconScript = new HDevelopExport();
-        private HTuple _shapeModelHandle;
-        private double[] _thresholds = { 128, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 };
-        private string _modelPath;
 
-        public void Process(HImage image)
+        public void Process(List<HImage> images)
         {
-            if(!image.IsInitialized()) return;
 
-            ShowImageAndGraphics(image, new HObject());
-            
+            measurementUnit.Process(images, _findLineConfigs, _windowHandle);
 
+//            ShowImageAndGraphics(images[0], new HObject());
         }
 
         private void ShowImageAndGraphics(HImage image, HObject graphics)
         {
-            HOperatorSet.ClearWindow(_windowHandle);
+//            HOperatorSet.ClearWindow(_windowHandle);
             image.DispObj(_windowHandle);
             if(graphics.IsInitialized()) graphics.DispObj(_windowHandle);
         }
@@ -131,11 +116,11 @@ namespace UI.ViewModels
                 catch (InvalidOperationException e)
                 {
                     MessageBox.Show("Images all gone.");
-                    return;
+//                    return;
                 }
 
-                var image = new HImage(imagePath);
-                Process(image);
+                var image = new HImage();
+                Process(new List<HImage>(){ image });
             });
 
             SelectImageDirCommand = new RelayCommand(() =>
@@ -151,8 +136,96 @@ namespace UI.ViewModels
                 }
             });
 
-            //TODO: make this elegant
-            ModelPath = @"C:\Users\afterbunny\Documents\Projects\Hdevs\ModelTopViewI94";
+            InitFindLineConfigs();
+
+        }
+
+        private void InitFindLineConfigs()
+        {
+            List<FindLineParam> findLineParams = GenFindLineParams();
+            List<FindLineLocation> findLineLocations = GenFindLineLocations();
+            _findLineConfigs = new FindLineConfigs(findLineParams, findLineLocations);
+
+        }
+
+        private List<FindLineLocation> GenFindLineLocations()
+        {
+            return new List<FindLineLocation>()
+            {
+                new FindLineLocation()
+                {
+                    Name = "2-left",
+                    Angle = 90,
+                    X = 694,
+                    Y = 2017.3,
+                    Len2 = 218,
+                    ImageIndex = 0
+                },
+
+                new FindLineLocation()
+                {
+                    Name = "2-right",
+                    Angle = 90,
+                    X = 1712,
+                    Y= 2017,
+                    Len2 = 218,
+                    ImageIndex = 0
+                },
+                new FindLineLocation()
+                {
+                    Name = "3-left",
+                    Angle = -90,
+                    X = 1759,
+                    Y = 2077,
+                    Len2 = 274,
+                    ImageIndex = 0
+                },
+                new FindLineLocation()
+                {
+                    Name = "3-right",
+                    Angle = -90,
+                    X = 679,
+                    Y = 2077,
+                    Len2 = 274,
+                    ImageIndex = 0
+                },
+
+                new FindLineLocation()
+                {
+                    Angle = 180, 
+                    Name = "16",
+                    ImageIndex = 0,
+                    Len2 = 366,
+                    X = 3870.5,
+                    Y = 2147.5
+                }
+            };
+        }
+
+        private List<FindLineParam> GenFindLineParams()
+        {
+            return new List<FindLineParam>()
+            {
+                new FindLineParam()
+                {
+                    Name = "2-left", UsingPair = true, Polarity = FindLinePolarity.Positive, Threshold = 3, MinWidth = 1, MaxWidth = 10, FirstAttemptOnly = true, WhichEdge = EdgeSelection.Last
+                },
+                new FindLineParam()
+                {
+                    Name = "2-right", UsingPair = true, Polarity = FindLinePolarity.Positive, Threshold = 3, MinWidth = 1, MaxWidth = 10, FirstAttemptOnly = true, WhichEdge = EdgeSelection.Last
+                },
+                new FindLineParam()
+                {
+                    Name = "3-left", UsingPair = false, Polarity = FindLinePolarity.Positive, Threshold = 10, FirstAttemptOnly = true
+                },   new FindLineParam()
+                {
+                    Name = "3-right", UsingPair = false, Polarity = FindLinePolarity.Positive, Threshold = 10, FirstAttemptOnly = true
+                },
+                new FindLineParam()
+                {
+                    Name = "16", UsingPair = false, Polarity = FindLinePolarity.Negative, Threshold = 10
+                },
+            };
         }
 
 
@@ -187,7 +260,7 @@ namespace UI.ViewModels
         /// </summary>
         public string ImageDirectory
         {
-            get => _imageDirectory;
+            get { return _imageDirectory; }
             set
             {
                 _imageDirectory = value;

@@ -39,8 +39,9 @@
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="halcondotnet, Version=17.12.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8">
-      <HintPath>..\..\..\..\..\Program Files\MVTec\HALCON-17.12-Progress\bin\dotnet35\halcondotnet.dll</HintPath>
+    <Reference Include="halcondotnet, Version=17.12.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\MVTec\HALCON-18.11-Progress\bin\dotnet35\halcondotnet.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.2.0.325, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.2.0\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -71,10 +72,19 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ParameterizedCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Hdevs\I94.cs" />
+    <Compile Include="Hdevs\I94Hdev.cs" />
+    <Compile Include="ImageProcessing\CoordinateSolver.cs" />
+    <Compile Include="ImageProcessing\FindLineFeeding.cs" />
+    <Compile Include="ImageProcessing\FindLineManager.cs" />
+    <Compile Include="ImageProcessing\FindLineParam.cs" />
+    <Compile Include="ImageProcessing\FindLineConfigs.cs" />
+    <Compile Include="ImageProcessing\I94TopViewMeasure.cs" />
     <Compile Include="ImageProcessing\IMeasurementProcedure.cs" />
+    <Compile Include="ImageProcessing\Line.cs" />
+    <Compile Include="ImageProcessing\MathUtils.cs" />
+    <Compile Include="ImageProcessing\Point.cs" />
     <Compile Include="Interfaces\IImageProvider.cs" />
-    <Compile Include="Model\FindLineLocation.cs" />
+    <Compile Include="ImageProcessing\FindLineLocation.cs" />
     <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />
     <Compile Include="ViewModels\FaiItem.cs" />
     <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />
@@ -123,6 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />

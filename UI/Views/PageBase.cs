@@ -10,7 +10,7 @@ namespace UI.Views
 
         public ViewModelType ViewModel
         {
-            get => _viewModel;
+            get { return _viewModel; }
             set
             {
                 _viewModel = value;
