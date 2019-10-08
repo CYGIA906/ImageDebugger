@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms.VisualStyles;
@@ -10,7 +11,7 @@ namespace UI.ImageProcessing
 {
     public class I94TopViewMeasure : IMeasurementProcedure
     {
-        private static HDevelopExport _halconScripts = new HDevelopExport();
+        private static HDevelopExport HalconScripts = new HDevelopExport();
         private string _modelPath;
         private HTuple _shapeModelHandle;
         public ObservableCollection<FaiItem> FaiItems { get; }
@@ -28,7 +29,7 @@ namespace UI.ImageProcessing
             // Calculate matrices
 
             images[0] = new HImage("C:/Users/afterbunny/Desktop/Transfer/Xiaojin/ModelImages/point_extraction_top_view.bmp");
-            _halconScripts.I94TopViewChangeBase(images[0], out imageUndistorted, _shapeModelHandle, out changeOfBase,
+            HalconScripts.I94TopViewChangeBase(images[0], out imageUndistorted, _shapeModelHandle, out changeOfBase,
                 out changeOfBaseInv, out rotationMat, out rotationMatInv, out mapToWorld, out mapToImage, out xLeft,
                 out yLeft, out xRight, out yRight, out xUp, out yUp, out xDown, out yDown);
             var xAxis = new Line(xLeft.D, yLeft.D, xRight.D, yRight.D, true);
@@ -143,8 +144,33 @@ namespace UI.ImageProcessing
             var valueF19P1 = coordinateSolver.PointLineDistanceInWorld(p1F19, yAxis);
             var valueF19P2 = coordinateSolver.PointLineDistanceInWorld(p2F19, yAxis);
             
-            //TODO: Measure fai20
             
+            
+            //TODO: Measure fai20
+            var ptOrigin = xAxis.Intersect(yAxis);
+            HTuple rotatedX1, rotatedX2, rotatedY1, rotatedY2;
+            HObject lineRegion;
+            HalconScripts.PivotLineAroundPoint(out lineRegion, xLeft, yLeft, xRight, yRight, ptOrigin.X, ptOrigin.Y,
+                MathUtils.ToRadian(45), "right", 5120, 5120, out rotatedX1, out rotatedY1, out rotatedX2,
+                out rotatedY2);
+            var lineRotated = new Line(rotatedX1.D, rotatedY1.D, rotatedX2.D, rotatedY2.D);
+            lineRotated.IsVisible = true;            
+
+            HalconScripts.PivotLineAroundPoint(out lineRegion, xLeft, yLeft, xRight, yRight, ptOrigin.X, ptOrigin.Y,
+                MathUtils.ToRadian(-45), "right", 5120, 5120, out rotatedX1, out rotatedY1, out rotatedX2,
+                out rotatedY2);
+            var lineProject = new Line(rotatedX1.D, rotatedY1.D, rotatedX2.D, rotatedY2.D) {IsVisible = true};
+            var lineFai20TopRight = findLineManager.GetLine("20.topRight");
+            var pointFai20TopRight = new Point((lineFai20TopRight.XStart + lineFai20TopRight.XEnd)/2.0, (lineFai20TopRight.YStart + lineFai20TopRight.YEnd)/2.0);
+            var lineFai20BottomLeft = findLineManager.GetLine("20.bottomLeft");
+            var valueF20P1 = coordinateSolver.PointLineDistanceInWorld(pointFai20TopRight, lineFai20BottomLeft);
+            var linePerpendicular_lineFai20TopRight =
+                lineFai20BottomLeft.PerpendicularLineThatPasses(pointFai20TopRight);
+            linePerpendicular_lineFai20TopRight.IsVisible = true;
+            var cosValue = Math.Cos(linePerpendicular_lineFai20TopRight.AngleWithLine(lineProject));
+            valueF20P1 = valueF20P1 * cosValue;
+            
+
             // outputs
             faiItems.ByName("2_2").Value = valueF2P2;
             
@@ -178,15 +204,17 @@ namespace UI.ImageProcessing
             faiItems.ByName("19_1").Value = valueF19P1;
             faiItems.ByName("19_2").Value = valueF19P2;
 
+            faiItems.ByName("20_1").Value = valueF20P1;
+
             // TODO: output fai20
             
 
-            windowHandle.SetPart(0,0,5120,5120);
-            windowHandle.SetColored(3); 
             imageUndistorted.DispObj(windowHandle);
             findLineManager.DisplayGraphics(windowHandle);
-            CoordinateSolver.DisplayGraphics(windowHandle);
+//            CoordinateSolver.DisplayGraphics(windowHandle);
 //            Line.DisplayGraphics(windowHandle);
+            windowHandle.SetColored(3);
+            windowHandle.SetPart(0,0,5120,5120);
         }
         /// <summary>
         /// Path to the shape model in disk

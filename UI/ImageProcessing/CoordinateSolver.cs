@@ -81,7 +81,7 @@ namespace UI.ImageProcessing
         /// <param name="line"></param>
         /// <param name="display">whether to push the line to a static graphic for displaying</param>
         /// <returns></returns>
-        public Line TranslateLineInWorldUnit(double distance, Line line, bool display = true)
+        public Line TranslateLineInWorldUnit(double distance, Line line, bool display = false)
         {
             HTuple startX, startY, endX, endY;
             HalconScripts.TranslateLineInWorldCoordinateAndConvertBack(line.XStart, line.YStart, line.XEnd, line.YEnd,

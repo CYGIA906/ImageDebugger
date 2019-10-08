@@ -20,7 +20,7 @@ namespace UI.ImageProcessing
 
         public static int ImageHeight { get; set; } = 5120;
 
-        private static List<HObject>  LineRegions = new List<HObject>();
+        private static List<Line>  LineToDisplay = new List<Line>();
 
         private static HDevelopExport HalconScripts = new HDevelopExport();
 
@@ -31,21 +31,29 @@ namespace UI.ImageProcessing
             XEnd = xEnd;
             YEnd = yEnd;
 
-            if (!display) return;
-            HObject lineRegion;
-            HalconScripts.GenLineRegion(out lineRegion, xStart, yStart, xEnd, yEnd, ImageWidth, ImageHeight);
-            LineRegions.Add(lineRegion);
+            IsVisible = display;
         }
 
-
+        public double AngleWithLine(Line line)
+        {
+            HTuple angle;
+            HOperatorSet.AngleLl(YStart, XStart, YEnd, XEnd, line.YStart, line.XStart, line.YEnd, line.XEnd, out angle);
+            return angle / Math.PI * 180.0;
+        }
+        
         public static void DisplayGraphics(HWindow windowHandle)
         {
-            foreach (var lineRegion in LineRegions)
+            windowHandle.SetColor(LineColor);
+            foreach (var line in LineToDisplay)
             {
+                HObject lineRegion;
+                HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, ImageWidth, ImageHeight);
                 lineRegion.DispObj(windowHandle);
             }
-            LineRegions.Clear();
+            LineToDisplay.Clear();
         }
+
+        public static string LineColor { get; set; } = "cyan";
 
         public Point Intersect(Line line)
         {
@@ -68,5 +76,27 @@ namespace UI.ImageProcessing
         public static double Epslon { get; set; } = 0.001;
 
         public bool IsVertical => Math.Abs(Angle) - 90 < Epslon;
+
+        public bool IsVisible
+        {
+            get
+            {
+                return LineToDisplay.Contains(this);
+            }
+            set
+            {
+                if (!value) return;
+                if (LineToDisplay.Contains(this)) return;
+                LineToDisplay.Add(this);
+            }
+        }
+
+        public Line PerpendicularLineThatPasses(Point point)
+        {
+            HTuple intersectX, intersectY;
+            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.X, point.Y, out intersectX, out intersectY);
+            
+            return new Line(point.X, point.Y, intersectX.D, intersectY.D);
+        }
     }
 }

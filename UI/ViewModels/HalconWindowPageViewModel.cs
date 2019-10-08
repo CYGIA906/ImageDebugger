@@ -20,6 +20,8 @@ namespace UI.ViewModels
 
         private FindLineConfigs _findLineConfigs;
 
+        public HObject DisplayImage { get; set; }
+
         private IMeasurementProcedure measurementUnit = new I94TopViewMeasure();
 
         public ICommand ExecuteCommand { get; }
@@ -27,6 +29,7 @@ namespace UI.ViewModels
 
         public void Process(List<HImage> images)
         {
+            DisplayImage = images[0];
             measurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems);
         }
 
@@ -97,7 +100,7 @@ namespace UI.ViewModels
             FaiItems.Add(new FaiItem("19_2") {MaxBoundary = 1.658, MinBoundary = 1.558});
 
             FaiItems.Add(new FaiItem("20_1") {MaxBoundary = 19.353, MinBoundary = 19.253});
-            FaiItems.Add(new FaiItem("20_2") {MaxBoundary = 19.353, MinBoundary = 19.253});
+            FaiItems.Add(new FaiItem("20_2") {MaxBoundary = 0.06, MinBoundary = 0});
 
 
             // Init commands
@@ -223,11 +226,11 @@ namespace UI.ViewModels
                 },
                 new FindLineLocation()
                 {
-                    Name = "20_bottomLeft", Angle = -135, X = 2094, Y = 1937, Len2 = 85, ImageIndex = 0
+                    Name = "20.bottomLeft", Angle = -135, X = 2094, Y = 1937, Len2 = 85, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "20_topRight", Angle = -135, X = 348.5, Y = 134, Len2 = 73, ImageIndex = 0
+                    Name = "20.topRight", Angle = -135, X = 348.5, Y = 134, Len2 = 73, ImageIndex = 0
                 }
             };
         }
@@ -326,11 +329,11 @@ namespace UI.ViewModels
                 },
                 new FindLineParam()
                 {
-                    Name = "20_bottomLeft", Polarity = FindLinePolarity.Negative, Threshold = 10, NewWidth = 3
+                    Name = "20.bottomLeft", Polarity = FindLinePolarity.Negative, Threshold = 10, NewWidth = 3
                 },
                 new FindLineParam()
                 {
-                    Name = "20_topRight", Polarity = FindLinePolarity.Positive, Threshold = 10, NewWidth = 3
+                    Name = "20.topRight", Polarity = FindLinePolarity.Positive, Threshold = 10, NewWidth = 3
                 }
             };
         }

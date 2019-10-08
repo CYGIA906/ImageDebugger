@@ -14,7 +14,9 @@ namespace UI.Views
 
         private void HalconWindowPage_OnLoaded(object sender, RoutedEventArgs e)
         {
-            DataContext = new HalconWindowPageViewModel(HalconWindow.HalconWindow);
+            var windowHandle = HalconWindow.HalconWindow;
+            DataContext = new HalconWindowPageViewModel(windowHandle);
+ 
         }
     }
 }

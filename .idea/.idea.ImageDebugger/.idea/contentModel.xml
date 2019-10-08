@@ -33,6 +33,7 @@
           <e p="Point.cs" t="Include" />
           <e p="Utilts" t="Include">
             <e p="FaiItemsExtension.cs" t="Include" />
+            <e p="HalconHelper.cs" t="Include" />
           </e>
         </e>
         <e p="Interfaces" t="Include">
