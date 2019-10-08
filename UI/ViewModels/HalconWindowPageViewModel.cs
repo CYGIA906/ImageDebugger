@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Xml.Serialization;
 using HalconDotNet;
 using UI.Commands;
 using UI.ImageProcessing;
@@ -14,7 +16,7 @@ namespace UI.ViewModels
 {
     public class HalconWindowPageViewModel : ViewModelBase
     {
-        public ObservableCollection<FaiItem> FaiItems { get; }
+        public ObservableCollection<FaiItem> FaiItems { get; private set; }
 
         private HWindow _windowHandle;
 
@@ -22,7 +24,7 @@ namespace UI.ViewModels
 
         public HObject DisplayImage { get; set; }
 
-        private IMeasurementProcedure measurementUnit = new I94TopViewMeasure();
+        private readonly IMeasurementProcedure measurementUnit = new I94TopViewMeasure();
 
         public ICommand ExecuteCommand { get; }
 
@@ -32,7 +34,6 @@ namespace UI.ViewModels
             measurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems);
         }
 
-     
 
         private void ShowImageAndGraphics(HImage image, HObject graphics)
         {
@@ -61,46 +62,85 @@ namespace UI.ViewModels
         }
 
 
+        private ObservableCollection<FaiItem> FaiItemHardCodeValues()
+        {
+            var outputs = new ObservableCollection<FaiItem>();
+            outputs.Add(new FaiItem("02_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 15.49, MinBoundary = 15.390});
+
+            outputs.Add(new FaiItem("03_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 15.906, MinBoundary = 15.806});
+
+            outputs.Add(new FaiItem("04_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
+            outputs.Add(new FaiItem("04_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
+            outputs.Add(new FaiItem("04_3")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
+
+            outputs.Add(new FaiItem("05_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
+            outputs.Add(new FaiItem("05_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
+            outputs.Add(new FaiItem("05_3")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
+
+            outputs.Add(new FaiItem("06_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
+            outputs.Add(new FaiItem("06_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
+            outputs.Add(new FaiItem("06_3")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
+
+            outputs.Add(new FaiItem("09_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
+            outputs.Add(new FaiItem("09_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
+            outputs.Add(new FaiItem("09_3")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
+
+            outputs.Add(new FaiItem("12_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 18.805, MinBoundary = 18.705});
+            outputs.Add(new FaiItem("12_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 18.805, MinBoundary = 18.705});
+
+            outputs.Add(new FaiItem("16_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 29.599, MinBoundary = 29.499});
+            outputs.Add(new FaiItem("16_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 29.599, MinBoundary = 29.499});
+
+            outputs.Add(new FaiItem("17_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 17.154, MinBoundary = 17.054});
+            outputs.Add(new FaiItem("17_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 17.154, MinBoundary = 17.054});
+
+            outputs.Add(new FaiItem("19_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 1.658, MinBoundary = 1.558});
+            outputs.Add(new FaiItem("19_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 1.658, MinBoundary = 1.558});
+
+            outputs.Add(new FaiItem("20_1")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 19.353, MinBoundary = 19.253});
+            outputs.Add(new FaiItem("20_2")
+                {SerializationDir = FaiItemSerializationDir, MaxBoundary = 0.06, MinBoundary = 0});
+
+            foreach (var item in outputs)
+            {
+                item.ResumeAutoSerialization();
+            }
+            
+            return outputs;
+        }
+
         public HalconWindowPageViewModel(HWindow windowHandle)
         {
             _windowHandle = windowHandle;
+            var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
+            FaiItems = faiItemsFromDisk ?? FaiItemHardCodeValues();
 
-            FaiItems = new ObservableCollection<FaiItem>();
-
-            FaiItems.Add(new FaiItem("02_2") {MaxBoundary = 15.49, MinBoundary = 15.390});
-
-            FaiItems.Add(new FaiItem("03_2") {MaxBoundary = 15.906, MinBoundary = 15.806});
-
-            FaiItems.Add(new FaiItem("04_1") {MaxBoundary = 34.92, MinBoundary = 34.82});
-            FaiItems.Add(new FaiItem("04_2") {MaxBoundary = 34.92, MinBoundary = 34.82});
-            FaiItems.Add(new FaiItem("04_3") {MaxBoundary = 34.92, MinBoundary = 34.82});
-
-            FaiItems.Add(new FaiItem("05_1") {MaxBoundary = 36.15, MinBoundary = 36.05});
-            FaiItems.Add(new FaiItem("05_2") {MaxBoundary = 36.15, MinBoundary = 36.05});
-            FaiItems.Add(new FaiItem("05_3") {MaxBoundary = 36.15, MinBoundary = 36.05});
-
-            FaiItems.Add(new FaiItem("06_1") {MaxBoundary = 22.153, MinBoundary = 22.053});
-            FaiItems.Add(new FaiItem("06_2") {MaxBoundary = 22.153, MinBoundary = 22.053});
-            FaiItems.Add(new FaiItem("06_3") {MaxBoundary = 22.153, MinBoundary = 22.053});
-
-            FaiItems.Add(new FaiItem("09_1") {MaxBoundary = 11.231, MinBoundary = 11.131});
-            FaiItems.Add(new FaiItem("09_2") {MaxBoundary = 11.231, MinBoundary = 11.131});
-            FaiItems.Add(new FaiItem("09_3") {MaxBoundary = 11.231, MinBoundary = 11.131});
-
-            FaiItems.Add(new FaiItem("12_1") {MaxBoundary = 18.805, MinBoundary = 18.705});
-            FaiItems.Add(new FaiItem("12_2") {MaxBoundary = 18.805, MinBoundary = 18.705});
-
-            FaiItems.Add(new FaiItem("16_1") {MaxBoundary = 29.599, MinBoundary = 29.499});
-            FaiItems.Add(new FaiItem("16_2") {MaxBoundary = 29.599, MinBoundary = 29.499});
-
-            FaiItems.Add(new FaiItem("17_1") {MaxBoundary = 17.154, MinBoundary = 17.054});
-            FaiItems.Add(new FaiItem("17_2") {MaxBoundary = 17.154, MinBoundary = 17.054});
-
-            FaiItems.Add(new FaiItem("19_1") {MaxBoundary = 1.658, MinBoundary = 1.558});
-            FaiItems.Add(new FaiItem("19_2") {MaxBoundary = 1.658, MinBoundary = 1.558});
-
-            FaiItems.Add(new FaiItem("20_1") {MaxBoundary = 19.353, MinBoundary = 19.253});
-            FaiItems.Add(new FaiItem("20_2") {MaxBoundary = 0.06, MinBoundary = 0});
+            // Listen for user changes of data grid
+            measurementUnit.MeasurementResultReady += FaiItemsStopListeningToChange;
+            measurementUnit.MeasurementResultPulled += FaiItemsRestartListeningToChange;
 
 
             // Init commands
@@ -135,6 +175,54 @@ namespace UI.ViewModels
             });
 
             InitFindLineConfigs();
+        }
+
+        private void FaiItemsRestartListeningToChange()
+        {
+            foreach (var item in FaiItems)
+            {
+                item.ResumeAutoSerialization();
+            }
+        }
+
+        private void FaiItemsStopListeningToChange()
+        {
+            foreach (var item in FaiItems)
+            {
+                item.StopAutoSerialization();
+            }
+        }
+
+        public string SerializationDir { get; set; } = Application.StartupPath + "/I94";
+
+        public string FaiItemSerializationDir => SerializationDir + "FaiItems";
+
+        public string FaiItemsSerializationName { get; set; } = "I94_FaiItems";
+
+
+        private ObservableCollection<FaiItem> TryLoadFaiItemsFromDisk()
+        {
+            var directoryInfo = Directory.CreateDirectory(FaiItemSerializationDir);
+            var xmls = directoryInfo.GetFiles("*.xml");
+            if (xmls.Length == 0) return null;
+
+            var outputs = new ObservableCollection<FaiItem>();
+            foreach (var fileInfo in xmls)
+            {
+                string filePath = fileInfo.FullName;
+                using (var fs = new FileStream(filePath, FileMode.Open))
+                {
+                    var serializer = new XmlSerializer(typeof(FaiItem));
+                    FaiItem item = (FaiItem) serializer.Deserialize(fs);
+                    outputs.Add(item);
+                }
+            }
+
+            foreach (var item in outputs)
+            {
+                item.ResumeAutoSerialization();
+            }
+            return outputs;
         }
 
         private void InitFindLineConfigs()

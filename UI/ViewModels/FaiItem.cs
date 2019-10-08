@@ -1,4 +1,7 @@
-﻿using System.Xml.Serialization;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Xml.Serialization;
+using PropertyChanged;
 
 namespace UI.ViewModels
 {
@@ -7,8 +10,8 @@ namespace UI.ViewModels
         /// <summary>
         /// Fai name
         /// </summary>
-        [XmlAttribute]
-        public string Name { get; }
+        [XmlAttribute][DoNotNotify]
+        public string Name { get;  set; } 
 
         /// <summary>
         /// Max boundary of the fai item
@@ -41,9 +44,40 @@ namespace UI.ViewModels
         /// </summary>
         public bool Passed => ValueBiased > MinBoundary && ValueBiased < MaxBoundary;
 
+
+
+        public string SerializationDir;
+
+        
+
+        public string GetSerializationPath() => Path.Combine(SerializationDir, Name + ".xml");
+
         public FaiItem(string name)
         {
             Name = name;
+        }
+
+        public FaiItem()
+        {
+        }
+
+        private void Serialize(object sender, PropertyChangedEventArgs e)
+        {
+            using (var fs = new FileStream(GetSerializationPath(), FileMode.Create))
+            {
+                var serializer = new XmlSerializer(typeof(FaiItem));
+                serializer.Serialize(fs, this);
+            }
+        }
+
+        public void ResumeAutoSerialization()
+        {
+            PropertyChanged += Serialize;
+        }
+        
+        public void StopAutoSerialization()
+        {
+            PropertyChanged -= Serialize;
         }
     }
 }

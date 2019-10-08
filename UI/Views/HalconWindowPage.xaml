@@ -70,7 +70,8 @@
             <DataGrid HorizontalAlignment="Right"
                         ItemsSource="{Binding FaiItems}"
                         CanUserSortColumns="True"
-                        CanUserAddRows="False"
+                        CanUserAddRows="True"
+                        CanUserDeleteRows="True"
                         />
                 </Expander>
 

@@ -15,6 +15,9 @@ namespace UI.ImageProcessing
         private string _modelPath;
         private HTuple _shapeModelHandle;
         public ObservableCollection<FaiItem> FaiItems { get; }
+        public event Action MeasurementResultReady;
+        public event Action MeasurementResultPulled;
+
         public void Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle,
             ObservableCollection<FaiItem> faiItems)
         {
@@ -183,6 +186,10 @@ namespace UI.ImageProcessing
 
 
             // outputs
+            
+            //Stop auto-serialization of FaiItems
+            OnMeasurementResultReady();
+            
             faiItems.ByName("02_2").Value = valueF2P2;
             
             faiItems.ByName("03_2").Value = valueF3P2;
@@ -217,7 +224,10 @@ namespace UI.ImageProcessing
 
             faiItems.ByName("20_1").Value = valueF20P1;
 
-            faiItems.ByName("20_2").Value = valueF20P2;            
+            faiItems.ByName("20_2").Value = valueF20P2;     
+            
+            // Restart FaiItems auto-serialization
+            OnMeasurementResultPulled();
 
             windowHandle.DispImage(images[0]);
             findLineManager.DisplayGraphics(windowHandle);
@@ -245,5 +255,14 @@ namespace UI.ImageProcessing
         }
 
 
+        protected virtual void OnMeasurementResultReady()
+        {
+            MeasurementResultReady?.Invoke();
+        }
+
+        protected virtual void OnMeasurementResultPulled()
+        {
+            MeasurementResultPulled?.Invoke();
+        }
     }
 }
