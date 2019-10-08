@@ -29,7 +29,6 @@ namespace UI.ViewModels
 
         public void Process(List<HImage> images)
         {
-            DisplayImage = images[0];
             measurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems);
         }
 

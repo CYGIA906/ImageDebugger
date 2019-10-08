@@ -167,7 +167,8 @@ namespace UI.ImageProcessing
             var linePerpendicular_lineFai20TopRight =
                 lineFai20BottomLeft.PerpendicularLineThatPasses(pointFai20TopRight);
             linePerpendicular_lineFai20TopRight.IsVisible = true;
-            var cosValue = Math.Cos(linePerpendicular_lineFai20TopRight.AngleWithLine(lineProject));
+            var angle = linePerpendicular_lineFai20TopRight.AngleWithLine(lineProject);
+            var cosValue = Math.Cos(angle);
             valueF20P1 = valueF20P1 * cosValue;
             
 
@@ -209,10 +210,10 @@ namespace UI.ImageProcessing
             // TODO: output fai20
             
 
-            imageUndistorted.DispObj(windowHandle);
+            windowHandle.DispImage(images[0]);
             findLineManager.DisplayGraphics(windowHandle);
-//            CoordinateSolver.DisplayGraphics(windowHandle);
-//            Line.DisplayGraphics(windowHandle);
+            CoordinateSolver.DisplayGraphics(windowHandle);
+            Line.DisplayGraphics(windowHandle);
             windowHandle.SetColored(3);
             windowHandle.SetPart(0,0,5120,5120);
         }

@@ -34,22 +34,32 @@ namespace UI.ImageProcessing
             IsVisible = display;
         }
 
+        /// <summary>
+        /// Compute the angle between two lines
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns>angle in radian uint</returns>
         public double AngleWithLine(Line line)
         {
             HTuple angle;
             HOperatorSet.AngleLl(YStart, XStart, YEnd, XEnd, line.YStart, line.XStart, line.YEnd, line.XEnd, out angle);
-            return angle / Math.PI * 180.0;
+            return angle;
         }
         
         public static void DisplayGraphics(HWindow windowHandle)
         {
             windowHandle.SetColor(LineColor);
+            HObject lineRegions = new HObject();
+            lineRegions.GenEmptyObj();
+
             foreach (var line in LineToDisplay)
             {
                 HObject lineRegion;
                 HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, ImageWidth, ImageHeight);
-                lineRegion.DispObj(windowHandle);
+                HOperatorSet.ConcatObj(lineRegions, lineRegion, out lineRegions);
             }
+            lineRegions.DispObj(windowHandle);
+            
             LineToDisplay.Clear();
         }
 

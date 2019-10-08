@@ -20,12 +20,12 @@ namespace UI.ImageProcessing
 
         private List<HImage> _images;
 
-        private List<HObject> _crossesUsed = new List<HObject>();
-        private List<HObject> _crossesIgnored = new List<HObject>();
+        private HObject _crossesUsed = new HObject();
+        private HObject _crossesIgnored = new HObject();
 
-        private List<HObject> _lineRegions = new List<HObject>();
+        private HObject _lineRegions = new HObject();
 
-        private List<HObject> _findLineRects = new List<HObject>();
+        private HObject _findLineRects = new HObject();
 
         private Dictionary<string, Line> _lines = new Dictionary<string, Line>();
 
@@ -129,10 +129,11 @@ namespace UI.ImageProcessing
             HOperatorSet.GenCrossContourXld(out crossesUsed, ysUsed, xsUsed, CrossSize, CrossAngle);
             HObject crossesIgnored;
             HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
-            _crossesUsed.Add(crossesUsed);
-            _crossesIgnored.Add(crossesIgnored);
-            _findLineRects.Add(findLineRegion);
-            _lineRegions.Add(lineRegion);
+            
+            HOperatorSet.ConcatObj(_crossesUsed, crossesUsed, out _crossesUsed);
+            HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
+            HOperatorSet.ConcatObj(_findLineRects, _findLineRects, out _findLineRects);
+            HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
 
             return new Line(lineX1.D, lineY1.D, lineX2.D, lineY2.D);
         }
@@ -146,6 +147,10 @@ namespace UI.ImageProcessing
         public FindLineManager(FindLineConfigs findLineConfigs)
         {
             _findLineConfigs = findLineConfigs;
+            _crossesIgnored.GenEmptyObj();
+            _crossesUsed.GenEmptyObj();
+            _lineRegions.GenEmptyObj();
+            _findLineRects.GenEmptyObj();
         }
 
         public void DisplayGraphics(HWindow windowHandle)
@@ -153,34 +158,18 @@ namespace UI.ImageProcessing
             windowHandle.SetDraw("margin");
             windowHandle.SetLineWidth(1);
             windowHandle.SetColor("green");
-            foreach (var cross in _crossesUsed)
-            {
-                cross.DispObj(windowHandle);
-            }
+                _crossesUsed.DispObj(windowHandle);
+            
 
             windowHandle.SetColor("red");
-            foreach (var cross in _crossesIgnored)
-            {
-                cross.DispObj(windowHandle);
-            }
+            _crossesIgnored.DispObj(windowHandle);
 
             windowHandle.SetColor("magenta");
             windowHandle.SetLineWidth(3);
-            foreach (var rect in _findLineRects)
-            {
-                rect.DispObj(windowHandle);
-            }
-
+            _findLineRects.DispObj(windowHandle);
+            
             windowHandle.SetColor("blue");
-            foreach (var lineRegion in _lineRegions)
-            {
-                lineRegion.DispObj(windowHandle);
-            }
-
-            _findLineRects.Clear();
-            _lineRegions.Clear();
-            _crossesIgnored.Clear();
-            _crossesUsed.Clear();
+            _lineRegions.DispObj(windowHandle);
         }
 
 
