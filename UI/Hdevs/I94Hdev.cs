@@ -91,7 +91,7 @@ public partial class HDevelopExport
       if ((int)((new HTuple(hv_vecCol.TupleGreaterEqual(0))).TupleAnd(new HTuple(hv_vecRow.TupleGreaterEqual(
           0)))) != 0)
       {
-        //”“œ¬
+        //Âè≥‰∏ã
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -102,7 +102,7 @@ public partial class HDevelopExport
       else if ((int)((new HTuple(hv_vecCol.TupleGreaterEqual(0))).TupleAnd(
           new HTuple(hv_vecRow.TupleLess(0)))) != 0)
       {
-        //”“…œ
+        //Âè≥‰∏ä
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -113,7 +113,7 @@ public partial class HDevelopExport
       else if ((int)((new HTuple(hv_vecCol.TupleLess(0))).TupleAnd(new HTuple(hv_vecRow.TupleGreaterEqual(
           0)))) != 0)
       {
-        //◊Ûœ¬
+        //Â∑¶‰∏ã
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -123,7 +123,7 @@ public partial class HDevelopExport
       }
       else
       {
-        //◊Û…œ
+        //Â∑¶‰∏ä
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -2661,8 +2661,8 @@ public partial class HDevelopExport
           hv_vecXNew);
       }
       //
-      //‘≠µ•ŒªœÚ¡ø + ∆‰∑®œﬂµ•ŒªœÚ¡ø∂ºª·µ√µΩ“ª∏ˆΩ«∂» radianNew = radian + rad(45)µƒœÚ¡ø
-      //»Ù‘≠œÚ¡øΩ«∂»¥Û”⁄135, ‘ÚradianNew < 0
+      //ÂéüÂçï‰ΩçÂêëÈáè + ÂÖ∂Ê≥ïÁ∫øÂçï‰ΩçÂêëÈáèÈÉΩ‰ºöÂæóÂà∞‰∏Ä‰∏™ËßíÂ∫¶ radianNew = radian + rad(45)ÁöÑÂêëÈáè
+      //Ëã•ÂéüÂêëÈáèËßíÂ∫¶Â§ß‰∫é135, ÂàôradianNew < 0
       if ((int)(new HTuple(hv_radian.TupleGreater(2.35619))) != 0)
       {
         if ((int)(new HTuple(hv_radianNew.TupleGreater(0))) != 0)
@@ -12048,7 +12048,7 @@ public partial class HDevelopExport
 
 
       //****************************FAI20********************************
-      //∂®‘≤–ƒ
+      //ÂÆöÂúÜÂøÉ
       hv_FAI20_P2_LineStartX.Dispose();hv_FAI20_P2_LineStartY.Dispose();hv_FAI20_P2_LineEndX.Dispose();hv_FAI20_P2_LineEndY.Dispose();
       TranslateLineInWorldCoordinateAndConvertBack(hv_lineX1TopBase, hv_lineY1TopBase, 
           hv_lineX2TopBase, hv_lineY2TopBase, hv_FAI20_LEN_Y, hv_MapToWorld, hv_MapToImage, 
@@ -16573,7 +16573,7 @@ public partial class HDevelopExport
 
 
       //****************************FAI20********************************
-      //∂®‘≤–ƒ
+      //ÂÆöÂúÜÂøÉ
       hv_FAI20_P2_LineStartX.Dispose();hv_FAI20_P2_LineStartY.Dispose();hv_FAI20_P2_LineEndX.Dispose();hv_FAI20_P2_LineEndY.Dispose();
       TranslateLineInWorldCoordinateAndConvertBack(hv_lineX1TopBase, hv_lineY1TopBase, 
           hv_lineX2TopBase, hv_lineY2TopBase, hv_FAI20_LEN_Y, hv_MapToWorld, hv_MapToImage, 

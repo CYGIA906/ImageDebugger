@@ -53,6 +53,7 @@ namespace UI.ImageProcessing
 
             return distanceWorld.D;
         }
+        
 
         public static void DisplayGraphics(HWindow windowHandle)
         {
@@ -61,7 +62,8 @@ namespace UI.ImageProcessing
 
         private static void DisplayPointLineDistanceGraphics(HWindow windowHandle)
         {
-            windowHandle.SetColor("orange");
+            windowHandle.SetColor("cyan");
+            windowHandle.SetLineWidth(1);
             foreach (var line in _pointLineDistanceGraphics)
             {
                 windowHandle.DispArrow(line.YStart, line.XStart, line.YEnd, line.XEnd, ArrowSize);
@@ -70,7 +72,7 @@ namespace UI.ImageProcessing
             _pointLineDistanceGraphics.Clear();
         }
 
-        public static double ArrowSize { get; set; } = 100;
+        public static double ArrowSize { get; set; } = 10;
 
         /// <summary>
         /// Translate a line at a distance measured in millimeter
@@ -113,6 +115,11 @@ namespace UI.ImageProcessing
                 Angle = angle, Len1 = relativeLocation.Len1, Len2 = relativeLocation.Len2, X = point.X, Y = point.Y,
                 ImageIndex = relativeLocation.ImageIndex, Name = relativeLocation.Name
             };
+        }
+        
+        public double PointLineDistanceInWorld(Point point, Line line)
+        {
+            return PointLineDistanceInWorld(point.X, point.Y, line);
         }
     }
 }

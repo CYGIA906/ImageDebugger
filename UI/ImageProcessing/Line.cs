@@ -50,7 +50,7 @@ namespace UI.ImageProcessing
         public Point Intersect(Line line)
         {
             HTuple x, y, _;
-            HOperatorSet.IntersectionLines(line.YStart, line.XStart, line.YEnd, line.XEnd, YStart, XStart, YEnd, XEnd, out x, out y, out _);
+            HOperatorSet.IntersectionLines(line.YStart, line.XStart, line.YEnd, line.XEnd, YStart, XStart, YEnd, XEnd, out y, out x, out _);
             return new Point(x.D, y.D);
         }
 

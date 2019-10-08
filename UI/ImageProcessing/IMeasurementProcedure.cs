@@ -10,7 +10,8 @@ namespace UI.ImageProcessing
     {
         ObservableCollection<FaiItem> FaiItems { get; }
 
-        void Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle9);
+        void Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle9,
+            ObservableCollection<FaiItem> faiItems);
 
     }
 }

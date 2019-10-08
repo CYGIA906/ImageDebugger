@@ -83,6 +83,7 @@
     <Compile Include="ImageProcessing\Line.cs" />
     <Compile Include="ImageProcessing\MathUtils.cs" />
     <Compile Include="ImageProcessing\Point.cs" />
+    <Compile Include="ImageProcessing\Utilts\FaiItemsExtension.cs" />
     <Compile Include="Interfaces\IImageProvider.cs" />
     <Compile Include="ImageProcessing\FindLineLocation.cs" />
     <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
 using HalconDotNet;
 using UI.Commands;
 using UI.ImageProcessing;
 
-
+// TODO: add faiitem serialize logic
 namespace UI.ViewModels
 {
     public class HalconWindowPageViewModel : ViewModelBase
@@ -26,10 +27,10 @@ namespace UI.ViewModels
 
         public void Process(List<HImage> images)
         {
-            measurementUnit.Process(images, _findLineConfigs, _windowHandle);
-
-//            ShowImageAndGraphics(images[0], new HObject());
+            measurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems);
         }
+
+     
 
         private void ShowImageAndGraphics(HImage image, HObject graphics)
         {
@@ -63,44 +64,40 @@ namespace UI.ViewModels
             _windowHandle = windowHandle;
 
             FaiItems = new ObservableCollection<FaiItem>();
-            FaiItems.Add(new FaiItem("FAI2") {MaxBoundary = 15.49, MinBoundary = 15.390});
+            FaiItems.Add(new FaiItem("2_2") {MaxBoundary = 15.49, MinBoundary = 15.390});
 
-            FaiItems.Add(new FaiItem("FAI3") {MaxBoundary = 15.906, MinBoundary = 15.806});
+            FaiItems.Add(new FaiItem("3_2") {MaxBoundary = 15.906, MinBoundary = 15.806});
 
-            FaiItems.Add(new FaiItem("FAI4.1") {MaxBoundary = 34.92, MinBoundary = 34.82});
-            FaiItems.Add(new FaiItem("FAI4.2") {MaxBoundary = 34.92, MinBoundary = 34.82});
-            FaiItems.Add(new FaiItem("FAI4.3") {MaxBoundary = 34.92, MinBoundary = 34.82});
+            FaiItems.Add(new FaiItem("4_1") {MaxBoundary = 34.92, MinBoundary = 34.82});
+            FaiItems.Add(new FaiItem("4_2") {MaxBoundary = 34.92, MinBoundary = 34.82});
+            FaiItems.Add(new FaiItem("4_3") {MaxBoundary = 34.92, MinBoundary = 34.82});
 
-            FaiItems.Add(new FaiItem("FAI5.1") {MaxBoundary = 36.15, MinBoundary = 36.05});
-            FaiItems.Add(new FaiItem("FAI5.2") {MaxBoundary = 36.15, MinBoundary = 36.05});
-            FaiItems.Add(new FaiItem("FAI5.3") {MaxBoundary = 36.15, MinBoundary = 36.05});
+            FaiItems.Add(new FaiItem("5_1") {MaxBoundary = 36.15, MinBoundary = 36.05});
+            FaiItems.Add(new FaiItem("5_2") {MaxBoundary = 36.15, MinBoundary = 36.05});
+            FaiItems.Add(new FaiItem("5_3") {MaxBoundary = 36.15, MinBoundary = 36.05});
 
-            FaiItems.Add(new FaiItem("FAI6.1") {MaxBoundary = 22.153, MinBoundary = 22.053});
-            FaiItems.Add(new FaiItem("FAI6.2") {MaxBoundary = 22.153, MinBoundary = 22.053});
-            FaiItems.Add(new FaiItem("FAI6.3") {MaxBoundary = 22.153, MinBoundary = 22.053});
+            FaiItems.Add(new FaiItem("6_1") {MaxBoundary = 22.153, MinBoundary = 22.053});
+            FaiItems.Add(new FaiItem("6_2") {MaxBoundary = 22.153, MinBoundary = 22.053});
+            FaiItems.Add(new FaiItem("6_3") {MaxBoundary = 22.153, MinBoundary = 22.053});
 
-            FaiItems.Add(new FaiItem("FAI9.1") {MaxBoundary = 11.231, MinBoundary = 11.131});
-            FaiItems.Add(new FaiItem("FAI9.2") {MaxBoundary = 11.231, MinBoundary = 11.131});
-            FaiItems.Add(new FaiItem("FAI9.3") {MaxBoundary = 11.231, MinBoundary = 11.131});
+            FaiItems.Add(new FaiItem("9_1") {MaxBoundary = 11.231, MinBoundary = 11.131});
+            FaiItems.Add(new FaiItem("9_2") {MaxBoundary = 11.231, MinBoundary = 11.131});
+            FaiItems.Add(new FaiItem("9_3") {MaxBoundary = 11.231, MinBoundary = 11.131});
 
-            FaiItems.Add(new FaiItem("FAI12.1") {MaxBoundary = 18.805, MinBoundary = 18.705});
-            FaiItems.Add(new FaiItem("FAI12.2") {MaxBoundary = 18.805, MinBoundary = 18.705});
-            FaiItems.Add(new FaiItem("FAI12.3") {MaxBoundary = 18.805, MinBoundary = 18.705});
+            FaiItems.Add(new FaiItem("12_1") {MaxBoundary = 18.805, MinBoundary = 18.705});
+            FaiItems.Add(new FaiItem("12_2") {MaxBoundary = 18.805, MinBoundary = 18.705});
 
-            FaiItems.Add(new FaiItem("FAI16.1") {MaxBoundary = 29.599, MinBoundary = 29.499});
-            FaiItems.Add(new FaiItem("FAI16.2") {MaxBoundary = 29.599, MinBoundary = 29.499});
-            FaiItems.Add(new FaiItem("FAI16.3") {MaxBoundary = 29.599, MinBoundary = 29.499});
+            FaiItems.Add(new FaiItem("16_1") {MaxBoundary = 29.599, MinBoundary = 29.499});
+            FaiItems.Add(new FaiItem("16_2") {MaxBoundary = 29.599, MinBoundary = 29.499});
 
-            FaiItems.Add(new FaiItem("FAI17.1") {MaxBoundary = 17.154, MinBoundary = 17.054});
-            FaiItems.Add(new FaiItem("FAI17.2") {MaxBoundary = 17.154, MinBoundary = 17.054});
-            FaiItems.Add(new FaiItem("FAI17.3") {MaxBoundary = 17.154, MinBoundary = 17.054});
+            FaiItems.Add(new FaiItem("17_1") {MaxBoundary = 17.154, MinBoundary = 17.054});
+            FaiItems.Add(new FaiItem("17_2") {MaxBoundary = 17.154, MinBoundary = 17.054});
 
-            FaiItems.Add(new FaiItem("FAI19.1") {MaxBoundary = 1.658, MinBoundary = 1.558});
-            FaiItems.Add(new FaiItem("FAI19.2") {MaxBoundary = 1.658, MinBoundary = 1.558});
-            FaiItems.Add(new FaiItem("FAI19.3") {MaxBoundary = 1.658, MinBoundary = 1.558});
+            FaiItems.Add(new FaiItem("19_1") {MaxBoundary = 1.658, MinBoundary = 1.558});
+            FaiItems.Add(new FaiItem("19_2") {MaxBoundary = 1.658, MinBoundary = 1.558});
 
-            FaiItems.Add(new FaiItem("FAI20.1") {MaxBoundary = 19.353, MinBoundary = 19.253});
-            FaiItems.Add(new FaiItem("FAI20.2") {MaxBoundary = 19.353, MinBoundary = 19.253});
+            FaiItems.Add(new FaiItem("20_1") {MaxBoundary = 19.353, MinBoundary = 19.253});
+            FaiItems.Add(new FaiItem("20_2") {MaxBoundary = 19.353, MinBoundary = 19.253});
 
 
             // Init commands
@@ -226,11 +223,11 @@ namespace UI.ViewModels
                 },
                 new FindLineLocation()
                 {
-                    Name = "20.bottomLeft", Angle = -135, X = 2094, Y = 1937, Len2 = 85, ImageIndex = 0
+                    Name = "20_bottomLeft", Angle = -135, X = 2094, Y = 1937, Len2 = 85, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "20.topRight", Angle = -135, X = 348.5, Y = 134, Len2 = 73, ImageIndex = 0
+                    Name = "20_topRight", Angle = -135, X = 348.5, Y = 134, Len2 = 73, ImageIndex = 0
                 }
             };
         }
@@ -329,11 +326,11 @@ namespace UI.ViewModels
                 },
                 new FindLineParam()
                 {
-                    Name = "20.bottomLeft", Polarity = FindLinePolarity.Negative, Threshold = 10, NewWidth = 3
+                    Name = "20_bottomLeft", Polarity = FindLinePolarity.Negative, Threshold = 10, NewWidth = 3
                 },
                 new FindLineParam()
                 {
-                    Name = "20.topRight", Polarity = FindLinePolarity.Positive, Threshold = 10, NewWidth = 3
+                    Name = "20_topRight", Polarity = FindLinePolarity.Positive, Threshold = 10, NewWidth = 3
                 }
             };
         }
