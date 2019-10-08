@@ -22,11 +22,15 @@ namespace UI.ImageProcessing
             HTuple rotationMatInv;
             HTuple mapToWorld;
             HTuple mapToImage;
+            HTuple xLeft, yLeft, xRight, yRight, xUp, yUp, xDown, yDown;
             // Calculate matrices
 
             images[0] = new HImage("C:/Users/afterbunny/Desktop/Transfer/Xiaojin/ModelImages/point_extraction_top_view.bmp");
             _halconScripts.I94TopViewChangeBase(images[0], out imageUndistorted, _shapeModelHandle, out changeOfBase,
-                out changeOfBaseInv, out rotationMat, out rotationMatInv, out mapToWorld, out mapToImage);
+                out changeOfBaseInv, out rotationMat, out rotationMatInv, out mapToWorld, out mapToImage, out xLeft,
+                out yLeft, out xRight, out yRight, out xUp, out yUp, out xDown, out yDown);
+            var xAxis = new Line(xLeft.D, yLeft.D, xRight.D, yRight.D, true);
+            var yAxis = new Line(xUp.D, yUp.D, xDown.D, yDown.D, true);
 
             _coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
             // Update absolute find line locations
@@ -41,7 +45,7 @@ namespace UI.ImageProcessing
             windowHandle.SetColored(3);
             imageUndistorted.DispObj(windowHandle);
             findLineManager.DisplayGraphics(windowHandle);
-
+            Line.DisplayGraphics(windowHandle);
         }
         /// <summary>
         /// Path to the shape model in disk

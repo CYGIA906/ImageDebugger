@@ -17695,7 +17695,9 @@ public partial class HDevelopExport
   public void I94TopViewChangeBase (HObject ho_Image, out HObject ho_ImageUndistorted, 
       HTuple hv_ModelHandle, out HTuple hv_ChangeOfBase, out HTuple hv_ChangeOfBaseInv, 
       out HTuple hv_RotationMat, out HTuple hv_RotationMatInv, out HTuple hv_MapToWorld, 
-      out HTuple hv_MapToImage)
+      out HTuple hv_MapToImage, out HTuple hv_lineX1TopBase, out HTuple hv_lineY1TopBase, 
+      out HTuple hv_lineX2TopBase, out HTuple hv_lineY2TopBase, out HTuple hv_lineX1RightBase, 
+      out HTuple hv_lineY1RightBase, out HTuple hv_lineX2RightBase, out HTuple hv_lineY2RightBase)
   {
 
 
@@ -17739,8 +17741,6 @@ public partial class HDevelopExport
     HTuple hv_LEN2_2 = new HTuple(), hv_baseRightRow = new HTuple();
     HTuple hv_baseRightColum = new HTuple(), hv_baseRightRadian = new HTuple();
     HTuple hv_baseRightLen1 = new HTuple(), hv_baseRightLen2 = new HTuple();
-    HTuple hv_lineX1RightBase = new HTuple(), hv_lineY1RightBase = new HTuple();
-    HTuple hv_lineX2RightBase = new HTuple(), hv_lineY2RightBase = new HTuple();
     HTuple hv_XsUsed = new HTuple(), hv_YsUsed = new HTuple();
     HTuple hv_XsIgnored = new HTuple(), hv_YsIgnored = new HTuple();
     HTuple hv_ROW_2 = new HTuple(), hv_COL_2 = new HTuple();
@@ -17749,9 +17749,7 @@ public partial class HDevelopExport
     HTuple hv_LEN1_3 = new HTuple(), hv_LEN2_3 = new HTuple();
     HTuple hv_baseTopRow = new HTuple(), hv_baseTopColumn = new HTuple();
     HTuple hv_baseTopRadian = new HTuple(), hv_baseTopLen1 = new HTuple();
-    HTuple hv_baseTopLen2 = new HTuple(), hv_lineX1TopBase = new HTuple();
-    HTuple hv_lineY1TopBase = new HTuple(), hv_lineX2TopBase = new HTuple();
-    HTuple hv_lineY2TopBase = new HTuple(), hv_rowOrigin = new HTuple();
+    HTuple hv_baseTopLen2 = new HTuple(), hv_rowOrigin = new HTuple();
     HTuple hv_colOrigin = new HTuple(), hv_IsOverlapping = new HTuple();
     HTuple hv_ptXOnPerpenducularDir = new HTuple(), hv_ptYOnPerpenducularDir = new HTuple();
     HTuple hv_XLeft = new HTuple(), hv_YLeft = new HTuple();
@@ -17775,6 +17773,14 @@ public partial class HDevelopExport
     hv_RotationMatInv = new HTuple();
     hv_MapToWorld = new HTuple();
     hv_MapToImage = new HTuple();
+    hv_lineX1TopBase = new HTuple();
+    hv_lineY1TopBase = new HTuple();
+    hv_lineX2TopBase = new HTuple();
+    hv_lineY2TopBase = new HTuple();
+    hv_lineX1RightBase = new HTuple();
+    hv_lineY1RightBase = new HTuple();
+    hv_lineX2RightBase = new HTuple();
+    hv_lineY2RightBase = new HTuple();
     try
     {
       hv_CameraParameters.Dispose();
@@ -18080,7 +18086,6 @@ public partial class HDevelopExport
       }
 
 
-
       {
       HTuple ExpTmpOutVar_0;HTuple ExpTmpOutVar_1;HTuple ExpTmpOutVar_2;HTuple ExpTmpOutVar_3;
       HTuple ExpTmpOutVar_4;
@@ -18097,17 +18102,6 @@ public partial class HDevelopExport
       hv_baseTopLen1 = ExpTmpOutVar_3;
       hv_baseTopLen2.Dispose();
       hv_baseTopLen2 = ExpTmpOutVar_4;
-      }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
-      {
-      ho_rect.Dispose();ho_lineRegion.Dispose();hv_lineX1TopBase.Dispose();hv_lineY1TopBase.Dispose();hv_lineX2TopBase.Dispose();hv_lineY2TopBase.Dispose();hv_XsUsed.Dispose();hv_YsUsed.Dispose();hv_XsIgnored.Dispose();hv_YsIgnored.Dispose();
-      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_rect, out ho_lineRegion, 
-          "negative", hv_baseTopRow, hv_baseTopColumn, hv_baseTopRadian, hv_baseTopLen1, 
-          hv_baseTopLen2, hv_numSubRects, ((hv_threshValue.TupleConcat(hv_threshValue))).TupleConcat(
-          hv_threshValue), "first", hv_ignorePortion, "false", hv_sigma1, hv_sigma2, 
-          hv_Width, hv_Height, hv_newWidth, hv_cannyHigh, hv_cannyLow, out hv_lineX1TopBase, 
-          out hv_lineY1TopBase, out hv_lineX2TopBase, out hv_lineY2TopBase, out hv_XsUsed, 
-          out hv_YsUsed, out hv_XsIgnored, out hv_YsIgnored);
       }
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
@@ -18204,10 +18198,6 @@ public partial class HDevelopExport
       hv_baseRightRadian.Dispose();
       hv_baseRightLen1.Dispose();
       hv_baseRightLen2.Dispose();
-      hv_lineX1RightBase.Dispose();
-      hv_lineY1RightBase.Dispose();
-      hv_lineX2RightBase.Dispose();
-      hv_lineY2RightBase.Dispose();
       hv_XsUsed.Dispose();
       hv_YsUsed.Dispose();
       hv_XsIgnored.Dispose();
@@ -18225,10 +18215,6 @@ public partial class HDevelopExport
       hv_baseTopRadian.Dispose();
       hv_baseTopLen1.Dispose();
       hv_baseTopLen2.Dispose();
-      hv_lineX1TopBase.Dispose();
-      hv_lineY1TopBase.Dispose();
-      hv_lineX2TopBase.Dispose();
-      hv_lineY2TopBase.Dispose();
       hv_rowOrigin.Dispose();
       hv_colOrigin.Dispose();
       hv_IsOverlapping.Dispose();
@@ -18299,10 +18285,6 @@ public partial class HDevelopExport
       hv_baseRightRadian.Dispose();
       hv_baseRightLen1.Dispose();
       hv_baseRightLen2.Dispose();
-      hv_lineX1RightBase.Dispose();
-      hv_lineY1RightBase.Dispose();
-      hv_lineX2RightBase.Dispose();
-      hv_lineY2RightBase.Dispose();
       hv_XsUsed.Dispose();
       hv_YsUsed.Dispose();
       hv_XsIgnored.Dispose();
@@ -18320,10 +18302,6 @@ public partial class HDevelopExport
       hv_baseTopRadian.Dispose();
       hv_baseTopLen1.Dispose();
       hv_baseTopLen2.Dispose();
-      hv_lineX1TopBase.Dispose();
-      hv_lineY1TopBase.Dispose();
-      hv_lineX2TopBase.Dispose();
-      hv_lineY2TopBase.Dispose();
       hv_rowOrigin.Dispose();
       hv_colOrigin.Dispose();
       hv_IsOverlapping.Dispose();
@@ -20078,7 +20056,11 @@ public partial class HDevelopExport
     HTuple hv_ModelID = new HTuple(), hv_ChangeOfBase = new HTuple();
     HTuple hv_ChangeOfBaseInv = new HTuple(), hv_RotationMat = new HTuple();
     HTuple hv_RotationMatInv = new HTuple(), hv_MapToWorld = new HTuple();
-    HTuple hv_MapToImage = new HTuple();
+    HTuple hv_MapToImage = new HTuple(), hv_lineX1TopBase = new HTuple();
+    HTuple hv_lineY1TopBase = new HTuple(), hv_lineX2TopBase = new HTuple();
+    HTuple hv_lineY2TopBase = new HTuple(), hv_lineX1RightBase = new HTuple();
+    HTuple hv_lineY1RightBase = new HTuple(), hv_lineX2RightBase = new HTuple();
+    HTuple hv_lineY2RightBase = new HTuple();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_Image);
     HOperatorSet.GenEmptyObj(out ho_ImageUndistorted);
@@ -20089,10 +20071,12 @@ public partial class HDevelopExport
       hv_ModelID.Dispose();
       HOperatorSet.ReadShapeModel("C:/Users/afterbunny/Desktop/Transfer/Xiaojin/Hdevs/ModelTopViewI94", 
           out hv_ModelID);
-      ho_ImageUndistorted.Dispose();hv_ChangeOfBase.Dispose();hv_ChangeOfBaseInv.Dispose();hv_RotationMat.Dispose();hv_RotationMatInv.Dispose();hv_MapToWorld.Dispose();hv_MapToImage.Dispose();
+      ho_ImageUndistorted.Dispose();hv_ChangeOfBase.Dispose();hv_ChangeOfBaseInv.Dispose();hv_RotationMat.Dispose();hv_RotationMatInv.Dispose();hv_MapToWorld.Dispose();hv_MapToImage.Dispose();hv_lineX1TopBase.Dispose();hv_lineY1TopBase.Dispose();hv_lineX2TopBase.Dispose();hv_lineY2TopBase.Dispose();hv_lineX1RightBase.Dispose();hv_lineY1RightBase.Dispose();hv_lineX2RightBase.Dispose();hv_lineY2RightBase.Dispose();
       I94TopViewChangeBase(ho_Image, out ho_ImageUndistorted, hv_ModelID, out hv_ChangeOfBase, 
           out hv_ChangeOfBaseInv, out hv_RotationMat, out hv_RotationMatInv, out hv_MapToWorld, 
-          out hv_MapToImage);
+          out hv_MapToImage, out hv_lineX1TopBase, out hv_lineY1TopBase, out hv_lineX2TopBase, 
+          out hv_lineY2TopBase, out hv_lineX1RightBase, out hv_lineY1RightBase, out hv_lineX2RightBase, 
+          out hv_lineY2RightBase);
     }
     catch (HalconException HDevExpDefaultException)
     {
@@ -20106,6 +20090,14 @@ public partial class HDevelopExport
       hv_RotationMatInv.Dispose();
       hv_MapToWorld.Dispose();
       hv_MapToImage.Dispose();
+      hv_lineX1TopBase.Dispose();
+      hv_lineY1TopBase.Dispose();
+      hv_lineX2TopBase.Dispose();
+      hv_lineY2TopBase.Dispose();
+      hv_lineX1RightBase.Dispose();
+      hv_lineY1RightBase.Dispose();
+      hv_lineX2RightBase.Dispose();
+      hv_lineY2RightBase.Dispose();
 
       throw HDevExpDefaultException;
     }
@@ -20119,6 +20111,14 @@ public partial class HDevelopExport
     hv_RotationMatInv.Dispose();
     hv_MapToWorld.Dispose();
     hv_MapToImage.Dispose();
+    hv_lineX1TopBase.Dispose();
+    hv_lineY1TopBase.Dispose();
+    hv_lineX2TopBase.Dispose();
+    hv_lineY2TopBase.Dispose();
+    hv_lineX1RightBase.Dispose();
+    hv_lineY1RightBase.Dispose();
+    hv_lineX2RightBase.Dispose();
+    hv_lineY2RightBase.Dispose();
 
   }
 

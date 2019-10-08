@@ -38,7 +38,7 @@ namespace UI.ImageProcessing
         }
 
 
-        public void Display(HWindow windowHandle)
+        public static void DisplayGraphics(HWindow windowHandle)
         {
             foreach (var lineRegion in LineRegions)
             {
