@@ -32,13 +32,33 @@
         </Grid.ColumnDefinitions>
 
 
-        <halconDotNet:HSmartWindowControlWPF Grid.Column="0" Grid.RowSpan="3" Name="HalconWindow">
-            <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}"/>
-        </halconDotNet:HSmartWindowControlWPF>
+        <halconDotNet:HSmartWindowControlWPF  Name="HalconWindow" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="1">
+               <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}"/>
+           </halconDotNet:HSmartWindowControlWPF>
+
+           <!-- Find line param LIST -->
+        <Expander  Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="2" Foreground="AliceBlue"
+                     ExpandDirection="Left">
+               <Expander.Header>
+                   <TextBlock
+                       Text="Outputs" Foreground="AliceBlue"
+                       RenderTransformOrigin=".5,.5">
+                       <TextBlock.LayoutTransform>
+                           <RotateTransform
+                               Angle="90" />
+                       </TextBlock.LayoutTransform>
+                   </TextBlock>
+               </Expander.Header>
+               <DataGrid HorizontalAlignment="Right"
+                         ItemsSource="{Binding FaiItems}"
+                         CanUserSortColumns="True"
+                         CanUserAddRows="False"
+               />
+           </Expander>
 
 
         <!-- ImageProvider Area -->
-            <Border Grid.Row="0" Grid.Column="1">
+            <Border Grid.Row="0" Grid.Column="1" >
                 <StackPanel>
                     <Button
                         Height="50"
@@ -70,12 +90,10 @@
             <DataGrid HorizontalAlignment="Right"
                         ItemsSource="{Binding FaiItems}"
                         CanUserSortColumns="True"
-                        CanUserAddRows="True"
-                        CanUserDeleteRows="True"
-                        />
+                        CanUserAddRows="False"
+            />
                 </Expander>
 
-             
-
+        
     </Grid>
 </Page>

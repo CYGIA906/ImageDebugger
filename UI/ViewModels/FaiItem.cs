@@ -2,10 +2,11 @@
 using System.IO;
 using System.Xml.Serialization;
 using PropertyChanged;
+using UI.Model;
 
 namespace UI.ViewModels
 {
-    public class FaiItem : ViewModelBase
+    public class FaiItem : AutoSerializableBase<FaiItem>
     {
         /// <summary>
         /// Fai name
@@ -48,9 +49,8 @@ namespace UI.ViewModels
 
         public string SerializationDir;
 
-        
 
-        public string GetSerializationPath() => Path.Combine(SerializationDir, Name + ".xml");
+        protected override string GetSerializationPath() => Path.Combine(SerializationDir, Name + ".xml");
 
         public FaiItem(string name)
         {
@@ -61,23 +61,23 @@ namespace UI.ViewModels
         {
         }
 
-        private void Serialize(object sender, PropertyChangedEventArgs e)
-        {
-            using (var fs = new FileStream(GetSerializationPath(), FileMode.Create))
-            {
-                var serializer = new XmlSerializer(typeof(FaiItem));
-                serializer.Serialize(fs, this);
-            }
-        }
-
-        public void ResumeAutoSerialization()
-        {
-            PropertyChanged += Serialize;
-        }
-        
-        public void StopAutoSerialization()
-        {
-            PropertyChanged -= Serialize;
-        }
+//        private void Serialize(object sender, PropertyChangedEventArgs e)
+//        {
+//            using (var fs = new FileStream(GetSerializationPath(), FileMode.Create))
+//            {
+//                var serializer = new XmlSerializer(typeof(FaiItem));
+//                serializer.Serialize(fs, this);
+//            }
+//        }
+//
+//        public void ResumeAutoSerialization()
+//        {
+//            PropertyChanged += Serialize;
+//        }
+//        
+//        public void StopAutoSerialization()
+//        {
+//            PropertyChanged -= Serialize;
+//        }
     }
 }

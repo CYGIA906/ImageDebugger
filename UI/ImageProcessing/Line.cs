@@ -123,4 +123,4 @@ namespace UI.ImageProcessing
             return Intersect(new Line(intersectX, intersectY, point.X, point.Y));
         }
     }
-}
+}  
