@@ -66,6 +66,7 @@ namespace UI.ViewModels
             _windowHandle = windowHandle;
 
             FaiItems = new ObservableCollection<FaiItem>();
+
             FaiItems.Add(new FaiItem("02_2") {MaxBoundary = 15.49, MinBoundary = 15.390});
 
             FaiItems.Add(new FaiItem("03_2") {MaxBoundary = 15.906, MinBoundary = 15.806});

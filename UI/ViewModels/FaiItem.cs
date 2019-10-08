@@ -1,21 +1,24 @@
-﻿namespace UI.ViewModels
+﻿using System.Xml.Serialization;
+
+namespace UI.ViewModels
 {
     public class FaiItem : ViewModelBase
     {
         /// <summary>
         /// Fai name
         /// </summary>
+        [XmlAttribute]
         public string Name { get; }
 
         /// <summary>
         /// Max boundary of the fai item
         /// </summary>
-        public double MaxBoundary { get; set; }
+        [XmlAttribute]public double MaxBoundary { get; set; }
 
         /// <summary>
         /// Min boundary of the fai item
         /// </summary>
-        public double MinBoundary { get; set; }
+        [XmlAttribute]public double MinBoundary { get; set; }
 
         /// <summary>
         /// Measured value
@@ -25,12 +28,12 @@
         /// <summary>
         /// Measured value plus bias
         /// </summary>
-        public double ValueBiased => Value + Bias;
+         public double ValueBiased => Value + Bias;
 
         /// <summary>
         /// Bias 
         /// </summary>
-        public double Bias { get; set; }
+        [XmlAttribute]public double Bias { get; set; }
 
 
         /// <summary>
