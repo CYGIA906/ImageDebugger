@@ -66,25 +66,25 @@ namespace UI.ViewModels
             _windowHandle = windowHandle;
 
             FaiItems = new ObservableCollection<FaiItem>();
-            FaiItems.Add(new FaiItem("2_2") {MaxBoundary = 15.49, MinBoundary = 15.390});
+            FaiItems.Add(new FaiItem("02_2") {MaxBoundary = 15.49, MinBoundary = 15.390});
 
-            FaiItems.Add(new FaiItem("3_2") {MaxBoundary = 15.906, MinBoundary = 15.806});
+            FaiItems.Add(new FaiItem("03_2") {MaxBoundary = 15.906, MinBoundary = 15.806});
 
-            FaiItems.Add(new FaiItem("4_1") {MaxBoundary = 34.92, MinBoundary = 34.82});
-            FaiItems.Add(new FaiItem("4_2") {MaxBoundary = 34.92, MinBoundary = 34.82});
-            FaiItems.Add(new FaiItem("4_3") {MaxBoundary = 34.92, MinBoundary = 34.82});
+            FaiItems.Add(new FaiItem("04_1") {MaxBoundary = 34.92, MinBoundary = 34.82});
+            FaiItems.Add(new FaiItem("04_2") {MaxBoundary = 34.92, MinBoundary = 34.82});
+            FaiItems.Add(new FaiItem("04_3") {MaxBoundary = 34.92, MinBoundary = 34.82});
 
-            FaiItems.Add(new FaiItem("5_1") {MaxBoundary = 36.15, MinBoundary = 36.05});
-            FaiItems.Add(new FaiItem("5_2") {MaxBoundary = 36.15, MinBoundary = 36.05});
-            FaiItems.Add(new FaiItem("5_3") {MaxBoundary = 36.15, MinBoundary = 36.05});
+            FaiItems.Add(new FaiItem("05_1") {MaxBoundary = 36.15, MinBoundary = 36.05});
+            FaiItems.Add(new FaiItem("05_2") {MaxBoundary = 36.15, MinBoundary = 36.05});
+            FaiItems.Add(new FaiItem("05_3") {MaxBoundary = 36.15, MinBoundary = 36.05});
 
-            FaiItems.Add(new FaiItem("6_1") {MaxBoundary = 22.153, MinBoundary = 22.053});
-            FaiItems.Add(new FaiItem("6_2") {MaxBoundary = 22.153, MinBoundary = 22.053});
-            FaiItems.Add(new FaiItem("6_3") {MaxBoundary = 22.153, MinBoundary = 22.053});
+            FaiItems.Add(new FaiItem("06_1") {MaxBoundary = 22.153, MinBoundary = 22.053});
+            FaiItems.Add(new FaiItem("06_2") {MaxBoundary = 22.153, MinBoundary = 22.053});
+            FaiItems.Add(new FaiItem("06_3") {MaxBoundary = 22.153, MinBoundary = 22.053});
 
-            FaiItems.Add(new FaiItem("9_1") {MaxBoundary = 11.231, MinBoundary = 11.131});
-            FaiItems.Add(new FaiItem("9_2") {MaxBoundary = 11.231, MinBoundary = 11.131});
-            FaiItems.Add(new FaiItem("9_3") {MaxBoundary = 11.231, MinBoundary = 11.131});
+            FaiItems.Add(new FaiItem("09_1") {MaxBoundary = 11.231, MinBoundary = 11.131});
+            FaiItems.Add(new FaiItem("09_2") {MaxBoundary = 11.231, MinBoundary = 11.131});
+            FaiItems.Add(new FaiItem("09_3") {MaxBoundary = 11.231, MinBoundary = 11.131});
 
             FaiItems.Add(new FaiItem("12_1") {MaxBoundary = 18.805, MinBoundary = 18.705});
             FaiItems.Add(new FaiItem("12_2") {MaxBoundary = 18.805, MinBoundary = 18.705});

@@ -183,25 +183,25 @@ namespace UI.ImageProcessing
 
 
             // outputs
-            faiItems.ByName("2_2").Value = valueF2P2;
+            faiItems.ByName("02_2").Value = valueF2P2;
             
-            faiItems.ByName("3_2").Value = valueF3P2;
+            faiItems.ByName("03_2").Value = valueF3P2;
 
-            faiItems.ByName("4_1").Value = valueF4P1;
-            faiItems.ByName("4_2").Value = valueF4P2;
-            faiItems.ByName("4_3").Value = valueF4P3;
+            faiItems.ByName("04_1").Value = valueF4P1;
+            faiItems.ByName("04_2").Value = valueF4P2;
+            faiItems.ByName("04_3").Value = valueF4P3;
             
-            faiItems.ByName("5_1").Value = valueF5P1;
-            faiItems.ByName("5_2").Value = valueF5P2;
-            faiItems.ByName("5_3").Value = valueF5P3;
+            faiItems.ByName("05_1").Value = valueF5P1;
+            faiItems.ByName("05_2").Value = valueF5P2;
+            faiItems.ByName("05_3").Value = valueF5P3;
             
-            faiItems.ByName("6_1").Value = valueF6P1;
-            faiItems.ByName("6_2").Value = valueF6P2;
-            faiItems.ByName("6_3").Value = valueF6P3;
+            faiItems.ByName("06_1").Value = valueF6P1;
+            faiItems.ByName("06_2").Value = valueF6P2;
+            faiItems.ByName("06_3").Value = valueF6P3;
             
-            faiItems.ByName("9_1").Value = valueF9P1;
-            faiItems.ByName("9_2").Value = valueF9P2;
-            faiItems.ByName("9_3").Value = valueF9P3;
+            faiItems.ByName("09_1").Value = valueF9P1;
+            faiItems.ByName("09_2").Value = valueF9P2;
+            faiItems.ByName("09_3").Value = valueF9P3;
             
             faiItems.ByName("12_1").Value = valueF12P1;
             faiItems.ByName("12_2").Value = valueF12P2;
