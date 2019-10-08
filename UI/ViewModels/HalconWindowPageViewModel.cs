@@ -18,6 +18,8 @@ namespace UI.ViewModels
     {
         public ObservableCollection<FaiItem> FaiItems { get; private set; }
 
+        public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
+        
         private HWindow _windowHandle;
 
         private FindLineConfigs _findLineConfigs;
@@ -27,6 +29,9 @@ namespace UI.ViewModels
         private readonly IMeasurementProcedure measurementUnit = new I94TopViewMeasure();
 
         public ICommand ExecuteCommand { get; }
+        
+        public string ParamSerializationBaseDir => SerializationDir +  "/FindLineParams"; 
+
 
 
         public void Process(List<HImage> images)
@@ -124,19 +129,31 @@ namespace UI.ViewModels
             outputs.Add(new FaiItem("20_2")
                 {SerializationDir = FaiItemSerializationDir, MaxBoundary = 0.06, MinBoundary = 0});
 
-            foreach (var item in outputs)
-            {
-                item.ResumeAutoSerialization();
-            }
-            
             return outputs;
         }
 
         public HalconWindowPageViewModel(HWindow windowHandle)
         {
             _windowHandle = windowHandle;
+            // Init fai items
             var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
             FaiItems = faiItemsFromDisk ?? FaiItemHardCodeValues();
+            foreach (var item in FaiItems)
+            {
+                item.ResumeAutoSerialization();
+            }
+
+            // Init find line params
+            var findLineParamsFromDisk = TryLoadFindLineParamsFromDisk();
+            FindLineParams = findLineParamsFromDisk ?? FindLineParamsHardCodeValues();
+            foreach (var param in FindLineParams)
+            {
+                param.ResumeAutoSerialization();
+            }
+
+            // Init find line locations
+            var findLineLocations = FindLineLocationHardCodeValues();
+            _findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), findLineLocations);
 
             // Listen for user changes of data grid
             measurementUnit.MeasurementResultReady += FaiItemsStopListeningToChange;
@@ -174,7 +191,6 @@ namespace UI.ViewModels
                 }
             });
 
-            InitFindLineConfigs();
         }
 
         private void FaiItemsRestartListeningToChange()
@@ -195,7 +211,7 @@ namespace UI.ViewModels
 
         public string SerializationDir { get; set; } = Application.StartupPath + "/I94";
 
-        public string FaiItemSerializationDir => SerializationDir + "FaiItems";
+        public string FaiItemSerializationDir => SerializationDir + "/FaiItems";
 
         public string FaiItemsSerializationName { get; set; } = "I94_FaiItems";
 
@@ -224,15 +240,36 @@ namespace UI.ViewModels
             }
             return outputs;
         }
-
-        private void InitFindLineConfigs()
+        
+        
+        private ObservableCollection<FindLineParam> TryLoadFindLineParamsFromDisk()
         {
-            List<FindLineParam> findLineParams = GenFindLineParams();
-            List<FindLineLocation> findLineLocations = GenFindLineLocations();
-            _findLineConfigs = new FindLineConfigs(findLineParams, findLineLocations);
+            var directoryInfo = Directory.CreateDirectory(ParamSerializationBaseDir);
+            var xmls = directoryInfo.GetFiles("*.xml");
+            if (xmls.Length == 0) return null;
+
+            var outputs = new ObservableCollection<FindLineParam>();
+            foreach (var fileInfo in xmls)
+            {
+                string filePath = fileInfo.FullName;
+                using (var fs = new FileStream(filePath, FileMode.Open))
+                {
+                    var serializer = new XmlSerializer(typeof(FindLineParam));
+                    FindLineParam item = (FindLineParam) serializer.Deserialize(fs);
+                    outputs.Add(item);
+                }
+            }
+
+            foreach (var item in outputs)
+            {
+                item.ResumeAutoSerialization();
+            }
+            return outputs;
         }
 
-        private List<FindLineLocation> GenFindLineLocations()
+ 
+
+        private List<FindLineLocation> FindLineLocationHardCodeValues()
         {
             return new List<FindLineLocation>()
             {
@@ -323,9 +360,9 @@ namespace UI.ViewModels
             };
         }
 
-        private List<FindLineParam> GenFindLineParams()
+        private ObservableCollection<FindLineParam> FindLineParamsHardCodeValues()
         {
-            return new List<FindLineParam>()
+            var outputs =  new ObservableCollection<FindLineParam>()
             {
                 new FindLineParam()
                 {
@@ -424,6 +461,13 @@ namespace UI.ViewModels
                     Name = "20.topRight", Polarity = FindLinePolarity.Positive, Threshold = 10, NewWidth = 3
                 }
             };
+
+            foreach (var param in outputs)
+            {
+                param.SerializationDir = ParamSerializationBaseDir;
+            }
+            
+            return outputs;
         }
 
 

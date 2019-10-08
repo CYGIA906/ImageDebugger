@@ -1,11 +1,15 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
+using PropertyChanged;
+using UI.Model;
 
 namespace UI.ImageProcessing
 {
-    public class FindLineParam
+    public class FindLineParam : AutoSerializableBase<FindLineParam>
     {
-        [XmlAttribute] public string Name { get; set; } = "Null";
+        [DoNotNotify]
+        [XmlAttribute] public string Name { get; set; }
         [XmlAttribute] public FindLinePolarity Polarity { get; set; } = FindLinePolarity.Positive;
         [XmlAttribute] public EdgeSelection WhichEdge { get; set; } = EdgeSelection.First;
         [XmlAttribute] public PairSelection WhichPair { get; set; } = PairSelection.First;
@@ -27,6 +31,10 @@ namespace UI.ImageProcessing
         /// </summary>
         [XmlAttribute]
         public int NumSubRects { get; set; } = 10;
+
+        protected override string GetSerializationPath() => Path.Combine(SerializationDir, Name + ".xml");
+
+        public string SerializationDir;
     }
 
 

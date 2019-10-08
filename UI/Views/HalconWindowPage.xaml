@@ -28,7 +28,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
 
@@ -37,11 +37,11 @@
            </halconDotNet:HSmartWindowControlWPF>
 
            <!-- Find line param LIST -->
-        <Expander  Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="2" Foreground="AliceBlue"
+        <Expander  Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="2" Foreground="AliceBlue" FontSize="24"
                      ExpandDirection="Left">
                <Expander.Header>
                    <TextBlock
-                       Text="Outputs" Foreground="AliceBlue"
+                       Text="Find line parameters" Foreground="AliceBlue"
                        RenderTransformOrigin=".5,.5">
                        <TextBlock.LayoutTransform>
                            <RotateTransform
@@ -50,7 +50,7 @@
                    </TextBlock>
                </Expander.Header>
                <DataGrid HorizontalAlignment="Right"
-                         ItemsSource="{Binding FaiItems}"
+                         ItemsSource="{Binding FindLineParams}"
                          CanUserSortColumns="True"
                          CanUserAddRows="False"
                />
@@ -75,7 +75,7 @@
             </Border>
 
             <!-- FAI LIST -->
-        <Expander Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" HorizontalAlignment="Right"
+        <Expander Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" HorizontalAlignment="Right" Panel.ZIndex="3" FontSize="24"
                     ExpandDirection="Left">
                     <Expander.Header>
                         <TextBlock

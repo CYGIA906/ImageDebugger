@@ -9,7 +9,8 @@ namespace UI.Model
     {
         private void Serialize(object sender, PropertyChangedEventArgs e)
         {
-            using (var fs = new FileStream(GetSerializationPath(), FileMode.Create))
+            var serializePath = GetSerializationPath();   
+            using (var fs = new FileStream(serializePath, FileMode.Create))
             {
                 var serializer = new XmlSerializer(typeof(T));
                 serializer.Serialize(fs, this);
