@@ -10,7 +10,7 @@ namespace UI.ImageProcessing
     {
         private HTuple _changeOfBase, _changeOfBaseInv, _rotationMat, _rotationMatInv, _mapToWorld, _mapToImage;
         private static HDevelopExport HalconScripts = new HDevelopExport();
-        private List<Line> _pointLineDistanceGraphics = new List<Line>();
+        private static List<Line> _pointLineDistanceGraphics = new List<Line>();
         private List<Line> _pointPointDistanceGraphics = new List<Line>();
 
         public CoordinateSolver(HTuple changeOfBase, HTuple changeOfBaseInv, HTuple rotationMat, HTuple rotationMatInv,
@@ -53,6 +53,24 @@ namespace UI.ImageProcessing
 
             return distanceWorld.D;
         }
+
+        public static void DisplayGraphics(HWindow windowHandle)
+        {
+            DisplayPointLineDistanceGraphics(windowHandle);
+        }
+
+        private static void DisplayPointLineDistanceGraphics(HWindow windowHandle)
+        {
+            windowHandle.SetColor("orange");
+            foreach (var line in _pointLineDistanceGraphics)
+            {
+                windowHandle.DispArrow(line.YStart, line.XStart, line.YEnd, line.XEnd, ArrowSize);
+            }
+            
+            _pointLineDistanceGraphics.Clear();
+        }
+
+        public static double ArrowSize { get; set; } = 100;
 
         /// <summary>
         /// Translate a line at a distance measured in millimeter

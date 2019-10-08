@@ -31,8 +31,11 @@ namespace UI.ImageProcessing
             _coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
             // Update absolute find line locations
             findLineConfigs.Solver = _coordinateSolver;
+            // Find lines
             var findLineManager = new FindLineManager(findLineConfigs);
             findLineManager.FindLines(images);
+            
+            // Make parallel lines
 
             windowHandle.SetPart(0,0,5120,5120);
             windowHandle.SetColored(3);
