@@ -32,6 +32,7 @@
           <e p="MathUtils.cs" t="Include" />
           <e p="Point.cs" t="Include" />
           <e p="Utilts" t="Include">
+            <e p="FaiItemCsvSerializer.cs" t="Include" />
             <e p="FaiItemsExtension.cs" t="Include" />
             <e p="HalconHelper.cs" t="Include" />
           </e>

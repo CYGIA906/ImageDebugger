@@ -89,6 +89,7 @@
     <Compile Include="ImageProcessing\Line.cs" />
     <Compile Include="ImageProcessing\MathUtils.cs" />
     <Compile Include="ImageProcessing\Point.cs" />
+    <Compile Include="ImageProcessing\Utilts\FaiItemCsvSerializer.cs" />
     <Compile Include="ImageProcessing\Utilts\FaiItemsExtension.cs" />
     <Compile Include="ImageProcessing\Utilts\HalconHelper.cs" />
     <Compile Include="Interfaces\IImageProvider.cs" />
