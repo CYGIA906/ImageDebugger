@@ -146,7 +146,7 @@ namespace UI.ImageProcessing
             
             
             
-            //TODO: Measure fai20
+            //Fai 20.1
             var ptOrigin = xAxis.Intersect(yAxis);
             HTuple rotatedX1, rotatedX2, rotatedY1, rotatedY2;
             HObject lineRegion;
@@ -161,16 +161,26 @@ namespace UI.ImageProcessing
                 out rotatedY2);
             var lineProject = new Line(rotatedX1.D, rotatedY1.D, rotatedX2.D, rotatedY2.D) {IsVisible = true};
             var lineFai20TopRight = findLineManager.GetLine("20.topRight");
-            var pointFai20TopRight = new Point((lineFai20TopRight.XStart + lineFai20TopRight.XEnd)/2.0, (lineFai20TopRight.YStart + lineFai20TopRight.YEnd)/2.0);
+            var pointOnTopRight = new Point((lineFai20TopRight.XStart + lineFai20TopRight.XEnd)/2.0, (lineFai20TopRight.YStart + lineFai20TopRight.YEnd)/2.0);
             var lineFai20BottomLeft = findLineManager.GetLine("20.bottomLeft");
-            var valueF20P1 = coordinateSolver.PointLineDistanceInWorld(pointFai20TopRight, lineFai20BottomLeft);
-            var linePerpendicular_lineFai20TopRight =
-                lineFai20BottomLeft.PerpendicularLineThatPasses(pointFai20TopRight);
-            linePerpendicular_lineFai20TopRight.IsVisible = true;
-            var angle = linePerpendicular_lineFai20TopRight.AngleWithLine(lineProject);
+            var valueF20P1 = coordinateSolver.PointLineDistanceInWorld(pointOnTopRight, lineFai20BottomLeft);
+            var linePerpendiculerToBottomLeft =
+                lineFai20BottomLeft.PerpendicularLineThatPasses(pointOnTopRight);
+            linePerpendiculerToBottomLeft.IsVisible = true;
+            var angle = linePerpendiculerToBottomLeft.AngleWithLine(lineProject);
             var cosValue = Math.Cos(angle);
             valueF20P1 = valueF20P1 * cosValue;
             
+            // Fai 20.2
+            var pointOnBottomLeft = linePerpendiculerToBottomLeft.Intersect(lineFai20BottomLeft);
+            var midPoint = new Point((pointOnBottomLeft.X + pointOnTopRight.X) / 2.0,
+                (pointOnBottomLeft.Y + pointOnTopRight.Y) / 2.0);
+            var pointMidProjected = lineProject.ProjectPoint(midPoint);
+            var distanceToOrigin = coordinateSolver.PointPointDistanceInWorld(pointMidProjected, ptOrigin, true);
+            var valueF20P2 = Math.Abs(12.202 - distanceToOrigin) * 2;
+
+
+
 
             // outputs
             faiItems.ByName("2_2").Value = valueF2P2;
@@ -207,12 +217,11 @@ namespace UI.ImageProcessing
 
             faiItems.ByName("20_1").Value = valueF20P1;
 
-            // TODO: output fai20
-            
+            faiItems.ByName("20_2").Value = valueF20P2;            
 
             windowHandle.DispImage(images[0]);
             findLineManager.DisplayGraphics(windowHandle);
-            CoordinateSolver.DisplayGraphics(windowHandle);
+            coordinateSolver.DisplayGraphics(windowHandle);
             Line.DisplayGraphics(windowHandle);
             windowHandle.SetColored(3);
             windowHandle.SetPart(0,0,5120,5120);

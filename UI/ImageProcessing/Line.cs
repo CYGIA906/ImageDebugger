@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using HalconDotNet;
@@ -107,6 +108,19 @@ namespace UI.ImageProcessing
             HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.X, point.Y, out intersectX, out intersectY);
             
             return new Line(point.X, point.Y, intersectX.D, intersectY.D);
+        }
+
+        /// <summary>
+        /// Project point on this line
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public Point ProjectPoint(Point point)
+        {
+            HTuple intersectX, intersectY;
+            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.X, point.Y, out intersectX, out intersectY);
+
+            return Intersect(new Line(intersectX, intersectY, point.X, point.Y));
         }
     }
 }
