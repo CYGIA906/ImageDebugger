@@ -184,46 +184,51 @@ namespace UI.ViewModels
                 // upper left h line
                 new FindLineLocation()
                 {
-                    Name = "6", Angle = 90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = 0
+                    Name = "9", Angle = 90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = 0
                 },
                 // lower left h line
                 new FindLineLocation()
                 {
-                    Name = "9", Angle = -90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = 0
+                    Name = "6", Angle = -90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-1", Angle = 180, X = 2241, Y = 326, Len2 = 95, ImageIndex = 0
+                    Name = "12-1", Angle = 180, X = 2451, Y = 3149, Len2 = 95, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-2", Angle = 180, X = 2241, Y = 736, Len2 = 95, ImageIndex = 0
+                    Name = "12-2", Angle = 180, X = 2451, Y = 3767, Len2 = 95, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-3", Angle = 180, X = 2241, Y = 1149, Len2 = 95, ImageIndex = 0
+                    Name = "12-3", Angle = 180, X = 2451, Y = 4300, Len2 = 130, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-1", Angle = 180, X = 2451, Y = 3149, Len2 = 95, ImageIndex = 0
-                },   new FindLineLocation()
+                    Name = "17-1", Angle = 180, X = 2241, Y = 326, Len2 = 95, ImageIndex = 0
+                },
+                new FindLineLocation()
                 {
-                    Name = "17-2", Angle = 180, X = 2451, Y = 3767, Len2 = 95, ImageIndex = 0
-                }, new FindLineLocation()
+                    Name = "17-2", Angle = 180, X = 2241, Y = 736, Len2 = 95, ImageIndex = 0
+                },
+                new FindLineLocation()
                 {
-                    Name = "17-3", Angle = 180, X = 2451, Y = 4300, Len2 = 130, ImageIndex = 0
+                    Name = "17-3", Angle = 180, X = 2241, Y = 1149, Len2 = 95, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
                     Angle = 180,
                     Name = "16", ImageIndex = 0, Len2 = 366, X = 3870.5, Y = 2147.5
-                }, new FindLineLocation()
+                },
+                new FindLineLocation()
                 {
-                Name = "19", Angle = 0, X = 206.5, Y = 705, Len2 = 375, ImageIndex = 0
-            },new FindLineLocation()
+                    Name = "19", Angle = 0, X = 206.5, Y = 705, Len2 = 375, ImageIndex = 0
+                },
+                new FindLineLocation()
                 {
                     Name = "20.bottomLeft", Angle = -135, X = 2094, Y = 1937, Len2 = 85, ImageIndex = 0
-                },new FindLineLocation()
+                },
+                new FindLineLocation()
                 {
                     Name = "20.topRight", Angle = -135, X = 348.5, Y = 134, Len2 = 73, ImageIndex = 0
                 }
@@ -296,15 +301,18 @@ namespace UI.ViewModels
                 {
                     Name = "12-3", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
                     FirstAttemptOnly = true
-                },    new FindLineParam()
+                },
+                new FindLineParam()
                 {
                     Name = "17-1", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
                     FirstAttemptOnly = true
-                }, new FindLineParam()
+                },
+                new FindLineParam()
                 {
                     Name = "17-2", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
                     FirstAttemptOnly = true
-                }, new FindLineParam()
+                },
+                new FindLineParam()
                 {
                     Name = "17-3", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
                     FirstAttemptOnly = true
@@ -314,13 +322,16 @@ namespace UI.ViewModels
                 new FindLineParam()
                 {
                     Name = "16", UsingPair = false, Polarity = FindLinePolarity.Negative, Threshold = 10
-                },new FindLineParam()
+                },
+                new FindLineParam()
                 {
                     Name = "19", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                },new FindLineParam()
+                },
+                new FindLineParam()
                 {
                     Name = "20.bottomLeft", Polarity = FindLinePolarity.Negative, Threshold = 10, NewWidth = 3
-                },new FindLineParam()
+                },
+                new FindLineParam()
                 {
                     Name = "20.topRight", Polarity = FindLinePolarity.Positive, Threshold = 10, NewWidth = 3
                 }

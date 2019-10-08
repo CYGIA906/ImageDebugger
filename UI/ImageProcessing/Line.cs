@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using HalconDotNet;
 
 namespace UI.ImageProcessing
@@ -43,5 +46,27 @@ namespace UI.ImageProcessing
             }
             LineRegions.Clear();
         }
+
+        public Point Intersect(Line line)
+        {
+            HTuple x, y, _;
+            HOperatorSet.IntersectionLines(line.YStart, line.XStart, line.YEnd, line.XEnd, YStart, XStart, YEnd, XEnd, out x, out y, out _);
+            return new Point(x.D, y.D);
+        }
+
+        public double Angle
+        {
+            get
+            {
+                HTuple xUnit, yUnit, degree;
+                HalconScripts.GetLineUnitVector(XStart, YStart, XEnd, YEnd, out xUnit, out yUnit);
+                HalconScripts.GetVectorDegree(xUnit, yUnit, out degree);
+                return degree.D;
+            }
+        }
+
+        public static double Epslon { get; set; } = 0.001;
+
+        public bool IsVertical => Math.Abs(Angle) - 90 < Epslon;
     }
 }
