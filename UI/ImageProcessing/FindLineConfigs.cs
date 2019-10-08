@@ -13,7 +13,7 @@ namespace UI.ImageProcessing
         private Dictionary<string, FindLineParam> _findLineParamsDict = new Dictionary<string, FindLineParam>();
         private Dictionary<string, FindLineLocation> _findLineLocationsAbsDict = new Dictionary<string, FindLineLocation>();
 
-        private List<FindLineLocation> _findLineLocationsRelative;
+        public List<FindLineLocation> FindLineLocationsRelative { get;  set; }
         private CoordinateSolver _solver;
 
         public CoordinateSolver Solver
@@ -34,7 +34,7 @@ namespace UI.ImageProcessing
         /// </summary>
         private void ConvertLocations()
         {
-            foreach (var location in _findLineLocationsRelative)
+            foreach (var location in FindLineLocationsRelative)
             {
                 var locationAbs = Solver.FindLineLocationRelativeToAbsolute(location);
                 _findLineLocationsAbsDict[location.Name] = locationAbs;
@@ -66,7 +66,7 @@ namespace UI.ImageProcessing
                 _findLineParamsDict[param.Name] = param;
             }
 
-            _findLineLocationsRelative = findLineLocations;
+            FindLineLocationsRelative = findLineLocations;
         }
 
         /// <summary>
@@ -75,15 +75,14 @@ namespace UI.ImageProcessing
         /// <param name="serializeDir"></param>
         /// <param name="paramsSerializeName"></param>
         /// <param name="locationsSerializeName"></param>
-        public FindLineConfigs(string serializeDir, string paramsSerializeName, string locationsSerializeName)
+        public FindLineConfigs(string serializeDir, string paramsSerializeName, string locationsSerializeName = null)
         {
             SerializeDir = serializeDir;
             ParamsSerializeName = paramsSerializeName;
             LocationsSerializeName = locationsSerializeName;
 
             LoadFindLineParamsFromDisk();
-            //TODO: load relative locations
-            LoadLocationsFromDisk();
+            if(!string.IsNullOrEmpty(LocationsSerializeName)) LoadLocationsFromDisk();
         }
 
 
@@ -189,7 +188,7 @@ namespace UI.ImageProcessing
             {
                 var serializer = new XmlSerializer(typeof(FindLineLocation[]),
                     new XmlRootAttribute(LocationsSerializeName));
-                _findLineLocationsRelative = ((FindLineLocation[]) serializer.Deserialize(fs)).ToList();
+                FindLineLocationsRelative = ((FindLineLocation[]) serializer.Deserialize(fs)).ToList();
                 
             }
         }
@@ -206,19 +205,22 @@ namespace UI.ImageProcessing
 
         public void Serialize()
         {
-            // Serialize locations
-            using (var fs = new FileStream(LocationsPath, FileMode.Open))
-            {
-                var serializer = new XmlSerializer(typeof(FindLineLocation[]),
-                    new XmlRootAttribute(LocationsSerializeName));
-                serializer.Serialize(fs, _findLineLocationsRelative.ToArray());
-            }
+    
 
             // Serialize params
             using (var fs = new FileStream(ParamsPath, FileMode.Open))
             {
                 var serializer = new XmlSerializer(typeof(FindLineParam[]), new XmlRootAttribute(ParamsSerializeName));
                 serializer.Serialize(fs, _findLineParamsDict.Values.ToArray());
+            }
+
+            if (string.IsNullOrEmpty(LocationsSerializeName)) return;
+            // Serialize locations
+            using (var fs = new FileStream(LocationsPath, FileMode.Open))
+            {
+                var serializer = new XmlSerializer(typeof(FindLineLocation[]),
+                    new XmlRootAttribute(LocationsSerializeName));
+                serializer.Serialize(fs, FindLineLocationsRelative.ToArray());
             }
         }
     }

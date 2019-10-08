@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\afterbunny\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\afterbunny\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.-166347473.00" t="ExcludeRecursive" />
-    <e p="C:\Users\afterbunny\RiderProjects\ImageDebugger" t="IncludeFlat">
+    <e p="C:\Users\afterbunny\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.-1259227406.00" t="ExcludeRecursive" />
+    <e p="C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger" t="IncludeFlat">
       <e p="ImageDebugger.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="UI" t="IncludeRecursive">
@@ -17,19 +17,27 @@
         </e>
         <e p="FodyWeavers.xml" t="Include" />
         <e p="Hdevs" t="Include">
-          <e p="I94.cs" t="Include" />
+          <e p="I94Hdev.cs" t="Include" />
         </e>
         <e p="ImageProcessing" t="Include">
+          <e p="CoordinateSolver.cs" t="Include" />
+          <e p="FindLineConfigs.cs" t="Include" />
+          <e p="FindLineFeeding.cs" t="Include" />
+          <e p="FindLineLocation.cs" t="Include" />
+          <e p="FindLineManager.cs" t="Include" />
+          <e p="FindLineParam.cs" t="Include" />
+          <e p="I94TopViewMeasure.cs" t="Include" />
           <e p="IMeasurementProcedure.cs" t="Include" />
+          <e p="Line.cs" t="Include" />
+          <e p="MathUtils.cs" t="Include" />
+          <e p="Point.cs" t="Include" />
         </e>
         <e p="Interfaces" t="Include">
           <e p="IImageProvider.cs" t="Include" />
         </e>
         <e p="MainWindow.xaml" t="Include" />
         <e p="MainWindow.xaml.cs" t="Include" />
-        <e p="Model" t="Include">
-          <e p="FindLineLocation.cs" t="Include" />
-        </e>
+        <e p="Model" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Properties" t="Include">

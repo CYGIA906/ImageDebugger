@@ -20,8 +20,8 @@ namespace UI.ImageProcessing
 
         private List<HImage> _images;
 
-        private HObject _crossesUsed;
-        private HObject _crossesIgnored;
+        private List<HObject> _crossesUsed = new List<HObject>();
+        private List<HObject> _crossesIgnored = new List<HObject>();
 
         private List<HObject> _lineRegions = new List<HObject>();
 
@@ -125,8 +125,12 @@ namespace UI.ImageProcessing
 
 
             // Generate debugging graphics 
-            HOperatorSet.GenCrossContourXld(out _crossesUsed, ysUsed, xsUsed, CrossSize, CrossAngle);
-            HOperatorSet.GenCrossContourXld(out _crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
+            HObject crossesUsed;
+            HOperatorSet.GenCrossContourXld(out crossesUsed, ysUsed, xsUsed, CrossSize, CrossAngle);
+            HObject crossesIgnored;
+            HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
+            _crossesUsed.Add(crossesUsed);
+            _crossesIgnored.Add(crossesIgnored);
             _findLineRects.Add(findLineRegion);
             _lineRegions.Add(lineRegion);
 
@@ -149,10 +153,16 @@ namespace UI.ImageProcessing
             windowHandle.SetDraw("margin");
             windowHandle.SetLineWidth(1);
             windowHandle.SetColor("green");
-            _crossesUsed.DispObj(windowHandle);
+            foreach (var cross in _crossesUsed)
+            {
+                cross.DispObj(windowHandle);
+            }
 
             windowHandle.SetColor("red");
-            _crossesIgnored.DispObj(windowHandle);
+            foreach (var cross in _crossesIgnored)
+            {
+                cross.DispObj(windowHandle);
+            }
 
             windowHandle.SetColor("magenta");
             windowHandle.SetLineWidth(3);
@@ -169,6 +179,8 @@ namespace UI.ImageProcessing
 
             _findLineRects.Clear();
             _lineRegions.Clear();
+            _crossesIgnored.Clear();
+            _crossesUsed.Clear();
         }
 
 
