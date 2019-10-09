@@ -17820,7 +17820,7 @@ public partial class HDevelopExport
       hv_threshValue.Dispose();
       hv_threshValue = 20;
       hv_ignorePortion.Dispose();
-      hv_ignorePortion = 0.2;
+      hv_ignorePortion = 0;
       hv_sigma1.Dispose();
       hv_sigma1 = 1;
       hv_sigma2.Dispose();

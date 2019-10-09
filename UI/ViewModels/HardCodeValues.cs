@@ -143,7 +143,8 @@ namespace UI.ViewModels
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-3", Angle = 180, X = 2241, Y = 1149, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    //95
+                    Name = "17-3", Angle = 180, X = 2241, Y = 1149, Len2 = 60, ImageIndex = 0, Len1 = 20
                 },
                 new FindLineLocation()
                 {

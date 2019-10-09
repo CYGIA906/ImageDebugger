@@ -131,6 +131,7 @@ namespace UI.ViewModels
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
+                
                 using (var fbd = new FolderBrowserDialog())
                 {
              

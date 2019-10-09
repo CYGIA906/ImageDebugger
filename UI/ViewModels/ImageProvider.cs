@@ -81,6 +81,7 @@ namespace UI.ViewModels
             set
             {
                 _imageDirectory = value;
+
                 string[] filePaths = Directory.GetFiles(_imageDirectory);
                 var imagePaths = new List<string>();
 
@@ -162,7 +163,7 @@ namespace UI.ViewModels
 
             var testPrefix = nameToTest.Substring(0, nameToTest.IndexOf(Separator, StringComparison.Ordinal) + 1);
 
-            return allImageNames.Count(ele => ele.Contains(testPrefix));
+            return allImageNames.Count(ele => ele.StartsWith(testPrefix));
         }
 
         /// <summary>
