@@ -11,7 +11,7 @@ namespace UI.ImageProcessing
         [XmlAttribute] public double X { get; set; }
         [XmlAttribute] public double Y { get; set; }
         [XmlAttribute] public double Angle { get; set; }
-        [XmlAttribute] public double Len1 { get; set; } = 10;
+        [XmlAttribute] public double Len1 { get; set; } = 15;
 
         [XmlAttribute] public double Len2 { get; set; }
 

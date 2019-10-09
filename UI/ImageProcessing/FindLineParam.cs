@@ -20,7 +20,7 @@ namespace UI.ImageProcessing
         [XmlAttribute] public double Sigma2 { get; set; } = 1;
         [XmlAttribute] public int CannyLow { get; set; } = 20;
         [XmlAttribute] public int CannyHigh { get; set; } = 40;
-        [XmlAttribute] public bool FirstAttemptOnly { get; set; } = false;
+        [XmlAttribute] public bool FirstAttemptOnly { get; set; } = true;
 
         [XmlAttribute] public bool UsingPair { get; set; } = false;
         [XmlAttribute] public int MinWidth { get; set; }

@@ -123,32 +123,32 @@ namespace UI.ViewModels
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-1", Angle = 180, X = 2451, Y = 3149, Len2 = 95, ImageIndex = 0
+                    Name = "12-1", Angle = 180, X = 2451, Y = 3149, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-2", Angle = 180, X = 2451, Y = 3767, Len2 = 95, ImageIndex = 0
+                    Name = "12-2", Angle = 180, X = 2451, Y = 3767, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-3", Angle = 180, X = 2451, Y = 4300, Len2 = 130, ImageIndex = 0
+                    Name = "12-3", Angle = 180, X = 2451, Y = 4300, Len2 = 130, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-1", Angle = 180, X = 2241, Y = 326, Len2 = 95, ImageIndex = 0
+                    Name = "17-1", Angle = 180, X = 2241, Y = 326, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-2", Angle = 180, X = 2241, Y = 736, Len2 = 95, ImageIndex = 0
+                    Name = "17-2", Angle = 180, X = 2241, Y = 736, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-3", Angle = 180, X = 2241, Y = 1149, Len2 = 95, ImageIndex = 0
+                    Name = "17-3", Angle = 180, X = 2241, Y = 1149, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
                     Angle = 180,
-                    Name = "16", ImageIndex = 0, Len2 = 366, X = 3864.5, Y = 2147.5
+                    Name = "16", ImageIndex = 0, Len2 = 366, X = 3864.5, Y = 2147.5, Len1 = 25
                 },
                 new FindLineLocation()
                 {
@@ -171,7 +171,7 @@ namespace UI.ViewModels
             {
                 new FindLineParam()
                 {
-                    Name = "2-left", UsingPair = true, Polarity = FindLinePolarity.Positive, Threshold = 3,
+                    Name = "2-left", UsingPair = true, Polarity = FindLinePolarity.Positive, Threshold = 2,
                     MinWidth = 1, MaxWidth = 10, FirstAttemptOnly = true, WhichEdge = EdgeSelection.Last
                 },
                 new FindLineParam()
