@@ -15,6 +15,8 @@ namespace UI.ImageProcessing
         /// Fire when the measurement result output is ready but have not been fed back
         /// </summary>
         event Action MeasurementResultReady;
+        
+        string Name { get; }
 
         /// <summary>
         /// Fire after the feed back of measurement result

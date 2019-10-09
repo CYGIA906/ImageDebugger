@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using HalconDotNet;
+using UI.Model;
 
 namespace UI.ViewModels
 {
@@ -11,11 +12,13 @@ namespace UI.ViewModels
     {
                 #region Image Providing Logic
 
+                public string CurrentImageName { get; set; }
+
         /// <summary>
         /// Provide next image
         /// <exception cref="InvalidDataException">When images are all consumed</exception>
         /// </summary>
-        public List<HImage> ImageInputs
+        private List<HImage> ImageInputs
         {
             get
             {
@@ -27,14 +30,22 @@ namespace UI.ViewModels
                 var outputs = new List<HImage>();
                 foreach (var queue in ImageQueues)
                 {
-                    outputs.Add(new HImage(queue.Dequeue()));
+                    var imagePath = queue.Dequeue();
+                    outputs.Add(new HImage(imagePath));
+                    CurrentImageName = GetImageName(imagePath);
                 }
 
+                NumImages = ImageQueues[0].Count;
                 return outputs;
             }
         }
 
-        private bool ImagesRunOut => ImageQueues[0].Count == 0;
+        private string GetImageName(string imagePath)
+        {
+            return Path.GetFileName(imagePath);
+        }
+
+        private bool ImagesRunOut => NumImages == 0;
 
         private bool CountOfQueuesNotEqual
         {
@@ -45,12 +56,12 @@ namespace UI.ViewModels
             }
         }
 
-        public List<Queue<string>> ImageQueues { get; set; } = new List<Queue<string>>();
+        private List<CountAwareQueue<string>> ImageQueues { get; set; } = new List<CountAwareQueue<string>>();
 
         /// <summary>
         /// The number of images available
         /// </summary>
-        public int NumImages => ImageQueues.Count == 0 ? 0 : ImageQueues[0].Count;
+        public int NumImages { get; set; }
 
 
         /// <summary>
@@ -100,8 +111,9 @@ namespace UI.ViewModels
                 if (numImagesInOneGo > 1)
                 {
                     var imageName = Path.GetFileName(path);
-                    var imageIndexString = imageName.Substring(imageName.IndexOf(Separator, StringComparison.Ordinal) + 1,
-                        imageName.Length);
+                    var start = imageName.IndexOf(Separator, StringComparison.Ordinal) + 1;
+                    var length = 1;
+                    var imageIndexString = imageName.Substring(start, length);
                     imageIndex = int.Parse(imageIndexString) - 1;
                 }
 
@@ -110,14 +122,16 @@ namespace UI.ViewModels
 
             if (numImagesInOneGo == 1) return;
 
-            var sortedImageQueues = new List<Queue<string>>();
+            var sortedImageQueues = new List<CountAwareQueue<string>>();
             foreach (var queue in ImageQueues)
             {
-                var orderedQueue = new Queue<string>(queue.OrderBy(Path.GetFileName));
+                var orderedQueue = new CountAwareQueue<string>(queue.OrderBy(Path.GetFileName));
                 sortedImageQueues.Add(orderedQueue);
             }
 
             ImageQueues = sortedImageQueues;
+
+            NumImages = ImageQueues[0].Count;
         }
 
         private void ResetImageQueues(int numImagesInOneGo)
@@ -125,9 +139,12 @@ namespace UI.ViewModels
             ImageQueues.Clear();
             for (int i = 0; i < numImagesInOneGo; i++)
             {
-                ImageQueues.Add(new Queue<string>());
+                ImageQueues.Add(new CountAwareQueue<string>());
             }
+
         }
+
+       
 
         /// <summary>
         /// Determine how many images should be provided within one button hit

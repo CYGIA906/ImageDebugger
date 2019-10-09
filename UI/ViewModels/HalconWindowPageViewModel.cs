@@ -13,6 +13,7 @@ using HalconDotNet;
 using MathNet.Numerics.LinearAlgebra;
 using UI.Commands;
 using UI.ImageProcessing;
+using UI.ImageProcessing.Utilts;
 
 // TODO: add faiitem serialize logic
 namespace UI.ViewModels
@@ -29,7 +30,7 @@ namespace UI.ViewModels
 
         public HObject DisplayImage { get; set; }
 
-        private readonly IMeasurementProcedure measurementUnit = new I94TopViewMeasure();
+        private readonly IMeasurementProcedure MeasurementUnit = new I94TopViewMeasure("I94");
 
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
@@ -39,10 +40,11 @@ namespace UI.ViewModels
 
         public void Process(List<HImage> images)
         {
-            measurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems);
+            MeasurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems);
+            CsvSerializer.Serialize(FaiItems);
         }
 
-
+        public string CsvDir => SerializationDir + "/CSV";
         private void ShowImageAndGraphics(HImage image, HObject graphics)
         {
 //            HOperatorSet.ClearWindow(_windowHandle);
@@ -69,10 +71,14 @@ namespace UI.ViewModels
             }
         }
 
+        public FaiItemCsvSerializer CsvSerializer { get; set; }
 
         public HalconWindowPageViewModel(HWindow windowHandle)
         {
             _windowHandle = windowHandle;
+            
+            CsvSerializer = new FaiItemCsvSerializer(CsvDir);
+            
             // Init fai items
             var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
             FaiItems = faiItemsFromDisk ?? FaiItemHardCodeValues();
@@ -94,8 +100,8 @@ namespace UI.ViewModels
             _findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), findLineLocations);
 
             // Listen for user changes of data grid
-            measurementUnit.MeasurementResultReady += FaiItemsStopListeningToChange;
-            measurementUnit.MeasurementResultPulled += FaiItemsRestartListeningToChange;
+            MeasurementUnit.MeasurementResultReady += FaiItemsStopListeningToChange;
+            MeasurementUnit.MeasurementResultPulled += FaiItemsRestartListeningToChange;
 
 
             // Init commands
@@ -105,6 +111,7 @@ namespace UI.ViewModels
             {
                 using (var fbd = new FolderBrowserDialog())
                 {
+             
                     DialogResult result = fbd.ShowDialog();
 
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
@@ -149,7 +156,7 @@ namespace UI.ViewModels
             }
         }
 
-        public string SerializationDir { get; set; } = Application.StartupPath + "/I94";
+        public string SerializationDir => Application.StartupPath + "/" + MeasurementUnit.Name;
 
         public string FaiItemSerializationDir => SerializationDir + "/FaiItems";
 

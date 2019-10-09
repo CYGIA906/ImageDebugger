@@ -16,6 +16,9 @@ namespace UI.ImageProcessing
         public List<FindLineLocation> FindLineLocationsRelative { get;  set; }
         private CoordinateSolver _solver;
 
+        /// <summary>
+        /// ToDo: refactor this to Update find line locations api
+        /// </summary>
         public CoordinateSolver Solver
         {
             get { return _solver; }
@@ -90,8 +93,9 @@ namespace UI.ImageProcessing
         /// Group find line location and params into something like:
         /// "2-left" + "2-right" = "2"
         /// </summary>
-        private void GenerateFindLineFeedings()
+        public void GenerateFindLineFeedings()
         {
+            FindLineFeedings.Clear();
             foreach (var findLineName in _findLineLocationsAbsDict.Keys)
             {
                 TryAddFindLineFeedings(findLineName);

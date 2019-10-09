@@ -16,6 +16,7 @@ namespace UI.ImageProcessing
         private HTuple _shapeModelHandle;
         public ObservableCollection<FaiItem> FaiItems { get; }
         public event Action MeasurementResultReady;
+        public string Name { get; }
         public event Action MeasurementResultPulled;
 
         public void Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle,
@@ -38,7 +39,10 @@ namespace UI.ImageProcessing
             var yAxis = new Line(xUp.D, yUp.D, xDown.D, yDown.D, true);
 
            var coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
-            // Update absolute find line locations
+           
+           // Sync find line feeding from find line params
+           findLineConfigs.GenerateFindLineFeedings();
+           // Update absolute find line locations
             findLineConfigs.Solver = coordinateSolver;
             // Find lines
             var findLineManager = new FindLineManager(findLineConfigs);
@@ -79,25 +83,25 @@ namespace UI.ImageProcessing
             var lineFai20CenterY = coordinateSolver.TranslateLineInWorldUnit(7.886, xAxis, true);
             
             // Intersections
-            var p2F2 = lineFai2and3P2.Intersect(findLineManager.GetLine("2"));
+            var p2F2 = lineFai2and3P2.Intersect(findLineManager.GetLine("02"));
 
-            var p2F3 = lineFai2and3P2.Intersect(findLineManager.GetLine("3"));
+            var p2F3 = lineFai2and3P2.Intersect(findLineManager.GetLine("03"));
 
-            var p1F4 = lineFai4P1.Intersect((findLineManager.GetLine("4")));
-            var p2F4 = lineFai4P2.Intersect((findLineManager.GetLine("4")));
-            var p3F4 = lineFai4P3.Intersect((findLineManager.GetLine("4")));
+            var p1F4 = lineFai4P1.Intersect((findLineManager.GetLine("04")));
+            var p2F4 = lineFai4P2.Intersect((findLineManager.GetLine("04")));
+            var p3F4 = lineFai4P3.Intersect((findLineManager.GetLine("04")));
             
-            var p1F5 = lineFai5P1.Intersect((findLineManager.GetLine("5")));
-            var p2F5 = lineFai5P2.Intersect((findLineManager.GetLine("5")));
-            var p3F5 = lineFai5P3.Intersect((findLineManager.GetLine("5")));
+            var p1F5 = lineFai5P1.Intersect((findLineManager.GetLine("05")));
+            var p2F5 = lineFai5P2.Intersect((findLineManager.GetLine("05")));
+            var p3F5 = lineFai5P3.Intersect((findLineManager.GetLine("05")));
             
-            var p1F6 = lineFai6P1.Intersect((findLineManager.GetLine("6")));
-            var p2F6 = lineFai6P2.Intersect((findLineManager.GetLine("6")));
-            var p3F6 = lineFai6P3.Intersect((findLineManager.GetLine("6")));
+            var p1F6 = lineFai6P1.Intersect((findLineManager.GetLine("06")));
+            var p2F6 = lineFai6P2.Intersect((findLineManager.GetLine("06")));
+            var p3F6 = lineFai6P3.Intersect((findLineManager.GetLine("06")));
 
-            var p1F9 = lineFai9P1.Intersect((findLineManager.GetLine("9")));
-            var p2F9 = lineFai9P2.Intersect((findLineManager.GetLine("9")));
-            var p3F9 = lineFai9P3.Intersect((findLineManager.GetLine("9")));
+            var p1F9 = lineFai9P1.Intersect((findLineManager.GetLine("09")));
+            var p2F9 = lineFai9P2.Intersect((findLineManager.GetLine("09")));
+            var p3F9 = lineFai9P3.Intersect((findLineManager.GetLine("09")));
             
             var p1F12 = lineFai12P1.Intersect((findLineManager.GetLine("12")));
             var p2F12 = lineFai12P2.Intersect((findLineManager.GetLine("12")));
@@ -228,7 +232,7 @@ namespace UI.ImageProcessing
             // Restart FaiItems auto-serialization
             OnMeasurementResultPulled();
 
-            windowHandle.DispImage(images[0]);
+            windowHandle.DispImage(images[1]);
             findLineManager.DisplayGraphics(windowHandle);
             coordinateSolver.DisplayGraphics(windowHandle);
             Line.DisplayGraphics(windowHandle);
@@ -248,8 +252,9 @@ namespace UI.ImageProcessing
             }
         }
 
-        public I94TopViewMeasure()
+        public I94TopViewMeasure(string name)
         {
+            Name = name;
             ModelPath = "C:/Users/afterbunny/Desktop/Transfer/Xiaojin/Hdevs/ModelTopViewI94";
         }
 

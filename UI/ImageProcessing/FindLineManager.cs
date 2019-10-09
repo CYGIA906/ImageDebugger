@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using HalconDotNet;
@@ -58,7 +59,8 @@ namespace UI.ImageProcessing
                 catch (Exception e)
                 {
                     Console.WriteLine($"Find line failed at {name}\nMessage:{e}");
-                    throw;
+                    MessageBox.Show($"Line {name} not found!");
+                    line = new Line(1,0,2,0);
                 }
 
                 _lines[name] = line;

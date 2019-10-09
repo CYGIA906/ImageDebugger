@@ -44,6 +44,7 @@
         <e p="MainWindow.xaml.cs" t="Include" />
         <e p="Model" t="Include">
           <e p="AutoSerializableBase.cs" t="Include" />
+          <e p="CountAwareQueue.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />

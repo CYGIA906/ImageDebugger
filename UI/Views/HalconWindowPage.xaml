@@ -13,10 +13,7 @@
                 Title="HalconWindowPage"
                 Loaded="HalconWindowPage_OnLoaded">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -32,12 +29,12 @@
         </Grid.ColumnDefinitions>
 
 
-        <halconDotNet:HSmartWindowControlWPF  Name="HalconWindow" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="1">
+        <halconDotNet:HSmartWindowControlWPF  Name="HalconWindow" Grid.Column="0" Panel.ZIndex="1">
                <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}"/>
            </halconDotNet:HSmartWindowControlWPF>
 
            <!-- Find line param LIST -->
-        <Expander  Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="2" Foreground="AliceBlue" FontSize="24"
+        <Expander  Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0" Panel.ZIndex="2" Foreground="AliceBlue" FontSize="24"
                      ExpandDirection="Left">
                <Expander.Header>
                    <TextBlock
@@ -65,9 +62,9 @@
                         Margin="5 5"
                         Command="{Binding SelectImageDirCommand}"
                         Content="Select Image Directory" />
-                <Grid>
+                <Grid Margin="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <materialDesign:Badged BadgeColorZoneMode="PrimaryDark"  Badge="{Binding NumImages}" Grid.Column="0">
@@ -75,17 +72,21 @@
                         <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
                                 Command="{Binding ExecuteCommand}">Next</Button>
                     </materialDesign:Badged>
-                        <ToggleButton Grid.Column="1" 
-                                      Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                                      IsChecked="{Binding RunContinuously}" 
-                                      Command="{Binding ContinuousRunCommand}"/>
+
+                    <materialDesign:Chip Grid.Column="1" 
+                            Content="{Binding CurrentImageName}"
+                            Icon="Z" />
                 </Grid>
 
-                </StackPanel>
+                <ToggleButton 
+                              Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                              IsChecked="{Binding RunContinuously}" 
+                              Command="{Binding ContinuousRunCommand}"/>
+            </StackPanel>
             </Border>
 
             <!-- FAI LIST -->
-        <Expander Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" HorizontalAlignment="Right" Panel.ZIndex="3" FontSize="24"
+        <Expander Grid.Column="0"  Background="Transparent" HorizontalAlignment="Right" Panel.ZIndex="3" FontSize="24" Grid.ColumnSpan="2" Margin="0 150 0 0"
                     ExpandDirection="Left">
                     <Expander.Header>
                         <TextBlock

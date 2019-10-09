@@ -28,6 +28,7 @@ namespace UI.ImageProcessing.Utilts
             var csvLine = string.Join(",", line);
 
             var fileExists = File.Exists(CsvPath);
+            Directory.CreateDirectory(OutputDir);
             var lineToWrite = fileExists ? csvLine : HeaderLine + Environment.NewLine + csvLine;
             using (var fs = new StreamWriter(CsvPath, fileExists))
             {
@@ -37,8 +38,7 @@ namespace UI.ImageProcessing.Utilts
 
         private void InitHeader(IEnumerable<string> names)
         {
-            var list = new List<string>(){"Time"};
-            Header = new List<string>();
+            Header = new List<string>(){"Time"};
             foreach (var name in names)
             {
                 Header.Add(name);
@@ -47,6 +47,6 @@ namespace UI.ImageProcessing.Utilts
 
         public string HeaderLine => string.Join(",", Header);
 
-        public string CsvPath => Path.Combine(OutputDir, DateTime.Today.ToString()) + ".csv";
+        public string CsvPath => Path.Combine(OutputDir, DateTime.Now.ToString("MMdd")) + ".csv";
     }
 }
