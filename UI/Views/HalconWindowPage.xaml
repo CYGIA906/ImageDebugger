@@ -65,11 +65,21 @@
                         Margin="5 5"
                         Command="{Binding SelectImageDirCommand}"
                         Content="Select Image Directory" />
-                    <materialDesign:Badged BadgeColorZoneMode="PrimaryDark" Margin="5" Badge="{Binding NumImages}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:Badged BadgeColorZoneMode="PrimaryDark"  Badge="{Binding NumImages}" Grid.Column="0">
 
                         <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
                                 Command="{Binding ExecuteCommand}">Next</Button>
                     </materialDesign:Badged>
+                        <ToggleButton Grid.Column="1" 
+                                      Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                                      IsChecked="{Binding RunContinuously}" 
+                                      Command="{Binding ContinuousRunCommand}"/>
+                </Grid>
 
                 </StackPanel>
             </Border>

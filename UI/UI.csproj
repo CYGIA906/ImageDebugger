@@ -98,6 +98,7 @@
     <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />
     <Compile Include="ViewModels\FaiItem.cs" />
     <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />
+    <Compile Include="ViewModels\HardCodeValues.cs" />
     <Compile Include="ViewModels\ImageProviderViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\HalconWindowPage.xaml.cs">

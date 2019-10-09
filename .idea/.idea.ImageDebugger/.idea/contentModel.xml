@@ -57,6 +57,7 @@
           <e p="AttachedPropertyOwnerBase.cs" t="Include" />
           <e p="FaiItem.cs" t="Include" />
           <e p="HalconWindowPageViewModel.cs" t="Include" />
+          <e p="HardCodeValues.cs" t="Include" />
           <e p="ImageProviderViewModel.cs" t="Include" />
           <e p="ViewModelBase.cs" t="Include" />
         </e>

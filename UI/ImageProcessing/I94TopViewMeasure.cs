@@ -31,7 +31,6 @@ namespace UI.ImageProcessing
             HTuple xLeft, yLeft, xRight, yRight, xUp, yUp, xDown, yDown;
             // Calculate matrices
 
-            images[0] = new HImage("C:/Users/afterbunny/Desktop/Transfer/Xiaojin/ModelImages/point_extraction_top_view.bmp");
             HalconScripts.I94TopViewChangeBase(images[0], out imageUndistorted, _shapeModelHandle, out changeOfBase,
                 out changeOfBaseInv, out rotationMat, out rotationMatInv, out mapToWorld, out mapToImage, out xLeft,
                 out yLeft, out xRight, out yRight, out xUp, out yUp, out xDown, out yDown);

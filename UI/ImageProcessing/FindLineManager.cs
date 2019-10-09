@@ -50,15 +50,16 @@ namespace UI.ImageProcessing
                 var name = pair.Key;
                 var feeding = pair.Value;
                 var image = _images[feeding.ImageIndex];
-//                try
-//                {
-                 var line = FindLine(image, feeding);
-//                }
-//                catch (Exception e)
-//                {
-//                    Console.WriteLine($"Find line failed at {name}\nMessage:{e}");
-//                    throw;
-//                }
+                Line line;
+                try
+                {
+                  line = FindLine(image, feeding);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Find line failed at {name}\nMessage:{e}");
+                    throw;
+                }
 
                 _lines[name] = line;
             }
@@ -132,7 +133,7 @@ namespace UI.ImageProcessing
             
             HOperatorSet.ConcatObj(_crossesUsed, crossesUsed, out _crossesUsed);
             HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
-            HOperatorSet.ConcatObj(_findLineRects, _findLineRects, out _findLineRects);
+            HOperatorSet.ConcatObj(_findLineRects, findLineRegion, out _findLineRects);
             HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
 
             return new Line(lineX1.D, lineY1.D, lineX2.D, lineY2.D);
@@ -167,6 +168,7 @@ namespace UI.ImageProcessing
             windowHandle.SetColor("magenta");
             windowHandle.SetLineWidth(3);
             _findLineRects.DispObj(windowHandle);
+
             
             windowHandle.SetColor("blue");
             _lineRegions.DispObj(windowHandle);
