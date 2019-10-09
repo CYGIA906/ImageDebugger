@@ -32,7 +32,10 @@ namespace UI.ViewModels
         /// <summary>
         /// Measured value plus bias
         /// </summary>
-         public double ValueBiased => Value + Bias;
+         public double ValueBiased
+        {
+            get { return Value + Bias; }
+        }
 
         /// <summary>
         /// Bias 
@@ -43,14 +46,19 @@ namespace UI.ViewModels
         /// <summary>
         /// Measure result
         /// </summary>
-        public bool Passed => ValueBiased > MinBoundary && ValueBiased < MaxBoundary;
-
+        public bool Passed
+        {
+            get { return ValueBiased > MinBoundary && ValueBiased < MaxBoundary; }
+        }
 
 
         public string SerializationDir;
 
 
-        protected override string GetSerializationPath() => Path.Combine(SerializationDir, Name + ".xml");
+        protected override string GetSerializationPath()
+        {
+            return Path.Combine(SerializationDir, Name + ".xml");
+        }
 
         public FaiItem(string name)
         {

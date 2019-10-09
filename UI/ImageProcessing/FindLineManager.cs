@@ -23,26 +23,26 @@ namespace UI.ImageProcessing
 
         public HObject CrossesUsed
         {
-            get => _crossesUsed;
-            set => _crossesUsed = value;
+            get { return _crossesUsed; }
+            set { _crossesUsed = value; }
         }
 
         public HObject CrossesIgnored
         {
-            get => _crossesIgnored;
-            set => _crossesIgnored = value;
+            get { return _crossesIgnored; }
+            set { _crossesIgnored = value; }
         }
 
-        public HObject LineRegions    
+        public HObject LineRegions
         {
-            get => _lineRegions;
-            set => _lineRegions = value;
+            get { return _lineRegions; }
+            set { _lineRegions = value; }
         }
 
-        public HObject FindLineRects    
+        public HObject FindLineRects
         {
-            get => _findLineRects;
-            set => _findLineRects = value;
+            get { return _findLineRects; }
+            set { _findLineRects = value; }
         }
 
 

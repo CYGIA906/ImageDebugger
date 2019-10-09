@@ -32,7 +32,10 @@ namespace UI.ImageProcessing
         [XmlAttribute]
         public int NumSubRects { get; set; } = 10;
 
-        protected override string GetSerializationPath() => Path.Combine(SerializationDir, Name + ".xml");
+        protected override string GetSerializationPath()
+        {
+            return Path.Combine(SerializationDir, Name + ".xml");
+        }
 
         public string SerializationDir;
     }

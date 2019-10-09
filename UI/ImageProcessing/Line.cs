@@ -86,7 +86,10 @@ namespace UI.ImageProcessing
 
         public static double Epslon { get; set; } = 0.001;
 
-        public bool IsVertical => Math.Abs(Angle) - 90 < Epslon;
+        public bool IsVertical
+        {
+            get { return Math.Abs(Angle) - 90 < Epslon; }
+        }
 
         public bool IsVisible
         {

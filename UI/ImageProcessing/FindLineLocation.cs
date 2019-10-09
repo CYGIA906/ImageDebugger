@@ -20,7 +20,10 @@ namespace UI.ImageProcessing
         /// </summary>
         [XmlAttribute] public int ImageIndex { get; set; }
 
-        public string IsVertical => (180 - Math.Abs(Angle) < 10 || Math.Abs(Angle) < 10) ? "true" : "false";
+        public string IsVertical
+        {
+            get { return (180 - Math.Abs(Angle) < 10 || Math.Abs(Angle) < 10) ? "true" : "false"; }
+        }
 
 
         public interface IFindLineLocations

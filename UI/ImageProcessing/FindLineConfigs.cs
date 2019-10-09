@@ -50,11 +50,15 @@ namespace UI.ImageProcessing
 
         public string LocationsSerializeName { get; set; }
 
-        public string ParamsPath => Path.Combine(SerializeDir, ParamsSerializeName + ".xml");
+        public string ParamsPath
+        {
+            get { return Path.Combine(SerializeDir, ParamsSerializeName + ".xml"); }
+        }
 
-        public string LocationsPath => Path.Combine(SerializeDir, LocationsSerializeName + ".xml");
-
-   
+        public string LocationsPath
+        {
+            get { return Path.Combine(SerializeDir, LocationsSerializeName + ".xml"); }
+        }
 
 
         /// <summary>

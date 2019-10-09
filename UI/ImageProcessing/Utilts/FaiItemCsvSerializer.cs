@@ -45,8 +45,14 @@ namespace UI.ImageProcessing.Utilts
             }
         }
 
-        public string HeaderLine => string.Join(",", Header);
+        public string HeaderLine
+        {
+            get { return string.Join(",", Header); }
+        }
 
-        public string CsvPath => Path.Combine(OutputDir, DateTime.Now.ToString("MMdd")) + ".csv";
+        public string CsvPath
+        {
+            get { return Path.Combine(OutputDir, DateTime.Now.ToString("MMdd")) + ".csv"; }
+        }
     }
 }

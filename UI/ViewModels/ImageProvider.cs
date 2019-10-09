@@ -45,7 +45,10 @@ namespace UI.ViewModels
             return Path.GetFileName(imagePath);
         }
 
-        private bool ImagesRunOut => NumImages == 0;
+        private bool ImagesRunOut
+        {
+            get { return NumImages == 0; }
+        }
 
         private bool CountOfQueuesNotEqual
         {

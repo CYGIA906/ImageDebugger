@@ -37,7 +37,10 @@ namespace UI.ViewModels
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
 
-        public string ParamSerializationBaseDir => SerializationDir + "/FindLineParams";
+        public string ParamSerializationBaseDir
+        {
+            get { return SerializationDir + "/FindLineParams"; }
+        }
 
 
         public async Task Process(List<HImage> images)
@@ -68,7 +71,11 @@ namespace UI.ViewModels
             FaiItemsRestartListeningToChange();
         }
 
-        public string CsvDir => SerializationDir + "/CSV";
+        public string CsvDir
+        {
+            get { return SerializationDir + "/CSV"; }
+        }
+
         private void ShowImageAndGraphics(HImage image, HObject graphics)
         {
 //            HOperatorSet.ClearWindow(_windowHandle);
@@ -182,9 +189,15 @@ namespace UI.ViewModels
             }
         }
 
-        public string SerializationDir => Application.StartupPath + "/" + MeasurementUnit.Name;
+        public string SerializationDir
+        {
+            get { return Application.StartupPath + "/" + MeasurementUnit.Name; }
+        }
 
-        public string FaiItemSerializationDir => SerializationDir + "/FaiItems";
+        public string FaiItemSerializationDir
+        {
+            get { return SerializationDir + "/FaiItems"; }
+        }
 
 
         private ObservableCollection<FaiItem> TryLoadFaiItemsFromDisk()
