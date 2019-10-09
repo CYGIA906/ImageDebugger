@@ -28,7 +28,7 @@ namespace UI.ImageProcessing.Utilts
             var csvLine = string.Join(",", line);
 
             var fileExists = File.Exists(CsvPath);
-            var lineToWrite = fileExists ? csvLine : HeaderLine;
+            var lineToWrite = fileExists ? csvLine : HeaderLine + Environment.NewLine + csvLine;
             using (var fs = new StreamWriter(CsvPath, fileExists))
             {
                 fs.WriteLine(lineToWrite);
@@ -47,6 +47,6 @@ namespace UI.ImageProcessing.Utilts
 
         public string HeaderLine => string.Join(",", Header);
 
-        public string CsvPath => Path.Combine(OutputDir, DateTime.Today.ToString());
+        public string CsvPath => Path.Combine(OutputDir, DateTime.Today.ToString()) + ".csv";
     }
 }

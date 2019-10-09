@@ -4,10 +4,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using HalconDotNet;
+using MathNet.Numerics.LinearAlgebra;
 using UI.Commands;
 using UI.ImageProcessing;
 
@@ -19,7 +22,7 @@ namespace UI.ViewModels
         public ObservableCollection<FaiItem> FaiItems { get; private set; }
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
-        
+
         private HWindow _windowHandle;
 
         private FindLineConfigs _findLineConfigs;
@@ -29,9 +32,8 @@ namespace UI.ViewModels
         private readonly IMeasurementProcedure measurementUnit = new I94TopViewMeasure();
 
         public ICommand ExecuteCommand { get; }
-        
-        public string ParamSerializationBaseDir => SerializationDir +  "/FindLineParams"; 
 
+        public string ParamSerializationBaseDir => SerializationDir + "/FindLineParams";
 
 
         public void Process(List<HImage> images)
@@ -98,19 +100,10 @@ namespace UI.ViewModels
             // Init commands
             ExecuteCommand = new RelayCommand(() =>
             {
-                string imagePath;
-                try
-                {
-                    imagePath = _imagePaths.Dequeue();
-                }
-                catch (InvalidOperationException e)
-                {
-                    MessageBox.Show("Images all gone.");
-//                    return;
-                }
-
-                var image = new HImage();
-                Process(new List<HImage>() {image});
+                var inputs = ImageInputs;
+                if (inputs == null) return;
+                
+                Process(inputs);
             });
 
             SelectImageDirCommand = new RelayCommand(() =>
@@ -125,7 +118,6 @@ namespace UI.ViewModels
                     }
                 }
             });
-
         }
 
         private void FaiItemsRestartListeningToChange()
@@ -147,7 +139,6 @@ namespace UI.ViewModels
         public string SerializationDir { get; set; } = Application.StartupPath + "/I94";
 
         public string FaiItemSerializationDir => SerializationDir + "/FaiItems";
-
 
 
         private ObservableCollection<FaiItem> TryLoadFaiItemsFromDisk()
@@ -172,6 +163,7 @@ namespace UI.ViewModels
             {
                 item.ResumeAutoSerialization();
             }
+
             return outputs;
         }
 
@@ -198,6 +190,7 @@ namespace UI.ViewModels
             {
                 item.ResumeAutoSerialization();
             }
+
             return outputs;
         }
 
@@ -362,7 +355,7 @@ namespace UI.ViewModels
 
         private ObservableCollection<FindLineParam> FindLineParamsHardCodeValues()
         {
-            var outputs =  new ObservableCollection<FindLineParam>()
+            var outputs = new ObservableCollection<FindLineParam>()
             {
                 new FindLineParam()
                 {
@@ -466,10 +459,9 @@ namespace UI.ViewModels
             {
                 param.SerializationDir = ParamSerializationBaseDir;
             }
-            
+
             return outputs;
         }
-        
 
         #endregion
 
@@ -479,18 +471,41 @@ namespace UI.ViewModels
         /// Provide next image
         /// <exception cref="InvalidDataException">When images are all consumed</exception>
         /// </summary>
-        public string NextImage => NumImages == 0 ? string.Empty : _imagePaths.Dequeue();
+        public List<HImage> ImageInputs {
+            get
+            {
+                if (CountOfQueuesNotEqual)
+                    throw new InvalidOperationException("Image queues do not agree on their counts");
 
+                if (ImagesRunOut) return null;
+                
+                var outputs = new List<HImage>();
+                foreach (var queue in ImageQueues)
+                {
+                    outputs.Add(new HImage(queue.Dequeue()));
+                }
+
+                return outputs;
+            }}
+
+        private bool ImagesRunOut => ImageQueues[0].Count == 0;
+
+        private bool CountOfQueuesNotEqual
+        {
+            get
+            {
+                var countOfFirstQueue = ImageQueues[0].Count;
+                return ImageQueues.Any(ele => ele.Count != countOfFirstQueue);
+            }
+        }
+
+        public List<Queue<string>> ImageQueues { get; set; } = new List<Queue<string>>();
 
         /// <summary>
         /// The number of images available
         /// </summary>
-        public int NumImages => _imagePaths.Count;
+        public int NumImages => ImageQueues[0]?.Count ?? 0;
 
-        /// <summary>
-        /// Image paths to be read
-        /// </summary>
-        private Queue<string> _imagePaths = new Queue<string>();
 
         /// <summary>
         /// Known list of image extensions to filter non-image files
@@ -499,26 +514,89 @@ namespace UI.ViewModels
             {".JPG", ".JPE", ".BMP", ".TIF", ".PNG"};
 
         private string _imageDirectory;
-
+        
         /// <summary>
         /// Directory to images 
         /// </summary>
-        public string ImageDirectory
+        private string ImageDirectory
         {
             get { return _imageDirectory; }
             set
             {
                 _imageDirectory = value;
-                string[] imagePaths = Directory.GetFiles(_imageDirectory);
+                string[] filePaths = Directory.GetFiles(_imageDirectory);
+                var imagePaths = new List<string>();
 
-                foreach (var imagePath in imagePaths)
+                foreach (var imagePath in filePaths)
                 {
                     if (IsImageFile(imagePath))
                     {
-                        _imagePaths.Enqueue(imagePath);
+                        imagePaths.Add(imagePath);
                     }
                 }
+
+                QueueUpImages(imagePaths);
             }
+        }
+
+        private void QueueUpImages(List<string> imagePaths)
+        {
+            int numImagesInOneGo = GetNumImagesInOneGo(imagePaths);
+            ResetImageQueues(numImagesInOneGo);
+
+           
+                foreach (var path in imagePaths)
+                {
+                    int imageIndex = 0;
+                    
+                    if (numImagesInOneGo > 1)
+                    {
+                        var imageName = Path.GetFileName(path);
+                        var imageIndexString = imageName.Substring(imageName.IndexOf("_", StringComparison.Ordinal) + 1, imageName.Length); 
+                        imageIndex = int.Parse(imageIndexString) - 1;
+                    }
+                    
+                    ImageQueues[imageIndex].Enqueue(path);
+                }
+
+                if (numImagesInOneGo == 1) return;
+
+                var sortedImageQueues = new List<Queue<string>>();
+                foreach (var queue in ImageQueues)
+                {
+                    var orderedQueue = new Queue<string>(queue.OrderBy(Path.GetFileName));
+                    sortedImageQueues.Add(orderedQueue);
+                }
+
+                ImageQueues = sortedImageQueues;
+        }
+
+        private void ResetImageQueues(int numImagesInOneGo)
+        {
+            ImageQueues.Clear();
+            for (int i = 0; i < numImagesInOneGo; i++)
+            {
+                ImageQueues.Add(new Queue<string>());
+            }
+        }
+
+        /// <summary>
+        /// Determine how many images should be provided within one button hit
+        /// </summary>
+        /// <param name="imagePaths"></param>
+        /// <returns></returns>
+        private int GetNumImagesInOneGo(List<string> imagePaths)
+        {
+            var allImageNames = imagePaths.Select(Path.GetFileName);
+            var nameToTest = imagePaths[0];
+            
+            // Naming convention: images belong to the same group will have the same prefix
+            // for example: 02_1 and 02_2 have the same prefix 02_
+            if (!nameToTest.Contains("_")) return 1;
+
+            var testPrefix = nameToTest.Substring(0, nameToTest.IndexOf("_", StringComparison.Ordinal) + 1);
+
+            return allImageNames.Count(ele => ele.Contains(testPrefix));
         }
 
         /// <summary>
