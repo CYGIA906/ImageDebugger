@@ -21,17 +21,39 @@ namespace UI.ImageProcessing
 
         private List<HImage> _images;
 
-        private HObject _crossesUsed = new HObject();
-        private HObject _crossesIgnored = new HObject();
+        public HObject CrossesUsed
+        {
+            get => _crossesUsed;
+            set => _crossesUsed = value;
+        }
 
-        private HObject _lineRegions = new HObject();
+        public HObject CrossesIgnored
+        {
+            get => _crossesIgnored;
+            set => _crossesIgnored = value;
+        }
 
-        private HObject _findLineRects = new HObject();
+        public HObject LineRegions    
+        {
+            get => _lineRegions;
+            set => _lineRegions = value;
+        }
+
+        public HObject FindLineRects    
+        {
+            get => _findLineRects;
+            set => _findLineRects = value;
+        }
+
 
         private Dictionary<string, Line> _lines = new Dictionary<string, Line>();
 
         private int _width = 5120;
         private int _height = 5120;
+        private HObject _crossesIgnored = new HObject();
+        private HObject _crossesUsed = new HObject();
+        private HObject _findLineRects = new HObject();
+        private HObject _lineRegions = new HObject();
 
         private static HDevelopExport HalconScripts = new HDevelopExport();
 
@@ -150,31 +172,12 @@ namespace UI.ImageProcessing
         public FindLineManager(FindLineConfigs findLineConfigs)
         {
             _findLineConfigs = findLineConfigs;
-            _crossesIgnored.GenEmptyObj();
-            _crossesUsed.GenEmptyObj();
-            _lineRegions.GenEmptyObj();
-            _findLineRects.GenEmptyObj();
+            CrossesIgnored.GenEmptyObj();
+            CrossesUsed.GenEmptyObj();
+            LineRegions.GenEmptyObj();
+            FindLineRects.GenEmptyObj();
         }
-
-        public void DisplayGraphics(HWindow windowHandle)
-        {
-            windowHandle.SetDraw("margin");
-            windowHandle.SetLineWidth(1);
-            windowHandle.SetColor("green");
-                _crossesUsed.DispObj(windowHandle);
-            
-
-            windowHandle.SetColor("red");
-            _crossesIgnored.DispObj(windowHandle);
-
-            windowHandle.SetColor("magenta");
-            windowHandle.SetLineWidth(3);
-            _findLineRects.DispObj(windowHandle);
-
-            
-            windowHandle.SetColor("blue");
-            _lineRegions.DispObj(windowHandle);
-        }
+        
 
 
         public int CrossSize { get; set; } = 100;

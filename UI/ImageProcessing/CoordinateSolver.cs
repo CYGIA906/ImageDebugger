@@ -12,8 +12,8 @@ namespace UI.ImageProcessing
     {
         private HTuple _changeOfBase, _changeOfBaseInv, _rotationMat, _rotationMatInv, _mapToWorld, _mapToImage;
         private static HDevelopExport HalconScripts = new HDevelopExport();
-        private List<Line> _pointLineDistanceGraphics = new List<Line>();
-        private List<Line> _pointPointDistanceGraphics = new List<Line>();
+        public List<Line> PointLineDistanceGraphics { get; } = new List<Line>();
+        public List<Line> PointPointDistanceGraphics { get; } = new List<Line>();
 
         public CoordinateSolver(HTuple changeOfBase, HTuple changeOfBaseInv, HTuple rotationMat, HTuple rotationMatInv,
             HTuple mapToWorld, HTuple mapToImage)
@@ -50,51 +50,18 @@ namespace UI.ImageProcessing
                 HTuple xIntersect, yIntersect;
                 HalconScripts.get_perpendicular_line_that_passes(line.XStart, line.YStart, line.XEnd, line.YEnd, x, y,
                     out xIntersect, out yIntersect);
-                _pointLineDistanceGraphics.Add(new Line(x, y, xIntersect.D, yIntersect.D));
+                PointLineDistanceGraphics.Add(new Line(x, y, xIntersect.D, yIntersect.D));
             }
 
             return distanceWorld.D;
         }
         
 
-        public void DisplayGraphics(HWindow windowHandle)
-        {
-            DisplayPointLineDistanceGraphics(windowHandle);
-            DisplayPointPointDistanceGraphics(windowHandle);
-        }
-
-        private void DisplayPointPointDistanceGraphics(HWindow windowHandle)
-        {
-            windowHandle.SetColor("orange");
-            windowHandle.SetDraw("fill");
-
-            HObject draw = new HObject();
-            draw.GenEmptyObj();
-            foreach (var line in _pointPointDistanceGraphics)
-            {
-                HObject circle1, circle2, lineSeg;
-                HOperatorSet.GenCircle(out circle1, line.YStart, line.XStart, EndPointRadius);
-                HOperatorSet.GenCircle(out circle2, line.YEnd, line.XEnd, EndPointRadius);
-                HOperatorSet.GenRegionLine(out lineSeg, line.YStart, line.XStart, line.YEnd, line.XEnd);
-                draw = HalconHelper.ConcateAll(draw, circle1, circle2, lineSeg);
-            }
-
-            windowHandle.DispObj(draw);
-            windowHandle.SetDraw("margin");
-        }
+      
 
         public double EndPointRadius { get; set; } = 10;
 
-        private void DisplayPointLineDistanceGraphics(HWindow windowHandle)
-        {
-            windowHandle.SetColor("cyan");
-            windowHandle.SetLineWidth(1);
-            foreach (var line in _pointLineDistanceGraphics)
-            {
-                windowHandle.DispArrow(line.YStart, line.XStart, line.YEnd, line.XEnd, ArrowSize);
-            }
-            
-        }
+ 
 
         public static double ArrowSize { get; set; } = 10;
 
@@ -152,7 +119,7 @@ namespace UI.ImageProcessing
             HalconScripts.DistanceInWorld_PP(pointA.Y, pointA.X, pointB.Y, pointB.X, _mapToWorld, out distance);
             if (display)
             {
-                _pointPointDistanceGraphics.Add(new Line(pointA.X, pointA.Y, pointB.X, pointB.Y));
+                PointPointDistanceGraphics.Add(new Line(pointA.X, pointA.Y, pointB.X, pointB.Y));
             }
 
             return distance.D;

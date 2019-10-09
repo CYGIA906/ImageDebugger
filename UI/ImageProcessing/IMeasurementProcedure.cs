@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using HalconDotNet;
+using UI.Model;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing
@@ -23,8 +24,8 @@ namespace UI.ImageProcessing
         /// </summary>
         event Action MeasurementResultPulled;
 
-        void Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle9,
-            ObservableCollection<FaiItem> faiItems);
+        Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle9,
+            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics);
 
     }
 }

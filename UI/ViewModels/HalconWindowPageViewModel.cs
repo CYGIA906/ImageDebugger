@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -14,6 +15,7 @@ using MathNet.Numerics.LinearAlgebra;
 using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
+using UI.Model;
 
 // TODO: add faiitem serialize logic
 namespace UI.ViewModels
@@ -38,10 +40,32 @@ namespace UI.ViewModels
         public string ParamSerializationBaseDir => SerializationDir + "/FindLineParams";
 
 
-        public void Process(List<HImage> images)
+        public async Task Process(List<HImage> images)
         {
-            MeasurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems);
+            HalconGraphics graphics = new HalconGraphics();
+            Dictionary<string, double> results = new Dictionary<string, double>();
+            await Task.Run((() =>
+            {
+             results =  MeasurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems, out graphics);
+            }));
+            
+            
+            
             CsvSerializer.Serialize(FaiItems);
+            graphics.DisplayGraphics(_windowHandle);
+            UpdateFaiItems(results);
+        }
+
+        private void UpdateFaiItems(Dictionary<string,double> results)
+        {
+            FaiItemsStopListeningToChange();
+
+            foreach (var item in FaiItems)
+            {
+                item.Value = results[item.Name];
+            }
+            
+            FaiItemsRestartListeningToChange();
         }
 
         public string CsvDir => SerializationDir + "/CSV";
@@ -99,13 +123,11 @@ namespace UI.ViewModels
             var findLineLocations = FindLineLocationHardCodeValues();
             _findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), findLineLocations);
 
-            // Listen for user changes of data grid
-            MeasurementUnit.MeasurementResultReady += FaiItemsStopListeningToChange;
-            MeasurementUnit.MeasurementResultPulled += FaiItemsRestartListeningToChange;
+            
 
 
             // Init commands
-            ExecuteCommand = new RelayCommand(() => { ProcessOnce(); });
+            ExecuteCommand = new RelayCommand(async () => { await ProcessOnce(); });
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
@@ -121,24 +143,27 @@ namespace UI.ViewModels
                 }
             });
 
-            ContinuousRunCommand = new RelayCommand(() =>
+            ContinuousRunCommand = new RelayCommand(async () =>
             {
-                while (RunContinuously)
+                while (!ImagesRunOut)
                 {
-                    ProcessOnce();
+                   await ProcessOnce();
                 }
+
+                MultipleImagesRunning = false;
             });
         }
 
-        private void ProcessOnce()
+        public bool MultipleImagesRunning { get; set; }
+
+        private async Task ProcessOnce()
         {
             var inputs = ImageInputs;
             if (inputs == null) return;
 
-            Process(inputs);
+            await Process(inputs);
         }
 
-        public bool RunContinuously { get; set; } = false;
 
         private void FaiItemsRestartListeningToChange()
         {

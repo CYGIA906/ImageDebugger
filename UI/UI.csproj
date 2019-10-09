@@ -96,6 +96,7 @@
     <Compile Include="ImageProcessing\FindLineLocation.cs" />
     <Compile Include="Model\AutoSerializableBase.cs" />
     <Compile Include="Model\CountAwareQueue.cs" />
+    <Compile Include="Model\HalconGraphics.cs" />
     <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />
     <Compile Include="ViewModels\FaiItem.cs" />
     <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />

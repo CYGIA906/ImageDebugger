@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms.VisualStyles;
 using HalconDotNet;
 using UI.ImageProcessing.Utilts;
+using UI.Model;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing
@@ -19,8 +20,9 @@ namespace UI.ImageProcessing
         public string Name { get; }
         public event Action MeasurementResultPulled;
 
-        public void Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle,
-            ObservableCollection<FaiItem> faiItems)
+        public Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
+            HWindow windowHandle,
+            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics)
         {
             HObject imageUndistorted;
             HTuple changeOfBase;
@@ -189,56 +191,65 @@ namespace UI.ImageProcessing
 
 
             // outputs
+            var outputs = new Dictionary<string, double>();
             
             //Stop auto-serialization of FaiItems
             OnMeasurementResultReady();
             
-            faiItems.ByName("02_2").Value = valueF2P2;
+            outputs["02_2"] = valueF2P2;
             
-            faiItems.ByName("03_2").Value = valueF3P2;
+            outputs["03_2"] = valueF3P2;
 
-            faiItems.ByName("04_1").Value = valueF4P1;
-            faiItems.ByName("04_2").Value = valueF4P2;
-            faiItems.ByName("04_3").Value = valueF4P3;
+            outputs["04_1"] = valueF4P1;
+            outputs["04_2"] = valueF4P2;
+            outputs["04_3"] = valueF4P3;
             
-            faiItems.ByName("05_1").Value = valueF5P1;
-            faiItems.ByName("05_2").Value = valueF5P2;
-            faiItems.ByName("05_3").Value = valueF5P3;
+            outputs["05_1"] = valueF5P1;
+            outputs["05_2"] = valueF5P2;
+            outputs["05_3"] = valueF5P3;
             
-            faiItems.ByName("06_1").Value = valueF6P1;
-            faiItems.ByName("06_2").Value = valueF6P2;
-            faiItems.ByName("06_3").Value = valueF6P3;
+            outputs["06_1"] = valueF6P1;
+            outputs["06_2"] = valueF6P2;
+            outputs["06_3"] = valueF6P3;
             
-            faiItems.ByName("09_1").Value = valueF9P1;
-            faiItems.ByName("09_2").Value = valueF9P2;
-            faiItems.ByName("09_3").Value = valueF9P3;
+            outputs["09_1"] = valueF9P1;
+            outputs["09_2"] = valueF9P2;
+            outputs["09_3"] = valueF9P3;
             
-            faiItems.ByName("12_1").Value = valueF12P1;
-            faiItems.ByName("12_2").Value = valueF12P2;
+            outputs["12_1"] = valueF12P1;
+            outputs["12_2"] = valueF12P2;
 
-            faiItems.ByName("16_1").Value = valueF16P1;
-            faiItems.ByName("16_2").Value = valueF16P2;
+            outputs["16_1"] = valueF16P1;
+            outputs["16_2"] = valueF16P2;
 
-            faiItems.ByName("17_1").Value = valueF17P1;
-            faiItems.ByName("17_2").Value = valueF17P2;
+            outputs["17_1"] = valueF17P1;
+            outputs["17_2"] = valueF17P2;
 
-            faiItems.ByName("19_1").Value = valueF19P1;
-            faiItems.ByName("19_2").Value = valueF19P2;
+            outputs["19_1"] = valueF19P1;
+            outputs["19_2"] = valueF19P2;
 
-            faiItems.ByName("20_1").Value = valueF20P1;
+            outputs["20_1"] = valueF20P1;
 
-            faiItems.ByName("20_2").Value = valueF20P2;     
-            
-            // Restart FaiItems auto-serialization
-            OnMeasurementResultPulled();
+            outputs["20_2"] = valueF20P2;     
+
 
             windowHandle.DispImage(images[1]);
-            findLineManager.DisplayGraphics(windowHandle);
-            coordinateSolver.DisplayGraphics(windowHandle);
-            Line.DisplayGraphics(windowHandle);
-            windowHandle.SetColored(3);
-            windowHandle.SetPart(0,0,5120,5120);
+            
+             graphics = new HalconGraphics()
+             {
+                 CrossesIgnored = findLineManager.CrossesIgnored,
+                 CrossesUsed = findLineManager.CrossesUsed,
+                 FindLineRects = findLineManager.FindLineRects,
+                 LineRegions = findLineManager.LineRegions,
+                 PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
+                 PointLineGraphics = coordinateSolver.PointLineDistanceGraphics, 
+                 Image = images[1]
+             };
+
+            return outputs;
         }
+
+
         /// <summary>
         /// Path to the shape model in disk
         /// </summary>

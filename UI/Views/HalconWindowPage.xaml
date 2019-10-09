@@ -80,7 +80,7 @@
 
                 <ToggleButton 
                               Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
-                              IsChecked="{Binding RunContinuously}" 
+                              IsChecked="{Binding MultipleImagesRunning}" 
                               Command="{Binding ContinuousRunCommand}"/>
             </StackPanel>
             </Border>
