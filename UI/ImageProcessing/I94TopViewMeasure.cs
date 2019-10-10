@@ -241,7 +241,7 @@ namespace UI.ImageProcessing
                  LineRegions = findLineManager.LineRegions,
                  PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
                  PointLineGraphics = coordinateSolver.PointLineDistanceGraphics, 
-                 Image = images[1]
+                 Image = images[0]
              };
 
             return outputs;
@@ -264,7 +264,7 @@ namespace UI.ImageProcessing
         public I94TopViewMeasure(string name)
         {
             Name = name;
-            ModelPath = "C:/Users/afterbunny/Desktop/Transfer/Xiaojin/Hdevs/ModelTopViewI94";
+            ModelPath = "./ModelTopViewI94";
         }
 
 
