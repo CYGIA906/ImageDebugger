@@ -971,7 +971,8 @@ public partial class HDevelopExport
       HTuple hv_threshold, HTuple hv_sigma1, HTuple hv_sigma2, HTuple hv_firstOrLast, 
       HTuple hv_widthRatio, HTuple hv_ignoreFraction, HTuple hv_newWidth, HTuple hv_cannyLow, 
       HTuple hv_cannyHigh, out HTuple hv_lineX1, out HTuple hv_lineY1, out HTuple hv_lineX2, 
-      out HTuple hv_lineY2)
+      out HTuple hv_lineY2, out HTuple hv_XsUsed, out HTuple hv_YsUsed, out HTuple hv_XsIgnored, 
+      out HTuple hv_YsIgnored)
   {
 
 
@@ -984,8 +985,6 @@ public partial class HDevelopExport
     // Local control variables 
 
     HTuple hv_Xs = new HTuple(), hv_Ys = new HTuple();
-    HTuple hv_XsUsed = new HTuple(), hv_YsUsed = new HTuple();
-    HTuple hv_XsIgnored = new HTuple(), hv_YsIgnored = new HTuple();
     HTuple hv_contourLength = new HTuple(), hv_minLength = new HTuple();
     HTuple hv_Nr = new HTuple(), hv_Nc = new HTuple(), hv_Dist = new HTuple();
     // Initialize local and output iconic variables 
@@ -999,6 +998,10 @@ public partial class HDevelopExport
     hv_lineY1 = new HTuple();
     hv_lineX2 = new HTuple();
     hv_lineY2 = new HTuple();
+    hv_XsUsed = new HTuple();
+    hv_YsUsed = new HTuple();
+    hv_XsIgnored = new HTuple();
+    hv_YsIgnored = new HTuple();
     try
     {
 
@@ -1055,10 +1058,6 @@ public partial class HDevelopExport
 
       hv_Xs.Dispose();
       hv_Ys.Dispose();
-      hv_XsUsed.Dispose();
-      hv_YsUsed.Dispose();
-      hv_XsIgnored.Dispose();
-      hv_YsIgnored.Dispose();
       hv_contourLength.Dispose();
       hv_minLength.Dispose();
       hv_Nr.Dispose();
@@ -1075,10 +1074,6 @@ public partial class HDevelopExport
 
       hv_Xs.Dispose();
       hv_Ys.Dispose();
-      hv_XsUsed.Dispose();
-      hv_YsUsed.Dispose();
-      hv_XsIgnored.Dispose();
-      hv_YsIgnored.Dispose();
       hv_contourLength.Dispose();
       hv_minLength.Dispose();
       hv_Nr.Dispose();
@@ -3155,7 +3150,9 @@ public partial class HDevelopExport
     HTuple hv_rectRadian = new HTuple(), hv_rectLen1 = new HTuple();
     HTuple hv_rectLen2 = new HTuple(), hv_lineX1_FAI23_TOP = new HTuple();
     HTuple hv_lineY1_FAI23_TOP = new HTuple(), hv_lineX2_FAI23_TOP = new HTuple();
-    HTuple hv_lineY2_FAI23_TOP = new HTuple(), hv_rect1X1 = new HTuple();
+    HTuple hv_lineY2_FAI23_TOP = new HTuple(), hv_XsUsed = new HTuple();
+    HTuple hv_YsUsed = new HTuple(), hv_XsIgnored = new HTuple();
+    HTuple hv_YsIgnored = new HTuple(), hv_rect1X1 = new HTuple();
     HTuple hv_rect1Y1 = new HTuple(), hv_rect1Radian = new HTuple();
     HTuple hv_rect1Len1 = new HTuple(), hv_rect1Len2 = new HTuple();
     HTuple hv_rect2X1 = new HTuple(), hv_rect2Y1 = new HTuple();
@@ -4441,12 +4438,13 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'false', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, lineX1_FAI23_TOP, lineY1_FAI23_TOP, lineX2_FAI23_TOP, lineY2_FAI23_TOP, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
-      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();ho_lineContours.Dispose();hv_lineX1_FAI23_TOP.Dispose();hv_lineY1_FAI23_TOP.Dispose();hv_lineX2_FAI23_TOP.Dispose();hv_lineY2_FAI23_TOP.Dispose();
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();ho_lineContours.Dispose();hv_lineX1_FAI23_TOP.Dispose();hv_lineY1_FAI23_TOP.Dispose();hv_lineX2_FAI23_TOP.Dispose();hv_lineY2_FAI23_TOP.Dispose();hv_XsUsed.Dispose();hv_YsUsed.Dispose();hv_XsIgnored.Dispose();hv_YsIgnored.Dispose();
       FindLineAdaptiveSingle(ho_Image_COPY_INP_TMP, out ho_findLineRegion, out ho_lineRegion, 
           out ho_lineContours, hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
           hv_rectLen2, 10, "positive", 20, 2, 2, "first", 0.8, 0.2, hv_newWidth, 
           20, 40, out hv_lineX1_FAI23_TOP, out hv_lineY1_FAI23_TOP, out hv_lineX2_FAI23_TOP, 
-          out hv_lineY2_FAI23_TOP);
+          out hv_lineY2_FAI23_TOP, out hv_XsUsed, out hv_YsUsed, out hv_XsIgnored, 
+          out hv_YsIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -8008,6 +8006,10 @@ public partial class HDevelopExport
       hv_lineY1_FAI23_TOP.Dispose();
       hv_lineX2_FAI23_TOP.Dispose();
       hv_lineY2_FAI23_TOP.Dispose();
+      hv_XsUsed.Dispose();
+      hv_YsUsed.Dispose();
+      hv_XsIgnored.Dispose();
+      hv_YsIgnored.Dispose();
       hv_rect1X1.Dispose();
       hv_rect1Y1.Dispose();
       hv_rect1Radian.Dispose();
@@ -8442,6 +8444,10 @@ public partial class HDevelopExport
       hv_lineY1_FAI23_TOP.Dispose();
       hv_lineX2_FAI23_TOP.Dispose();
       hv_lineY2_FAI23_TOP.Dispose();
+      hv_XsUsed.Dispose();
+      hv_YsUsed.Dispose();
+      hv_XsIgnored.Dispose();
+      hv_YsIgnored.Dispose();
       hv_rect1X1.Dispose();
       hv_rect1Y1.Dispose();
       hv_rect1Radian.Dispose();
@@ -9802,7 +9808,7 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //FindLineAdaptiveSingle (Image, rectFAI3, lineRegion, lineContours, rectFAI3Row, rectFAI3Col, rectFAI3Radian, rectFAI3Len1, rectFAI3Len2, 5, 'negative', [threshValue,threshValue], sigma1, sigma21, 'first', widthRatio, ignoreFraction, newWidth1, cannyLow1, cannyHigh1, XsUsed, Ys, lineX2, lineY2)
+      //FindLineAdaptiveSingle (Image, rectFAI3, lineRegion, lineContours, rectFAI3Row, rectFAI3Col, rectFAI3Radian, rectFAI3Len1, rectFAI3Len2, 5, 'negative', [threshValue,threshValue], sigma1, sigma21, 'first', widthRatio, ignoreFraction, newWidth1, cannyLow1, cannyHigh1, XsUsed, Ys, lineX2, lineY2, XsUsed1, YsUsed1, XsIgnored1, YsIgnored1)
 
       {
       HObject ExpTmpOutVar_0;
@@ -13789,7 +13795,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', baseRightRow, baseRightColum, baseRightRadian, baseRightLen1, baseRightLen2, numSubRects, [threshValue,threshValue], 'first', ignorePortion, 'true', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1RightBase, lineY1RightBase, lineX2RightBase, lineY2RightBase, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours, baseRightRow, baseRightColum, baseRightRadian, baseRightLen1, baseRightLen2, 10, 'positive', threshValue, sigma1, sigma21, 'first', widthRatio, ignoreFraction, newWidth1, cannyLow1, cannyHigh1, XsUsed, Ys, lineX2, lineY2)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours, baseRightRow, baseRightColum, baseRightRadian, baseRightLen1, baseRightLen2, 10, 'positive', threshValue, sigma1, sigma21, 'first', widthRatio, ignoreFraction, newWidth1, cannyLow1, cannyHigh1, XsUsed, Ys, lineX2, lineY2, XsUsed1, YsUsed1, XsIgnored1, YsIgnored1)
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       {
@@ -13957,7 +13963,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', baseTopRow, baseTopColumn, baseTopRadian, baseTopLen1, baseTopLen2, numSubRects, [threshValue,threshValue,threshValue], 'first', ignorePortion, 'false', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1TopBase, lineY1TopBase, lineX2TopBase, lineY2TopBase, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours1, baseTopRow, baseTopColumn, baseTopRadian, baseTopLen1, baseTopLen2, 10, 'positive', threshValue, sigma1, sigma22, 'first', widthRatio1, ignoreFraction1, newWidth2, cannyLow2, cannyHigh2, XsUsed, Ys1, lineX21, lineY21)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours1, baseTopRow, baseTopColumn, baseTopRadian, baseTopLen1, baseTopLen2, 10, 'positive', threshValue, sigma1, sigma22, 'first', widthRatio1, ignoreFraction1, newWidth2, cannyLow2, cannyHigh2, XsUsed, Ys1, lineX21, lineY21, XsUsed2, YsUsed2, XsIgnored2, YsIgnored2)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rect, out ExpTmpOutVar_0);
@@ -14305,7 +14311,7 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //FindLineAdaptiveSingle (Image, rectFAI3, lineRegion, lineContours2, rectFAI3Row, rectFAI3Col, rectFAI3Radian, rectFAI3Len1, rectFAI3Len2, 5, 'negative', [threshValue,threshValue], sigma1, sigma23, 'first', widthRatio2, ignoreFraction2, newWidth3, cannyLow3, cannyHigh3, XsUsed, Ys2, lineX22, lineY22)
+      //FindLineAdaptiveSingle (Image, rectFAI3, lineRegion, lineContours2, rectFAI3Row, rectFAI3Col, rectFAI3Radian, rectFAI3Len1, rectFAI3Len2, 5, 'negative', [threshValue,threshValue], sigma1, sigma23, 'first', widthRatio2, ignoreFraction2, newWidth3, cannyLow3, cannyHigh3, XsUsed, Ys2, lineX22, lineY22, XsUsed3, YsUsed3, XsIgnored3, YsIgnored3)
 
       {
       HObject ExpTmpOutVar_0;
@@ -14471,7 +14477,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rectFAI4, lineRegion, 'negative', rectFAI4Row, rectFAI4Col, rectFAI4Radian, rectFAI4Len1, rectFAI4Len2, 6, threshValue, 'first', ignorePortion, 'false', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1FAI4, lineY1FAI4, lineX2FAI4, lineY2FAI4, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rectFAI4, lineRegion, lineContours3, rectFAI4Row, rectFAI4Col, rectFAI4Radian, rectFAI4Len1, rectFAI4Len2, 10, 'negative', threshValue, sigma1, sigma24, 'first', widthRatio3, ignoreFraction3, newWidth4, cannyLow4, cannyHigh4, XsUsed, Ys3, lineX23, lineY23)
+      //FindLineAdaptiveSingle (Image, rectFAI4, lineRegion, lineContours3, rectFAI4Row, rectFAI4Col, rectFAI4Radian, rectFAI4Len1, rectFAI4Len2, 10, 'negative', threshValue, sigma1, sigma24, 'first', widthRatio3, ignoreFraction3, newWidth4, cannyLow4, cannyHigh4, XsUsed, Ys3, lineX23, lineY23, XsUsed4, YsUsed4, XsIgnored4, YsIgnored4)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rectFAI4, out ExpTmpOutVar_0);
@@ -15023,7 +15029,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', rectFAI6Row, rectFAI6Col, rectFAI6Radian, rectFAI6Len1, rectFAI6Len2, numSubRects, threshValue, 'first', ignorePortion, 'false', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1FAI6, lineY1FAI6, lineX2FAI6, lineY2FAI6, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours4, rectFAI6Row, rectFAI6Col, rectFAI6Radian, rectFAI6Len1, rectFAI6Len2, 10, 'positive', threshValue, sigma1, sigma25, 'first', widthRatio4, ignoreFraction4, newWidth5, cannyLow5, cannyHigh5, XsUsed, Ys4, lineX24, lineY24)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours4, rectFAI6Row, rectFAI6Col, rectFAI6Radian, rectFAI6Len1, rectFAI6Len2, 10, 'positive', threshValue, sigma1, sigma25, 'first', widthRatio4, ignoreFraction4, newWidth5, cannyLow5, cannyHigh5, XsUsed, Ys4, lineX24, lineY24, XsUsed5, YsUsed5, XsIgnored5, YsIgnored5)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rect, out ExpTmpOutVar_0);
@@ -15272,7 +15278,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', rectFAI9Row, rectFAI9Col, rectFAI9Radian, rectFAI9Len1, rectFAI9Len2, numSubRects, threshValue, 'first', ignorePortion, 'false', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1FAI9, lineY1FAI9, lineX2FAI9, lineY2FAI9, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours5, rectFAI9Row, rectFAI9Col, rectFAI9Radian, rectFAI9Len1, rectFAI9Len2, 10, 'positive', threshValue, sigma1, sigma26, 'first', widthRatio5, ignoreFraction5, newWidth6, cannyLow6, cannyHigh6, XsUsed, Ys5, lineX25, lineY25)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours5, rectFAI9Row, rectFAI9Col, rectFAI9Radian, rectFAI9Len1, rectFAI9Len2, 10, 'positive', threshValue, sigma1, sigma26, 'first', widthRatio5, ignoreFraction5, newWidth6, cannyLow6, cannyHigh6, XsUsed, Ys5, lineX25, lineY25, XsUsed6, YsUsed6, XsIgnored6, YsIgnored6)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rect, out ExpTmpOutVar_0);
@@ -15592,7 +15598,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', rectFAI12Row, rectFAI12Col, rectFAI12Radian, rectFAI12Len1, rectFAI12Len2, numSubRects, [threshValue,threshValue,threshValue], 'first', ignorePortion, 'true', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1FAI12, lineY1FAI12, lineX2FAI12, lineY2FAI12, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours6, rectFAI12Row, rectFAI12Col, rectFAI12Radian, rectFAI12Len1, rectFAI12Len2, 10, 'positive', threshValue, sigma1, sigma27, 'first', widthRatio6, ignoreFraction6, newWidth7, cannyLow7, cannyHigh7, XsUsed, Ys6, lineX26, lineY26)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours6, rectFAI12Row, rectFAI12Col, rectFAI12Radian, rectFAI12Len1, rectFAI12Len2, 10, 'positive', threshValue, sigma1, sigma27, 'first', widthRatio6, ignoreFraction6, newWidth7, cannyLow7, cannyHigh7, XsUsed, Ys6, lineX26, lineY26, XsUsed7, YsUsed7, XsIgnored7, YsIgnored7)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rect, out ExpTmpOutVar_0);
@@ -15801,7 +15807,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', rectFAI16Row, rectFAI16Col, rectFAI16Radian, rectFAI16Len1, rectFAI16Len2, 6, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1FAI16, lineY1FAI16, lineX2FAI16, lineY2FAI16, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours7, rectFAI16Row, rectFAI16Col, rectFAI16Radian, rectFAI16Len1, rectFAI16Len2, 20, 'positive', threshValue, sigma1, sigma28, 'first', widthRatio7, ignoreFraction7, newWidth8, cannyLow8, cannyHigh8, XsUsed, Ys7, lineX27, lineY27)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours7, rectFAI16Row, rectFAI16Col, rectFAI16Radian, rectFAI16Len1, rectFAI16Len2, 20, 'positive', threshValue, sigma1, sigma28, 'first', widthRatio7, ignoreFraction7, newWidth8, cannyLow8, cannyHigh8, XsUsed, Ys7, lineX27, lineY27, XsUsed8, YsUsed8, XsIgnored8, YsIgnored8)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rect, out ExpTmpOutVar_0);
@@ -16069,7 +16075,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', rectFAI17Row, rectFAI17Col, rectFAI17Radian, rectFAI17Len1, rectFAI17Len2, numSubRects, [threshValue, threshValue, threshValue], 'first', ignorePortion, 'true', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1FAI17, lineY1FAI17, lineX2FAI17, lineY2FAI17, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours8, rectFAI17Row, rectFAI17Col, rectFAI17Radian, rectFAI17Len1, rectFAI17Len2, 30, 'positive', threshValue, sigma1, sigma29, 'first', widthRatio8, ignoreFraction8, newWidth9, cannyLow9, cannyHigh9, XsUsed, Ys8, lineX28, lineY28)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours8, rectFAI17Row, rectFAI17Col, rectFAI17Radian, rectFAI17Len1, rectFAI17Len2, 30, 'positive', threshValue, sigma1, sigma29, 'first', widthRatio8, ignoreFraction8, newWidth9, cannyLow9, cannyHigh9, XsUsed, Ys8, lineX28, lineY28, XsUsed9, YsUsed9, XsIgnored9, YsIgnored9)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rect, out ExpTmpOutVar_0);
@@ -16318,7 +16324,7 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, rect, lineRegion, 'positive', rectFAI19Row, rectFAI19Col, rectFAI19Radian, rectFAI19Len1, rectFAI19Len2, 6, [threshValue,threshValue], 'first', ignorePortion, 'true', sigma1, sigma2, Width, Height, newWidth, cannyHigh, cannyLow, lineX1FAI19, lineY1FAI19, lineX2FAI19, lineY2FAI19, XsUsed, YsUsed, XsIgnored, YsIgnored)
-      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours9, rectFAI19Row, rectFAI19Col, rectFAI19Radian, rectFAI19Len1, rectFAI19Len2, 6, 'positive', threshValue, sigma1, sigma210, 'first', widthRatio9, ignoreFraction9, newWidth10, cannyLow10, cannyHigh10, XsUsed, Ys9, lineX29, lineY29)
+      //FindLineAdaptiveSingle (Image, rect, lineRegion, lineContours9, rectFAI19Row, rectFAI19Col, rectFAI19Radian, rectFAI19Len1, rectFAI19Len2, 6, 'positive', threshValue, sigma1, sigma210, 'first', widthRatio9, ignoreFraction9, newWidth10, cannyLow10, cannyHigh10, XsUsed, Ys9, lineX29, lineY29, XsUsed10, YsUsed10, XsIgnored10, YsIgnored10)
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRects, ho_rect, out ExpTmpOutVar_0);
@@ -19774,84 +19780,6 @@ public partial class HDevelopExport
   }
 
   // Main procedure 
-  private void action()
-  {
-
-
-    // Local iconic variables 
-
-    HObject ho_Image, ho_ImageUndistorted;
-
-    // Local control variables 
-
-    HTuple hv_ModelID = new HTuple(), hv_ChangeOfBase = new HTuple();
-    HTuple hv_ChangeOfBaseInv = new HTuple(), hv_RotationMat = new HTuple();
-    HTuple hv_RotationMatInv = new HTuple(), hv_MapToWorld = new HTuple();
-    HTuple hv_MapToImage = new HTuple(), hv_lineX1TopBase = new HTuple();
-    HTuple hv_lineY1TopBase = new HTuple(), hv_lineX2TopBase = new HTuple();
-    HTuple hv_lineY2TopBase = new HTuple(), hv_lineX1RightBase = new HTuple();
-    HTuple hv_lineY1RightBase = new HTuple(), hv_lineX2RightBase = new HTuple();
-    HTuple hv_lineY2RightBase = new HTuple();
-    // Initialize local and output iconic variables 
-    HOperatorSet.GenEmptyObj(out ho_Image);
-    HOperatorSet.GenEmptyObj(out ho_ImageUndistorted);
-    try
-    {
-      ho_Image.Dispose();
-      HOperatorSet.ReadImage(out ho_Image, "C:/Users/afterbunny/Desktop/Transfer/Xiaojin/ModelImages/point_extraction_top_view.bmp");
-      hv_ModelID.Dispose();
-      HOperatorSet.ReadShapeModel("C:/Users/afterbunny/Desktop/Transfer/Xiaojin/Hdevs/ModelTopViewI94", 
-          out hv_ModelID);
-      ho_ImageUndistorted.Dispose();hv_ChangeOfBase.Dispose();hv_ChangeOfBaseInv.Dispose();hv_RotationMat.Dispose();hv_RotationMatInv.Dispose();hv_MapToWorld.Dispose();hv_MapToImage.Dispose();hv_lineX1TopBase.Dispose();hv_lineY1TopBase.Dispose();hv_lineX2TopBase.Dispose();hv_lineY2TopBase.Dispose();hv_lineX1RightBase.Dispose();hv_lineY1RightBase.Dispose();hv_lineX2RightBase.Dispose();hv_lineY2RightBase.Dispose();
-      I94TopViewChangeBase(ho_Image, out ho_ImageUndistorted, hv_ModelID, out hv_ChangeOfBase, 
-          out hv_ChangeOfBaseInv, out hv_RotationMat, out hv_RotationMatInv, out hv_MapToWorld, 
-          out hv_MapToImage, out hv_lineX1TopBase, out hv_lineY1TopBase, out hv_lineX2TopBase, 
-          out hv_lineY2TopBase, out hv_lineX1RightBase, out hv_lineY1RightBase, out hv_lineX2RightBase, 
-          out hv_lineY2RightBase);
-    }
-    catch (HalconException HDevExpDefaultException)
-    {
-      ho_Image.Dispose();
-      ho_ImageUndistorted.Dispose();
-
-      hv_ModelID.Dispose();
-      hv_ChangeOfBase.Dispose();
-      hv_ChangeOfBaseInv.Dispose();
-      hv_RotationMat.Dispose();
-      hv_RotationMatInv.Dispose();
-      hv_MapToWorld.Dispose();
-      hv_MapToImage.Dispose();
-      hv_lineX1TopBase.Dispose();
-      hv_lineY1TopBase.Dispose();
-      hv_lineX2TopBase.Dispose();
-      hv_lineY2TopBase.Dispose();
-      hv_lineX1RightBase.Dispose();
-      hv_lineY1RightBase.Dispose();
-      hv_lineX2RightBase.Dispose();
-      hv_lineY2RightBase.Dispose();
-
-      throw HDevExpDefaultException;
-    }
-    ho_Image.Dispose();
-    ho_ImageUndistorted.Dispose();
-
-    hv_ModelID.Dispose();
-    hv_ChangeOfBase.Dispose();
-    hv_ChangeOfBaseInv.Dispose();
-    hv_RotationMat.Dispose();
-    hv_RotationMatInv.Dispose();
-    hv_MapToWorld.Dispose();
-    hv_MapToImage.Dispose();
-    hv_lineX1TopBase.Dispose();
-    hv_lineY1TopBase.Dispose();
-    hv_lineX2TopBase.Dispose();
-    hv_lineY2TopBase.Dispose();
-    hv_lineX1RightBase.Dispose();
-    hv_lineY1RightBase.Dispose();
-    hv_lineX2RightBase.Dispose();
-    hv_lineY2RightBase.Dispose();
-
-  }
 
   public void InitHalcon()
   {
@@ -19860,11 +19788,7 @@ public partial class HDevelopExport
     HOperatorSet.SetSystem("height", 512);
   }
 
-  public void RunHalcon(HTuple Window)
-  {
-    hv_ExpDefaultWinHandle = Window;
-    action();
-  }
+ 
 
 }
 

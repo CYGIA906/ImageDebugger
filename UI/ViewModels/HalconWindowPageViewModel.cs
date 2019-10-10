@@ -212,6 +212,7 @@ namespace UI.ViewModels
                 {
                     var serializer = new XmlSerializer(typeof(FaiItem));
                     FaiItem item = (FaiItem) serializer.Deserialize(fs);
+                    item.SerializationDir = FaiItemSerializationDir;
                     outputs.Add(item);
                 }
             }
@@ -239,6 +240,7 @@ namespace UI.ViewModels
                 {
                     var serializer = new XmlSerializer(typeof(FindLineParam));
                     FindLineParam item = (FindLineParam) serializer.Deserialize(fs);
+                    item.SerializationDir = ParamSerializationBaseDir;
                     outputs.Add(item);
                 }
             }

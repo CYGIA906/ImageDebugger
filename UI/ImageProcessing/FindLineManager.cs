@@ -15,10 +15,8 @@ namespace UI.ImageProcessing
     /// <summary>
     /// 
     /// </summary>
-
     public class FindLineManager
     {
-
         private List<HImage> _images;
 
         public HObject CrossesUsed
@@ -57,7 +55,6 @@ namespace UI.ImageProcessing
 
         private static HDevelopExport HalconScripts = new HDevelopExport();
 
-  
 
         public void FindLines(List<HImage> images)
         {
@@ -76,13 +73,13 @@ namespace UI.ImageProcessing
                 Line line;
                 try
                 {
-                  line = FindLine(image, feeding);
+                    line = FindLine(image, feeding);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"Find line failed at {name}\nMessage:{e}");
                     MessageBox.Show($"Line {name} not found!");
-                    line = new Line(1,0,2,0);
+                    line = new Line(1, 0, 2, 0);
                 }
 
                 _lines[name] = line;
@@ -103,13 +100,12 @@ namespace UI.ImageProcessing
             HTuple lineX2;
             HTuple lineY2;
 
-        
+
             // using pair
             if (feeding.UsingPair)
             {
                 if (feeding.FirstAttemptOnly)
                 {
-
                     HalconScripts.FindLineGradiant_Pair(image, out findLineRegion, out lineRegion, feeding.Row,
                         feeding.Col, feeding.Radian, feeding.Len1, feeding.Len2, feeding.NumSubRects,
                         feeding.IgnoreFraction, feeding.Transition, feeding.Threshold, feeding.Sigma1,
@@ -126,18 +122,31 @@ namespace UI.ImageProcessing
                         feeding.NewWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1,
                         out lineX2, out lineY2);
                 }
-            }// using single edge
+            } // using single edge
             else
             {
+                var findLineRectCount = feeding.Row.TupleLength();
+
+
                 if (feeding.FirstAttemptOnly)
                 {
                     HalconScripts.FindLineGradiant(image, out findLineRegion, out lineRegion, feeding.Row, feeding.Col,
                         feeding.Radian, feeding.Len1, feeding.Len2, feeding.NumSubRects, feeding.IgnoreFraction,
                         feeding.Transition, feeding.Threshold, feeding.Sigma1, feeding.WhichEdge, out xsUsed,
                         out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1, out lineX2, out lineY2);
-
+                }
+                else if (findLineRectCount == 1) // Adaptive find line, can only accept one find line rect
+                {
+                    HObject lineContour;
+                    HalconScripts.FindLineAdaptiveSingle(image, out findLineRegion, out lineRegion, out lineContour,
+                        feeding.Row, feeding.Col, feeding.Radian, feeding.Len1, feeding.Len2, feeding.NumSubRects,
+                        feeding.Transition, feeding.Threshold, feeding.Sigma1, feeding.Sigma2, feeding.WhichEdge, 0.7,
+                        feeding.IgnoreFraction, feeding.NewWidth, feeding.CannyLow, feeding.CannyHigh, out lineX1,
+                        out lineY1, out lineX2, out lineY2, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored);
+                    findLineRegion.ConcatObj(lineContour);
                 }
                 else
+
                 {
                     HalconScripts.VisionProStyleFindLineOneStep(image, out findLineRegion, out lineRegion,
                         feeding.Transition, feeding.Row, feeding.Col, feeding.Radian, feeding.Len1, feeding.Len2,
@@ -145,9 +154,7 @@ namespace UI.ImageProcessing
                         feeding.IsVertical, feeding.Sigma1, feeding.Sigma2, _width, _height, feeding.NewWidth,
                         feeding.CannyHigh, feeding.CannyLow, out lineX1, out lineY1, out lineX2, out lineY2, out xsUsed,
                         out ysUsed, out xsIgnored, out ysIgnored);
-
                 }
-
             }
 
 
@@ -156,7 +163,7 @@ namespace UI.ImageProcessing
             HOperatorSet.GenCrossContourXld(out crossesUsed, ysUsed, xsUsed, CrossSize, CrossAngle);
             HObject crossesIgnored;
             HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
-            
+
             HOperatorSet.ConcatObj(_crossesUsed, crossesUsed, out _crossesUsed);
             HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
             HOperatorSet.ConcatObj(_findLineRects, findLineRegion, out _findLineRects);
@@ -179,7 +186,6 @@ namespace UI.ImageProcessing
             LineRegions.GenEmptyObj();
             FindLineRects.GenEmptyObj();
         }
-        
 
 
         public int CrossSize { get; set; } = 100;

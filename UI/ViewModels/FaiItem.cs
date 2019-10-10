@@ -51,7 +51,7 @@ namespace UI.ViewModels
             get { return ValueBiased > MinBoundary && ValueBiased < MaxBoundary; }
         }
 
-
+        [XmlIgnore]
         public string SerializationDir;
 
 
@@ -67,25 +67,8 @@ namespace UI.ViewModels
 
         public FaiItem()
         {
+
         }
 
-//        private void Serialize(object sender, PropertyChangedEventArgs e)
-//        {
-//            using (var fs = new FileStream(GetSerializationPath(), FileMode.Create))
-//            {
-//                var serializer = new XmlSerializer(typeof(FaiItem));
-//                serializer.Serialize(fs, this);
-//            }
-//        }
-//
-//        public void ResumeAutoSerialization()
-//        {
-//            PropertyChanged += Serialize;
-//        }
-//        
-//        public void StopAutoSerialization()
-//        {
-//            PropertyChanged -= Serialize;
-//        }
     }
 }

@@ -37,6 +37,7 @@ namespace UI.ImageProcessing
             return Path.Combine(SerializationDir, Name + ".xml");
         }
 
+        [XmlIgnore]
         public string SerializationDir;
     }
 
