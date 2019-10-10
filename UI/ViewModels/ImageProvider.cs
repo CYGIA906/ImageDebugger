@@ -97,6 +97,8 @@ namespace UI.ViewModels
                 }
 
                 QueueUpImages(imagePaths);
+
+                _imageDirectory = string.Empty;
             }
         }
 

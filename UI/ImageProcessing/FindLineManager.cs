@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using HalconDotNet;
+using MathNet.Numerics.LinearRegression;
 
 namespace UI.ImageProcessing
 {
@@ -144,6 +145,10 @@ namespace UI.ImageProcessing
                         feeding.IgnoreFraction, feeding.NewWidth, feeding.CannyLow, feeding.CannyHigh, out lineX1,
                         out lineY1, out lineX2, out lineY2, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored);
                     findLineRegion.ConcatObj(lineContour);
+
+                 
+//                        FitLineRegression(xsUsed.ToDArr(), ysUsed.ToDArr(), out lineX1, out lineY1, out lineX2, out lineY2);
+
                 }
                 else
 
@@ -170,6 +175,14 @@ namespace UI.ImageProcessing
             HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
 
             return new Line(lineX1.D, lineY1.D, lineX2.D, lineY2.D);
+        }
+
+        private void FitLineRegression(double[] xs, double[] ys, out HTuple lineX1, out HTuple lineY1, out HTuple lineX2, out HTuple lineY2)
+        {
+           var lineResult = SimpleRegression.Fit(xs, ys);
+           var bias = lineResult.Item1;
+           var weight = lineResult.Item2;
+           HalconScripts.ImageLineIntersections(weight, bias, _width, _height, out lineX1, out lineY1, out lineX2, out lineY2);
         }
 
 

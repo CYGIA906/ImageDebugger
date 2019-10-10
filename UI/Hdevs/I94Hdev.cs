@@ -1030,8 +1030,7 @@ public partial class HDevelopExport
       if ((int)(new HTuple(hv_contourLength.TupleLess(hv_minLength))) != 0)
       {
         //using leaset square fit
-        ho_lineContours.Dispose();
-        HOperatorSet.GenEmptyObj(out ho_lineContours);
+        //gen_empty_obj (lineContours)
       }
       else
       {
@@ -1353,42 +1352,73 @@ public partial class HDevelopExport
 
 
 
-    // Local iconic variables 
+      // Local iconic variables 
 
-    // Local control variables 
+      // Local control variables 
 
-    HTuple hv_SumX = new HTuple(), hv_AverageX = new HTuple();
-    HTuple hv_SumY = new HTuple(), hv_AverageY = new HTuple();
-    HTuple hv_SumUpper = new HTuple(), hv_SumLower = new HTuple();
-    HTuple hv_i = new HTuple(), hv_incrementUpper = new HTuple();
-    HTuple hv_incrementLower = new HTuple(), hv_m = new HTuple();
-    HTuple hv_b = new HTuple();
-    // Initialize local and output iconic variables 
-    hv_lineX1 = new HTuple();
-    hv_lineY1 = new HTuple();
-    hv_lineX2 = new HTuple();
-    hv_lineY2 = new HTuple();
-    try
-    {
-      if ((int)(new HTuple((new HTuple(hv_Xs.TupleLength())).TupleEqual(0))) != 0)
+      HTuple hv_DeviationX = new HTuple(), hv_DeviationY = new HTuple();
+      HTuple hv_isVertical = new HTuple(), hv_SumX = new HTuple();
+      HTuple hv_AverageX = new HTuple(), hv_SumY = new HTuple();
+      HTuple hv_AverageY = new HTuple(), hv_SumUpper = new HTuple();
+      HTuple hv_SumLower = new HTuple(), hv_i = new HTuple();
+      HTuple hv_incrementUpper = new HTuple(), hv_incrementLower = new HTuple();
+      HTuple hv_m = new HTuple(), hv_b = new HTuple();
+      HTuple   hv_Xs_COPY_INP_TMP = new HTuple(hv_Xs);
+      HTuple   hv_Ys_COPY_INP_TMP = new HTuple(hv_Ys);
+
+      // Initialize local and output iconic variables 
+      hv_lineX1 = new HTuple();
+      hv_lineY1 = new HTuple();
+      hv_lineX2 = new HTuple();
+      hv_lineY2 = new HTuple();
+      try
+      {
+      if ((int)(new HTuple((new HTuple(hv_Xs_COPY_INP_TMP.TupleLength())).TupleEqual(
+          0))) != 0)
       {
         throw new HalconException("No points being passed in");
       }
+
+      //determine if a line is vertical
+      hv_DeviationX.Dispose();
+      HOperatorSet.TupleDeviation(hv_Xs_COPY_INP_TMP, out hv_DeviationX);
+      hv_DeviationY.Dispose();
+      HOperatorSet.TupleDeviation(hv_Ys_COPY_INP_TMP, out hv_DeviationY);
+      hv_isVertical.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_isVertical = new HTuple(hv_DeviationY.TupleGreater(
+          hv_DeviationX));
+      }
+      if ((int)(hv_isVertical) != 0)
+      {
+        {
+        HTuple ExpTmpOutVar_0;HTuple ExpTmpOutVar_1;
+        swap(hv_Xs_COPY_INP_TMP, hv_Ys_COPY_INP_TMP, out ExpTmpOutVar_0, out ExpTmpOutVar_1);
+        hv_Xs_COPY_INP_TMP.Dispose();
+        hv_Xs_COPY_INP_TMP = ExpTmpOutVar_0;
+        hv_Ys_COPY_INP_TMP.Dispose();
+        hv_Ys_COPY_INP_TMP = ExpTmpOutVar_1;
+        }
+      }
+
+
+
       hv_SumX.Dispose();
-      HOperatorSet.TupleSum(hv_Xs, out hv_SumX);
+      HOperatorSet.TupleSum(hv_Xs_COPY_INP_TMP, out hv_SumX);
       hv_AverageX.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_AverageX = hv_SumX/(new HTuple(hv_Xs.TupleLength()
+      hv_AverageX = hv_SumX/(new HTuple(hv_Xs_COPY_INP_TMP.TupleLength()
           ));
       }
 
       hv_SumY.Dispose();
-      HOperatorSet.TupleSum(hv_Ys, out hv_SumY);
+      HOperatorSet.TupleSum(hv_Ys_COPY_INP_TMP, out hv_SumY);
       hv_AverageY.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_AverageY = hv_SumY/(new HTuple(hv_Ys.TupleLength()
+      hv_AverageY = hv_SumY/(new HTuple(hv_Ys_COPY_INP_TMP.TupleLength()
           ));
       }
 
@@ -1396,19 +1426,19 @@ public partial class HDevelopExport
       hv_SumUpper = 0;
       hv_SumLower.Dispose();
       hv_SumLower = 0;
-      for (hv_i=0; (int)hv_i<=(int)((new HTuple(hv_Xs.TupleLength()))-1); hv_i = (int)hv_i + 1)
+      for (hv_i=0; (int)hv_i<=(int)((new HTuple(hv_Xs_COPY_INP_TMP.TupleLength()))-1); hv_i = (int)hv_i + 1)
       {
         hv_incrementUpper.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
-        hv_incrementUpper = ((hv_Xs.TupleSelect(
-            hv_i))-hv_AverageX)*((hv_Ys.TupleSelect(hv_i))-hv_AverageY);
+        hv_incrementUpper = ((hv_Xs_COPY_INP_TMP.TupleSelect(
+            hv_i))-hv_AverageX)*((hv_Ys_COPY_INP_TMP.TupleSelect(hv_i))-hv_AverageY);
         }
         hv_incrementLower.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
-        hv_incrementLower = (hv_AverageX-(hv_Xs.TupleSelect(
-            hv_i)))*(hv_AverageX-(hv_Xs.TupleSelect(hv_i)));
+        hv_incrementLower = (hv_AverageX-(hv_Xs_COPY_INP_TMP.TupleSelect(
+            hv_i)))*(hv_AverageX-(hv_Xs_COPY_INP_TMP.TupleSelect(hv_i)));
         }
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -1445,9 +1475,9 @@ public partial class HDevelopExport
 
       //sample two point
       hv_lineX1.Dispose();
-      HOperatorSet.TupleMax(hv_Xs, out hv_lineX1);
+      HOperatorSet.TupleMax(hv_Xs_COPY_INP_TMP, out hv_lineX1);
       hv_lineX2.Dispose();
-      HOperatorSet.TupleMin(hv_Xs, out hv_lineX2);
+      HOperatorSet.TupleMin(hv_Xs_COPY_INP_TMP, out hv_lineX2);
 
       hv_lineY1.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -1460,6 +1490,32 @@ public partial class HDevelopExport
       hv_lineY2 = (hv_m*hv_lineX2)+hv_b;
       }
 
+      if ((int)(hv_isVertical) != 0)
+      {
+        {
+        HTuple ExpTmpOutVar_0;HTuple ExpTmpOutVar_1;
+        swap(hv_lineX1, hv_lineY1, out ExpTmpOutVar_0, out ExpTmpOutVar_1);
+        hv_lineX1.Dispose();
+        hv_lineX1 = ExpTmpOutVar_0;
+        hv_lineY1.Dispose();
+        hv_lineY1 = ExpTmpOutVar_1;
+        }
+        {
+        HTuple ExpTmpOutVar_0;HTuple ExpTmpOutVar_1;
+        swap(hv_lineX2, hv_lineY2, out ExpTmpOutVar_0, out ExpTmpOutVar_1);
+        hv_lineX2.Dispose();
+        hv_lineX2 = ExpTmpOutVar_0;
+        hv_lineY2.Dispose();
+        hv_lineY2 = ExpTmpOutVar_1;
+        }
+      }
+
+
+      hv_Xs_COPY_INP_TMP.Dispose();
+      hv_Ys_COPY_INP_TMP.Dispose();
+      hv_DeviationX.Dispose();
+      hv_DeviationY.Dispose();
+      hv_isVertical.Dispose();
       hv_SumX.Dispose();
       hv_AverageX.Dispose();
       hv_SumY.Dispose();
@@ -1477,6 +1533,11 @@ public partial class HDevelopExport
     catch (HalconException HDevExpDefaultException)
     {
 
+      hv_Xs_COPY_INP_TMP.Dispose();
+      hv_Ys_COPY_INP_TMP.Dispose();
+      hv_DeviationX.Dispose();
+      hv_DeviationY.Dispose();
+      hv_isVertical.Dispose();
       hv_SumX.Dispose();
       hv_AverageX.Dispose();
       hv_SumY.Dispose();
@@ -1830,9 +1891,7 @@ public partial class HDevelopExport
 
     HTuple hv_xDiff = new HTuple(), hv_yDiff = new HTuple();
     HTuple hv_epslon = new HTuple(), hv_m = new HTuple(), hv_b = new HTuple();
-    HTuple hv_result = new HTuple(), hv_xStart = new HTuple();
-    HTuple hv_yStart = new HTuple(), hv_allBoundaries = new HTuple();
-    HTuple hv_Index = new HTuple(), hv_boundariesLeft = new HTuple();
+    HTuple hv_xStart = new HTuple(), hv_yStart = new HTuple();
     HTuple hv_xEnd = new HTuple(), hv_yEnd = new HTuple();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_lineRegion);
@@ -1872,28 +1931,9 @@ public partial class HDevelopExport
       hv_b = hv_lineYStart-(hv_m*hv_lineXStart);
       }
 
-      hv_result.Dispose();hv_xStart.Dispose();hv_yStart.Dispose();
-      _search_boundary("null", hv_m, hv_b, hv_imageWidth, hv_imageHeight, out hv_result, 
-          out hv_xStart, out hv_yStart);
-      hv_allBoundaries.Dispose();
-      hv_allBoundaries = new HTuple();
-      hv_allBoundaries[0] = "left";
-      hv_allBoundaries[1] = "right";
-      hv_allBoundaries[2] = "up";
-      hv_allBoundaries[3] = "down";
-      for (hv_Index=0; (int)hv_Index<=(int)((new HTuple(hv_allBoundaries.TupleLength()
-          ))-1); hv_Index = (int)hv_Index + 1)
-      {
-        if ((int)(new HTuple(((hv_allBoundaries.TupleSelect(hv_Index))).TupleEqual(
-            hv_result))) != 0)
-        {
-          hv_boundariesLeft.Dispose();
-          HOperatorSet.TupleRemove(hv_allBoundaries, hv_Index, out hv_boundariesLeft);
-        }
-      }
-      hv_result.Dispose();hv_xEnd.Dispose();hv_yEnd.Dispose();
-      _search_boundary(hv_boundariesLeft, hv_m, hv_b, hv_imageWidth, hv_imageHeight, 
-          out hv_result, out hv_xEnd, out hv_yEnd);
+      hv_xStart.Dispose();hv_yStart.Dispose();hv_xEnd.Dispose();hv_yEnd.Dispose();
+      ImageLineIntersections(hv_m, hv_b, hv_imageWidth, hv_imageHeight, out hv_xStart, 
+          out hv_yStart, out hv_xEnd, out hv_yEnd);
 
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
@@ -1907,12 +1947,8 @@ public partial class HDevelopExport
       hv_epslon.Dispose();
       hv_m.Dispose();
       hv_b.Dispose();
-      hv_result.Dispose();
       hv_xStart.Dispose();
       hv_yStart.Dispose();
-      hv_allBoundaries.Dispose();
-      hv_Index.Dispose();
-      hv_boundariesLeft.Dispose();
       hv_xEnd.Dispose();
       hv_yEnd.Dispose();
 
@@ -1926,12 +1962,8 @@ public partial class HDevelopExport
       hv_epslon.Dispose();
       hv_m.Dispose();
       hv_b.Dispose();
-      hv_result.Dispose();
       hv_xStart.Dispose();
       hv_yStart.Dispose();
-      hv_allBoundaries.Dispose();
-      hv_Index.Dispose();
-      hv_boundariesLeft.Dispose();
       hv_xEnd.Dispose();
       hv_yEnd.Dispose();
 
@@ -18055,6 +18087,68 @@ public partial class HDevelopExport
     }
   }
 
+  public void ImageLineIntersections (HTuple hv_m, HTuple hv_b, HTuple hv_imageWidth, 
+      HTuple hv_imageHeight, out HTuple hv_xStart, out HTuple hv_yStart, out HTuple hv_xEnd, 
+      out HTuple hv_yEnd)
+  {
+
+
+
+    // Local iconic variables 
+
+    // Local control variables 
+
+    HTuple hv_result = new HTuple(), hv_allBoundaries = new HTuple();
+    HTuple hv_Index = new HTuple(), hv_boundariesLeft = new HTuple();
+    // Initialize local and output iconic variables 
+    hv_xStart = new HTuple();
+    hv_yStart = new HTuple();
+    hv_xEnd = new HTuple();
+    hv_yEnd = new HTuple();
+    try
+    {
+      hv_result.Dispose();hv_xStart.Dispose();hv_yStart.Dispose();
+      _search_boundary("null", hv_m, hv_b, hv_imageWidth, hv_imageHeight, out hv_result, 
+          out hv_xStart, out hv_yStart);
+      hv_allBoundaries.Dispose();
+      hv_allBoundaries = new HTuple();
+      hv_allBoundaries[0] = "left";
+      hv_allBoundaries[1] = "right";
+      hv_allBoundaries[2] = "up";
+      hv_allBoundaries[3] = "down";
+      for (hv_Index=0; (int)hv_Index<=(int)((new HTuple(hv_allBoundaries.TupleLength()
+          ))-1); hv_Index = (int)hv_Index + 1)
+      {
+        if ((int)(new HTuple(((hv_allBoundaries.TupleSelect(hv_Index))).TupleEqual(
+            hv_result))) != 0)
+        {
+          hv_boundariesLeft.Dispose();
+          HOperatorSet.TupleRemove(hv_allBoundaries, hv_Index, out hv_boundariesLeft);
+        }
+      }
+      hv_result.Dispose();hv_xEnd.Dispose();hv_yEnd.Dispose();
+      _search_boundary(hv_boundariesLeft, hv_m, hv_b, hv_imageWidth, hv_imageHeight, 
+          out hv_result, out hv_xEnd, out hv_yEnd);
+
+      hv_result.Dispose();
+      hv_allBoundaries.Dispose();
+      hv_Index.Dispose();
+      hv_boundariesLeft.Dispose();
+
+      return;
+    }
+    catch (HalconException HDevExpDefaultException)
+    {
+
+      hv_result.Dispose();
+      hv_allBoundaries.Dispose();
+      hv_Index.Dispose();
+      hv_boundariesLeft.Dispose();
+
+      throw HDevExpDefaultException;
+    }
+  }
+
   public void LongestXLD (HObject ho_inputContour, out HObject ho_outputContour, 
       out HTuple hv_contourLength)
   {
@@ -18678,6 +18772,25 @@ public partial class HDevelopExport
 
       throw HDevExpDefaultException;
     }
+  }
+
+  public void swap (HTuple hv_a, HTuple hv_b, out HTuple hv_newA, out HTuple hv_newB)
+  {
+
+
+
+    // Local iconic variables 
+    // Initialize local and output iconic variables 
+    hv_newA = new HTuple();
+    hv_newB = new HTuple();
+    hv_newA.Dispose();
+    hv_newA = new HTuple(hv_b);
+    hv_newB.Dispose();
+    hv_newB = new HTuple(hv_a);
+
+
+
+    return;
   }
 
   public void TranslateLineInWorldCoordinateAndConvertBack (HTuple hv_lineStartX, 
@@ -19780,6 +19893,84 @@ public partial class HDevelopExport
   }
 
   // Main procedure 
+  private void action()
+  {
+
+
+    // Local iconic variables 
+
+    HObject ho_Image, ho_ImageUndistorted;
+
+    // Local control variables 
+
+    HTuple hv_ModelID = new HTuple(), hv_ChangeOfBase = new HTuple();
+    HTuple hv_ChangeOfBaseInv = new HTuple(), hv_RotationMat = new HTuple();
+    HTuple hv_RotationMatInv = new HTuple(), hv_MapToWorld = new HTuple();
+    HTuple hv_MapToImage = new HTuple(), hv_lineX1TopBase = new HTuple();
+    HTuple hv_lineY1TopBase = new HTuple(), hv_lineX2TopBase = new HTuple();
+    HTuple hv_lineY2TopBase = new HTuple(), hv_lineX1RightBase = new HTuple();
+    HTuple hv_lineY1RightBase = new HTuple(), hv_lineX2RightBase = new HTuple();
+    HTuple hv_lineY2RightBase = new HTuple();
+    // Initialize local and output iconic variables 
+    HOperatorSet.GenEmptyObj(out ho_Image);
+    HOperatorSet.GenEmptyObj(out ho_ImageUndistorted);
+    try
+    {
+      ho_Image.Dispose();
+      HOperatorSet.ReadImage(out ho_Image, "C:/Users/25001858/Desktop/Xiaojin/ModelImages/point_extraction_top_view.bmp");
+      hv_ModelID.Dispose();
+      HOperatorSet.ReadShapeModel("C:/Users/25001858/Desktop/Xiaojin/Hdevs/ModelTopViewI94", 
+          out hv_ModelID);
+      ho_ImageUndistorted.Dispose();hv_ChangeOfBase.Dispose();hv_ChangeOfBaseInv.Dispose();hv_RotationMat.Dispose();hv_RotationMatInv.Dispose();hv_MapToWorld.Dispose();hv_MapToImage.Dispose();hv_lineX1TopBase.Dispose();hv_lineY1TopBase.Dispose();hv_lineX2TopBase.Dispose();hv_lineY2TopBase.Dispose();hv_lineX1RightBase.Dispose();hv_lineY1RightBase.Dispose();hv_lineX2RightBase.Dispose();hv_lineY2RightBase.Dispose();
+      I94TopViewChangeBase(ho_Image, out ho_ImageUndistorted, hv_ModelID, out hv_ChangeOfBase, 
+          out hv_ChangeOfBaseInv, out hv_RotationMat, out hv_RotationMatInv, out hv_MapToWorld, 
+          out hv_MapToImage, out hv_lineX1TopBase, out hv_lineY1TopBase, out hv_lineX2TopBase, 
+          out hv_lineY2TopBase, out hv_lineX1RightBase, out hv_lineY1RightBase, out hv_lineX2RightBase, 
+          out hv_lineY2RightBase);
+    }
+    catch (HalconException HDevExpDefaultException)
+    {
+      ho_Image.Dispose();
+      ho_ImageUndistorted.Dispose();
+
+      hv_ModelID.Dispose();
+      hv_ChangeOfBase.Dispose();
+      hv_ChangeOfBaseInv.Dispose();
+      hv_RotationMat.Dispose();
+      hv_RotationMatInv.Dispose();
+      hv_MapToWorld.Dispose();
+      hv_MapToImage.Dispose();
+      hv_lineX1TopBase.Dispose();
+      hv_lineY1TopBase.Dispose();
+      hv_lineX2TopBase.Dispose();
+      hv_lineY2TopBase.Dispose();
+      hv_lineX1RightBase.Dispose();
+      hv_lineY1RightBase.Dispose();
+      hv_lineX2RightBase.Dispose();
+      hv_lineY2RightBase.Dispose();
+
+      throw HDevExpDefaultException;
+    }
+    ho_Image.Dispose();
+    ho_ImageUndistorted.Dispose();
+
+    hv_ModelID.Dispose();
+    hv_ChangeOfBase.Dispose();
+    hv_ChangeOfBaseInv.Dispose();
+    hv_RotationMat.Dispose();
+    hv_RotationMatInv.Dispose();
+    hv_MapToWorld.Dispose();
+    hv_MapToImage.Dispose();
+    hv_lineX1TopBase.Dispose();
+    hv_lineY1TopBase.Dispose();
+    hv_lineX2TopBase.Dispose();
+    hv_lineY2TopBase.Dispose();
+    hv_lineX1RightBase.Dispose();
+    hv_lineY1RightBase.Dispose();
+    hv_lineX2RightBase.Dispose();
+    hv_lineY2RightBase.Dispose();
+
+  }
 
   public void InitHalcon()
   {
@@ -19788,7 +19979,11 @@ public partial class HDevelopExport
     HOperatorSet.SetSystem("height", 512);
   }
 
- 
+  public void RunHalcon(HTuple Window)
+  {
+    hv_ExpDefaultWinHandle = Window;
+    action();
+  }
 
 }
 
