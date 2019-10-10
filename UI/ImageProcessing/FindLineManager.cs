@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
@@ -17,7 +18,6 @@ namespace UI.ImageProcessing
 
     public class FindLineManager
     {
-        private FindLineConfigs _findLineConfigs;
 
         private List<HImage> _images;
 
@@ -68,7 +68,7 @@ namespace UI.ImageProcessing
 
         private void DispatchFindLineWorkers()
         {
-            foreach (var pair in _findLineConfigs.FindLineFeedings)
+            foreach (var pair in FindLineFeedings)
             {
                 var name = pair.Key;
                 var feeding = pair.Value;
@@ -88,6 +88,8 @@ namespace UI.ImageProcessing
                 _lines[name] = line;
             }
         }
+
+        public Dictionary<string, FindLineFeeding> FindLineFeedings { get; set; }
 
         private Line FindLine(HImage image, FindLineFeeding feeding)
         {
@@ -169,9 +171,9 @@ namespace UI.ImageProcessing
             return _lines[lineName];
         }
 
-        public FindLineManager(FindLineConfigs findLineConfigs)
+        public FindLineManager(Dictionary<string, FindLineFeeding> findLineFeedings)
         {
-            _findLineConfigs = findLineConfigs;
+            FindLineFeedings = findLineFeedings;
             CrossesIgnored.GenEmptyObj();
             CrossesUsed.GenEmptyObj();
             LineRegions.GenEmptyObj();

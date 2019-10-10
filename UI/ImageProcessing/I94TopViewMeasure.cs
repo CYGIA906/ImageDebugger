@@ -42,12 +42,10 @@ namespace UI.ImageProcessing
 
            var coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
            
-           // Sync find line feeding from find line params
-           findLineConfigs.GenerateFindLineFeedings();
            // Update absolute find line locations
-            findLineConfigs.Solver = coordinateSolver;
-            // Find lines
-            var findLineManager = new FindLineManager(findLineConfigs);
+           findLineConfigs.GenerateLocationsAbs(coordinateSolver);
+           // Find lines
+            var findLineManager = new FindLineManager(findLineConfigs.GenerateFindLineFeedings());
             findLineManager.FindLines(images);
             
             // Make parallel lines

@@ -16,30 +16,17 @@ namespace UI.ImageProcessing
         public List<FindLineLocation> FindLineLocationsRelative { get;  set; }
         private CoordinateSolver _solver;
 
-        /// <summary>
-        /// ToDo: refactor this to Update find line locations api
-        /// </summary>
-        public CoordinateSolver Solver
-        {
-            get { return _solver; }
-            set
-            {
-                _solver = value;
 
-                _findLineLocationsAbsDict.Clear();
-                ConvertLocations();
-                GenerateFindLineFeedings();
-            }
-        }
 
         /// <summary>
         /// Convert relative locations to absolute locations
         /// </summary>
-        private void ConvertLocations()
+        public void GenerateLocationsAbs(CoordinateSolver solver)
         {
+            _findLineLocationsAbsDict.Clear();
             foreach (var location in FindLineLocationsRelative)
             {
-                var locationAbs = Solver.FindLineLocationRelativeToAbsolute(location);
+                var locationAbs = solver.FindLineLocationRelativeToAbsolute(location);
                 _findLineLocationsAbsDict[location.Name] = locationAbs;
             }
         }
@@ -97,23 +84,25 @@ namespace UI.ImageProcessing
         /// Group find line location and params into something like:
         /// "2-left" + "2-right" = "2"
         /// </summary>
-        public void GenerateFindLineFeedings()
+        public Dictionary<string, FindLineFeeding> GenerateFindLineFeedings()
         {
-            FindLineFeedings.Clear();
+            Dictionary<string, FindLineFeeding> outputs = new Dictionary<string, FindLineFeeding>();
             foreach (var findLineName in _findLineLocationsAbsDict.Keys)
             {
-                TryAddFindLineFeedings(findLineName);
+                TryAddFindLineFeedings(findLineName, outputs);
             }
+
+            return outputs;
         }
 
-        public Dictionary<string, FindLineFeeding> FindLineFeedings { get; set; } =
-            new Dictionary<string, FindLineFeeding>();
+      
 
-        /// <summary>
-        /// If key not exist, add one <see cref="FindLineFeeding"/> to <see cref="FindLineFeedings"/>
-        /// </summary>
-        /// <param name="name"></param>
-        private void TryAddFindLineFeedings(string name)
+            /// <summary>
+            /// If key not exist, add one find line feeding
+            /// </summary>
+            /// <param name="name"></param>
+            /// <param name="findLineFeedings"></param>
+            private void TryAddFindLineFeedings(string name, Dictionary<string, FindLineFeeding> findLineFeedings)
         {
             // No "-" means one find line rect for one line result
             if (!name.Contains("-"))
@@ -146,14 +135,14 @@ namespace UI.ImageProcessing
                     CannyHigh = param.CannyHigh,
                     CannyLow = param.CannyLow
                 };
-                FindLineFeedings[name] = feeding;
+                findLineFeedings[name] = feeding;
             }
             else
             {
 
                 var key = name.Substring(0, name.IndexOf("-"));
                 // If the key has already added... for example 2 for 2-left and 2-right
-                if(FindLineFeedings.ContainsKey(key)) return;
+                if(findLineFeedings.ContainsKey(key)) return;
 
                 var locations = _findLineLocationsAbsDict.Where(pair => pair.Key.Contains(key)).Select(pair => pair.Value).ToList();
                 var parameters = _findLineParamsDict.Where(pair => pair.Key.Contains(key)).Select(pair => pair.Value).ToList();
@@ -185,7 +174,7 @@ namespace UI.ImageProcessing
                     CannyHigh = parameters[0].CannyHigh,
                     CannyLow = parameters[0].CannyLow,
                 };
-                FindLineFeedings[key] = feeding;
+                findLineFeedings[key] = feeding;
             }
         }
 

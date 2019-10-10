@@ -99,7 +99,7 @@
                         </TextBlock>
                     </Expander.Header>
             <DataGrid HorizontalAlignment="Right"
-                        ItemsSource="{Binding FaiItems}"
+                        ItemsSource="{Binding FaiItems, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                         CanUserSortColumns="True"
                         CanUserAddRows="False"
             />

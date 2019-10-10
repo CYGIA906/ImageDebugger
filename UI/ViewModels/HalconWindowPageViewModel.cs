@@ -27,9 +27,7 @@ namespace UI.ViewModels
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
 
         private HWindow _windowHandle;
-
-        private FindLineConfigs _findLineConfigs;
-
+        
         public HObject DisplayImage { get; set; }
 
         private readonly IMeasurementProcedure MeasurementUnit = new I94TopViewMeasure("I94");
@@ -43,20 +41,22 @@ namespace UI.ViewModels
         }
 
 
-        public async Task Process(List<HImage> images)
+        public async Task ProcessAsync(List<HImage> images)
         {
             HalconGraphics graphics = new HalconGraphics();
             Dictionary<string, double> results = new Dictionary<string, double>();
-            await Task.Run((() =>
+            var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocaionsRelativeValues);
+            
+            await Task.Run(() =>
             {
-             results =  MeasurementUnit.Process(images, _findLineConfigs, _windowHandle, FaiItems, out graphics);
-            }));
+                results =  MeasurementUnit.Process(images, findLineConfigs, _windowHandle, FaiItems, out graphics);
+            });
             
             
             
-            CsvSerializer.Serialize(FaiItems);
             graphics.DisplayGraphics(_windowHandle);
             UpdateFaiItems(results);
+            CsvSerializer.Serialize(FaiItems);
         }
 
         private void UpdateFaiItems(Dictionary<string,double> results)
@@ -127,14 +127,10 @@ namespace UI.ViewModels
             }
 
             // Init find line locations
-            var findLineLocations = FindLineLocationHardCodeValues();
-            _findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), findLineLocations);
+             FindLineLocaionsRelativeValues = FindLineLocationHardCodeValues();
 
-            
-
-
-            // Init commands
-            ExecuteCommand = new RelayCommand(async () => { await ProcessOnce(); });
+             // Init commands
+            ExecuteCommand = new RelayCommand(async () => { await ProcessOnceAsync(); });
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
@@ -155,21 +151,23 @@ namespace UI.ViewModels
             {
                 while (!ImagesRunOut)
                 {
-                   await ProcessOnce();
+                   await ProcessOnceAsync();
                 }
 
                 MultipleImagesRunning = false;
             });
         }
 
+        public List<FindLineLocation> FindLineLocaionsRelativeValues { get; set; }
+
         public bool MultipleImagesRunning { get; set; }
 
-        private async Task ProcessOnce()
+        private async Task ProcessOnceAsync()
         {
             var inputs = ImageInputs;
             if (inputs == null) return;
 
-            await Process(inputs);
+            await ProcessAsync(inputs);
         }
 
 
