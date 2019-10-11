@@ -65,6 +65,8 @@ namespace UI.ImageProcessing
 
             var lineTopBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
+            lineTopBase = new Line(xRight, yRight, xLeft, yLeft);
+
             
              // Right base
              HObject edgesRight, findLineRegionRight;
@@ -73,9 +75,9 @@ namespace UI.ImageProcessing
                  10, 20, "first", 0,
                  20, 40, 3, 3, 5,
                  out edgesRight, out findLineRegionRight);
-
-             var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
+              var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
              HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
+             lineRightBase = new Line(xUp, yUp, xDown, yDown);
 
              
             HalconScripts.GetChangeOfBase(xRight, yRight, xLeft, yLeft, xUp, yUp, xDown, yDown, out changeOfBase, out changeOfBaseInv, out rotationMat, out rotationMatInv);
