@@ -239,6 +239,7 @@ namespace UI.ImageProcessing
                  CrossesUsed = findLineManager.CrossesUsed,
                  FindLineRects = findLineManager.FindLineRects,
                  LineRegions = findLineManager.LineRegions,
+                 Edges = findLineManager.Edges,
                  PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
                  PointLineGraphics = coordinateSolver.PointLineDistanceGraphics, 
                  Image = images[0]

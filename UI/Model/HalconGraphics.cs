@@ -29,9 +29,17 @@ namespace UI.Model
             DisplayCrosses(windowHandle);
             DisplayPointLineDistanceGraphics(windowHandle);
             DisplayPointPointDistanceGraphics(windowHandle);
+            DisplayEdges(windowHandle);
             Line.DisplayGraphics(windowHandle);
         }
 
+        private void DisplayEdges(HWindow windowHandle)
+        {
+            windowHandle.SetLineWidth(4);
+            windowHandle.SetColor("dark olive green");
+            Edges.DispObj(windowHandle);
+            windowHandle.SetLineWidth(1);
+        }
 
 
         public int ImageHeight { get; set; } = 5120;
@@ -73,8 +81,9 @@ namespace UI.Model
         public int EndPointRadius { get; set; } = 10;
 
         public double ArrowSize { get; set; } = 10;
+        public HObject Edges { get; set; }
 
-        public void DisplayCrosses(HWindow windowHandle)
+        private void DisplayCrosses(HWindow windowHandle)
         {
             windowHandle.SetDraw("margin");
             windowHandle.SetLineWidth(1);

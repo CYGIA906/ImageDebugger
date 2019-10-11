@@ -101,59 +101,59 @@ namespace UI.ViewModels
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-1", Angle = -90, X = 2030, Y = 4724, Len2 = 250, ImageIndex = 0
+                    Name = "05-1", Angle = 90, X = 2030, Y = 4724, Len2 = 250, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-2", Angle = -90, X = 1166, Y = 4724, Len2 = 210, ImageIndex = 0
+                    Name = "05-2", Angle = 90, X = 1166, Y = 4724, Len2 = 210, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-3", Angle = -90, X = 366, Y = 4724, Len2 = 210, ImageIndex = 0
+                    Name = "05-3", Angle = 90, X = 366, Y = 4724, Len2 = 210, ImageIndex = 0
                 },
                 // upper left h line
                 new FindLineLocation()
                 {
-                    Name = "09", Angle = 90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = 0
+                    Name = "09", Angle = -90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = 0
                 },
                 // lower left h line
                 new FindLineLocation()
                 {
-                    Name = "06", Angle = -90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = 0
+                    Name = "06", Angle = 90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-1", Angle = 180, X = 2451, Y = 3149, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "12-1", Angle = 0, X = 2451, Y = 3149, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-2", Angle = 180, X = 2451, Y = 3767, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "12-2", Angle = 0, X = 2451, Y = 3767, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-3", Angle = 180, X = 2451, Y = 4300, Len2 = 130, ImageIndex = 0, Len1 = 25
+                    Name = "12-3", Angle = 0, X = 2451, Y = 4300, Len2 = 130, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-1", Angle = 180, X = 2241, Y = 326, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "17-1", Angle = 0, X = 2241, Y = 326, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-2", Angle = 180, X = 2241, Y = 736, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "17-2", Angle = 0, X = 2241, Y = 736, Len2 = 95, ImageIndex = 0, Len1 = 25
                 },
                 new FindLineLocation()
                 {
                     //95
-                    Name = "17-3", Angle = 180, X = 2241, Y = 1149, Len2 = 60, ImageIndex = 0, Len1 = 20
+                    Name = "17-3", Angle = 0, X = 2241, Y = 1149, Len2 = 90, ImageIndex = 0, Len1 = 20
                 },
                 new FindLineLocation()
                 {
-                    Angle = 180,
+                    Angle = 0,
                     Name = "16", ImageIndex = 0, Len2 = 366, X = 3864.5, Y = 2147.5, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "19", Angle = 0, X = 206.5, Y = 705, Len2 = 375, ImageIndex = 0
+                    Name = "19", Angle = 180, X = 206.5, Y = 705, Len2 = 375, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {

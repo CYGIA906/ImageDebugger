@@ -4,9 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml.Xsl;
 using HalconDotNet;
+using MaterialDesignColors;
+using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Statistics;
 
 namespace UI.ImageProcessing.Utilts
 {
@@ -14,7 +18,7 @@ namespace UI.ImageProcessing.Utilts
     {
         private static HDevelopExport HalconScripts = new HDevelopExport();
 
-        public static HObject ConcateAll(params HObject[] objects)
+        public static HObject ConcatAll(params HObject[] objects)
         {
             var objectOut = objects[0];
             for (int i = 1; i < objects.Length; i++)
@@ -23,6 +27,47 @@ namespace UI.ImageProcessing.Utilts
             }
 
             return objectOut;
+        }
+
+        public static Line FitLine2D(List<double> xs, List<double> ys)
+        {
+            var yDeviation = ys.StandardDeviation();
+            var xDeviation = xs.StandardDeviation();
+            var isVertical = yDeviation > xDeviation;
+
+            if(isVertical) Swap(ref xs, ref ys);
+
+            var biasAndWeight = SimpleRegression.Fit(xs.ToArray(), ys.ToArray());
+            var bias = biasAndWeight.Item1;
+            var weight = biasAndWeight.Item2;
+
+            var xStart = xs.Min();
+            var xEnd = xs.Max();
+
+            var yStart = xStart * weight + bias;
+            var yEnd = xEnd * weight + bias;
+
+          
+
+            return new Line(isVertical?yStart: xStart, isVertical ?xStart: yStart, isVertical ? yEnd: xEnd, isVertical ? xEnd: yEnd);
+        }
+
+        private static void Swap(ref List<double> xs, ref List<double> ys)
+        {
+            var tempY = new List<double>();
+            foreach (var x in xs)
+            {
+                tempY.Add(x);
+            }
+
+            var tempX = new List<double>();
+            foreach (var y in ys)
+            {
+                tempX.Add(y);
+            }
+
+            xs = tempX;
+            ys = tempY;
         }
 
         public static Tuple<List<double>, List<double>> FindLineSubPixel(HImage image, double[] row, double[] col, double[] radian,
@@ -42,16 +87,19 @@ namespace UI.ImageProcessing.Utilts
             for (int i = 0; i < length; i++)
             {
                 HObject findLineRect, edge;
-                HTuple xs, ys, x1, x2, y1, y2, _;
+                HTuple xs, ys, _;
                 HalconScripts.VisionProStyleFindLine(image, out findLineRect, transition, row[i], col[i], radian[i],
                     len1[i], len2[i], numSubRects, threshold, sigma1, whichEdge, "false", "first", 0, 0, out xs, out ys);
 
-                HalconScripts.FitLine2D(xs, ys, ignoreFraction, out x1, out y1, out x2, out y2, out _, out _, out _,
-                    out _);
 
-                HalconScripts.GetEdgesInSubRect2(image, out findLineRect, out edge, x1, y1, x2, y2, radian[i], newWidth, sigma2, cannyLow, cannyHigh);
+                var lineOnEdge = FitLine2D(xs.DArr.ToList(), ys.DArr.ToList());
+                
+
+                HalconScripts.GetEdgesInSubRect2(image, out findLineRect, out edge, lineOnEdge.XStart, lineOnEdge.YStart, lineOnEdge.XEnd, lineOnEdge.YEnd, radian[i], newWidth, sigma2, cannyLow, cannyHigh);
                 edges.ConcatObj(edge);
-                findLineRects.ConcatObj(findLineRect);
+                edges = ConcatAll(edges, edge);
+                findLineRects = ConcatAll(findLineRects, findLineRect);
+
 
                 List<double> contourXs, contourYs;
                 GetContoursPoints(edge, out contourXs, out contourYs);
@@ -69,7 +117,7 @@ namespace UI.ImageProcessing.Utilts
 
             int edgeCount = edges.CountObj();
 
-            for (int i = 0; i < edgeCount; i++)
+            for (int i = 1; i < edgeCount + 1; i++)
             {
                 HTuple ys, xs;
                 HOperatorSet.GetContourXld(edges[i], out ys, out xs);
