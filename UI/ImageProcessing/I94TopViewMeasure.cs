@@ -32,15 +32,54 @@ namespace UI.ImageProcessing
             HTuple mapToWorld;
             HTuple mapToImage;
             HTuple xLeft, yLeft, xRight, yRight, xUp, yUp, xDown, yDown;
+            HTuple baseRightCol,
+                baseRightLen1,
+                baseRightLen2,
+                baseRightRadian,
+                baseRightRow,
+                baseTopCol,
+                baseTopLen1,
+                baseTopLen2,
+                baseTopRadian,
+                baseTopRow,
+                camParams;
             // Calculate matrices
 
-            HalconScripts.I94TopViewChangeBase(images[0], out imageUndistorted, _shapeModelHandle, out changeOfBase,
-                out changeOfBaseInv, out rotationMat, out rotationMatInv, out mapToWorld, out mapToImage, out xLeft,
-                out yLeft, out xRight, out yRight, out xUp, out yUp, out xDown, out yDown);
-            var xAxis = new Line(xLeft.D, yLeft.D, xRight.D, yRight.D, true);
-            var yAxis = new Line(xUp.D, yUp.D, xDown.D, yDown.D, true);
 
-           var coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
+            HalconScripts.GetI94TopViewBaseRects(images[0], out imageUndistorted, _shapeModelHandle, out baseTopRow,
+                out baseTopCol, out baseTopRadian, out baseTopLen1, out baseTopLen2, out baseRightRow, 
+                out baseRightCol, out baseRightRadian, out baseRightLen1, out baseRightLen2, out mapToWorld, out mapToImage, out camParams
+                );
+            // Undistort images
+            images[0] = imageUndistorted.HobjectToHimage();
+            HalconScripts.UndistortImage(images[1], out imageUndistorted, camParams, out _);
+            images[1] = imageUndistorted.HobjectToHimage();
+            
+            // Top base
+            HObject edgesTop, findLineRegionTop;
+            var XsYs = HalconHelper.FindLineSubPixel(images[0], baseTopRow, baseTopCol,
+                baseTopRadian, baseTopLen1, baseTopLen2, "negative",
+                10, 20, "first", 0,
+                20, 40, 3, 3, 5,
+                out edgesTop, out findLineRegionTop);
+
+            var lineTopBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
+            HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
+            
+             // Right base
+             HObject edgesRight, findLineRegionRight;
+              XsYs = HalconHelper.FindLineSubPixel(images[0], baseRightRow, baseRightCol,
+                 baseRightRadian, baseRightLen1, baseRightLen2, "negative",
+                 10, 20, "first", 0,
+                 20, 40, 3, 3, 5,
+                 out edgesRight, out findLineRegionRight);
+
+             var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
+             HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
+
+             
+            HalconScripts.GetChangeOfBase(xRight, yRight, xLeft, yLeft, xUp, yUp, xDown, yDown, out changeOfBase, out changeOfBaseInv, out rotationMat, out rotationMatInv);
+            var coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
            
            // Update absolute find line locations
            findLineConfigs.GenerateLocationsAbs(coordinateSolver);
@@ -49,38 +88,38 @@ namespace UI.ImageProcessing
             findLineManager.FindLines(images);
             
             // Make parallel lines
-            var lineFai2and3P2 = coordinateSolver.TranslateLineInWorldUnit(9, yAxis, true);
+            var lineFai2and3P2 = coordinateSolver.TranslateLineInWorldUnit(9, lineRightBase, true);
             
-            var lineFai4P1 = coordinateSolver.TranslateLineInWorldUnit(3, yAxis, true);
-            var lineFai4P2 = coordinateSolver.TranslateLineInWorldUnit(9.269, yAxis, true);
-            var lineFai4P3 = coordinateSolver.TranslateLineInWorldUnit(15.5, yAxis, true);
+            var lineFai4P1 = coordinateSolver.TranslateLineInWorldUnit(3, lineRightBase, true);
+            var lineFai4P2 = coordinateSolver.TranslateLineInWorldUnit(9.269, lineRightBase, true);
+            var lineFai4P3 = coordinateSolver.TranslateLineInWorldUnit(15.5, lineRightBase, true);
             
-            var lineFai5P1 = coordinateSolver.TranslateLineInWorldUnit(5.299, yAxis, true);
-            var lineFai5P2 = coordinateSolver.TranslateLineInWorldUnit(9.299, yAxis, true);
-            var lineFai5P3 = coordinateSolver.TranslateLineInWorldUnit(13.299, yAxis, true);
+            var lineFai5P1 = coordinateSolver.TranslateLineInWorldUnit(5.299, lineRightBase, true);
+            var lineFai5P2 = coordinateSolver.TranslateLineInWorldUnit(9.299, lineRightBase, true);
+            var lineFai5P3 = coordinateSolver.TranslateLineInWorldUnit(13.299, lineRightBase, true);
 
-            var lineFai6P1 = coordinateSolver.TranslateLineInWorldUnit(22.024, yAxis, true);
-            var lineFai6P2 = coordinateSolver.TranslateLineInWorldUnit(24.024, yAxis, true);
-            var lineFai6P3 = coordinateSolver.TranslateLineInWorldUnit(26.024, yAxis, true);
+            var lineFai6P1 = coordinateSolver.TranslateLineInWorldUnit(22.024, lineRightBase, true);
+            var lineFai6P2 = coordinateSolver.TranslateLineInWorldUnit(24.024, lineRightBase, true);
+            var lineFai6P3 = coordinateSolver.TranslateLineInWorldUnit(26.024, lineRightBase, true);
             
-            var lineFai9P1 = coordinateSolver.TranslateLineInWorldUnit(21.753, yAxis, true);
-            var lineFai9P2 = coordinateSolver.TranslateLineInWorldUnit(23.753, yAxis, true);
-            var lineFai9P3 = coordinateSolver.TranslateLineInWorldUnit(25.753, yAxis, true);
+            var lineFai9P1 = coordinateSolver.TranslateLineInWorldUnit(21.753, lineRightBase, true);
+            var lineFai9P2 = coordinateSolver.TranslateLineInWorldUnit(23.753, lineRightBase, true);
+            var lineFai9P3 = coordinateSolver.TranslateLineInWorldUnit(25.753, lineRightBase, true);
             
-            var lineFai12P1 = coordinateSolver.TranslateLineInWorldUnit(23.213, xAxis, true);
-            var lineFai12P2 = coordinateSolver.TranslateLineInWorldUnit(34.97, xAxis, true);
+            var lineFai12P1 = coordinateSolver.TranslateLineInWorldUnit(23.213, lineTopBase, true);
+            var lineFai12P2 = coordinateSolver.TranslateLineInWorldUnit(34.97, lineTopBase, true);
       
-            var lineFai16P1 = coordinateSolver.TranslateLineInWorldUnit(13.071, xAxis, true);
-            var lineFai16P2 = coordinateSolver.TranslateLineInWorldUnit(20.213, xAxis, true);
+            var lineFai16P1 = coordinateSolver.TranslateLineInWorldUnit(13.071, lineTopBase, true);
+            var lineFai16P2 = coordinateSolver.TranslateLineInWorldUnit(20.213, lineTopBase, true);
             
-            var lineFai17P1 = coordinateSolver.TranslateLineInWorldUnit(1.53, xAxis, true);
-            var lineFai17P2 = coordinateSolver.TranslateLineInWorldUnit(9.827, xAxis, true);
+            var lineFai17P1 = coordinateSolver.TranslateLineInWorldUnit(1.53, lineTopBase, true);
+            var lineFai17P2 = coordinateSolver.TranslateLineInWorldUnit(9.827, lineTopBase, true);
             
-            var lineFai19P1 = coordinateSolver.TranslateLineInWorldUnit(2.157, xAxis, true);
-            var lineFai19P2 = coordinateSolver.TranslateLineInWorldUnit(13.791, xAxis, true);
+            var lineFai19P1 = coordinateSolver.TranslateLineInWorldUnit(2.157, lineTopBase, true);
+            var lineFai19P2 = coordinateSolver.TranslateLineInWorldUnit(13.791, lineTopBase, true);
             
-            var lineFai20CenterX = coordinateSolver.TranslateLineInWorldUnit(9.299, yAxis, true);
-            var lineFai20CenterY = coordinateSolver.TranslateLineInWorldUnit(7.886, xAxis, true);
+            var lineFai20CenterX = coordinateSolver.TranslateLineInWorldUnit(9.299, lineRightBase, true);
+            var lineFai20CenterY = coordinateSolver.TranslateLineInWorldUnit(7.886, lineTopBase, true);
             
             // Intersections
             var p2F2 = lineFai2and3P2.Intersect(findLineManager.GetLine("02"));
@@ -118,42 +157,42 @@ namespace UI.ImageProcessing
             var p20Center = lineFai20CenterX.Intersect(lineFai20CenterY);
        
             // Measure point-line distances
-            var valueF2P2 = coordinateSolver.PointLineDistanceInWorld(p2F2, xAxis);
+            var valueF2P2 = coordinateSolver.PointLineDistanceInWorld(p2F2, lineTopBase);
             
-            var valueF3P2 = coordinateSolver.PointLineDistanceInWorld(p2F3, xAxis);
+            var valueF3P2 = coordinateSolver.PointLineDistanceInWorld(p2F3, lineTopBase);
 
-            var valueF4P1 = coordinateSolver.PointLineDistanceInWorld(p1F4, xAxis);
-            var valueF4P2 = coordinateSolver.PointLineDistanceInWorld(p2F4, xAxis);
-            var valueF4P3 = coordinateSolver.PointLineDistanceInWorld(p3F4, xAxis);
+            var valueF4P1 = coordinateSolver.PointLineDistanceInWorld(p1F4, lineTopBase);
+            var valueF4P2 = coordinateSolver.PointLineDistanceInWorld(p2F4, lineTopBase);
+            var valueF4P3 = coordinateSolver.PointLineDistanceInWorld(p3F4, lineTopBase);
 
-            var valueF5P1 = coordinateSolver.PointLineDistanceInWorld(p1F5, xAxis);
-            var valueF5P2 = coordinateSolver.PointLineDistanceInWorld(p2F5, xAxis);
-            var valueF5P3 = coordinateSolver.PointLineDistanceInWorld(p3F5, xAxis);
+            var valueF5P1 = coordinateSolver.PointLineDistanceInWorld(p1F5, lineTopBase);
+            var valueF5P2 = coordinateSolver.PointLineDistanceInWorld(p2F5, lineTopBase);
+            var valueF5P3 = coordinateSolver.PointLineDistanceInWorld(p3F5, lineTopBase);
             
-            var valueF6P1 = coordinateSolver.PointLineDistanceInWorld(p1F6, xAxis);
-            var valueF6P2 = coordinateSolver.PointLineDistanceInWorld(p2F6, xAxis);
-            var valueF6P3 = coordinateSolver.PointLineDistanceInWorld(p3F6, xAxis);
+            var valueF6P1 = coordinateSolver.PointLineDistanceInWorld(p1F6, lineTopBase);
+            var valueF6P2 = coordinateSolver.PointLineDistanceInWorld(p2F6, lineTopBase);
+            var valueF6P3 = coordinateSolver.PointLineDistanceInWorld(p3F6, lineTopBase);
 
-            var valueF9P1 = coordinateSolver.PointLineDistanceInWorld(p1F9, xAxis);
-            var valueF9P2 = coordinateSolver.PointLineDistanceInWorld(p2F9, xAxis);
-            var valueF9P3 = coordinateSolver.PointLineDistanceInWorld(p3F9, xAxis);
+            var valueF9P1 = coordinateSolver.PointLineDistanceInWorld(p1F9, lineTopBase);
+            var valueF9P2 = coordinateSolver.PointLineDistanceInWorld(p2F9, lineTopBase);
+            var valueF9P3 = coordinateSolver.PointLineDistanceInWorld(p3F9, lineTopBase);
 
-            var valueF12P1 = coordinateSolver.PointLineDistanceInWorld(p1F12, yAxis);
-            var valueF12P2 = coordinateSolver.PointLineDistanceInWorld(p2F12, yAxis);
+            var valueF12P1 = coordinateSolver.PointLineDistanceInWorld(p1F12, lineRightBase);
+            var valueF12P2 = coordinateSolver.PointLineDistanceInWorld(p2F12, lineRightBase);
 
-            var valueF16P1 = coordinateSolver.PointLineDistanceInWorld(p1F16, yAxis);
-            var valueF16P2 = coordinateSolver.PointLineDistanceInWorld(p2F16, yAxis);
+            var valueF16P1 = coordinateSolver.PointLineDistanceInWorld(p1F16, lineRightBase);
+            var valueF16P2 = coordinateSolver.PointLineDistanceInWorld(p2F16, lineRightBase);
             
-            var valueF17P1 = coordinateSolver.PointLineDistanceInWorld(p1F17, yAxis);
-            var valueF17P2 = coordinateSolver.PointLineDistanceInWorld(p2F17, yAxis);
+            var valueF17P1 = coordinateSolver.PointLineDistanceInWorld(p1F17, lineRightBase);
+            var valueF17P2 = coordinateSolver.PointLineDistanceInWorld(p2F17, lineRightBase);
             
-            var valueF19P1 = coordinateSolver.PointLineDistanceInWorld(p1F19, yAxis);
-            var valueF19P2 = coordinateSolver.PointLineDistanceInWorld(p2F19, yAxis);
+            var valueF19P1 = coordinateSolver.PointLineDistanceInWorld(p1F19, lineRightBase);
+            var valueF19P2 = coordinateSolver.PointLineDistanceInWorld(p2F19, lineRightBase);
             
             
             
             //Fai 20.1
-            var ptOrigin = xAxis.Intersect(yAxis);
+            var ptOrigin = lineTopBase.Intersect(lineRightBase);
             HTuple rotatedX1, rotatedX2, rotatedY1, rotatedY2;
             HObject lineRegion;
             HalconScripts.PivotLineAroundPoint(out lineRegion, xLeft, yLeft, xRight, yRight, ptOrigin.X, ptOrigin.Y,

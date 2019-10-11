@@ -28,6 +28,15 @@ namespace UI.ImageProcessing.Utilts
 
             return objectOut;
         }
+        
+        public static HImage HobjectToHimage(this HObject hobject) 
+        { 
+            HImage image = new HImage();
+            HTuple pointer, type, width, height; 
+            HOperatorSet.GetImagePointer1(hobject, out pointer, out type, out width, out height); 
+            image.GenImage1(type, width, height, pointer);
+            return image;
+        } 
 
         public static Line FitLine2D(List<double> xs, List<double> ys)
         {

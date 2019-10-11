@@ -156,9 +156,6 @@ namespace UI.ImageProcessing
                         feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I,
                         out edges, out findLineRegion);
 
-                    int edgeCount = edges.CountObj();
-                    int rectCount = findLineRegion.CountObj();
-
                     var line = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
                     HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
                     lineX1 = line.XStart;
