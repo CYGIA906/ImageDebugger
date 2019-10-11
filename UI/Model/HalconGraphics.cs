@@ -63,7 +63,7 @@ namespace UI.Model
                 HOperatorSet.GenCircle(out circle1, line.YStart, line.XStart, EndPointRadius);
                 HOperatorSet.GenCircle(out circle2, line.YEnd, line.XEnd, EndPointRadius);
                 HOperatorSet.GenRegionLine(out lineSeg, line.YStart, line.XStart, line.YEnd, line.XEnd);
-                draw = HalconHelper.ConcateAll(draw, circle1, circle2, lineSeg);
+                draw = HalconHelper.ConcatAll(draw, circle1, circle2, lineSeg);
             }
 
             windowHandle.DispObj(draw);
