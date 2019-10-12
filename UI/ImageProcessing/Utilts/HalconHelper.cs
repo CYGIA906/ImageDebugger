@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Xsl;
+using Accord.MachineLearning;
+using Accord.Math;
+using Accord.Statistics.Models.Regression.Linear;
 using HalconDotNet;
 using MaterialDesignColors;
 using MathNet.Numerics;
@@ -135,7 +138,81 @@ namespace UI.ImageProcessing.Utilts
             }
         }
 
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            var temp = a;
+            a = b;
+            b = temp;
+        }
 
+        public static Line RansacFitLine(double[] xs, double[] ys, double errorThreshold, int maxTrials = 100, double ignoreFraction = 0.2, double probability = 0.95)
+        {
+            var data = xs.Concat(ys).ToArray();
+
+            var xDeviation = xs.StandardDeviation();
+            var yDeviation = ys.StandardDeviation();
+            var isVertical = yDeviation > xDeviation;
+            if (isVertical) Swap(ref xs, ref ys);
+
+            // Now, fit simple linear regression using RANSAC
+            int minSamples = (int) (data.Length * (1 - ignoreFraction));
+          
+
+            // Create a RANSAC algorithm to fit a simple linear regression
+            var ransac = new RANSAC<SimpleLinearRegression>(minSamples)
+            {
+                Probability = probability,
+                Threshold = errorThreshold,
+                MaxEvaluations = maxTrials,
+
+                // Define a fitting function
+                Fitting = (int[] sample) =>
+                {
+                    // Build a Simple Linear Regression model
+                    return new OrdinaryLeastSquares()
+                        .Learn(xs.Get(sample), ys.Get(sample));
+                },
+
+                // Define a inlier detector function
+                Distances = (SimpleLinearRegression r, double threshold) =>
+                {
+                    var inliers = new List<int>();
+                    for (int i = 0; i < xs.Length; i++)
+                    {
+                        // Compute error for each point
+                        double error = r.Transform(xs[i]) - ys[i];
+
+                        // If the square error is low enough,
+                        if (error * error < threshold)
+                            inliers.Add(i); //  the point is considered an inlier.
+                    }
+
+                    return inliers.ToArray();
+                }
+            };
+
+
+            // Now that the RANSAC hyperparameters have been specified, we can 
+            // compute another regression model using the RANSAC algorithm:
+
+            int[] inlierIndices;
+            SimpleLinearRegression robustRegression = ransac.Compute(data.Rows(), out inlierIndices);
+
+            var weight = robustRegression.Slope;
+            var bias = robustRegression.Intercept;
+
+            var xStart = xs.Min();
+            var xEnd = xs.Max();
+
+            var yStart = xStart * weight + bias;
+            var yEnd = xEnd * weight + bias;
+
+            return new Line(isVertical ? yStart : xStart, isVertical ? xStart : yStart, isVertical ? yEnd : xEnd, isVertical ? xEnd : yEnd);
+        }
+
+
+
+        #region Chu's line fitting
 
         /// <summary>
         /// 根据点坐标拟合一条直线
@@ -294,6 +371,8 @@ namespace UI.ImageProcessing.Utilts
             result[0] = Rmatrix[0] * input[0] + Rmatrix[1] * input[1];
             result[1] = Rmatrix[2] * input[0] + Rmatrix[3] * input[1];
         }
+
+        #endregion
     }
 
     /// <summary>
