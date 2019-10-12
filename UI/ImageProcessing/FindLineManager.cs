@@ -171,18 +171,25 @@ namespace UI.ImageProcessing
                 
             }
 
+            Line line;
+            if (feeding.FitLineMethod == FitLineMethod.Chu)
+            {
+                line = HalconHelper.leastSquareAdaptLine(xs, ys);
+            }
+            else
+            {
+                IEnumerable<double> xsInlier, ysInlier;
+                line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), feeding.ErrorThreshold, feeding.MaxTrials, feeding.IgnoreFraction, feeding.Probability, out xsInlier, out ysInlier);
+                xsUsed = xsInlier.ToArray();
+                ysUsed = ysInlier.ToArray();
+            }
 
-            //            var line = HalconHelper.leastSquareAdaptLine(xs, ys);
-
-            IEnumerable<double> xsInlier, ysInlier;
-            var line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), 6, 100, 0.2, 0.95, out xsInlier, out ysInlier);
             HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
             lineX1 = line.XStart;
             lineY1 = line.YStart;
             lineX2 = line.XEnd;
             lineY2 = line.YEnd;
-            xsUsed = xsInlier.ToArray();
-            ysUsed = ysInlier.ToArray();
+          
 
             // Generate debugging graphics 
             HObject crossesUsed;

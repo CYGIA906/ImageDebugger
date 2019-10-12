@@ -34,7 +34,7 @@
            </halconDotNet:HSmartWindowControlWPF>
 
            <!-- Find line param LIST -->
-        <Expander  Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0" Panel.ZIndex="2" Foreground="AliceBlue" FontSize="24"
+        <Expander  Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0" Grid.ColumnSpan="2" Panel.ZIndex="2" Foreground="AliceBlue" FontSize="24"
                      ExpandDirection="Left">
                <Expander.Header>
                    <TextBlock
@@ -50,6 +50,7 @@
                          ItemsSource="{Binding FindLineParams}"
                          CanUserSortColumns="True"
                          CanUserAddRows="False"
+                         FontSize="8"
                />
            </Expander>
 

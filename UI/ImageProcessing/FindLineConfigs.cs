@@ -133,7 +133,11 @@ namespace UI.ImageProcessing
                     ImageIndex = location.ImageIndex,
                     IsVertical = location.IsVertical,
                     CannyHigh = param.CannyHigh,
-                    CannyLow = param.CannyLow
+                    CannyLow = param.CannyLow,
+                    FitLineMethod = param.FitLineMethod,
+                    MaxTrials = param.MaxTrials,
+                    ErrorThreshold = param.ErrorThreshold,
+                    Probability = param.Probability
                 };
                 findLineFeedings[name] = feeding;
             }
@@ -173,6 +177,10 @@ namespace UI.ImageProcessing
                     IsVertical = locations[0].IsVertical,
                     CannyHigh = parameters[0].CannyHigh,
                     CannyLow = parameters[0].CannyLow,
+                    FitLineMethod = parameters[0].FitLineMethod,
+                    MaxTrials = parameters[0].MaxTrials,
+                    ErrorThreshold = parameters[0].ErrorThreshold,
+                    Probability = parameters[0].Probability
                 };
                 findLineFeedings[key] = feeding;
             }

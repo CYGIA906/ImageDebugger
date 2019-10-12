@@ -37,6 +37,14 @@ namespace UI.ImageProcessing
 
         public int ImageIndex { get; set; }
 
+        public FitLineMethod FitLineMethod { get; set; }
+
+        public int MaxTrials { get; set; }
+
+        public double Probability { get; set; }
+
+        public double ErrorThreshold { get; set; }
+
 
         public HTuple IsVertical { get; set; }
 

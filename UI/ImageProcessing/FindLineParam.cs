@@ -32,6 +32,16 @@ namespace UI.ImageProcessing
         [XmlAttribute]
         public int NumSubRects { get; set; } = 10;
 
+        [XmlAttribute] public FitLineMethod FitLineMethod { get; set; } = FitLineMethod.Ransac;
+
+        [XmlAttribute] public int ErrorThreshold { get; set; } = 6;
+
+        [XmlAttribute] public double Probability { get; set; } = 0.95;
+
+        [XmlAttribute]  
+        public int MaxTrials { get; set; } = 100;
+
+
         protected override string GetSerializationPath()
         {
             return Path.Combine(SerializationDir, Name + ".xml");
@@ -58,5 +68,10 @@ namespace UI.ImageProcessing
     {
         First,
         Last
+    }
+
+    public enum FitLineMethod
+    {
+        Chu, Ransac
     }
 }
