@@ -22,8 +22,7 @@ namespace UI.Model
 
         public void DisplayGraphics(HWindow windowHandle)
         {
-            windowHandle.SetColored(3);
-            windowHandle.SetPart(0,0,ImageHeight,ImageWidth);
+
             
             windowHandle.DispImage(Image);
             DisplayCrosses(windowHandle);

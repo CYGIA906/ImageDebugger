@@ -108,9 +108,9 @@ namespace UI.ImageProcessing
         public Line PerpendicularLineThatPasses(Point point)
         {
             HTuple intersectX, intersectY;
-            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.X, point.Y, out intersectX, out intersectY);
+            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.ImageX, point.ImageY, out intersectX, out intersectY);
             
-            return new Line(point.X, point.Y, intersectX.D, intersectY.D);
+            return new Line(point.ImageX, point.ImageY, intersectX.D, intersectY.D);
         }
 
         /// <summary>
@@ -121,9 +121,9 @@ namespace UI.ImageProcessing
         public Point ProjectPoint(Point point)
         {
             HTuple intersectX, intersectY;
-            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.X, point.Y, out intersectX, out intersectY);
+            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.ImageX, point.ImageY, out intersectX, out intersectY);
 
-            return Intersect(new Line(intersectX, intersectY, point.X, point.Y));
+            return Intersect(new Line(intersectX, intersectY, point.ImageX, point.ImageY));
         }
     }
 }  

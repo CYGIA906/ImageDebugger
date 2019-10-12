@@ -103,23 +103,23 @@ namespace UI.ImageProcessing
 
             return new FindLineLocation()
             {
-                Angle = angle, Len1 = relativeLocation.Len1, Len2 = relativeLocation.Len2, X = point.X, Y = point.Y,
+                Angle = angle, Len1 = relativeLocation.Len1, Len2 = relativeLocation.Len2, X = point.ImageX, Y = point.ImageY,
                 ImageIndex = relativeLocation.ImageIndex, Name = relativeLocation.Name
             };
         }
         
         public double PointLineDistanceInWorld(Point point, Line line)
         {
-            return PointLineDistanceInWorld(point.X, point.Y, line);
+            return PointLineDistanceInWorld(point.ImageX, point.ImageY, line);
         }
 
         public double PointPointDistanceInWorld(Point pointA, Point pointB, bool display = false)
         {
             HTuple distance;
-            HalconScripts.DistanceInWorld_PP(pointA.Y, pointA.X, pointB.Y, pointB.X, _mapToWorld, out distance);
+            HalconScripts.DistanceInWorld_PP(pointA.ImageY, pointA.ImageX, pointB.ImageY, pointB.ImageX, _mapToWorld, out distance);
             if (display)
             {
-                PointPointDistanceGraphics.Add(new Line(pointA.X, pointA.Y, pointB.X, pointB.Y));
+                PointPointDistanceGraphics.Add(new Line(pointA.ImageX, pointA.ImageY, pointB.ImageX, pointB.ImageY));
             }
 
             return distance.D;

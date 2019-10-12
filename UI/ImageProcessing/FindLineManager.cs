@@ -131,7 +131,6 @@ namespace UI.ImageProcessing
                         feeding.NewWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1,
                         out lineX2, out lineY2);
 
-                   
                 }
                 xs = xsUsed.DArr.ToList();
                 ys = ysUsed.DArr.ToList();

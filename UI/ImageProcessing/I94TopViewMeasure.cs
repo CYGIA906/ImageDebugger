@@ -198,13 +198,13 @@ namespace UI.ImageProcessing
             var ptOrigin = lineTopBase.Intersect(lineRightBase);
             HTuple rotatedX1, rotatedX2, rotatedY1, rotatedY2;
             HObject lineRegion;
-            HalconScripts.PivotLineAroundPoint(out lineRegion, xLeft, yLeft, xRight, yRight, ptOrigin.X, ptOrigin.Y,
+            HalconScripts.PivotLineAroundPoint(out lineRegion, xLeft, yLeft, xRight, yRight, ptOrigin.ImageX, ptOrigin.ImageY,
                 MathUtils.ToRadian(45), "right", 5120, 5120, out rotatedX1, out rotatedY1, out rotatedX2,
                 out rotatedY2);
             var lineRotated = new Line(rotatedX1.D, rotatedY1.D, rotatedX2.D, rotatedY2.D);
             lineRotated.IsVisible = true;            
 
-            HalconScripts.PivotLineAroundPoint(out lineRegion, xLeft, yLeft, xRight, yRight, ptOrigin.X, ptOrigin.Y,
+            HalconScripts.PivotLineAroundPoint(out lineRegion, xLeft, yLeft, xRight, yRight, ptOrigin.ImageX, ptOrigin.ImageY,
                 MathUtils.ToRadian(-45), "right", 5120, 5120, out rotatedX1, out rotatedY1, out rotatedX2,
                 out rotatedY2);
             var lineProject = new Line(rotatedX1.D, rotatedY1.D, rotatedX2.D, rotatedY2.D) {IsVisible = true};
@@ -221,8 +221,8 @@ namespace UI.ImageProcessing
             
             // Fai 20.2
             var pointOnBottomLeft = linePerpendiculerToBottomLeft.Intersect(lineFai20BottomLeft);
-            var midPoint = new Point((pointOnBottomLeft.X + pointOnTopRight.X) / 2.0,
-                (pointOnBottomLeft.Y + pointOnTopRight.Y) / 2.0);
+            var midPoint = new Point((pointOnBottomLeft.ImageX + pointOnTopRight.ImageX) / 2.0,
+                (pointOnBottomLeft.ImageY + pointOnTopRight.ImageY) / 2.0);
             var pointMidProjected = lineProject.ProjectPoint(midPoint);
             var distanceToOrigin = coordinateSolver.PointPointDistanceInWorld(pointMidProjected, ptOrigin, true);
             var valueF20P2 = Math.Abs(12.202 - distanceToOrigin) * 2;
