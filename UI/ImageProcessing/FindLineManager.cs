@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -104,6 +105,7 @@ namespace UI.ImageProcessing
             HTuple lineY1 = new HTuple();
             HTuple lineX2 = new HTuple();
             HTuple lineY2 = new HTuple();
+            List<double> ys, xs;
 
 
             // using pair
@@ -128,17 +130,22 @@ namespace UI.ImageProcessing
                         feeding.MaxWidth, _width, _height, feeding.CannyHigh, feeding.CannyLow, "true",
                         feeding.NewWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1,
                         out lineX2, out lineY2);
+
+                   
                 }
+                xs = xsUsed.DArr.ToList();
+                ys = ysUsed.DArr.ToList();
             } // using single edge
             else
             {
-
                 if (feeding.FirstAttemptOnly)
                 {
                     HalconScripts.FindLineGradiant(image, out findLineRegion, out lineRegion, feeding.Row, feeding.Col,
                         feeding.Radian, feeding.Len1, feeding.Len2, feeding.NumSubRects, feeding.IgnoreFraction,
                         feeding.Transition, feeding.Threshold, feeding.Sigma1, feeding.WhichEdge, out xsUsed,
                         out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1, out lineX2, out lineY2);
+                    ys = ysUsed.DArr.ToList();
+                    xs = xsUsed.DArr.ToList();
                 }
                 else
 
@@ -150,21 +157,26 @@ namespace UI.ImageProcessing
 //                        feeding.CannyHigh, feeding.CannyLow, out lineX1, out lineY1, out lineX2, out lineY2, out xsUsed,
 //                        out ysUsed, out xsIgnored, out ysIgnored);
 
-                    var XsYs = HalconHelper.FindLineSubPixel(image, feeding.Row.DArr, feeding.Col.DArr,
+                    var xsys = HalconHelper.FindLineSubPixel(image, feeding.Row.DArr, feeding.Col.DArr,
                         feeding.Radian.DArr, feeding.Len1.DArr, feeding.Len2.DArr, feeding.Transition.S,
                         feeding.NumSubRects.I, feeding.Threshold.I, feeding.WhichEdge.S, feeding.IgnoreFraction.D,
                         feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I,
                         out edges, out findLineRegion);
 
-                    var line = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
-                    HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
-                    lineX1 = line.XStart;
-                    lineY1 = line.YStart;
-                    lineX2 = line.XEnd;
-                    lineY2 = line.YEnd;
+                    xs = xsys.Item1;
+                    ys = xsys.Item2;
+
+
                 }
+                
             }
 
+            var line = HalconHelper.leastSquareAdaptLine(xs, ys);
+            HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
+            lineX1 = line.XStart;
+            lineY1 = line.YStart;
+            lineX2 = line.XEnd;
+            lineY2 = line.YEnd;
 
             // Generate debugging graphics 
             HObject crossesUsed;

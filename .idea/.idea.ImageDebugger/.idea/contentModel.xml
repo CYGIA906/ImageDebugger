@@ -5,7 +5,9 @@
     <e p="C:\Users\afterbunny\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.-1259227406.00" t="ExcludeRecursive" />
     <e p="C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger" t="IncludeFlat">
       <e p="ImageDebugger.sln" t="IncludeFlat" />
-      <e p="packages" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive">
+        <e p="Accord.3.4.0\build\Accord.dll.config" t="Include" />
+      </e>
       <e p="UI" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="App.xaml" t="Include" />

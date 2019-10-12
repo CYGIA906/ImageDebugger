@@ -35,8 +35,8 @@ namespace UI.Model
 
         private void DisplayEdges(HWindow windowHandle)
         {
-            windowHandle.SetLineWidth(4);
-            windowHandle.SetColor("dark olive green");
+            windowHandle.SetLineWidth(5);
+            windowHandle.SetColor("orange");
             Edges.DispObj(windowHandle);
             windowHandle.SetLineWidth(1);
         }

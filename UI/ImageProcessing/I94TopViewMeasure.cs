@@ -52,6 +52,7 @@ namespace UI.ImageProcessing
                 );
             // Undistort images
             images[0] = imageUndistorted.HobjectToHimage();
+            HTuple _;
             HalconScripts.UndistortImage(images[1], out imageUndistorted, camParams, out _);
             images[1] = imageUndistorted.HobjectToHimage();
             
@@ -65,7 +66,7 @@ namespace UI.ImageProcessing
 
             var lineTopBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
-            lineTopBase = new Line(xRight, yRight, xLeft, yLeft);
+            lineTopBase = new Line(xRight, yRight, xLeft, yLeft, true);
 
             
              // Right base
@@ -77,7 +78,7 @@ namespace UI.ImageProcessing
                  out edgesRight, out findLineRegionRight);
               var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
              HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
-             lineRightBase = new Line(xUp, yUp, xDown, yDown);
+             lineRightBase = new Line(xUp, yUp, xDown, yDown, true);
 
              
             HalconScripts.GetChangeOfBase(xRight, yRight, xLeft, yLeft, xUp, yUp, xDown, yDown, out changeOfBase, out changeOfBaseInv, out rotationMat, out rotationMatInv);
@@ -283,7 +284,7 @@ namespace UI.ImageProcessing
                  Edges = findLineManager.Edges,
                  PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
                  PointLineGraphics = coordinateSolver.PointLineDistanceGraphics, 
-                 Image = images[0]
+                 Image = images[1]
              };
 
             return outputs;

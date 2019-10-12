@@ -1186,6 +1186,10 @@ public partial class HDevelopExport
       GenLineRegion(out ho_lineRegion, hv_lineX1, hv_lineY1, hv_lineX2, hv_lineY2, 
           hv_imageWidth, hv_imageHeight);
 
+      hv_XsUsed.Dispose();
+      hv_XsUsed = new HTuple(hv_Xs);
+      hv_YsUsed.Dispose();
+      hv_YsUsed = new HTuple(hv_Ys);
       ho_findLineRegions.Dispose();
 
       hv_imageWidth.Dispose();
@@ -19978,7 +19982,7 @@ public partial class HDevelopExport
           {
           HTuple 
             ExpTmpLocalVar_AllXsUsed = hv_AllXsUsed.TupleConcat(
-              hv_XsUsed);
+              hv_Xs);
           hv_AllXsUsed.Dispose();
           hv_AllXsUsed = ExpTmpLocalVar_AllXsUsed;
           }
@@ -19988,7 +19992,7 @@ public partial class HDevelopExport
           {
           HTuple 
             ExpTmpLocalVar_AllYsUsed = hv_AllYsUsed.TupleConcat(
-              hv_YsUsed);
+              hv_Ys);
           hv_AllYsUsed.Dispose();
           hv_AllYsUsed = ExpTmpLocalVar_AllYsUsed;
           }
@@ -20125,10 +20129,10 @@ public partial class HDevelopExport
     HTuple hv_EdgesY = new HTuple(), hv_AllXsUsed = new HTuple();
     HTuple hv_AllYsUsed = new HTuple(), hv_AllXsIgnored = new HTuple();
     HTuple hv_AllYsIgnored = new HTuple(), hv_i = new HTuple();
-    HTuple hv_RowBegin = new HTuple(), hv_ColBegin = new HTuple();
-    HTuple hv_RowEnd = new HTuple(), hv_ColEnd = new HTuple();
-    HTuple hv_EdgesXStep = new HTuple(), hv_EdgesYStep = new HTuple();
-    HTuple hv__ = new HTuple();
+    HTuple hv_Xs = new HTuple(), hv_Ys = new HTuple(), hv_RowBegin = new HTuple();
+    HTuple hv_ColBegin = new HTuple(), hv_RowEnd = new HTuple();
+    HTuple hv_ColEnd = new HTuple(), hv_EdgesXStep = new HTuple();
+    HTuple hv_EdgesYStep = new HTuple(), hv__ = new HTuple();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_findLineRegion);
     HOperatorSet.GenEmptyObj(out ho_lineRegion);
@@ -20175,41 +20179,27 @@ public partial class HDevelopExport
       {
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
-        ho_findLineRegion.Dispose();hv_XsUsed.Dispose();hv_YsUsed.Dispose();
+        ho_findLineRegion.Dispose();hv_Xs.Dispose();hv_Ys.Dispose();
         VisionProStyleFindLine(ho_inputImage, out ho_findLineRegion, hv_transition, 
             hv_row.TupleSelect(hv_i), hv_col.TupleSelect(hv_i), hv_radian.TupleSelect(
             hv_i), hv_len1.TupleSelect(hv_i), hv_len2.TupleSelect(hv_i), hv_numSubRects, 
             hv_threshold.TupleSelect(hv_i), hv_sigma1, hv_firstOrLast, "true", hv_whichEdgePair, 
-            hv_minEdge, hv_maxEdge, out hv_XsUsed, out hv_YsUsed);
+            hv_minEdge, hv_maxEdge, out hv_Xs, out hv_Ys);
         }
 
         if ((int)(new HTuple(hv_isVertical.TupleEqual("true"))) != 0)
         {
-          hv_lineY1.Dispose();hv_lineX1.Dispose();hv_lineY2.Dispose();hv_lineX2.Dispose();
-          {
-          HTuple ExpTmpOutVar_0;HTuple ExpTmpOutVar_1;hv_YsIgnored.Dispose();hv_XsIgnored.Dispose();
-          FitLine2D(hv_XsUsed, hv_YsUsed, hv_ignoreFraction, out hv_lineY1, out hv_lineX1, 
-              out hv_lineY2, out hv_lineX2, out ExpTmpOutVar_0, out ExpTmpOutVar_1, 
-              out hv_YsIgnored, out hv_XsIgnored);
-          hv_YsUsed.Dispose();
-          hv_YsUsed = ExpTmpOutVar_0;
-          hv_XsUsed.Dispose();
-          hv_XsUsed = ExpTmpOutVar_1;
-          }
+          hv_lineY1.Dispose();hv_lineX1.Dispose();hv_lineY2.Dispose();hv_lineX2.Dispose();hv_YsUsed.Dispose();hv_XsUsed.Dispose();hv_YsIgnored.Dispose();hv_XsIgnored.Dispose();
+          FitLine2D(hv_Xs, hv_Ys, hv_ignoreFraction, out hv_lineY1, out hv_lineX1, 
+              out hv_lineY2, out hv_lineX2, out hv_YsUsed, out hv_XsUsed, out hv_YsIgnored, 
+              out hv_XsIgnored);
         }
         else
         {
-          hv_lineX1.Dispose();hv_lineY1.Dispose();hv_lineX2.Dispose();hv_lineY2.Dispose();
-          {
-          HTuple ExpTmpOutVar_0;HTuple ExpTmpOutVar_1;hv_XsIgnored.Dispose();hv_YsIgnored.Dispose();
-          FitLine2D(hv_XsUsed, hv_YsUsed, hv_ignoreFraction, out hv_lineX1, out hv_lineY1, 
-              out hv_lineX2, out hv_lineY2, out ExpTmpOutVar_0, out ExpTmpOutVar_1, 
-              out hv_XsIgnored, out hv_YsIgnored);
-          hv_XsUsed.Dispose();
-          hv_XsUsed = ExpTmpOutVar_0;
-          hv_YsUsed.Dispose();
-          hv_YsUsed = ExpTmpOutVar_1;
-          }
+          hv_lineX1.Dispose();hv_lineY1.Dispose();hv_lineX2.Dispose();hv_lineY2.Dispose();hv_XsUsed.Dispose();hv_YsUsed.Dispose();hv_XsIgnored.Dispose();hv_YsIgnored.Dispose();
+          FitLine2D(hv_Xs, hv_Ys, hv_ignoreFraction, out hv_lineX1, out hv_lineY1, 
+              out hv_lineX2, out hv_lineY2, out hv_XsUsed, out hv_YsUsed, out hv_XsIgnored, 
+              out hv_YsIgnored);
         }
 
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -20260,7 +20250,7 @@ public partial class HDevelopExport
           {
           HTuple 
             ExpTmpLocalVar_AllXsUsed = hv_AllXsUsed.TupleConcat(
-              hv_XsUsed);
+              hv_Xs);
           hv_AllXsUsed.Dispose();
           hv_AllXsUsed = ExpTmpLocalVar_AllXsUsed;
           }
@@ -20270,7 +20260,7 @@ public partial class HDevelopExport
           {
           HTuple 
             ExpTmpLocalVar_AllYsUsed = hv_AllYsUsed.TupleConcat(
-              hv_YsUsed);
+              hv_Ys);
           hv_AllYsUsed.Dispose();
           hv_AllYsUsed = ExpTmpLocalVar_AllYsUsed;
           }
@@ -20346,6 +20336,8 @@ public partial class HDevelopExport
       hv_AllXsIgnored.Dispose();
       hv_AllYsIgnored.Dispose();
       hv_i.Dispose();
+      hv_Xs.Dispose();
+      hv_Ys.Dispose();
       hv_RowBegin.Dispose();
       hv_ColBegin.Dispose();
       hv_RowEnd.Dispose();
@@ -20369,6 +20361,8 @@ public partial class HDevelopExport
       hv_AllXsIgnored.Dispose();
       hv_AllYsIgnored.Dispose();
       hv_i.Dispose();
+      hv_Xs.Dispose();
+      hv_Ys.Dispose();
       hv_RowBegin.Dispose();
       hv_ColBegin.Dispose();
       hv_RowEnd.Dispose();
@@ -20416,6 +20410,7 @@ public partial class HDevelopExport
           out hv_MapToImage, out hv_lineX1TopBase, out hv_lineY1TopBase, out hv_lineX2TopBase, 
           out hv_lineY2TopBase, out hv_lineX1RightBase, out hv_lineY1RightBase, out hv_lineX2RightBase, 
           out hv_lineY2RightBase);
+
     }
     catch (HalconException HDevExpDefaultException)
     {

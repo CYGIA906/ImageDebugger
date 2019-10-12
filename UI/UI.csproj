@@ -57,6 +57,26 @@
     <StartupObject>UI.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord, Version=3.4.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7">
+      <HintPath>..\packages\Accord.3.4.0\lib\net46\Accord.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.MachineLearning, Version=3.4.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7">
+      <HintPath>..\packages\Accord.MachineLearning.3.4.0\lib\net46\Accord.MachineLearning.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math, Version=3.4.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7">
+      <HintPath>..\packages\Accord.Math.3.4.0\lib\net46\Accord.Math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math.Core, Version=3.4.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7">
+      <HintPath>..\packages\Accord.Math.3.4.0\lib\net46\Accord.Math.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=3.4.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7">
+      <HintPath>..\packages\Accord.Statistics.3.4.0\lib\net46\Accord.Statistics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="halcondotnet, Version=17.12.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files\MVTec\HALCON-18.11-Progress\bin\dotnet35\halcondotnet.dll</HintPath>
@@ -186,6 +206,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\PropertyChanged.Fody.2.6.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.2.6.1\build\PropertyChanged.Fody.props'))" />
     <Error Condition="!Exists('..\packages\Fody.4.2.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.4.2.1\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Accord.3.4.0\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accord.3.4.0\build\Accord.targets'))" />
   </Target>
   <Import Project="..\packages\Fody.4.2.1\build\Fody.targets" Condition="Exists('..\packages\Fody.4.2.1\build\Fody.targets')" />
+  <Import Project="..\packages\Accord.3.4.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.4.0\build\Accord.targets')" />
 </Project>
