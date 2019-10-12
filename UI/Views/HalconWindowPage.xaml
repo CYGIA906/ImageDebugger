@@ -62,6 +62,11 @@
                         Margin="5 5"
                         Command="{Binding SelectImageDirCommand}"
                         Content="Select Image Directory" />
+                    <Button
+                        Height="50"
+                        Margin="5 5"
+                        Command="{Binding OpenLastDirectoryCommand}"
+                        Content="Open Last Directory" />
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

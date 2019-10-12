@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Accord.Math;
 using HalconDotNet;
 using MathNet.Numerics.LinearRegression;
 using UI.ImageProcessing.Utilts;
@@ -170,16 +171,23 @@ namespace UI.ImageProcessing
                 
             }
 
-            var line = HalconHelper.leastSquareAdaptLine(xs, ys);
+
+            //            var line = HalconHelper.leastSquareAdaptLine(xs, ys);
+
+            IEnumerable<double> xsInlier, ysInlier;
+            var line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), 6, 100, 0.2, 0.95, out xsInlier, out ysInlier);
             HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
             lineX1 = line.XStart;
             lineY1 = line.YStart;
             lineX2 = line.XEnd;
             lineY2 = line.YEnd;
+            xsUsed = xsInlier.ToArray();
+            ysUsed = ysInlier.ToArray();
 
             // Generate debugging graphics 
             HObject crossesUsed;
-            HOperatorSet.GenCrossContourXld(out crossesUsed, ysUsed, xsUsed, CrossSize, CrossAngle);
+            HOperatorSet.GenCrossContourXld(out crossesUsed, ysUsed, xsUsed, 2, CrossAngle);
+//            HOperatorSet.GenCircleContourXld(out crossesUsed, ysUsed, xsUsed, 1, 0, Math.PI, "positive",1);
             HObject crossesIgnored;
             HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
 

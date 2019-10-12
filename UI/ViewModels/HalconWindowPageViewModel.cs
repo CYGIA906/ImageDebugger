@@ -35,6 +35,8 @@ namespace UI.ViewModels
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
 
+        public ICommand OpenLastDirectoryCommand { get;  }
+
         public string ParamSerializationBaseDir
         {
             get { return SerializationDir + "/FindLineParams"; }
@@ -146,6 +148,7 @@ namespace UI.ViewModels
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
                         ImageDirectory = fbd.SelectedPath;
+                        LastDirectory = fbd.SelectedPath;
                     }
                 }
             });
@@ -159,7 +162,11 @@ namespace UI.ViewModels
 
                 MultipleImagesRunning = false;
             });
+
+            OpenLastDirectoryCommand = new RelayCommand(() => { ImageDirectory = LastDirectory; });
         }
+
+        public string LastDirectory { get; set; }
 
         public List<FindLineLocation> FindLineLocaionsRelativeValues { get; set; }
 

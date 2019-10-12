@@ -145,9 +145,8 @@ namespace UI.ImageProcessing.Utilts
             b = temp;
         }
 
-        public static Line RansacFitLine(double[] xs, double[] ys, double errorThreshold, int maxTrials = 100, double ignoreFraction = 0.2, double probability = 0.95)
+        public static Line RansacFitLine(double[] xs, double[] ys, double errorThreshold, int maxTrials, double ignoreFraction, double probability, out IEnumerable<double> xsUsed, out IEnumerable<double> ysUsed)
         {
-            var data = xs.Concat(ys).ToArray();
 
             var xDeviation = xs.StandardDeviation();
             var yDeviation = ys.StandardDeviation();
@@ -155,7 +154,7 @@ namespace UI.ImageProcessing.Utilts
             if (isVertical) Swap(ref xs, ref ys);
 
             // Now, fit simple linear regression using RANSAC
-            int minSamples = (int) (data.Length * (1 - ignoreFraction));
+            int minSamples = (int) (xs.Length * (1 - ignoreFraction));
           
 
             // Create a RANSAC algorithm to fit a simple linear regression
@@ -196,7 +195,7 @@ namespace UI.ImageProcessing.Utilts
             // compute another regression model using the RANSAC algorithm:
 
             int[] inlierIndices;
-            SimpleLinearRegression robustRegression = ransac.Compute(data.Rows(), out inlierIndices);
+            SimpleLinearRegression robustRegression = ransac.Compute(xs.Length, out inlierIndices);
 
             var weight = robustRegression.Slope;
             var bias = robustRegression.Intercept;
@@ -207,7 +206,23 @@ namespace UI.ImageProcessing.Utilts
             var yStart = xStart * weight + bias;
             var yEnd = xEnd * weight + bias;
 
+
+            xsUsed = xs.SelectByIndices(inlierIndices);
+            ysUsed = ys.SelectByIndices(inlierIndices);
+
             return new Line(isVertical ? yStart : xStart, isVertical ? xStart : yStart, isVertical ? yEnd : xEnd, isVertical ? xEnd : yEnd);
+        }
+
+
+        public static IEnumerable<double> SelectByIndices(this IEnumerable<double> source, IEnumerable<int> indices)
+        {
+            var output = new List<double>();
+            foreach (var index in indices)
+            {
+                output.Add(source.ElementAt(index));
+            }
+
+            return output;
         }
 
 
