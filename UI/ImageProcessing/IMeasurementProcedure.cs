@@ -10,8 +10,6 @@ namespace UI.ImageProcessing
 {
     public interface IMeasurementProcedure
     {
-        ObservableCollection<FaiItem> FaiItems { get; }
-
         /// <summary>
         /// Fire when the measurement result output is ready but have not been fed back
         /// </summary>
@@ -24,8 +22,8 @@ namespace UI.ImageProcessing
         /// </summary>
         event Action MeasurementResultPulled;
 
-        Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs, HWindow windowHandle9,
-            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics);
+        Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
+            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics, out PointsRecorder recorder);
 
     }
 }

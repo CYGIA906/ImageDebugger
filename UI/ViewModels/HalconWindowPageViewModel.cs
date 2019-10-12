@@ -46,15 +46,18 @@ namespace UI.ViewModels
             HalconGraphics graphics = new HalconGraphics();
             Dictionary<string, double> results = new Dictionary<string, double>();
             var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocaionsRelativeValues);
+            PointsRecorder pointsRecorder = null;
             
             await Task.Run(() =>
             {
-                results =  MeasurementUnit.Process(images, findLineConfigs, _windowHandle, FaiItems, out graphics);
+                results =  MeasurementUnit.Process(images, findLineConfigs, FaiItems, out graphics, out pointsRecorder);
             });
             
             
             
             graphics.DisplayGraphics(_windowHandle);
+            pointsRecorder.DisplayPoints(_windowHandle);
+            pointsRecorder.Serialize(CsvDir + "/Points.csv");
             UpdateFaiItems(results);
             CsvSerializer.Serialize(FaiItems);
         }

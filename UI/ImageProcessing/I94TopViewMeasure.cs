@@ -21,8 +21,7 @@ namespace UI.ImageProcessing
         public event Action MeasurementResultPulled;
 
         public Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
-            HWindow windowHandle,
-            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics)
+            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics, out PointsRecorder recorder)
         {
             HObject imageUndistorted;
             HTuple changeOfBase;
@@ -43,6 +42,8 @@ namespace UI.ImageProcessing
                 baseTopRadian,
                 baseTopRow,
                 camParams;
+
+
             // Calculate matrices
 
 
@@ -83,7 +84,8 @@ namespace UI.ImageProcessing
              
             HalconScripts.GetChangeOfBase(xRight, yRight, xLeft, yLeft, xUp, yUp, xDown, yDown, out changeOfBase, out changeOfBaseInv, out rotationMat, out rotationMatInv);
             var coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
-           
+            recorder = new PointsRecorder(changeOfBaseInv);
+
            // Update absolute find line locations
            findLineConfigs.GenerateLocationsAbs(coordinateSolver);
            // Find lines
@@ -191,6 +193,11 @@ namespace UI.ImageProcessing
             
             var valueF19P1 = coordinateSolver.PointLineDistanceInWorld(p1F19, lineRightBase);
             var valueF19P2 = coordinateSolver.PointLineDistanceInWorld(p2F19, lineRightBase);
+
+
+            // Record points
+            recorder.Record(findLineManager.GetLine("02"), lineRightBase, "XAxis-02");
+            recorder.Record(findLineManager.GetLine("03"), lineRightBase, "YAxis-03");
             
             
             
@@ -273,8 +280,6 @@ namespace UI.ImageProcessing
             outputs["20_2"] = valueF20P2;     
 
 
-            windowHandle.DispImage(images[1]);
-            
              graphics = new HalconGraphics()
              {
                  CrossesIgnored = findLineManager.CrossesIgnored,

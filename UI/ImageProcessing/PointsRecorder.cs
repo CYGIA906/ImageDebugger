@@ -9,27 +9,42 @@ using HalconDotNet;
 
 namespace UI.ImageProcessing
 {
-    public class PonitsRecoder
+    public class PointsRecorder
     {
         private HTuple _changeOfBaseInv;
 
         private static HDevelopExport HalconScripts = new HDevelopExport();
 
-        public static double Offset { get; set; } = 10;
-
-        public TextAlignment Alignment { get; set; } = TextAlignment.Right;
+        public static Point Offset { get; set; } = new Point(10, 0);
 
         private Dictionary<string, Point> _points = new Dictionary<string, Point>();
 
-        public PonitsRecoder(HTuple changeOfBaseInv)
+        public PointsRecorder(HTuple changeOfBaseInv)
         {
             _changeOfBaseInv = changeOfBaseInv;
         }
 
+        /// <summary>
+        /// Record a point
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="name"></param>
         public void Record(Point point, string name)
         {
             AssignCoordinatePoint(point);
             _points[name] = point;
+        }
+
+        /// <summary>
+        /// Record a point from intersecting lines
+        /// </summary>
+        /// <param name="lineA"></param>
+        /// <param name="lineB"></param>
+        /// <param name="name"></param>
+        public void Record(Line lineA, Line lineB, string name)
+        {
+            var point = lineA.Intersect(lineB);
+            Record(point, name);
         }
 
         private void AssignCoordinatePoint(Point point)
@@ -45,9 +60,10 @@ namespace UI.ImageProcessing
             foreach (var pair in _points)
             {
                 var point = pair.Value;
-                windowHandle.DispText($"({point.CoordinateX}, {point.CoordinateY})", "image", point.ImageY, point.ImageX, "red", "corner_radius", 2);
+                windowHandle.DispText($"({point.CoordinateX.ToString("f2")}, {point.CoordinateY.ToString("f3")})", "image", point.ImageY + Offset.ImageY, point.ImageX + Offset.ImageX, "red", "border_radius", 2);
             }
         }
+
 
         public void Serialize(string path)
         {
@@ -83,8 +99,5 @@ namespace UI.ImageProcessing
         }
     }
 
-    public enum TextAlignment
-    {
-        Left, Right, Top, Bottom, Center
-    }
+
 }
