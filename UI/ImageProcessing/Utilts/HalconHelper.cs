@@ -209,6 +209,7 @@ namespace UI.ImageProcessing.Utilts
 
             xsUsed = xs.SelectByIndices(inlierIndices);
             ysUsed = ys.SelectByIndices(inlierIndices);
+            if (isVertical) Swap(ref xsUsed, ref ysUsed);
 
             return new Line(isVertical ? yStart : xStart, isVertical ? xStart : yStart, isVertical ? yEnd : xEnd, isVertical ? xEnd : yEnd);
         }

@@ -76,92 +76,94 @@ namespace UI.ViewModels
 
         private List<FindLineLocation> FindLineLocationHardCodeValues()
         {
+            var frontLightIndex = 0;
+            var backLightIndex = 1;
             return new List<FindLineLocation>()
             {
                 new FindLineLocation()
                 {
-                    Name = "02-left", Angle = 90, X = 694, Y = 2017.3, Len2 = 218, ImageIndex = 1
+                    Name = "02-left", Angle = 90, X = 694, Y = 2017.3, Len2 = 218, ImageIndex = frontLightIndex
                 },
 
                 new FindLineLocation()
                 {
-                    Name = "02-right", Angle = 90, X = 1712, Y = 2017, Len2 = 218, ImageIndex = 1
+                    Name = "02-right", Angle = 90, X = 1712, Y = 2017, Len2 = 218, ImageIndex = frontLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "03-left", Angle = -90, X = 1759, Y = 2077, Len2 = 274, ImageIndex = 1
+                    Name = "03-left", Angle = -90, X = 1759, Y = 2077, Len2 = 274, ImageIndex = frontLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "03-right", Angle = -90, X = 679, Y = 2077, Len2 = 274, ImageIndex = 1
+                    Name = "03-right", Angle = -90, X = 679, Y = 2077, Len2 = 274, ImageIndex = frontLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "04", Angle = 90, X = 1224, Y = 4562, Len2 = 1024, ImageIndex = 1
+                    Name = "04", Angle = 90, X = 1224, Y = 4562, Len2 = 1024, ImageIndex = frontLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-1", Angle = 90, X = 2030, Y = 4724, Len2 = 250, ImageIndex = 0
+                    Name = "05-1", Angle = 90, X = 2030, Y = 4724, Len2 = 250, ImageIndex = backLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-2", Angle = 90, X = 1166, Y = 4724, Len2 = 210, ImageIndex = 0
+                    Name = "05-2", Angle = 90, X = 1166, Y = 4724, Len2 = 210, ImageIndex = backLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-3", Angle = 90, X = 366, Y = 4724, Len2 = 210, ImageIndex = 0
+                    Name = "05-3", Angle = 90, X = 366, Y = 4724, Len2 = 210, ImageIndex = backLightIndex
                 },
                 // upper left h line
                 new FindLineLocation()
                 {
-                    Name = "09", Angle = -90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = 0
+                    Name = "09", Angle = -90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = backLightIndex
                 },
                 // lower left h line
                 new FindLineLocation()
                 {
-                    Name = "06", Angle = 90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = 0
+                    Name = "06", Angle = 90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = backLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-1", Angle = 0, X = 2451, Y = 3149, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "12-1", Angle = 0, X = 2451, Y = 3149, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-2", Angle = 0, X = 2451, Y = 3767, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "12-2", Angle = 0, X = 2451, Y = 3767, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-3", Angle = 0, X = 2451, Y = 4300, Len2 = 130, ImageIndex = 0, Len1 = 25
+                    Name = "12-3", Angle = 0, X = 2451, Y = 4300, Len2 = 130, ImageIndex = backLightIndex, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-1", Angle = 0, X = 2241, Y = 326, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "17-1", Angle = 0, X = 2241, Y = 326, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-2", Angle = 0, X = 2241, Y = 736, Len2 = 95, ImageIndex = 0, Len1 = 25
+                    Name = "17-2", Angle = 0, X = 2241, Y = 736, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
                 },
                 new FindLineLocation()
                 {
                     //95
-                    Name = "17-3", Angle = 0, X = 2241, Y = 1149, Len2 = 90, ImageIndex = 0, Len1 = 20
+                    Name = "17-3", Angle = 0, X = 2241, Y = 1149, Len2 = 90, ImageIndex = backLightIndex, Len1 = 20
                 },
                 new FindLineLocation()
                 {
                     Angle = 0,
-                    Name = "16", ImageIndex = 0, Len2 = 366, X = 3864.5, Y = 2147.5, Len1 = 25
+                    Name = "16", ImageIndex = backLightIndex, Len2 = 366, X = 3864.5, Y = 2147.5, Len1 = 25
                 },
                 new FindLineLocation()
                 {
-                    Name = "19", Angle = 180, X = 206.5, Y = 705, Len2 = 375, ImageIndex = 0
+                    Name = "19", Angle = 180, X = 206.5, Y = 705, Len2 = 375, ImageIndex = backLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "20.bottomLeft", Angle = -135, X = 2101, Y = 1945, Len2 = 85, ImageIndex = 1
+                    Name = "20.bottomLeft", Angle = -135, X = 2101, Y = 1945, Len2 = 85, ImageIndex = frontLightIndex
                 },
                 new FindLineLocation()
                 {
-                    Name = "20.topRight", Angle = 45, X = 347.5, Y = 133, Len2 = 73, ImageIndex = 1
+                    Name = "20.topRight", Angle = 45, X = 347.5, Y = 133, Len2 = 73, ImageIndex = frontLightIndex
                 }
             };
         }

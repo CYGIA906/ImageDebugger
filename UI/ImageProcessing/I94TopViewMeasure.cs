@@ -23,6 +23,8 @@ namespace UI.ImageProcessing
         public Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
             ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics, out PointsRecorder recorder)
         {
+            int backLightIndex = 1;
+            int frontLightIndex = 0;
             HObject imageUndistorted;
             HTuple changeOfBase;
             HTuple changeOfBaseInv;
@@ -47,38 +49,43 @@ namespace UI.ImageProcessing
             // Calculate matrices
 
 
-            HalconScripts.GetI94TopViewBaseRects(images[0], out imageUndistorted, _shapeModelHandle, out baseTopRow,
+            HalconScripts.GetI94TopViewBaseRects(images[backLightIndex], out imageUndistorted, _shapeModelHandle, out baseTopRow,
                 out baseTopCol, out baseTopRadian, out baseTopLen1, out baseTopLen2, out baseRightRow, 
                 out baseRightCol, out baseRightRadian, out baseRightLen1, out baseRightLen2, out mapToWorld, out mapToImage, out camParams
                 );
             // Undistort images
-            images[0] = imageUndistorted.HobjectToHimage();
+            images[backLightIndex] = imageUndistorted.HobjectToHimage();
             HTuple _;
-            HalconScripts.UndistortImage(images[1], out imageUndistorted, camParams, out _);
-            images[1] = imageUndistorted.HobjectToHimage();
+            HalconScripts.UndistortImage(images[frontLightIndex], out imageUndistorted, camParams, out _);
+            images[frontLightIndex] = imageUndistorted.HobjectToHimage();
             
             // Top base
             HObject edgesTop, findLineRegionTop;
-            var XsYs = HalconHelper.FindLineSubPixel(images[0], baseTopRow, baseTopCol,
+            var XsYs = HalconHelper.FindLineSubPixel(images[backLightIndex], baseTopRow, baseTopCol,
                 baseTopRadian, baseTopLen1, baseTopLen2, "negative",
                 10, 20, "first", 0,
                 20, 40, 3, 3, 5,
                 out edgesTop, out findLineRegionTop);
 
-            var lineTopBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
+            //var lineTopBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
+            IEnumerable<double> xsInlier, ysInlier;
+            var lineTopBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlier, out ysInlier);
+
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
             lineTopBase = new Line(xRight, yRight, xLeft, yLeft, true);
 
             
              // Right base
              HObject edgesRight, findLineRegionRight;
-              XsYs = HalconHelper.FindLineSubPixel(images[0], baseRightRow, baseRightCol,
+              XsYs = HalconHelper.FindLineSubPixel(images[backLightIndex], baseRightRow, baseRightCol,
                  baseRightRadian, baseRightLen1, baseRightLen2, "negative",
                  10, 20, "first", 0,
                  20, 40, 3, 3, 5,
                  out edgesRight, out findLineRegionRight);
-              var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
-             HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
+
+            //var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
+            var lineRightBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlier, out ysInlier);
+            HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
              lineRightBase = new Line(xUp, yUp, xDown, yDown, true);
 
              
@@ -289,7 +296,7 @@ namespace UI.ImageProcessing
                  Edges = findLineManager.Edges,
                  PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
                  PointLineGraphics = coordinateSolver.PointLineDistanceGraphics, 
-                 Image = images[1]
+                 Image = images[backLightIndex]
              };
 
             return outputs;
