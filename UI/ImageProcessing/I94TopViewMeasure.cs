@@ -21,10 +21,12 @@ namespace UI.ImageProcessing
         public event Action MeasurementResultPulled;
 
         public Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
-            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics, out PointsRecorder recorder)
+            ObservableCollection<FaiItem> faiItems, int indexToShow, out HalconGraphics graphics,
+            out PointsRecorder recorder)
         {
             int backLightIndex = 1;
             int frontLightIndex = 0;
+            
             HObject imageUndistorted;
             HTuple changeOfBase;
             HTuple changeOfBaseInv;
@@ -68,8 +70,8 @@ namespace UI.ImageProcessing
                 out edgesTop, out findLineRegionTop);
 
             //var lineTopBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
-            IEnumerable<double> xsInlier, ysInlier;
-            var lineTopBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlier, out ysInlier);
+            IEnumerable<double> xsInlierTop, ysInlierTop;
+            var lineTopBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlierTop, out ysInlierTop);
 
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
             lineTopBase = new Line(xRight, yRight, xLeft, yLeft, true);
@@ -79,12 +81,13 @@ namespace UI.ImageProcessing
              HObject edgesRight, findLineRegionRight;
               XsYs = HalconHelper.FindLineSubPixel(images[backLightIndex], baseRightRow, baseRightCol,
                  baseRightRadian, baseRightLen1, baseRightLen2, "negative",
-                 10, 20, "first", 0,
+                 10, 20, "first", 0, 
                  20, 40, 3, 3, 5,
                  out edgesRight, out findLineRegionRight);
 
             //var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
-            var lineRightBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlier, out ysInlier);
+            IEnumerable<double> xsInlierRight, ysInlierRight;
+            var lineRightBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlierRight, out ysInlierRight);
             HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
              lineRightBase = new Line(xUp, yUp, xDown, yDown, true);
 
@@ -286,6 +289,8 @@ namespace UI.ImageProcessing
 
             outputs["20_2"] = valueF20P2;     
 
+            findLineManager.CrossesUsed.Add(new Tuple<List<double>, List<double>>(xsInlierTop.ToList(), ysInlierTop.ToList()));
+            findLineManager.CrossesUsed.Add(new Tuple<List<double>, List<double>>(xsInlierRight.ToList(), ysInlierRight.ToList()));
 
              graphics = new HalconGraphics()
              {
@@ -296,7 +301,7 @@ namespace UI.ImageProcessing
                  Edges = findLineManager.Edges,
                  PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
                  PointLineGraphics = coordinateSolver.PointLineDistanceGraphics, 
-                 Image = images[backLightIndex]
+                 Image = images[indexToShow]
              };
 
             return outputs;

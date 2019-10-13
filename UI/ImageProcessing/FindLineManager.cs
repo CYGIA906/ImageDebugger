@@ -23,7 +23,7 @@ namespace UI.ImageProcessing
     {
         private List<HImage> _images;
 
-        public HObject CrossesUsed
+        public List<Tuple<List<double>, List<double>>> CrossesUsed
         {
             get { return _crossesUsed; }
             set { _crossesUsed = value; }
@@ -55,7 +55,7 @@ namespace UI.ImageProcessing
         private int _width = 5120;
         private int _height = 5120;
         private HObject _crossesIgnored = new HObject();
-        private HObject _crossesUsed = new HObject();
+        private List<Tuple<List<double>, List<double>>> _crossesUsed = new List<Tuple<List<double>, List<double>>>();
         private HObject _findLineRects = new HObject();
         private HObject _lineRegions = new HObject();
 
@@ -180,8 +180,8 @@ namespace UI.ImageProcessing
             {
                 IEnumerable<double> xsInlier, ysInlier;
                 line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), feeding.ErrorThreshold, feeding.MaxTrials, feeding.IgnoreFraction, feeding.Probability, out xsInlier, out ysInlier);
-                xsUsed = xsInlier.ToArray();
-                ysUsed = ysInlier.ToArray();
+                xs = xsInlier.ToList();
+                ys = ysInlier.ToList();
             }
 
             HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
@@ -192,13 +192,11 @@ namespace UI.ImageProcessing
           
 
             // Generate debugging graphics 
-            HObject crossesUsed;
-            HOperatorSet.GenCrossContourXld(out crossesUsed, ysUsed, xsUsed, 2, CrossAngle);
-//            HOperatorSet.GenCircleContourXld(out crossesUsed, ysUsed, xsUsed, 1, 0, Math.PI, "positive",1);
+            CrossesUsed.Add(new Tuple<List<double>, List<double>>(xs, ys));
+            
             HObject crossesIgnored;
             HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
 
-            HOperatorSet.ConcatObj(_crossesUsed, crossesUsed, out _crossesUsed);
             HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
             HOperatorSet.ConcatObj(_findLineRects, findLineRegion, out _findLineRects);
             HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
@@ -226,7 +224,6 @@ namespace UI.ImageProcessing
         {
             FindLineFeedings = findLineFeedings;
             CrossesIgnored.GenEmptyObj();
-            CrossesUsed.GenEmptyObj();
             LineRegions.GenEmptyObj();
             FindLineRects.GenEmptyObj();
             Edges.GenEmptyObj();

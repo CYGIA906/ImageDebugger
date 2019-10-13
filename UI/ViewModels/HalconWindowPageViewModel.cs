@@ -42,6 +42,7 @@ namespace UI.ViewModels
             get { return SerializationDir + "/FindLineParams"; }
         }
 
+        public int IndexToShow { get; set; } = 1;
 
         public async Task ProcessAsync(List<HImage> images)
         {
@@ -52,7 +53,7 @@ namespace UI.ViewModels
             
             await Task.Run(() =>
             {
-                results =  MeasurementUnit.Process(images, findLineConfigs, FaiItems, out graphics, out pointsRecorder);
+                results =  MeasurementUnit.Process(images, findLineConfigs, FaiItems, IndexToShow, out graphics, out pointsRecorder);
             });
             
             

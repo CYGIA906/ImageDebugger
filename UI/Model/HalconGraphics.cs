@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.Design.Serialization;
 using System.Security.Cryptography;
 using HalconDotNet;
 using UI.ImageProcessing;
@@ -8,7 +11,7 @@ namespace UI.Model
 {
     public class HalconGraphics
     {
-        public HObject CrossesUsed { get; set; }
+        public List<Tuple<List<double>, List<double>>> CrossesUsed { get; set; }
         public HObject CrossesIgnored { get; set; }
         public List<Line> PointLineGraphics { get; set; }
         public List<Line> PointPointGraphics { get; set; }
@@ -87,7 +90,17 @@ namespace UI.Model
             windowHandle.SetDraw("margin");
             windowHandle.SetLineWidth(1);
             windowHandle.SetColor("green");
-            CrossesUsed.DispObj(windowHandle);
+            HObject crossesAllLine = new HObject();
+            crossesAllLine.GenEmptyObj();
+            foreach (var tuple in CrossesUsed)
+            {
+                var xs = tuple.Item1.ToArray();
+                var ys = tuple.Item2.ToArray();
+                HObject crossesOneLine;
+                HOperatorSet.GenCrossContourXld(out crossesOneLine, ys, xs, 0.5, 0.5);
+                crossesAllLine = crossesAllLine.ConcatObj(crossesOneLine);
+            }
+            windowHandle.DispObj(crossesAllLine);
             
 
             windowHandle.SetColor("red");

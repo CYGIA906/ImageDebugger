@@ -23,7 +23,8 @@ namespace UI.ImageProcessing
         event Action MeasurementResultPulled;
 
         Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
-            ObservableCollection<FaiItem> faiItems, out HalconGraphics graphics, out PointsRecorder recorder);
+            ObservableCollection<FaiItem> faiItems, int indexToShow, out HalconGraphics graphics,
+            out PointsRecorder recorder);
 
     }
 }
