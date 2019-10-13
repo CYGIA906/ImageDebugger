@@ -61,36 +61,30 @@ namespace UI.ImageProcessing
             HalconScripts.UndistortImage(images[frontLightIndex], out imageUndistorted, camParams, out _);
             images[frontLightIndex] = imageUndistorted.HobjectToHimage();
             
+            var findLineManager = new FindLineManager();
+
             // Top base
-            HObject edgesTop, findLineRegionTop;
-            var XsYs = HalconHelper.FindLineSubPixel(images[backLightIndex], baseTopRow, baseTopCol,
-                baseTopRadian, baseTopLen1, baseTopLen2, "negative",
-                10, 20, "first", 0,
-                20, 40, 3, 3, 5,
-                out edgesTop, out findLineRegionTop);
-
-            //var lineTopBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
-            IEnumerable<double> xsInlierTop, ysInlierTop;
-            var lineTopBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlierTop, out ysInlierTop);
-
+            var findLineParamTop = findLineConfigs.FindLineParamsDict["TopBase"];
+            var findLineFeedingsTop = findLineParamTop.ToFindLineFeeding();
+            findLineFeedingsTop.Col = baseTopCol;
+            findLineFeedingsTop.Row = baseTopRow;
+            findLineFeedingsTop.Radian = baseTopRadian;
+            findLineFeedingsTop.Len1 = baseTopLen1;
+            findLineFeedingsTop.Len2 = baseTopLen2;
+            var lineTopBase = findLineManager.FindLine(images[backLightIndex], findLineFeedingsTop);
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
-            lineTopBase = new Line(xRight, yRight, xLeft, yLeft, true);
-
             
-             // Right base
-             HObject edgesRight, findLineRegionRight;
-              XsYs = HalconHelper.FindLineSubPixel(images[backLightIndex], baseRightRow, baseRightCol,
-                 baseRightRadian, baseRightLen1, baseRightLen2, "negative",
-                 10, 20, "first", 0, 
-                 20, 40, 3, 3, 5,
-                 out edgesRight, out findLineRegionRight);
-
-            //var lineRightBase = HalconHelper.leastSquareAdaptLine(XsYs.Item1, XsYs.Item2);
-            IEnumerable<double> xsInlierRight, ysInlierRight;
-            var lineRightBase = HalconHelper.RansacFitLine(XsYs.Item1.ToArray(), XsYs.Item2.ToArray(), 1, 100, 0.2, 0.9, out xsInlierRight, out ysInlierRight);
+            // Right base
+            var findLineParamRight = findLineConfigs.FindLineParamsDict["RightBase"];
+            var findLineFeedingsRight = findLineParamRight.ToFindLineFeeding();
+            findLineFeedingsRight.Col = baseRightCol;
+            findLineFeedingsRight.Row = baseRightRow;
+            findLineFeedingsRight.Radian = baseRightRadian;
+            findLineFeedingsRight.Len1 = baseRightLen1;
+            findLineFeedingsRight.Len2 = baseRightLen2;
+            var lineRightBase = findLineManager.FindLine(images[backLightIndex], findLineFeedingsRight);
             HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
-             lineRightBase = new Line(xUp, yUp, xDown, yDown, true);
-
+            
              
             HalconScripts.GetChangeOfBase(xRight, yRight, xLeft, yLeft, xUp, yUp, xDown, yDown, out changeOfBase, out changeOfBaseInv, out rotationMat, out rotationMatInv);
             var coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
@@ -99,7 +93,7 @@ namespace UI.ImageProcessing
            // Update absolute find line locations
            findLineConfigs.GenerateLocationsAbs(coordinateSolver);
            // Find lines
-            var findLineManager = new FindLineManager(findLineConfigs.GenerateFindLineFeedings());
+           findLineManager.FindLineFeedings = findLineConfigs.GenerateFindLineFeedings();
             findLineManager.FindLines(images);
             
             // Make parallel lines
@@ -287,12 +281,9 @@ namespace UI.ImageProcessing
 
             outputs["20_1"] = valueF20P1;
 
-            outputs["20_2"] = valueF20P2;     
+            outputs["20_2"] = valueF20P2;
 
-            findLineManager.CrossesUsed.Add(new Tuple<List<double>, List<double>>(xsInlierTop.ToList(), ysInlierTop.ToList()));
-            findLineManager.CrossesUsed.Add(new Tuple<List<double>, List<double>>(xsInlierRight.ToList(), ysInlierRight.ToList()));
-
-             graphics = new HalconGraphics()
+            graphics = new HalconGraphics()
              {
                  CrossesIgnored = findLineManager.CrossesIgnored,
                  CrossesUsed = findLineManager.CrossesUsed,

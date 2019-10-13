@@ -2803,9 +2803,9 @@ public partial class HDevelopExport
           ;
       }
       hv_LEN1_1.Dispose();
-      hv_LEN1_1 = 200;
+      hv_LEN1_1 = 200.0;
       hv_LEN2_1.Dispose();
-      hv_LEN2_1 = 350;
+      hv_LEN2_1 = 350.0;
 
       hv_ROW1_2.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -2824,9 +2824,9 @@ public partial class HDevelopExport
           ;
       }
       hv_LEN1_2.Dispose();
-      hv_LEN1_2 = 200;
+      hv_LEN1_2 = 200.0;
       hv_LEN2_2.Dispose();
-      hv_LEN2_2 = 350;
+      hv_LEN2_2 = 350.0;
 
       hv_baseRightRow.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -2897,9 +2897,9 @@ public partial class HDevelopExport
           ;
       }
       hv_LEN1_1.Dispose();
-      hv_LEN1_1 = 100;
+      hv_LEN1_1 = 100.0;
       hv_LEN2_1.Dispose();
-      hv_LEN2_1 = 200;
+      hv_LEN2_1 = 200.0;
 
       hv_ROW_2.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -2918,9 +2918,9 @@ public partial class HDevelopExport
           ;
       }
       hv_LEN1_2.Dispose();
-      hv_LEN1_2 = 100;
+      hv_LEN1_2 = 100.0;
       hv_LEN2_2.Dispose();
-      hv_LEN2_2 = 100;
+      hv_LEN2_2 = 100.0;
 
       hv_ROW_3.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -2939,9 +2939,9 @@ public partial class HDevelopExport
           ;
       }
       hv_LEN1_3.Dispose();
-      hv_LEN1_3 = 100;
+      hv_LEN1_3 = 100.0;
       hv_LEN2_3.Dispose();
-      hv_LEN2_3 = 100;
+      hv_LEN2_3 = 100.0;
 
       hv_baseTopRow.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -20190,7 +20190,7 @@ public partial class HDevelopExport
         if ((int)(new HTuple(hv_isVertical.TupleEqual("true"))) != 0)
         {
           hv_lineY1.Dispose();hv_lineX1.Dispose();hv_lineY2.Dispose();hv_lineX2.Dispose();hv_YsUsed.Dispose();hv_XsUsed.Dispose();hv_YsIgnored.Dispose();hv_XsIgnored.Dispose();
-          FitLine2D(hv_Xs, hv_Ys, hv_ignoreFraction, out hv_lineY1, out hv_lineX1, 
+          FitLine2D(hv_Ys, hv_Xs, hv_ignoreFraction, out hv_lineY1, out hv_lineX1, 
               out hv_lineY2, out hv_lineX2, out hv_YsUsed, out hv_XsUsed, out hv_YsIgnored, 
               out hv_XsIgnored);
         }

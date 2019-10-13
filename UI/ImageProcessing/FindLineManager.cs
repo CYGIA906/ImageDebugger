@@ -95,7 +95,7 @@ namespace UI.ImageProcessing
 
         public Dictionary<string, FindLineFeeding> FindLineFeedings { get; set; }
 
-        private Line FindLine(HImage image, FindLineFeeding feeding)
+        public Line FindLine(HImage image, FindLineFeeding feeding)
         {
             HObject lineRegion, findLineRegion;
             HTuple xsUsed = new HTuple();
@@ -223,6 +223,14 @@ namespace UI.ImageProcessing
         public FindLineManager(Dictionary<string, FindLineFeeding> findLineFeedings)
         {
             FindLineFeedings = findLineFeedings;
+            CrossesIgnored.GenEmptyObj();
+            LineRegions.GenEmptyObj();
+            FindLineRects.GenEmptyObj();
+            Edges.GenEmptyObj();
+        }
+
+        public FindLineManager()
+        {
             CrossesIgnored.GenEmptyObj();
             LineRegions.GenEmptyObj();
             FindLineRects.GenEmptyObj();

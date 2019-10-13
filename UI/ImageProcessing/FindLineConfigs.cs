@@ -10,7 +10,7 @@ namespace UI.ImageProcessing
 {
     public class FindLineConfigs
     {
-        private Dictionary<string, FindLineParam> _findLineParamsDict = new Dictionary<string, FindLineParam>();
+        public Dictionary<string, FindLineParam> FindLineParamsDict { get; private set; } = new Dictionary<string, FindLineParam>();
         private Dictionary<string, FindLineLocation> _findLineLocationsAbsDict = new Dictionary<string, FindLineLocation>();
 
         public List<FindLineLocation> FindLineLocationsRelative { get;  set; }
@@ -57,7 +57,7 @@ namespace UI.ImageProcessing
         {
             foreach (var param in findLineParams)
             {
-                _findLineParamsDict[param.Name] = param;
+                FindLineParamsDict[param.Name] = param;
             }
 
             FindLineLocationsRelative = findLineLocations;
@@ -107,7 +107,7 @@ namespace UI.ImageProcessing
             // No "-" means one find line rect for one line result
             if (!name.Contains("-"))
             {
-                var param = _findLineParamsDict[name];
+                var param = FindLineParamsDict[name];
                 var location = _findLineLocationsAbsDict[name];
 
                 var feeding = new FindLineFeeding()
@@ -149,7 +149,7 @@ namespace UI.ImageProcessing
                 if(findLineFeedings.ContainsKey(key)) return;
 
                 var locations = _findLineLocationsAbsDict.Where(pair => pair.Key.Contains(key)).Select(pair => pair.Value).ToList();
-                var parameters = _findLineParamsDict.Where(pair => pair.Key.Contains(key)).Select(pair => pair.Value).ToList();
+                var parameters = FindLineParamsDict.Where(pair => pair.Key.Contains(key)).Select(pair => pair.Value).ToList();
 
                 if(locations.Count != parameters.Count) throw new InvalidOperationException($"Location count {locations.Count} != parameter count {parameters.Count}");
 
@@ -204,7 +204,7 @@ namespace UI.ImageProcessing
             {
                 var serializer = new XmlSerializer(typeof(FindLineParam[]), new XmlRootAttribute(ParamsSerializeName));
                 var paramsLoaded = (FindLineParam[]) serializer.Deserialize(fs);
-                _findLineParamsDict = paramsLoaded.ToDictionary(p => p.Name, p => p);
+                FindLineParamsDict = paramsLoaded.ToDictionary(p => p.Name, p => p);
             }
         }
 
@@ -216,7 +216,7 @@ namespace UI.ImageProcessing
             using (var fs = new FileStream(ParamsPath, FileMode.Open))
             {
                 var serializer = new XmlSerializer(typeof(FindLineParam[]), new XmlRootAttribute(ParamsSerializeName));
-                serializer.Serialize(fs, _findLineParamsDict.Values.ToArray());
+                serializer.Serialize(fs, FindLineParamsDict.Values.ToArray());
             }
 
             if (string.IsNullOrEmpty(LocationsSerializeName)) return;

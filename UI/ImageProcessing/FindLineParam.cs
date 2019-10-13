@@ -49,6 +49,32 @@ namespace UI.ImageProcessing
 
         [XmlIgnore]
         public string SerializationDir;
+
+        public FindLineFeeding ToFindLineFeeding()
+        {
+            return new FindLineFeeding()
+            {
+                Transition = Polarity == FindLinePolarity.Positive? "positive" : "negative",
+                WhichEdge = WhichEdge == EdgeSelection.First? "first" : "last",
+                WhichPair = WhichPair == PairSelection.First? "first" : "last",
+                Threshold = Threshold,
+                IgnoreFraction = IgnoreFraction,
+                NewWidth = NewWidth,
+                Sigma1 = Sigma1,
+                Sigma2 = Sigma2,
+                CannyLow = CannyLow,
+                CannyHigh = CannyHigh,
+                FirstAttemptOnly = FirstAttemptOnly,
+                UsingPair = UsingPair,
+                MinWidth = MinWidth,
+                MaxWidth = MaxWidth,
+                NumSubRects = NumSubRects,
+                FitLineMethod = FitLineMethod,
+                ErrorThreshold = ErrorThreshold,
+                Probability = Probability,
+                MaxTrials = MaxTrials
+            };
+        }
     }
 
 
@@ -74,4 +100,5 @@ namespace UI.ImageProcessing
     {
         Chu, Ransac
     }
+    
 }
