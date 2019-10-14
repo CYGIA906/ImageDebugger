@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms.VisualStyles;
 using HalconDotNet;
+using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing
 {
-    public class I94TopViewMeasure : IMeasurementProcedure
+    public sealed partial class I94TopViewMeasure : IMeasurementProcedure
     {
         private static HDevelopExport HalconScripts = new HDevelopExport();
         private string _modelPath;
@@ -333,12 +334,12 @@ namespace UI.ImageProcessing
         }
 
 
-        protected virtual void OnMeasurementResultReady()
+        private void OnMeasurementResultReady()
         {
             MeasurementResultReady?.Invoke();
         }
 
-        protected virtual void OnMeasurementResultPulled()
+        private void OnMeasurementResultPulled()
         {
             MeasurementResultPulled?.Invoke();
         }

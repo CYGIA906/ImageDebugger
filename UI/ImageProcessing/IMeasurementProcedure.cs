@@ -26,5 +26,12 @@ namespace UI.ImageProcessing
             ObservableCollection<FaiItem> faiItems, int indexToShow, out HalconGraphics graphics,
             out DataRecorder recorder);
 
+         ObservableCollection<FaiItem> GenFaiItemValues(string faiItemSerializationDir);
+
+
+         List<FindLineLocation> GenFindLineLocationValues();
+
+         ObservableCollection<FindLineParam> GenFindLineParamValues(string paramSerializationBaseDir);
+        
     }
 }

@@ -34,6 +34,7 @@
           <e p="Line.cs" t="Include" />
           <e p="MathUtils.cs" t="Include" />
           <e p="Point.cs" t="Include" />
+          <e p="TopViewHardCodeValues.cs" t="Include" />
           <e p="Utilts" t="Include">
             <e p="FaiItemCsvSerializer.cs" t="Include" />
             <e p="FaiItemsExtension.cs" t="Include" />
@@ -62,7 +63,6 @@
           <e p="AttachedPropertyOwnerBase.cs" t="Include" />
           <e p="FaiItem.cs" t="Include" />
           <e p="HalconWindowPageViewModel.cs" t="Include" />
-          <e p="HardCodeValues.cs" t="Include" />
           <e p="ImageProvider.cs" t="Include" />
           <e p="ImageProviderViewModel.cs" t="Include" />
           <e p="ViewModelBase.cs" t="Include" />

@@ -11,11 +11,11 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using HalconDotNet;
-using MathNet.Numerics.LinearAlgebra;
 using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
+
 
 // TODO: add faiitem serialize logic
 namespace UI.ViewModels
@@ -118,7 +118,7 @@ namespace UI.ViewModels
             
             // Init fai items
             var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
-            FaiItems = faiItemsFromDisk ?? FaiItemHardCodeValues();
+            FaiItems = faiItemsFromDisk ?? MeasurementUnit.GenFaiItemValues(FaiItemSerializationDir);
             foreach (var item in FaiItems)
             {
                 item.ResumeAutoSerialization();
@@ -126,14 +126,16 @@ namespace UI.ViewModels
 
             // Init find line params
             var findLineParamsFromDisk = TryLoadFindLineParamsFromDisk();
-            FindLineParams = findLineParamsFromDisk ?? FindLineParamsHardCodeValues();
+            FindLineParams = findLineParamsFromDisk ??
+                             MeasurementUnit.GenFindLineParamValues(ParamSerializationBaseDir);
+            
             foreach (var param in FindLineParams)
             {
                 param.ResumeAutoSerialization();
             }
 
             // Init find line locations
-             FindLineLocaionsRelativeValues = FindLineLocationHardCodeValues();
+            FindLineLocaionsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
 
              // Init commands
             ExecuteCommand = new RelayCommand(async () => { await ProcessOnceAsync(); });
