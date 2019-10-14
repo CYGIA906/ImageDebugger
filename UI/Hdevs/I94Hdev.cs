@@ -19738,7 +19738,7 @@ public partial class HDevelopExport
               {
               HTuple 
                 ExpTmpLocalVar_Xs = hv_Xs.TupleConcat(
-                  (hv_ColumnEdgeSecond+hv_ColumnEdgeFirst)/2.0);
+                  hv_ColumnEdgeSecond);
               hv_Xs.Dispose();
               hv_Xs = ExpTmpLocalVar_Xs;
               }
@@ -19748,7 +19748,7 @@ public partial class HDevelopExport
               {
               HTuple 
                 ExpTmpLocalVar_Ys = hv_Ys.TupleConcat(
-                  (hv_RowEdgeSecond+hv_RowEdgeFirst)/2.0);
+                  hv_RowEdgeSecond);
               hv_Ys.Dispose();
               hv_Ys = ExpTmpLocalVar_Ys;
               }
