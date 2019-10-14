@@ -9,6 +9,7 @@ using Accord.Math;
 using HalconDotNet;
 using MathNet.Numerics.LinearRegression;
 using UI.ImageProcessing.Utilts;
+using System.Threading.Tasks;
 
 namespace UI.ImageProcessing
 {
@@ -72,15 +73,15 @@ namespace UI.ImageProcessing
 
         private void DispatchFindLineWorkers()
         {
-            foreach (var pair in FindLineFeedings)
+
+           var imageFeedingDict = AssociateFeedingsWithImages();
+            foreach (var pair in imageFeedingDict)
             {
-                var name = pair.Key;
-                var feeding = pair.Value;
-                var image = _images[feeding.ImageIndex];
                 Line line;
+                var name = pair.Key;
                 try
                 {
-                    line = FindLine(image, feeding);
+                    line = FindLine(pair.Value.Item1, pair.Value.Item2);
                 }
                 catch (Exception e)
                 {
@@ -91,6 +92,26 @@ namespace UI.ImageProcessing
 
                 _lines[name] = line;
             }
+            
+        }
+
+        private Dictionary<string, Tuple<HImage, FindLineFeeding>> AssociateFeedingsWithImages()
+        {
+            var output = new Dictionary<string, Tuple<HImage, FindLineFeeding>>();
+            foreach (var pair in FindLineFeedings)
+            {
+                var name = pair.Key;
+                var feeding = pair.Value;
+                var image = _images[feeding.ImageIndex];
+                output[name] = new Tuple<HImage, FindLineFeeding>(image, feeding);
+            }
+
+            return output;
+        }
+
+        public Task FindLinesParallel(List<HImage> images)
+        {
+            throw new NotImplementedException();
         }
 
         public Dictionary<string, FindLineFeeding> FindLineFeedings { get; set; }
