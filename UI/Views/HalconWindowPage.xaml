@@ -99,7 +99,7 @@
                     <ToggleButton
                         Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
                         IsChecked="{Binding MultipleImagesRunning}"
-                        Command="{Binding ContinuousRunCommand}" />
+                        Command="{Binding ContinuousRunCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                 </Viewbox>
             </StackPanel>
         </Border>

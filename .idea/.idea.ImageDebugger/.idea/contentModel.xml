@@ -23,6 +23,7 @@
         </e>
         <e p="ImageProcessing" t="Include">
           <e p="CoordinateSolver.cs" t="Include" />
+          <e p="DataRecorder.cs" t="Include" />
           <e p="FindLineConfigs.cs" t="Include" />
           <e p="FindLineFeeding.cs" t="Include" />
           <e p="FindLineLocation.cs" t="Include" />
@@ -33,7 +34,6 @@
           <e p="Line.cs" t="Include" />
           <e p="MathUtils.cs" t="Include" />
           <e p="Point.cs" t="Include" />
-          <e p="PointsRecorder.cs" t="Include" />
           <e p="Utilts" t="Include">
             <e p="FaiItemCsvSerializer.cs" t="Include" />
             <e p="FaiItemsExtension.cs" t="Include" />

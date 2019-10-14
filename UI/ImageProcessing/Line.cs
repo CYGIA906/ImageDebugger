@@ -73,6 +73,9 @@ namespace UI.ImageProcessing
             return new Point(x.D, y.D);
         }
 
+        /// <summary>
+        /// Angle in dgree
+        /// </summary>
         public double Angle
         {
             get

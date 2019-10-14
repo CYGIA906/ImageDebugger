@@ -22,7 +22,7 @@ namespace UI.ImageProcessing
 
         public Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
             ObservableCollection<FaiItem> faiItems, int indexToShow, out HalconGraphics graphics,
-            out PointsRecorder recorder)
+            out DataRecorder recorder)
         {
             int backLightIndex = 1;
             int frontLightIndex = 0;
@@ -88,7 +88,6 @@ namespace UI.ImageProcessing
              
             HalconScripts.GetChangeOfBase(xRight, yRight, xLeft, yLeft, xUp, yUp, xDown, yDown, out changeOfBase, out changeOfBaseInv, out rotationMat, out rotationMatInv);
             var coordinateSolver = new CoordinateSolver(changeOfBase, changeOfBaseInv, rotationMat, rotationMatInv, mapToWorld, mapToImage);
-            recorder = new PointsRecorder(changeOfBaseInv);
 
            // Update absolute find line locations
            findLineConfigs.GenerateLocationsAbs(coordinateSolver);
@@ -200,8 +199,23 @@ namespace UI.ImageProcessing
 
 
             // Record points
-            recorder.Record(findLineManager.GetLine("02"), lineRightBase, "XAxis-02");
-            recorder.Record(findLineManager.GetLine("03"), lineRightBase, "YAxis-03");
+            recorder = new DataRecorder(changeOfBaseInv);
+            recorder.RecordPoint(findLineManager.GetLine("02"), lineRightBase, "XAxis-02");
+            recorder.RecordPoint(findLineManager.GetLine("03"), lineRightBase, "YAxis-03");
+            recorder.RecordPoint(findLineManager.GetLine("04"), lineRightBase, "YAxis-04");
+            recorder.RecordPoint(findLineManager.GetLine("05"), lineRightBase, "YAxis-05");
+            recorder.RecordPoint(findLineManager.GetLine("06"), lineRightBase, "YAxis-06");
+            // Record angles
+            recorder.RecordLine(lineTopBase, "X-axis");
+            recorder.RecordLine(lineRightBase, "Y-axis");
+            recorder.RecordLine(findLineManager.GetLine("02"), "02");
+            recorder.RecordLine(findLineManager.GetLine("03"), "03");
+            recorder.RecordLine(findLineManager.GetLine("04"), "04");
+            recorder.RecordLine(findLineManager.GetLine("05"), "05");
+            recorder.RecordLine(findLineManager.GetLine("06"), "06");
+            recorder.RecordLine(findLineManager.GetLine("20.topRight"), "20.topRight");
+            recorder.RecordLine(findLineManager.GetLine("20.bottomLeft"), "20.bottomLeft");
+            
             
             
             

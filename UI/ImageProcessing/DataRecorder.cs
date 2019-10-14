@@ -9,7 +9,7 @@ using HalconDotNet;
 
 namespace UI.ImageProcessing
 {
-    public class PointsRecorder
+    public class DataRecorder
     {
         private HTuple _changeOfBaseInv;
 
@@ -18,8 +18,9 @@ namespace UI.ImageProcessing
         public static Point Offset { get; set; } = new Point(10, 0);
 
         private Dictionary<string, Point> _points = new Dictionary<string, Point>();
+        private Dictionary<string, double> _angles = new Dictionary<string, double>();
 
-        public PointsRecorder(HTuple changeOfBaseInv)
+        public DataRecorder(HTuple changeOfBaseInv)
         {
             _changeOfBaseInv = changeOfBaseInv;
         }
@@ -29,7 +30,7 @@ namespace UI.ImageProcessing
         /// </summary>
         /// <param name="point"></param>
         /// <param name="name"></param>
-        public void Record(Point point, string name)
+        public void RecordPoint(Point point, string name)
         {
             AssignCoordinatePoint(point);
             _points[name] = point;
@@ -41,10 +42,15 @@ namespace UI.ImageProcessing
         /// <param name="lineA"></param>
         /// <param name="lineB"></param>
         /// <param name="name"></param>
-        public void Record(Line lineA, Line lineB, string name)
+        public void RecordPoint(Line lineA, Line lineB, string name)
         {
             var point = lineA.Intersect(lineB);
-            Record(point, name);
+            RecordPoint(point, name);
+        }
+
+        public void RecordLine(Line line, string name)
+        {
+            _angles[name] = line.Angle;
         }
 
         private void AssignCoordinatePoint(Point point)
@@ -67,7 +73,10 @@ namespace UI.ImageProcessing
 
         public void Serialize(string path)
         {
+            
+            // Create header line
             var headerNames = new List<string>();
+            // Add in point header
             foreach (var pair in _points)
             {
                 var xName = pair.Key + "_X";
@@ -75,11 +84,18 @@ namespace UI.ImageProcessing
                 headerNames.Add(xName);
                 headerNames.Add(yName);
             }
-
+            // Add in angle header
+            headerNames.Add(" ");
+            foreach (var angle in _angles)
+            {
+                headerNames.Add("angle_" + angle.Key);
+            }
             var header = string.Join(",", headerNames);
-
+            
+            
+            // Create value line
             var valueStrings = new List<string>();
-
+            // Add in point values
             foreach (var pair in _points)
             {
                 var xValue = pair.Value.CoordinateX.ToString("f3");
@@ -87,9 +103,16 @@ namespace UI.ImageProcessing
                 valueStrings.Add(xValue);
                 valueStrings.Add(yValue);
             }
+            // Add in angle values
+            valueStrings.Add(" ");
+            foreach (var angle in _angles)
+            {
+                valueStrings.Add(angle.Value.ToString("f4"));
+            }
 
             var line = string.Join(",", valueStrings);
 
+            // Write to file
             var fileExists = File.Exists(path);
             var lineToWrite = fileExists ? line : header + Environment.NewLine + line;
             using (var fs = new StreamWriter(path, fileExists))

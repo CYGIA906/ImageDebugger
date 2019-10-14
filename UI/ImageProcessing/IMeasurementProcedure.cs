@@ -24,7 +24,7 @@ namespace UI.ImageProcessing
 
         Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
             ObservableCollection<FaiItem> faiItems, int indexToShow, out HalconGraphics graphics,
-            out PointsRecorder recorder);
+            out DataRecorder recorder);
 
     }
 }
