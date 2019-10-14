@@ -115,20 +115,20 @@ namespace UI.ImageProcessing
             var lineFai9P2 = coordinateSolver.TranslateLineInWorldUnit(23.753, lineRightBase, true);
             var lineFai9P3 = coordinateSolver.TranslateLineInWorldUnit(25.753, lineRightBase, true);
             
-            var lineFai12P1 = coordinateSolver.TranslateLineInWorldUnit(23.213, lineTopBase, true);
-            var lineFai12P2 = coordinateSolver.TranslateLineInWorldUnit(34.97, lineTopBase, true);
+            var lineFai12P1 = coordinateSolver.TranslateLineInWorldUnit(-23.213, lineTopBase, true);
+            var lineFai12P2 = coordinateSolver.TranslateLineInWorldUnit(-34.97, lineTopBase, true);
       
-            var lineFai16P1 = coordinateSolver.TranslateLineInWorldUnit(13.071, lineTopBase, true);
-            var lineFai16P2 = coordinateSolver.TranslateLineInWorldUnit(20.213, lineTopBase, true);
+            var lineFai16P1 = coordinateSolver.TranslateLineInWorldUnit(-13.071, lineTopBase, true);
+            var lineFai16P2 = coordinateSolver.TranslateLineInWorldUnit(-20.213, lineTopBase, true);
             
-            var lineFai17P1 = coordinateSolver.TranslateLineInWorldUnit(1.53, lineTopBase, true);
-            var lineFai17P2 = coordinateSolver.TranslateLineInWorldUnit(9.827, lineTopBase, true);
+            var lineFai17P1 = coordinateSolver.TranslateLineInWorldUnit(-1.53, lineTopBase, true);
+            var lineFai17P2 = coordinateSolver.TranslateLineInWorldUnit(-9.827, lineTopBase, true);
             
-            var lineFai19P1 = coordinateSolver.TranslateLineInWorldUnit(2.157, lineTopBase, true);
-            var lineFai19P2 = coordinateSolver.TranslateLineInWorldUnit(13.791, lineTopBase, true);
+            var lineFai19P1 = coordinateSolver.TranslateLineInWorldUnit(-2.157, lineTopBase, true);
+            var lineFai19P2 = coordinateSolver.TranslateLineInWorldUnit(-13.791, lineTopBase, true);
             
             var lineFai20CenterX = coordinateSolver.TranslateLineInWorldUnit(9.299, lineRightBase, true);
-            var lineFai20CenterY = coordinateSolver.TranslateLineInWorldUnit(7.886, lineTopBase, true);
+            var lineFai20CenterY = coordinateSolver.TranslateLineInWorldUnit(-7.886, lineTopBase, true);
             
             // Intersections
             var p2F2 = lineFai2and3P2.Intersect(findLineManager.GetLine("02"));

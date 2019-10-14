@@ -34,7 +34,7 @@ namespace UI.ImageProcessing
 
         [XmlAttribute] public FitLineMethod FitLineMethod { get; set; } = FitLineMethod.Ransac;
 
-        [XmlAttribute] public int ErrorThreshold { get; set; } = 6;
+        [XmlAttribute] public double ErrorThreshold { get; set; } = 6.0;
 
         [XmlAttribute] public double Probability { get; set; } = 0.95;
 
