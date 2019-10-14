@@ -32,15 +32,14 @@ namespace UI.ImageProcessing
         [XmlAttribute]
         public int NumSubRects { get; set; } = 10;
 
-        [XmlAttribute] public FitLineMethod FitLineMethod { get; set; } = FitLineMethod.Ransac;
-
         [XmlAttribute] public double ErrorThreshold { get; set; } = 6.0;
 
         [XmlAttribute] public double Probability { get; set; } = 0.95;
 
-        [XmlAttribute]  
+        [XmlAttribute]
         public int MaxTrials { get; set; } = 100;
-
+        [XmlAttribute]
+        public int KernelWidth { get; set; } = -1;
 
         protected override string GetSerializationPath()
         {
@@ -69,7 +68,6 @@ namespace UI.ImageProcessing
                 MinWidth = MinWidth,
                 MaxWidth = MaxWidth,
                 NumSubRects = NumSubRects,
-                FitLineMethod = FitLineMethod,
                 ErrorThreshold = ErrorThreshold,
                 Probability = Probability,
                 MaxTrials = MaxTrials
@@ -96,9 +94,6 @@ namespace UI.ImageProcessing
         Last
     }
 
-    public enum FitLineMethod
-    {
-        Chu, Ransac
-    }
+
     
 }

@@ -150,7 +150,7 @@ namespace UI.ImageProcessing
                         feeding.NumSubRects, feeding.Threshold, feeding.Sigma1, feeding.Sigma2, feeding.WhichEdge,
                         feeding.IsVertical, feeding.IgnoreFraction, feeding.WhichPair, feeding.MinWidth,
                         feeding.MaxWidth, _width, _height, feeding.CannyHigh, feeding.CannyLow, "true",
-                        feeding.NewWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1,
+                        feeding.NewWidth, feeding.KernelWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1,
                         out lineX2, out lineY2);
 
                 }
@@ -181,7 +181,7 @@ namespace UI.ImageProcessing
                     var xsys = HalconHelper.FindLineSubPixel(image, feeding.Row.DArr, feeding.Col.DArr,
                         feeding.Radian.DArr, feeding.Len1.DArr, feeding.Len2.DArr, feeding.Transition.S,
                         feeding.NumSubRects.I, feeding.Threshold.I, feeding.WhichEdge.S, feeding.IgnoreFraction.D,
-                        feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I,
+                        feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I, feeding.KernelWidth,
                         out edges, out findLineRegion);
 
                     xs = xsys.Item1;
@@ -192,18 +192,14 @@ namespace UI.ImageProcessing
                 
             }
 
-            Line line;
-            if (feeding.FitLineMethod == FitLineMethod.Chu)
-            {
-                line = HalconHelper.leastSquareAdaptLine(xs, ys);
-            }
-            else
-            {
+           
+    
+         
                 IEnumerable<double> xsInlier, ysInlier;
-                line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), feeding.ErrorThreshold, feeding.MaxTrials, feeding.IgnoreFraction, feeding.Probability, out xsInlier, out ysInlier);
+                var line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), feeding.ErrorThreshold, feeding.MaxTrials, feeding.IgnoreFraction, feeding.Probability, out xsInlier, out ysInlier);
                 xs = xsInlier.ToList();
                 ys = ysInlier.ToList();
-            }
+            
 
             HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
             lineX1 = line.XStart;

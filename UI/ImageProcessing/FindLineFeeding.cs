@@ -37,8 +37,6 @@ namespace UI.ImageProcessing
 
         public int ImageIndex { get; set; }
 
-        public FitLineMethod FitLineMethod { get; set; }
-
         public int MaxTrials { get; set; }
 
         public double Probability { get; set; }
@@ -48,5 +46,6 @@ namespace UI.ImageProcessing
 
         public HTuple IsVertical { get; set; }
 
+        public int KernelWidth { get; set; }
     }
 }
