@@ -89,6 +89,41 @@ namespace UI.ImageProcessing
             findLineManager.FindLineFeedings = findLineConfigs.GenerateFindLineFeedings();
             await findLineManager.FindLinesParallel(images);
 
+            // Offset lines
+            var lineF21Top = coordinateSolver.TranslateLineInWorldUnit(21, lineTopBase, true);
+            var lineF21Bottom = coordinateSolver.TranslateLineInWorldUnit(30, lineTopBase, true);
+
+            var lineF23Left = coordinateSolver.TranslateLineInWorldUnit(-5.5, lineLeftBase, true);
+            var lineF23Right = coordinateSolver.TranslateLineInWorldUnit(-13.2, lineLeftBase, true);
+
+            var lineF24Top = coordinateSolver.TranslateLineInWorldUnit(7.3, lineTopBase, true);
+            var lineF24Bottom = coordinateSolver.TranslateLineInWorldUnit(8.5, lineTopBase, true);
+
+
+            var lineF26Left = coordinateSolver.TranslateLineInWorldUnit(-0.6, findLineManager.GetLine("24.left").SortUpDown(), true);
+            var lineF26Right = coordinateSolver.TranslateLineInWorldUnit(0.6, findLineManager.GetLine("24.right").SortUpDown(), true);
+
+            var lineF27Left = coordinateSolver.TranslateLineInWorldUnit(-23.5, lineLeftBase, true);
+            var lineF27Right = coordinateSolver.TranslateLineInWorldUnit(-25, lineLeftBase, true);
+
+            var lineF29Top = coordinateSolver.TranslateLineInWorldUnit(16, lineTopBase, true);
+            var lineF29Bottom = coordinateSolver.TranslateLineInWorldUnit(17.2, lineTopBase, true);
+
+            var lineF32Top = lineF21Top;
+            var lineF32Bottom = coordinateSolver.TranslateLineInWorldUnit(30.1, lineTopBase, true);
+
+            var lineF32Left = lineF23Left;
+            var lineF32Right = lineF23Right;
+
+            var lineF33Left = lineF26Left;
+            var lineF33Right = lineF26Right;
+
+            var lineF123Left = coordinateSolver.TranslateLineInWorldUnit(-5, lineLeftBase, true);
+            var lineF123Center = coordinateSolver.TranslateLineInWorldUnit(-9.269, lineLeftBase, true);
+            var lineF123Right = coordinateSolver.TranslateLineInWorldUnit(-14.5, lineLeftBase, true);
+
+
+
 
             Dictionary<string, double> outputs = new Dictionary<string, double>();
             outputs["21_1"] = 0;

@@ -60,7 +60,30 @@ namespace UI.ImageProcessing
             HOperatorSet.AngleLl(YStart, XStart, YEnd, XEnd, line.YStart, line.XStart, line.YEnd, line.XEnd, out angle);
             return angle;
         }
-        
+
+        /// <summary>
+        /// Return a line that point from up to down
+        /// </summary>
+        /// <returns></returns>
+        public Line SortUpDown()
+        {
+            HTuple xUp, yUp, xDown, yDown;
+            HalconScripts.SortLineUpDown(XStart, YStart, XEnd, YEnd, out xUp, out yUp, out xDown, out yDown);
+
+            return new Line(xUp, yUp, xDown, yDown);
+        }
+
+        /// <summary>
+        /// Return a line that points from left to right
+        /// </summary>
+        /// <returns></returns>
+        public Line SortLeftRight()
+        {
+            HTuple xLeft, yLeft, xRight, yRight;
+            HalconScripts.SortLineLeftRight(XStart, YStart, XEnd, YEnd, out xLeft, out yLeft, out xRight, out yRight);
+            return new Line(xLeft, yLeft, xRight, yRight);
+        }
+
         public static void DisplayGraphics(HWindow windowHandle)
         {
             windowHandle.SetColor(LineColor);
