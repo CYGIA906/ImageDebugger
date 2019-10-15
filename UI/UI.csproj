@@ -118,11 +118,12 @@
     <Compile Include="Commands\ParameterizedCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
+    <Compile Include="ImageProcessing\BottomViewHardCodeValues.cs" />
     <Compile Include="ImageProcessing\CoordinateSolver.cs" />
     <Compile Include="ImageProcessing\FindLineFeeding.cs" />
     <Compile Include="ImageProcessing\FindLineManager.cs" />
-    <Compile Include="ImageProcessing\FindLineParam.cs" />
     <Compile Include="ImageProcessing\FindLineConfigs.cs" />
+    <Compile Include="ImageProcessing\I94BottomViewMeasurement.cs" />
     <Compile Include="ImageProcessing\I94TopViewMeasure.cs" />
     <Compile Include="ImageProcessing\IMeasurementProcedure.cs" />
     <Compile Include="ImageProcessing\Line.cs" />
@@ -134,9 +135,10 @@
     <Compile Include="ImageProcessing\Utilts\FaiItemsExtension.cs" />
     <Compile Include="ImageProcessing\Utilts\HalconHelper.cs" />
     <Compile Include="Interfaces\IImageProvider.cs" />
-    <Compile Include="ImageProcessing\FindLineLocation.cs" />
     <Compile Include="Model\AutoSerializableBase.cs" />
     <Compile Include="Model\CountAwareQueue.cs" />
+    <Compile Include="Model\FindLineLocation.cs" />
+    <Compile Include="Model\FindLineParam.cs" />
     <Compile Include="Model\HalconGraphics.cs" />
     <Compile Include="Model\ImageProcessingResult.cs" />
     <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />

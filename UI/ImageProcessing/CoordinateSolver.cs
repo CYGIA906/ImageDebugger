@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using HalconDotNet;
 using UI.ImageProcessing.Utilts;
+using UI.Model;
 
 namespace UI.ImageProcessing
 {

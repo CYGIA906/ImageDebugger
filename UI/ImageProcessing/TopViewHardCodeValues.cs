@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using UI.ImageProcessing;
+using UI.Model;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing
@@ -83,88 +83,88 @@ namespace UI.ImageProcessing
             {
                 new FindLineLocation()
                 {
-                    Name = "02-left", Angle = 90, X = 694, Y = 2017.3, Len2 = 218, ImageIndex = frontLightIndex
+                    Name = "02-left", Angle = 90, X = 694, Y = 2017.3, Len2 = 218, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Positive
                 },
 
                 new FindLineLocation()
                 {
-                    Name = "02-right", Angle = 90, X = 1712, Y = 2017, Len2 = 218, ImageIndex = frontLightIndex
+                    Name = "02-right", Angle = 90, X = 1712, Y = 2017, Len2 = 218, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "03-left", Angle = -90, X = 1759, Y = 2077, Len2 = 274, ImageIndex = frontLightIndex
+                    Name = "03-left", Angle = -90, X = 1759, Y = 2077, Len2 = 274, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "03-right", Angle = -90, X = 679, Y = 2077, Len2 = 274, ImageIndex = frontLightIndex
+                    Name = "03-right", Angle = -90, X = 679, Y = 2077, Len2 = 274, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "04", Angle = 90, X = 1224, Y = 4562, Len2 = 1024, ImageIndex = frontLightIndex
+                    Name = "04", Angle = 90, X = 1224, Y = 4562, Len2 = 1024, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Negative
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-1", Angle = 90, X = 2030, Y = 4724, Len2 = 250, ImageIndex = backLightIndex
+                    Name = "05-1", Angle = 90, X = 2030, Y = 4724, Len2 = 250, ImageIndex = backLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-2", Angle = 90, X = 1166, Y = 4724, Len2 = 210, ImageIndex = backLightIndex
+                    Name = "05-2", Angle = 90, X = 1166, Y = 4724, Len2 = 210, ImageIndex = backLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "05-3", Angle = 90, X = 366, Y = 4724, Len2 = 210, ImageIndex = backLightIndex
+                    Name = "05-3", Angle = 90, X = 366, Y = 4724, Len2 = 210, ImageIndex = backLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 // upper left h line
                 new FindLineLocation()
                 {
-                    Name = "09", Angle = -90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = backLightIndex
+                    Name = "09", Angle = -90, X = 3171, Y = 1466, Len2 = 317, ImageIndex = backLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 // lower left h line
                 new FindLineLocation()
                 {
-                    Name = "06", Angle = 90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = backLightIndex
+                    Name = "06", Angle = 90, X = 3162, Y = 2895.5, Len2 = 310, ImageIndex = backLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-1", Angle = 0, X = 2451, Y = 3149, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
+                    Name = "12-1", Angle = 0, X = 2451, Y = 3149, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-2", Angle = 0, X = 2451, Y = 3767, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
+                    Name = "12-2", Angle = 0, X = 2451, Y = 3767, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "12-3", Angle = 0, X = 2451, Y = 4300, Len2 = 130, ImageIndex = backLightIndex, Len1 = 25
+                    Name = "12-3", Angle = 0, X = 2451, Y = 4300, Len2 = 130, ImageIndex = backLightIndex, Len1 = 25, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-1", Angle = 0, X = 2241, Y = 326, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
+                    Name = "17-1", Angle = 0, X = 2241, Y = 326, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "17-2", Angle = 0, X = 2241, Y = 736, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25
+                    Name = "17-2", Angle = 0, X = 2241, Y = 736, Len2 = 95, ImageIndex = backLightIndex, Len1 = 25, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
                     //95
-                    Name = "17-3", Angle = 0, X = 2241, Y = 1149, Len2 = 90, ImageIndex = backLightIndex, Len1 = 20
+                    Name = "17-3", Angle = 0, X = 2241, Y = 1149, Len2 = 90, ImageIndex = backLightIndex, Len1 = 20, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
                     Angle = 0,
-                    Name = "16", ImageIndex = backLightIndex, Len2 = 366, X = 3864.5, Y = 2147.5, Len1 = 25
+                    Name = "16", ImageIndex = backLightIndex, Len2 = 366, X = 3864.5, Y = 2147.5, Len1 = 25, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 {
-                    Name = "19", Angle = 180, X = 206.5, Y = 705, Len2 = 375, ImageIndex = backLightIndex
+                    Name = "19", Angle = 180, X = 206.5, Y = 705, Len2 = 375, ImageIndex = backLightIndex, Polarity = FindLinePolarity.Positive
                 },
                 new FindLineLocation()
                 { //85
-                    Name = "20.bottomLeft", Angle = -135, X = 2101, Y = 1945, Len2 = 60, ImageIndex = frontLightIndex
+                    Name = "20.bottomLeft", Angle = -135, X = 2101, Y = 1945, Len2 = 60, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Negative
                 },
                 new FindLineLocation()
                 { //73
-                    Name = "20.topRight", Angle = 45, X = 347.5, Y = 133, Len2 = 50, ImageIndex = frontLightIndex
+                    Name = "20.topRight", Angle = 45, X = 347.5, Y = 133, Len2 = 50, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Negative
                 }
             };
         }
@@ -175,99 +175,91 @@ namespace UI.ImageProcessing
             {
                 new FindLineParam()
                 {
-                    Name = "02-left", UsingPair = true, Polarity = FindLinePolarity.Positive, Threshold = 2,
-                    MinWidth = 1, MaxWidth = 10, FirstAttemptOnly = true, WhichEdge = EdgeSelection.Last
+                    Name = "02-left",  Threshold = 2,
+                    MinWidth = 1, MaxWidth = 10,  WhichEdge = EdgeSelection.Last
                 },
                 new FindLineParam()
                 {
-                    Name = "02-right", UsingPair = true, Polarity = FindLinePolarity.Positive, Threshold = 3,
-                    MinWidth = 1, MaxWidth = 10, FirstAttemptOnly = true, WhichEdge = EdgeSelection.Last
+                    Name = "02-right",  Threshold = 3,
+                    MinWidth = 1, MaxWidth = 10,  WhichEdge = EdgeSelection.Last
                 },
                 new FindLineParam()
                 {
-                    Name = "03-left", UsingPair = false, Polarity = FindLinePolarity.Positive, Threshold = 10,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.2
+                    Name = "03-left",   Threshold = 10, IgnoreFraction = 0.2
                 },
                 new FindLineParam()
                 {
-                    Name = "03-right", UsingPair = false, Polarity = FindLinePolarity.Positive, Threshold = 10,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.2
+                    Name = "03-right",   Threshold = 10, IgnoreFraction = 0.2
                 },
 
                 new FindLineParam()
                 {
-                    Name = "04", Polarity = FindLinePolarity.Positive, Threshold = 20, FirstAttemptOnly = true
+                    Name = "04",  Threshold = 20, 
                 },
                 new FindLineParam()
                 {
-                    Name = "05-1", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true
+                    Name = "05-1",  Threshold = 10, CannyHigh = 30, CannyLow = 15,
+                    
                 },
                 new FindLineParam()
                 {
-                    Name = "05-2", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true
+                    Name = "05-2",  Threshold = 10, CannyHigh = 30, CannyLow = 15,
+                    
                 },
                 new FindLineParam()
                 {
-                    Name = "05-3", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true
+                    Name = "05-3",  Threshold = 10, CannyHigh = 30, CannyLow = 15,
+                    
                 },
                 new FindLineParam()
                 {
-                    Name = "06", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15
+                    Name = "06",  Threshold = 10, CannyHigh = 30, CannyLow = 15
                 },
                 new FindLineParam()
                 {
-                    Name = "09", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15
+                    Name = "09",  Threshold = 10, CannyHigh = 30, CannyLow = 15
                 },
                 new FindLineParam()
                 {
-                    Name = "12-1", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.1
+                    Name = "12-1",  Threshold = 10, CannyHigh = 30, CannyLow = 15, IgnoreFraction = 0.1
                 },
                 new FindLineParam()
                 {
-                    Name = "12-2", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.1
+                    Name = "12-2",  Threshold = 10, CannyHigh = 30, CannyLow = 15, IgnoreFraction = 0.1
                 },
                 new FindLineParam()
                 {
-                    Name = "12-3", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.1
+                    Name = "12-3",  Threshold = 10, CannyHigh = 30, CannyLow = 15, IgnoreFraction = 0.1
                 },
                 new FindLineParam()
                 {
-                    Name = "17-1", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.1
+                    Name = "17-1",  Threshold = 10, CannyHigh = 30, CannyLow = 15, IgnoreFraction = 0.1
                 },
                 new FindLineParam()
                 {
-                    Name = "17-2", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.1
+                    Name = "17-2",  Threshold = 10, CannyHigh = 30, CannyLow = 15, IgnoreFraction = 0.1
                 },
                 new FindLineParam()
                 {
-                    Name = "17-3", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
-                    FirstAttemptOnly = true, IgnoreFraction = 0.1
+                    Name = "17-3",  Threshold = 10, CannyHigh = 30, CannyLow = 15, IgnoreFraction = 0.1
                 },
 
 
                 new FindLineParam()
                 {
-                    Name = "16", UsingPair = false, Polarity = FindLinePolarity.Negative, Threshold = 10, FirstAttemptOnly = true
+                    Name = "16",   Threshold = 10, 
                 },
                 new FindLineParam()
                 {
-                    Name = "19", Polarity = FindLinePolarity.Negative, Threshold = 10, CannyHigh = 30, CannyLow = 15,
+                    Name = "19",  Threshold = 10, CannyHigh = 30, CannyLow = 15,
                 },
                 new FindLineParam()
                 {
-                    Name = "20.bottomLeft", Polarity = FindLinePolarity.Negative, Threshold = 30, NewWidth = 3, Sigma1 = 5, Sigma2 = 3, FirstAttemptOnly = false
+                    Name = "20.bottomLeft",  Threshold = 30, NewWidth = 3, Sigma1 = 5, Sigma2 = 3, 
                 },
                 new FindLineParam()
                 {
-                    Name = "20.topRight", Polarity = FindLinePolarity.Negative, Threshold = 20, NewWidth = 3
+                    Name = "20.topRight",  Threshold = 20, NewWidth = 3
                 }
             };
 

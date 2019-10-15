@@ -24,7 +24,7 @@ namespace UI.ImageProcessing
         /// </summary>
         event Action MeasurementResultPulled;
 
-        Task<ImageProcessingResult> Process(List<HImage> images, FindLineConfigs findLineConfigs,
+        Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
             ObservableCollection<FaiItem> faiItems, int indexToShow, SnackbarMessageQueue messageQueue
           );
 

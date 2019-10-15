@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Xml.Serialization;
-using Application = System.Windows.Forms.Application;
+using UI.Model;
 
 namespace UI.ImageProcessing
 {
@@ -117,7 +116,7 @@ namespace UI.ImageProcessing
                     Radian = MathUtils.ToRadian(location.Angle),
                     Len1 = location.Len1,
                     Len2 = location.Len2,
-                    Transition = param.Polarity == FindLinePolarity.Positive ? "positive" : "negative",
+                    Transition = location.Polarity == FindLinePolarity.Positive ? "positive" : "negative",
                     NumSubRects = param.NumSubRects,
                     IgnoreFraction = param.IgnoreFraction,
                     Threshold = param.Threshold,
@@ -128,8 +127,8 @@ namespace UI.ImageProcessing
                     NewWidth = param.NewWidth,
                     MinWidth = param.MinWidth,
                     MaxWidth = param.MaxWidth,
-                    FirstAttemptOnly = param.FirstAttemptOnly,
-                    UsingPair = param.UsingPair,
+                    FirstAttemptOnly = param.FirstAttemptOnly(),
+                    UsingPair = param.UsingPair(),
                     ImageIndex = location.ImageIndex,
                     IsVertical = location.IsVertical,
                     CannyHigh = param.CannyHigh,
@@ -160,7 +159,7 @@ namespace UI.ImageProcessing
                     Radian = locations.Select(l => MathUtils.ToRadian(l.Angle)).ToArray(),
                     Len1 = locations.Select(l=>l.Len1).ToArray(),
                     Len2 = locations.Select(l=>l.Len2).ToArray(),
-                    Transition = parameters[0].Polarity == FindLinePolarity.Positive ? "positive" : "negative",
+                    Transition = locations[0].Polarity == FindLinePolarity.Positive ? "positive" : "negative",
                     NumSubRects = parameters[0].NumSubRects,
                     IgnoreFraction = parameters[0].IgnoreFraction,
                     Threshold = parameters.Select(p=>p.Threshold).ToArray(),
@@ -171,8 +170,8 @@ namespace UI.ImageProcessing
                     NewWidth = parameters[0].NewWidth,
                     MinWidth = parameters[0].MinWidth,
                     MaxWidth = parameters[0].MaxWidth,
-                    FirstAttemptOnly = parameters[0].FirstAttemptOnly,
-                    UsingPair = parameters[0].UsingPair,
+                    FirstAttemptOnly = parameters[0].FirstAttemptOnly(),
+                    UsingPair = parameters[0].UsingPair(),
                     ImageIndex = locations[0].ImageIndex,
                     IsVertical = locations[0].IsVertical,
                     CannyHigh = parameters[0].CannyHigh,

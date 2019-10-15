@@ -22,13 +22,13 @@
           <e p="I94Hdev.cs" t="Include" />
         </e>
         <e p="ImageProcessing" t="Include">
+          <e p="BottomViewHardCodeValues.cs" t="Include" />
           <e p="CoordinateSolver.cs" t="Include" />
           <e p="DataRecorder.cs" t="Include" />
           <e p="FindLineConfigs.cs" t="Include" />
           <e p="FindLineFeeding.cs" t="Include" />
-          <e p="FindLineLocation.cs" t="Include" />
           <e p="FindLineManager.cs" t="Include" />
-          <e p="FindLineParam.cs" t="Include" />
+          <e p="I94BottomViewMeasurement.cs" t="Include" />
           <e p="I94TopViewMeasure.cs" t="Include" />
           <e p="IMeasurementProcedure.cs" t="Include" />
           <e p="Line.cs" t="Include" />
@@ -49,6 +49,8 @@
         <e p="Model" t="Include">
           <e p="AutoSerializableBase.cs" t="Include" />
           <e p="CountAwareQueue.cs" t="Include" />
+          <e p="FindLineLocation.cs" t="Include" />
+          <e p="FindLineParam.cs" t="Include" />
           <e p="HalconGraphics.cs" t="Include" />
           <e p="ImageProcessingResult.cs" t="Include" />
         </e>

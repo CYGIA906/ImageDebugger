@@ -23,7 +23,7 @@ namespace UI.ImageProcessing
         public string Name { get; }
         public event Action MeasurementResultPulled;
 
-        public async Task<ImageProcessingResult> Process(List<HImage> images, FindLineConfigs findLineConfigs,
+        public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
             ObservableCollection<FaiItem> faiItems, int indexToShow, SnackbarMessageQueue messageQueue
            )
         {
@@ -74,6 +74,7 @@ namespace UI.ImageProcessing
             findLineFeedingsTop.Radian = baseTopRadian;
             findLineFeedingsTop.Len1 = baseTopLen1;
             findLineFeedingsTop.Len2 = baseTopLen2;
+            findLineFeedingsTop.Transition = "positive";
             var lineTopBase = findLineManager.TryFindLine("X-aixs", images[backLightIndex], findLineFeedingsTop);
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
             
@@ -85,6 +86,7 @@ namespace UI.ImageProcessing
             findLineFeedingsRight.Radian = baseRightRadian;
             findLineFeedingsRight.Len1 = baseRightLen1;
             findLineFeedingsRight.Len2 = baseRightLen2;
+            findLineFeedingsRight.Transition = "positive";
             var lineRightBase = findLineManager.TryFindLine("Y-axis",images[backLightIndex], findLineFeedingsRight);
             HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
             

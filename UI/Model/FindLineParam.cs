@@ -1,30 +1,18 @@
 ﻿using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 using PropertyChanged;
-using UI.Model;
+using UI.ImageProcessing;
 
-namespace UI.ImageProcessing
+namespace UI.Model
 {
     public class FindLineParam : AutoSerializableBase<FindLineParam>
     {
-        [DoNotNotify]
-        [XmlAttribute] public string Name { get; set; }
-        [XmlAttribute] public FindLinePolarity Polarity { get; set; } = FindLinePolarity.Positive;
-        [XmlAttribute] public EdgeSelection WhichEdge { get; set; } = EdgeSelection.First;
-        [XmlAttribute] public PairSelection WhichPair { get; set; } = PairSelection.First;
-        [XmlAttribute] public int Threshold { get; set; } = 20;
-        [XmlAttribute] public double IgnoreFraction { get; set; } = 0.2;
-        [XmlAttribute] public int NewWidth { get; set; } = 5;
-        [XmlAttribute] public double Sigma1 { get; set; } = 1;
-        [XmlAttribute] public double Sigma2 { get; set; } = 1;
-        [XmlAttribute] public int CannyLow { get; set; } = 20;
-        [XmlAttribute] public int CannyHigh { get; set; } = 40;
-        [XmlAttribute] public bool FirstAttemptOnly { get; set; } = true;
+        [DoNotNotify] [XmlAttribute] public string Name { get; set; }
 
-        [XmlAttribute] public bool UsingPair { get; set; } = false;
-        [XmlAttribute] public int MinWidth { get; set; }
-        [XmlAttribute] public int MaxWidth { get; set; }
+        #region FirstAttempt
+
+        [XmlAttribute] public EdgeSelection WhichEdge { get; set; } = EdgeSelection.First;
+        [XmlAttribute] public int Threshold { get; set; } = 20;
 
         /// <summary>
         /// Number of measure rectangle to generate
@@ -32,30 +20,60 @@ namespace UI.ImageProcessing
         [XmlAttribute]
         public int NumSubRects { get; set; } = 10;
 
+        [XmlAttribute] public double IgnoreFraction { get; set; } = 0.2;
+        [XmlAttribute] public double Sigma1 { get; set; } = 1;
+
+        #endregion
+
+        #region FindEdges
+
+        [XmlAttribute] public int NewWidth { get; set; } = 5;
+
+        [XmlAttribute] public double Sigma2 { get; set; } = 1;
+        [XmlAttribute] public int CannyLow { get; set; } = 20;
+        [XmlAttribute] public int CannyHigh { get; set; } = 40;
+        [XmlAttribute] public int KernelWidth { get; set; } = -1;
+
+        #endregion
+
+
+        #region Fit Line
+
         [XmlAttribute] public double ErrorThreshold { get; set; } = 6.0;
 
         [XmlAttribute] public double Probability { get; set; } = 0.95;
 
-        [XmlAttribute]
-        public int MaxTrials { get; set; } = 100;
-        [XmlAttribute]
-        public int KernelWidth { get; set; } = -1;
+        [XmlAttribute] public int MaxTrials { get; set; } = 100;
+
+        #endregion
+
+        #region Using Pair
+
+        [XmlAttribute] public PairSelection WhichPair { get; set; } = PairSelection.First;
+
+        [XmlAttribute] public int MinWidth { get; set; }
+        [XmlAttribute] public int MaxWidth { get; set; }
+
+        #endregion
 
         protected override string GetSerializationPath()
         {
             return Path.Combine(SerializationDir, Name + ".xml");
         }
 
-        [XmlIgnore]
-        public string SerializationDir;
+        [XmlIgnore] public string SerializationDir;
+
+        public bool FirstAttemptOnly() => NewWidth <= 0;
+
+
+        public bool UsingPair() => MinWidth > 0 && MaxWidth > MinWidth;
 
         public FindLineFeeding ToFindLineFeeding()
         {
             return new FindLineFeeding()
             {
-                Transition = Polarity == FindLinePolarity.Positive? "positive" : "negative",
-                WhichEdge = WhichEdge == EdgeSelection.First? "first" : "last",
-                WhichPair = WhichPair == PairSelection.First? "first" : "last",
+                WhichEdge = WhichEdge == EdgeSelection.First ? "first" : "last",
+                WhichPair = WhichPair == PairSelection.First ? "first" : "last",
                 Threshold = Threshold,
                 IgnoreFraction = IgnoreFraction,
                 NewWidth = NewWidth,
@@ -63,8 +81,8 @@ namespace UI.ImageProcessing
                 Sigma2 = Sigma2,
                 CannyLow = CannyLow,
                 CannyHigh = CannyHigh,
-                FirstAttemptOnly = FirstAttemptOnly,
-                UsingPair = UsingPair,
+                FirstAttemptOnly = FirstAttemptOnly(),
+                UsingPair = UsingPair(),
                 MinWidth = MinWidth,
                 MaxWidth = MaxWidth,
                 NumSubRects = NumSubRects,
@@ -75,12 +93,6 @@ namespace UI.ImageProcessing
         }
     }
 
-
-    public enum FindLinePolarity
-    {
-        Positive,
-        Negative
-    }
 
     public enum EdgeSelection
     {
@@ -93,7 +105,4 @@ namespace UI.ImageProcessing
         First,
         Last
     }
-
-
-    
 }

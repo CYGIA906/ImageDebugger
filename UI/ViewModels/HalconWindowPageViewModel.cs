@@ -17,6 +17,7 @@ using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
+using I94TopViewMeasure = UI.ImageProcessing.I94TopViewMeasure;
 
 
 namespace UI.ViewModels
@@ -27,14 +28,14 @@ namespace UI.ViewModels
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
 
-        public SnackbarMessageQueue SnackbarMessageQueue { get; set; } =
+        public SnackbarMessageQueue SnackbarMessageQueue { get; } =
             new SnackbarMessageQueue(TimeSpan.FromMilliseconds(500));
 
         private HWindow _windowHandle;
 
         public HObject DisplayImage { get; set; }
 
-        private readonly IMeasurementProcedure MeasurementUnit = new I94TopViewMeasure("I94");
+        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure("I94");
 
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
@@ -53,9 +54,9 @@ namespace UI.ViewModels
         {
             var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocaionsRelativeValues);
 
-            var result = await Task.Run(() =>
-                MeasurementUnit.Process(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue)
-            );
+            var result =
+                await MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue);
+            
 
 
             result.HalconGraphics.DisplayGraphics(_windowHandle);
