@@ -35,7 +35,7 @@ namespace UI.ViewModels
 
         public HObject DisplayImage { get; set; }
 
-        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure("I94");
+        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94BottomViewMeasurement("I94_BOTTOM");
 
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
@@ -49,22 +49,6 @@ namespace UI.ViewModels
         }
 
         public int IndexToShow { get; set; } = 1;
-
-        public async Task ProcessAsync(List<HImage> images)
-        {
-            var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocationsRelativeValues);
-
-            var result =
-                await Task.Run(() =>
-                    MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue));
-
-
-            result.HalconGraphics.DisplayGraphics(_windowHandle);
-            result.DataRecorder.DisplayPoints(_windowHandle);
-            result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
-            UpdateFaiItems(result.FaiDictionary);
-            CsvSerializer.Serialize(FaiItems, CurrentImageName);
-        }
 
         private void UpdateFaiItems(Dictionary<string, double> results)
         {
@@ -172,7 +156,21 @@ namespace UI.ViewModels
 
         public List<FindLineLocation> FindLineLocationsRelativeValues { get; set; }
 
-        public bool MultipleImagesRunning { get; set; }
+        public async Task ProcessAsync(List<HImage> images)
+        {
+            var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocationsRelativeValues);
+
+            var result =
+                await Task.Run(() =>
+                    MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue));
+
+
+            result.HalconGraphics.DisplayGraphics(_windowHandle);
+            result.DataRecorder.DisplayPoints(_windowHandle);
+            result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
+            UpdateFaiItems(result.FaiDictionary);
+            CsvSerializer.Serialize(FaiItems, CurrentImageName);
+        }
 
         private async Task ProcessOnceAsync()
         {
@@ -186,6 +184,8 @@ namespace UI.ViewModels
             stopwatch.Stop();
             TimeElapsed = stopwatch.ElapsedMilliseconds.ToString();
         }
+
+        public bool MultipleImagesRunning { get; set; }
 
 
         private void FaiItemsRestartListeningToChange()

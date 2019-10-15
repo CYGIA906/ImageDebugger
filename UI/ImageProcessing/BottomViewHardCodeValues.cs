@@ -10,7 +10,97 @@ namespace UI.ImageProcessing
     {
         public ObservableCollection<FaiItem> GenFaiItemValues(string faiItemSerializationDir)
         {
-            throw new NotImplementedException();
+            var outputs = new ObservableCollection<FaiItem>()
+            {
+                new FaiItem("21_1")
+                {
+                    MaxBoundary = 17.52, MinBoundary = 17.42, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("21_2")
+                {
+                    MaxBoundary = 17.52, MinBoundary = 17.42, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("23_1")
+                {
+                    MaxBoundary = 18.59, MinBoundary = 18.49, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("23_2")
+                {
+                    MaxBoundary = 18.59, MinBoundary = 18.49, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("24_1")
+                {
+                    MaxBoundary = 12.16, MinBoundary = 12.06, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("25_1")
+                {
+                    MaxBoundary = 10.823, MinBoundary = 10.723, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("25_2")
+                {
+                    MaxBoundary = 0.06, MinBoundary = 0, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("26_1")
+                {
+                    MaxBoundary = 3.41, MinBoundary = 3.31, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("26_2")
+                {
+                    MaxBoundary = 3.41, MinBoundary = 3.31, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("27_1")
+                {
+                    MaxBoundary = 4.283, MinBoundary = 4.183, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("27_2")
+                {
+                    MaxBoundary = 4.283, MinBoundary = 4.183, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("28_1")
+                {
+                    MaxBoundary = 8.953, MinBoundary = 8.853, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("28_2")
+                {
+                    MaxBoundary = 0.06, MinBoundary = 0, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("29_1")
+                {
+                    MaxBoundary = 4.283, MinBoundary = 4.183, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("29_2")
+                {
+                    MaxBoundary = 4.283, MinBoundary = 4.183, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("31_1")
+                {
+                    MaxBoundary = 0.06, MinBoundary = 0, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("32_1")
+                {
+                    MaxBoundary = 0.06, MinBoundary = 0, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("33_1")
+                {
+                    MaxBoundary = 0.06, MinBoundary = 0, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("123_1")
+                {
+                    MaxBoundary = 35.27, MinBoundary = 35.17, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("123_2")
+                {
+                    MaxBoundary = 35.27, MinBoundary = 35.17, SerializationDir = faiItemSerializationDir
+                },
+                new FaiItem("123_3")
+                {
+                    MaxBoundary = 35.27, MinBoundary = 35.17, SerializationDir = faiItemSerializationDir
+                }
+
+            };
+
+            return outputs;
+
         }
 
         public List<FindLineLocation> GenFindLineLocationValues()
@@ -194,15 +284,23 @@ namespace UI.ImageProcessing
                 },
                 new FindLineParam()
                 {
-                    Name = "123-left", MinWidth = 1, MaxWidth = 10, WhichEdge = EdgeSelection.Last, Threshold = 5
+                    Name = "123-left", MinWidth = 1, MaxWidth = 15, WhichEdge = EdgeSelection.Last, Threshold = 5
                 },
                 new FindLineParam()
                 {
-                    Name = "123-center", MinWidth = 1, MaxWidth = 10, WhichEdge = EdgeSelection.Last, Threshold = 5
+                    Name = "123-center", MinWidth = 1, MaxWidth = 15, WhichEdge = EdgeSelection.Last, Threshold = 5
                 },
                 new FindLineParam()
                 {
-                    Name = "123-right", MinWidth = 1, MaxWidth = 10, WhichEdge = EdgeSelection.Last, Threshold = 5
+                    Name = "123-right", MinWidth = 1, MaxWidth = 15, WhichEdge = EdgeSelection.Last, Threshold = 5
+                },
+                new FindLineParam()
+                {
+                    Name = "TopBase"
+                },
+                new FindLineParam()
+                {
+                    Name = "LeftBase"
                 },
             };
 

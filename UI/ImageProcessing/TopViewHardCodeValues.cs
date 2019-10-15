@@ -260,7 +260,15 @@ namespace UI.ImageProcessing
                 new FindLineParam()
                 {
                     Name = "20.topRight",  Threshold = 20, NewWidth = 3
-                }
+                },
+                new FindLineParam()
+                {
+                    Name = "TopBase"
+                },
+                new FindLineParam()
+                {
+                    Name = "RightBase"
+                },
             };
 
             foreach (var param in outputs)

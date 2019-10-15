@@ -12,11 +12,17 @@
 //  HDevelopTemplateWPF projects located under %HALCONEXAMPLES%\c#
 
 using System;
+using System.Windows.Forms;
 using HalconDotNet;
 
 public partial class HDevelopExport
 {
   public HTuple hv_ExpDefaultWinHandle;
+
+  public void HDevelopStop()
+  {
+    MessageBox.Show("Press button to continue", "Program stop");
+  }
 
   // Procedures 
   // Local procedures 
@@ -1030,7 +1036,8 @@ public partial class HDevelopExport
       if ((int)(new HTuple(hv_contourLength.TupleLess(hv_minLength))) != 0)
       {
         //using leaset square fit
-        //gen_empty_obj (lineContours)
+        ho_lineContours.Dispose();
+        HOperatorSet.GenEmptyObj(out ho_lineContours);
       }
       else
       {
@@ -2632,6 +2639,421 @@ public partial class HDevelopExport
     }
   }
 
+  public void GetI94BottomViewBaseRects (HObject ho_Image, out HObject ho_ImageUndistorted, 
+      HTuple hv_ModelHandle, out HTuple hv_baseTopRow, out HTuple hv_baseTopCol, out HTuple hv_baseTopRadian, 
+      out HTuple hv_baseTopLen1, out HTuple hv_baseTopLen2, out HTuple hv_baseLeftRow, 
+      out HTuple hv_baseLeftCol, out HTuple hv_baseLeftRadian, out HTuple hv_baseLeftLen1, 
+      out HTuple hv_baseLeftLen2, out HTuple hv_MapToWorld, out HTuple hv_MapToImage, 
+      out HTuple hv_CameraParameters)
+  {
+
+
+
+
+    // Stack for temporary objects 
+    HObject[] OTemp = new HObject[20];
+
+    // Local iconic variables 
+
+    // Local copy input parameter variables 
+    HObject ho_Image_COPY_INP_TMP;
+    ho_Image_COPY_INP_TMP = new HObject(ho_Image);
+
+
+
+    // Local control variables 
+
+    HTuple hv_CameraPose = new HTuple(), hv_OutCameraParams = new HTuple();
+    HTuple hv_modelRow = new HTuple(), hv_modelCol = new HTuple();
+    HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
+    HTuple hv_Angle = new HTuple(), hv_Score = new HTuple();
+    HTuple hv_MovementOfItem = new HTuple(), hv_sigma2 = new HTuple();
+    HTuple hv_row1TopBase = new HTuple(), hv_col1TopBase = new HTuple();
+    HTuple hv_radianTopBase = new HTuple(), hv_len1TopBase = new HTuple();
+    HTuple hv_len2TopBase = new HTuple(), hv_row1TopBase1 = new HTuple();
+    HTuple hv_col1TopBase1 = new HTuple(), hv_radianTopBase1 = new HTuple();
+    HTuple hv_len1TopBase1 = new HTuple(), hv_len2TopBase1 = new HTuple();
+    HTuple hv_row1TopBase2 = new HTuple(), hv_col1TopBase2 = new HTuple();
+    HTuple hv_radianTopBase2 = new HTuple(), hv_len1TopBase2 = new HTuple();
+    HTuple hv_len2TopBase2 = new HTuple(), hv_row1LeftBase = new HTuple();
+    HTuple hv_col1LeftBase = new HTuple(), hv_radianLeftBase = new HTuple();
+    HTuple hv_len1LeftBase = new HTuple(), hv_len2LeftBase = new HTuple();
+    HTuple hv_row1LeftBase1 = new HTuple(), hv_col1LeftBase1 = new HTuple();
+    HTuple hv_radianLeftBase1 = new HTuple(), hv_len1LeftBase1 = new HTuple();
+    HTuple hv_len2LeftBase1 = new HTuple();
+    // Initialize local and output iconic variables 
+    HOperatorSet.GenEmptyObj(out ho_ImageUndistorted);
+    hv_baseTopRow = new HTuple();
+    hv_baseTopCol = new HTuple();
+    hv_baseTopRadian = new HTuple();
+    hv_baseTopLen1 = new HTuple();
+    hv_baseTopLen2 = new HTuple();
+    hv_baseLeftRow = new HTuple();
+    hv_baseLeftCol = new HTuple();
+    hv_baseLeftRadian = new HTuple();
+    hv_baseLeftLen1 = new HTuple();
+    hv_baseLeftLen2 = new HTuple();
+    hv_MapToWorld = new HTuple();
+    hv_MapToImage = new HTuple();
+    hv_CameraParameters = new HTuple();
+    try
+    {
+      hv_CameraParameters.Dispose();
+      hv_CameraParameters = new HTuple();
+      hv_CameraParameters[0] = "area_scan_telecentric_division";
+      hv_CameraParameters[1] = 0.579268;
+      hv_CameraParameters[2] = -3.64444;
+      hv_CameraParameters[3] = 4.49772e-006;
+      hv_CameraParameters[4] = 4.5e-006;
+      hv_CameraParameters[5] = 2440.35;
+      hv_CameraParameters[6] = 3083.74;
+      hv_CameraParameters[7] = 5120;
+      hv_CameraParameters[8] = 5120;
+      hv_CameraPose.Dispose();
+      hv_CameraPose = new HTuple();
+      hv_CameraPose[0] = 0.000303946;
+      hv_CameraPose[1] = -0.0050309;
+      hv_CameraPose[2] = 0.000999219;
+      hv_CameraPose[3] = 0.0906952;
+      hv_CameraPose[4] = 357.737;
+      hv_CameraPose[5] = 89.8488;
+      hv_CameraPose[6] = 0;
+
+      {
+      HObject ExpTmpOutVar_0;hv_OutCameraParams.Dispose();
+      UndistortImage(ho_Image_COPY_INP_TMP, out ExpTmpOutVar_0, hv_CameraParameters, 
+          out hv_OutCameraParams);
+      ho_Image_COPY_INP_TMP.Dispose();
+      ho_Image_COPY_INP_TMP = ExpTmpOutVar_0;
+      }
+
+      hv_MapToWorld.Dispose();hv_MapToImage.Dispose();
+      GenCalibrationMaps(ho_Image_COPY_INP_TMP, hv_OutCameraParams, hv_CameraPose, 
+          out hv_MapToWorld, out hv_MapToImage);
+
+
+      hv_modelRow.Dispose();
+      hv_modelRow = 1166.78;
+      hv_modelCol.Dispose();
+      hv_modelCol = 2205;
+
+      hv_Row.Dispose();hv_Column.Dispose();hv_Angle.Dispose();hv_Score.Dispose();
+      HOperatorSet.FindShapeModel(ho_Image_COPY_INP_TMP, hv_ModelHandle, -0.39, 0.79, 
+          0.2, 1, 0.5, "least_squares", 0, 0.9, out hv_Row, out hv_Column, out hv_Angle, 
+          out hv_Score);
+      hv_MovementOfItem.Dispose();
+      HOperatorSet.VectorAngleToRigid(0, 0, 0, hv_Row, hv_Column, hv_Angle, out hv_MovementOfItem);
+
+      hv_sigma2.Dispose();
+      hv_sigma2 = 5;
+
+      //Find top base line
+      hv_row1TopBase.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_row1TopBase = 137-hv_modelRow;
+      }
+      hv_col1TopBase.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_col1TopBase = 2217-hv_modelCol;
+      }
+      hv_radianTopBase.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_radianTopBase = (new HTuple(-91)).TupleRad()
+          ;
+      }
+      hv_len1TopBase.Dispose();
+      hv_len1TopBase = 187;
+      hv_len2TopBase.Dispose();
+      hv_len2TopBase = 107;
+
+      hv_row1TopBase1.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_row1TopBase1 = 137-hv_modelRow;
+      }
+      hv_col1TopBase1.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_col1TopBase1 = 1628-hv_modelCol;
+      }
+      hv_radianTopBase1.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_radianTopBase1 = (new HTuple(-91)).TupleRad()
+          ;
+      }
+      hv_len1TopBase1.Dispose();
+      hv_len1TopBase1 = 187;
+      hv_len2TopBase1.Dispose();
+      hv_len2TopBase1 = 107;
+
+      hv_row1TopBase2.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_row1TopBase2 = 137-hv_modelRow;
+      }
+      hv_col1TopBase2.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_col1TopBase2 = 2876-hv_modelCol;
+      }
+      hv_radianTopBase2.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_radianTopBase2 = (new HTuple(-91)).TupleRad()
+          ;
+      }
+      hv_len1TopBase2.Dispose();
+      hv_len1TopBase2 = 187;
+      hv_len2TopBase2.Dispose();
+      hv_len2TopBase2 = 160;
+
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_row1TopBase = ((hv_row1TopBase.TupleConcat(
+          hv_row1TopBase1))).TupleConcat(hv_row1TopBase2);
+      hv_row1TopBase.Dispose();
+      hv_row1TopBase = ExpTmpLocalVar_row1TopBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_col1TopBase = ((hv_col1TopBase.TupleConcat(
+          hv_col1TopBase1))).TupleConcat(hv_col1TopBase2);
+      hv_col1TopBase.Dispose();
+      hv_col1TopBase = ExpTmpLocalVar_col1TopBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_radianTopBase = ((hv_radianTopBase.TupleConcat(
+          hv_radianTopBase1))).TupleConcat(hv_radianTopBase2);
+      hv_radianTopBase.Dispose();
+      hv_radianTopBase = ExpTmpLocalVar_radianTopBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_len1TopBase = ((hv_len1TopBase.TupleConcat(
+          hv_len1TopBase1))).TupleConcat(hv_len1TopBase2);
+      hv_len1TopBase.Dispose();
+      hv_len1TopBase = ExpTmpLocalVar_len1TopBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_len2TopBase = ((hv_len2TopBase.TupleConcat(
+          hv_len2TopBase1))).TupleConcat(hv_len2TopBase2);
+      hv_len2TopBase.Dispose();
+      hv_len2TopBase = ExpTmpLocalVar_len2TopBase;
+      }
+      }
+
+      hv_baseTopRow.Dispose();hv_baseTopCol.Dispose();hv_baseTopRadian.Dispose();hv_baseTopLen1.Dispose();hv_baseTopLen2.Dispose();
+      AffineTransRect2(hv_row1TopBase, hv_col1TopBase, hv_radianTopBase, hv_len1TopBase, 
+          hv_len2TopBase, hv_MovementOfItem, out hv_baseTopRow, out hv_baseTopCol, 
+          out hv_baseTopRadian, out hv_baseTopLen1, out hv_baseTopLen2);
+
+
+
+
+      //Find left base line
+      hv_row1LeftBase.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_row1LeftBase = 2607-hv_modelRow;
+      }
+      hv_col1LeftBase.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_col1LeftBase = 995-hv_modelCol;
+      }
+      hv_radianLeftBase.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_radianLeftBase = (new HTuple(-1)).TupleRad()
+          ;
+      }
+      hv_len1LeftBase.Dispose();
+      hv_len1LeftBase = 150;
+      hv_len2LeftBase.Dispose();
+      hv_len2LeftBase = 281;
+
+      hv_row1LeftBase1.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_row1LeftBase1 = 4216-hv_modelRow;
+      }
+      hv_col1LeftBase1.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_col1LeftBase1 = 995-hv_modelCol;
+      }
+      hv_radianLeftBase1.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_radianLeftBase1 = (new HTuple(-1)).TupleRad()
+          ;
+      }
+      hv_len1LeftBase1.Dispose();
+      hv_len1LeftBase1 = 150;
+      hv_len2LeftBase1.Dispose();
+      hv_len2LeftBase1 = 281;
+
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_row1LeftBase = hv_row1LeftBase.TupleConcat(
+          hv_row1LeftBase1);
+      hv_row1LeftBase.Dispose();
+      hv_row1LeftBase = ExpTmpLocalVar_row1LeftBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_col1LeftBase = hv_col1LeftBase.TupleConcat(
+          hv_col1LeftBase1);
+      hv_col1LeftBase.Dispose();
+      hv_col1LeftBase = ExpTmpLocalVar_col1LeftBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_radianLeftBase = hv_radianLeftBase.TupleConcat(
+          hv_radianLeftBase1);
+      hv_radianLeftBase.Dispose();
+      hv_radianLeftBase = ExpTmpLocalVar_radianLeftBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_len1LeftBase = hv_len1LeftBase.TupleConcat(
+          hv_len1LeftBase1);
+      hv_len1LeftBase.Dispose();
+      hv_len1LeftBase = ExpTmpLocalVar_len1LeftBase;
+      }
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_len2LeftBase = hv_len2LeftBase.TupleConcat(
+          hv_len2LeftBase1);
+      hv_len2LeftBase.Dispose();
+      hv_len2LeftBase = ExpTmpLocalVar_len2LeftBase;
+      }
+      }
+
+
+      hv_baseLeftRow.Dispose();hv_baseLeftCol.Dispose();hv_baseLeftRadian.Dispose();hv_baseLeftLen1.Dispose();hv_baseLeftLen2.Dispose();
+      AffineTransRect2(hv_row1LeftBase, hv_col1LeftBase, hv_radianLeftBase, hv_len1LeftBase, 
+          hv_len2LeftBase, hv_MovementOfItem, out hv_baseLeftRow, out hv_baseLeftCol, 
+          out hv_baseLeftRadian, out hv_baseLeftLen1, out hv_baseLeftLen2);
+
+      ho_Image_COPY_INP_TMP.Dispose();
+
+      hv_CameraPose.Dispose();
+      hv_OutCameraParams.Dispose();
+      hv_modelRow.Dispose();
+      hv_modelCol.Dispose();
+      hv_Row.Dispose();
+      hv_Column.Dispose();
+      hv_Angle.Dispose();
+      hv_Score.Dispose();
+      hv_MovementOfItem.Dispose();
+      hv_sigma2.Dispose();
+      hv_row1TopBase.Dispose();
+      hv_col1TopBase.Dispose();
+      hv_radianTopBase.Dispose();
+      hv_len1TopBase.Dispose();
+      hv_len2TopBase.Dispose();
+      hv_row1TopBase1.Dispose();
+      hv_col1TopBase1.Dispose();
+      hv_radianTopBase1.Dispose();
+      hv_len1TopBase1.Dispose();
+      hv_len2TopBase1.Dispose();
+      hv_row1TopBase2.Dispose();
+      hv_col1TopBase2.Dispose();
+      hv_radianTopBase2.Dispose();
+      hv_len1TopBase2.Dispose();
+      hv_len2TopBase2.Dispose();
+      hv_row1LeftBase.Dispose();
+      hv_col1LeftBase.Dispose();
+      hv_radianLeftBase.Dispose();
+      hv_len1LeftBase.Dispose();
+      hv_len2LeftBase.Dispose();
+      hv_row1LeftBase1.Dispose();
+      hv_col1LeftBase1.Dispose();
+      hv_radianLeftBase1.Dispose();
+      hv_len1LeftBase1.Dispose();
+      hv_len2LeftBase1.Dispose();
+
+      return;
+    }
+    catch (HalconException HDevExpDefaultException)
+    {
+      ho_Image_COPY_INP_TMP.Dispose();
+
+      hv_CameraPose.Dispose();
+      hv_OutCameraParams.Dispose();
+      hv_modelRow.Dispose();
+      hv_modelCol.Dispose();
+      hv_Row.Dispose();
+      hv_Column.Dispose();
+      hv_Angle.Dispose();
+      hv_Score.Dispose();
+      hv_MovementOfItem.Dispose();
+      hv_sigma2.Dispose();
+      hv_row1TopBase.Dispose();
+      hv_col1TopBase.Dispose();
+      hv_radianTopBase.Dispose();
+      hv_len1TopBase.Dispose();
+      hv_len2TopBase.Dispose();
+      hv_row1TopBase1.Dispose();
+      hv_col1TopBase1.Dispose();
+      hv_radianTopBase1.Dispose();
+      hv_len1TopBase1.Dispose();
+      hv_len2TopBase1.Dispose();
+      hv_row1TopBase2.Dispose();
+      hv_col1TopBase2.Dispose();
+      hv_radianTopBase2.Dispose();
+      hv_len1TopBase2.Dispose();
+      hv_len2TopBase2.Dispose();
+      hv_row1LeftBase.Dispose();
+      hv_col1LeftBase.Dispose();
+      hv_radianLeftBase.Dispose();
+      hv_len1LeftBase.Dispose();
+      hv_len2LeftBase.Dispose();
+      hv_row1LeftBase1.Dispose();
+      hv_col1LeftBase1.Dispose();
+      hv_radianLeftBase1.Dispose();
+      hv_len1LeftBase1.Dispose();
+      hv_len2LeftBase1.Dispose();
+
+      throw HDevExpDefaultException;
+    }
+  }
+
   public void GetI94TopViewBaseRects (HObject ho_Image, out HObject ho_ImageUndistorted, 
       HTuple hv_ModelHandle, out HTuple hv_baseTopRow, out HTuple hv_baseTopColumn, 
       out HTuple hv_baseTopRadian, out HTuple hv_baseTopLen1, out HTuple hv_baseTopLen2, 
@@ -3595,18 +4017,18 @@ public partial class HDevelopExport
 
     // Local iconic variables 
 
-    HObject ho_findLineRegionTop=null, ho_lineRegionTop=null;
-    HObject ho_findLineRegionLeft=null, ho_lineRegionLeft=null;
-    HObject ho_findLineRegion=null, ho_lineRegion=null, ho_lineContours=null;
-    HObject ho_ROI_0, ho_ImageReduced1, ho_ImageMean1, ho_mask;
-    HObject ho_ImageReduced2, ho_Edges2, ho_SelectedContours;
-    HObject ho_UnionContours, ho_outputContour, ho_ContCircle;
-    HObject ho_Circle, ho_lineRegion1, ho_ROI_FAI26_TL, ho_ImageReduced;
-    HObject ho_Edges1, ho_Cross1, ho_ROI_FAI26_BL, ho_Cross2;
-    HObject ho_ROI_FAI26_TR, ho_Cross3, ho_ROI_FAI26_BR, ho_Region;
-    HObject ho_ConnectedRegions, ho_SelectedRegions, ho_RegionDilation;
-    HObject ho_image_intersection, ho_Edges, ho_UnionContours2;
-    HObject ho_SelectedXLD, ho_ContCircle1, ho_Rectangle;
+    HObject ho_findLineRegionTop, ho_lineRegionTop;
+    HObject ho_findLineRegionLeft, ho_lineRegionLeft, ho_findLineRegion;
+    HObject ho_lineRegion, ho_lineContours, ho_ROI_0, ho_ImageReduced1;
+    HObject ho_ImageMean1, ho_mask, ho_ImageReduced2, ho_Edges2;
+    HObject ho_SelectedContours, ho_UnionContours, ho_outputContour;
+    HObject ho_ContCircle, ho_Circle, ho_lineRegion1, ho_ROI_FAI26_TL;
+    HObject ho_ImageReduced, ho_Edges1, ho_Cross1, ho_ROI_FAI26_BL;
+    HObject ho_Cross2, ho_ROI_FAI26_TR, ho_Cross3, ho_ROI_FAI26_BR;
+    HObject ho_Region, ho_ConnectedRegions, ho_SelectedRegions;
+    HObject ho_RegionDilation, ho_image_intersection, ho_Edges;
+    HObject ho_UnionContours2, ho_SelectedXLD, ho_ContCircle1;
+    HObject ho_Rectangle;
 
     // Local copy input parameter variables 
     HObject ho_Image_COPY_INP_TMP;
@@ -3692,7 +4114,9 @@ public partial class HDevelopExport
     HTuple hv_rectRadian = new HTuple(), hv_rectLen1 = new HTuple();
     HTuple hv_rectLen2 = new HTuple(), hv_lineX1_FAI23_TOP = new HTuple();
     HTuple hv_lineY1_FAI23_TOP = new HTuple(), hv_lineX2_FAI23_TOP = new HTuple();
-    HTuple hv_lineY2_FAI23_TOP = new HTuple(), hv_rect1X1 = new HTuple();
+    HTuple hv_lineY2_FAI23_TOP = new HTuple(), hv_XsUsed = new HTuple();
+    HTuple hv_YsUsed = new HTuple(), hv_XsIgnored = new HTuple();
+    HTuple hv_YsIgnored = new HTuple(), hv_rect1X1 = new HTuple();
     HTuple hv_rect1Y1 = new HTuple(), hv_rect1Radian = new HTuple();
     HTuple hv_rect1Len1 = new HTuple(), hv_rect1Len2 = new HTuple();
     HTuple hv_rect2X1 = new HTuple(), hv_rect2Y1 = new HTuple();
@@ -4206,7 +4630,17 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegionTop, lineRegionTop, 'negative', row1TopBase, col1TopBase, radianTopBase, len1TopBase, len2TopBase, 10, [threshValue,threshValue,threshValue], 'first', ignorePortion, 'false', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth1, lineX1TopBase, lineY1TopBase, lineX2TopBase, lineY2TopBase, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_findLineRegionTop.Dispose();ho_lineRegionTop.Dispose();hv_lineX1TopBase.Dispose();hv_lineY1TopBase.Dispose();hv_lineX2TopBase.Dispose();hv_lineY2TopBase.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegionTop, 
+          out ho_lineRegionTop, "negative", hv_row1TopBase, hv_col1TopBase, hv_radianTopBase, 
+          hv_len1TopBase, hv_len2TopBase, 10, ((hv_threshValue.TupleConcat(hv_threshValue))).TupleConcat(
+          hv_threshValue), "first", hv_ignorePortion, "false", hv_sigma1, hv_sigma2, 
+          5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1TopBase, 
+          out hv_lineY1TopBase, out hv_lineX2TopBase, out hv_lineY2TopBase, out hv_ptsXUsed, 
+          out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
+      }
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       {
@@ -4368,7 +4802,17 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegionLeft, lineRegionLeft, 'negative', row1LeftBase, col1LeftBase, radianLeftBase, len1LeftBase, len2LeftBase, 10, [threshValue, threshValue], 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth2, lineX1LeftBase, lineY1LeftBase, lineX2LeftBase, lineY2LeftBase, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_findLineRegionLeft.Dispose();ho_lineRegionLeft.Dispose();hv_lineX1LeftBase.Dispose();hv_lineY1LeftBase.Dispose();hv_lineX2LeftBase.Dispose();hv_lineY2LeftBase.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegionLeft, 
+          out ho_lineRegionLeft, "negative", hv_row1LeftBase, hv_col1LeftBase, hv_radianLeftBase, 
+          hv_len1LeftBase, hv_len2LeftBase, 10, hv_threshValue.TupleConcat(hv_threshValue), 
+          "first", hv_ignorePortion, "true", hv_sigma1, hv_sigma2, 5120, 5120, hv_newWidth, 
+          hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1LeftBase, out hv_lineY1LeftBase, 
+          out hv_lineX2LeftBase, out hv_lineY2LeftBase, out hv_ptsXUsed, out hv_ptsYUsed, 
+          out hv_ptsXIgnored, out hv_ptsYIgnored);
+      }
       ho_FindLineRegions.Dispose();
       HOperatorSet.ConcatObj(ho_findLineRegionTop, ho_findLineRegionLeft, out ho_FindLineRegions
           );
@@ -4513,7 +4957,17 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'negative', row1FAI21Left, col1FAI21Left, radianFAI21Left, len1FAI21Left, len2FAI21Left, 10, [threshValue, threshValue], 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth3, lineX1_FAI21_LEFT, lineY1_FAI21_LEFT, lineX2_FAI21_LEFT, lineY2_FAI21_LEFT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI21_LEFT.Dispose();hv_lineY1_FAI21_LEFT.Dispose();hv_lineX2_FAI21_LEFT.Dispose();hv_lineY2_FAI21_LEFT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "negative", hv_row1FAI21Left, hv_col1FAI21Left, hv_radianFAI21Left, 
+          hv_len1FAI21Left, hv_len2FAI21Left, 10, hv_threshValue.TupleConcat(hv_threshValue), 
+          "first", hv_ignorePortion, "true", hv_sigma1, hv_sigma2, 5120, 5120, hv_newWidth, 
+          hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI21_LEFT, out hv_lineY1_FAI21_LEFT, 
+          out hv_lineX2_FAI21_LEFT, out hv_lineY2_FAI21_LEFT, out hv_ptsXUsed, out hv_ptsYUsed, 
+          out hv_ptsXIgnored, out hv_ptsYIgnored);
+      }
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -4664,7 +5118,17 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'negative', row1FAI21Right, col1FAI21Right, radianFAI21Right, len1FAI21Right, len2FAI21Right, 10, [threshValue, threshValue], 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth4, lineX1_FAI21_Right, lineY1_FAI21_Right, lineX2_FAI21_Right, lineY2_FAI21_Right, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI21_Right.Dispose();hv_lineY1_FAI21_Right.Dispose();hv_lineX2_FAI21_Right.Dispose();hv_lineY2_FAI21_Right.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "negative", hv_row1FAI21Right, hv_col1FAI21Right, hv_radianFAI21Right, 
+          hv_len1FAI21Right, hv_len2FAI21Right, 10, hv_threshValue.TupleConcat(hv_threshValue), 
+          "first", hv_ignorePortion, "true", hv_sigma1, hv_sigma2, 5120, 5120, hv_newWidth, 
+          hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI21_Right, out hv_lineY1_FAI21_Right, 
+          out hv_lineX2_FAI21_Right, out hv_lineY2_FAI21_Right, out hv_ptsXUsed, 
+          out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
+      }
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -4938,7 +5402,13 @@ public partial class HDevelopExport
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
       //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'false', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth5, lineX1_FAI23_TOP, lineY1_FAI23_TOP, lineX2_FAI23_TOP, lineY2_FAI23_TOP, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
-      //FindLineAdaptiveSingle (Image, findLineRegion, lineRegion, lineContours, rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, 'positive', 20, 2, 2, 'first', 0.8, 0.2, newWidth, 20, 40, kernelWidth, lineX1_FAI23_TOP, lineY1_FAI23_TOP, lineX2_FAI23_TOP, lineY2_FAI23_TOP, XsUsed, YsUsed, XsIgnored, YsIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();ho_lineContours.Dispose();hv_lineX1_FAI23_TOP.Dispose();hv_lineY1_FAI23_TOP.Dispose();hv_lineX2_FAI23_TOP.Dispose();hv_lineY2_FAI23_TOP.Dispose();hv_XsUsed.Dispose();hv_YsUsed.Dispose();hv_XsIgnored.Dispose();hv_YsIgnored.Dispose();
+      FindLineAdaptiveSingle(ho_Image_COPY_INP_TMP, out ho_findLineRegion, out ho_lineRegion, 
+          out ho_lineContours, hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, "positive", 20, 2, 2, "first", 0.8, 0.2, hv_newWidth, 
+          20, 40, -1, out hv_lineX1_FAI23_TOP, out hv_lineY1_FAI23_TOP, out hv_lineX2_FAI23_TOP, 
+          out hv_lineY2_FAI23_TOP, out hv_XsUsed, out hv_YsUsed, out hv_XsIgnored, 
+          out hv_YsIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -5116,7 +5586,17 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'negative', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, [threshValue,threshValue,threshValue], 'first', ignorePortion, 'false', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth6, lineX1_FAI23_BOTTOM, lineY1_FAI23_BOTTOM, lineX2_FAI23_BOTTOM, lineY2_FAI23_BOTTOM, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI23_BOTTOM.Dispose();hv_lineY1_FAI23_BOTTOM.Dispose();hv_lineX2_FAI23_BOTTOM.Dispose();hv_lineY2_FAI23_BOTTOM.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "negative", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, ((hv_threshValue.TupleConcat(hv_threshValue))).TupleConcat(
+          hv_threshValue), "first", hv_ignorePortion, "false", hv_sigma1, hv_sigma2, 
+          5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI23_BOTTOM, 
+          out hv_lineY1_FAI23_BOTTOM, out hv_lineX2_FAI23_BOTTOM, out hv_lineY2_FAI23_BOTTOM, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
+      }
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -5388,7 +5868,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth7, lineX1_FAI24_LEFT, lineY1_FAI24_LEFT, lineX2_FAI24_LEFT, lineY2_FAI24_LEFT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI24_LEFT.Dispose();hv_lineY1_FAI24_LEFT.Dispose();hv_lineX2_FAI24_LEFT.Dispose();hv_lineY2_FAI24_LEFT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "positive", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI24_LEFT, 
+          out hv_lineY1_FAI24_LEFT, out hv_lineX2_FAI24_LEFT, out hv_lineY2_FAI24_LEFT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -5486,7 +5972,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth8, lineX1_FAI24_RIGHT, lineY1_FAI24_RIGHT, lineX2_FAI24_RIGHT, lineY2_FAI24_RIGHT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI24_RIGHT.Dispose();hv_lineY1_FAI24_RIGHT.Dispose();hv_lineX2_FAI24_RIGHT.Dispose();hv_lineY2_FAI24_RIGHT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "positive", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI24_RIGHT, 
+          out hv_lineY1_FAI24_RIGHT, out hv_lineX2_FAI24_RIGHT, out hv_lineY2_FAI24_RIGHT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -6230,7 +6722,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'false', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth9, lineX1_FAI27_TOP, lineY1_FAI27_TOP, lineX2_FAI27_TOP, lineY2_FAI27_TOP, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI27_TOP.Dispose();hv_lineY1_FAI27_TOP.Dispose();hv_lineX2_FAI27_TOP.Dispose();hv_lineY2_FAI27_TOP.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "positive", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "false", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI27_TOP, 
+          out hv_lineY1_FAI27_TOP, out hv_lineX2_FAI27_TOP, out hv_lineY2_FAI27_TOP, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -6330,7 +6828,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'false', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth10, lineX1_FAI27_BOTTOM, lineY1_FAI27_BOTTOM, lineX2_FAI27_BOTTOM, lineY2_FAI27_BOTTOM, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI27_BOTTOM.Dispose();hv_lineY1_FAI27_BOTTOM.Dispose();hv_lineX2_FAI27_BOTTOM.Dispose();hv_lineY2_FAI27_BOTTOM.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "positive", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "false", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI27_BOTTOM, 
+          out hv_lineY1_FAI27_BOTTOM, out hv_lineX2_FAI27_BOTTOM, out hv_lineY2_FAI27_BOTTOM, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -6632,7 +7136,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth11, lineX1_FAI29_LEFT, lineY1_FAI29_LEFT, lineX2_FAI29_LEFT, lineY2_FAI29_LEFT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI29_LEFT.Dispose();hv_lineY1_FAI29_LEFT.Dispose();hv_lineX2_FAI29_LEFT.Dispose();hv_lineY2_FAI29_LEFT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "positive", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI29_LEFT, 
+          out hv_lineY1_FAI29_LEFT, out hv_lineX2_FAI29_LEFT, out hv_lineY2_FAI29_LEFT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -6729,7 +7239,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'negative', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth12, lineX1_FAI29_RIGHT, lineY1_FAI29_RIGHT, lineX2_FAI29_RIGHT, lineY2_FAI29_RIGHT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI29_RIGHT.Dispose();hv_lineY1_FAI29_RIGHT.Dispose();hv_lineX2_FAI29_RIGHT.Dispose();hv_lineY2_FAI29_RIGHT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "negative", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI29_RIGHT, 
+          out hv_lineY1_FAI29_RIGHT, out hv_lineX2_FAI29_RIGHT, out hv_lineY2_FAI29_RIGHT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -6942,7 +7458,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth13, lineX1_FAI31_TOPLEFT, lineY1_FAI31_TOPLEFT, lineX2_FAI31_TOPLEFT, lineY2_FAI31_TOPLEFT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI31_TOPLEFT.Dispose();hv_lineY1_FAI31_TOPLEFT.Dispose();hv_lineX2_FAI31_TOPLEFT.Dispose();hv_lineY2_FAI31_TOPLEFT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "positive", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI31_TOPLEFT, 
+          out hv_lineY1_FAI31_TOPLEFT, out hv_lineX2_FAI31_TOPLEFT, out hv_lineY2_FAI31_TOPLEFT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -7040,7 +7562,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'positive', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth14, lineX1_FAI31_BOTTOMLEFT, lineY1_FAI31_BOTTOMLEFT, lineX2_FAI31_BOTTOMLEFT, lineY2_FAI31_BOTTOMLEFT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI31_BOTTOMLEFT.Dispose();hv_lineY1_FAI31_BOTTOMLEFT.Dispose();hv_lineX2_FAI31_BOTTOMLEFT.Dispose();hv_lineY2_FAI31_BOTTOMLEFT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "positive", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI31_BOTTOMLEFT, 
+          out hv_lineY1_FAI31_BOTTOMLEFT, out hv_lineX2_FAI31_BOTTOMLEFT, out hv_lineY2_FAI31_BOTTOMLEFT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -7137,7 +7665,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'negative', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth15, lineX1_FAI31_TOPRIGHT, lineY1_FAI31_TOPRIGHT, lineX2_FAI31_TOPRIGHT, lineY2_FAI31_TOPRIGHT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI31_TOPRIGHT.Dispose();hv_lineY1_FAI31_TOPRIGHT.Dispose();hv_lineX2_FAI31_TOPRIGHT.Dispose();hv_lineY2_FAI31_TOPRIGHT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "negative", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI31_TOPRIGHT, 
+          out hv_lineY1_FAI31_TOPRIGHT, out hv_lineX2_FAI31_TOPRIGHT, out hv_lineY2_FAI31_TOPRIGHT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -7235,7 +7769,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep (Image, findLineRegion, lineRegion, 'negative', rectY1, rectX1, rectRadian, rectLen1, rectLen2, 10, threshValue, 'first', ignorePortion, 'true', sigma1, sigma2, 5120, 5120, newWidth, cannyHigh, cannyLow, kernelWidth16, lineX1_FAI31_BOTTOMRIGHT, lineY1_FAI31_BOTTOMRIGHT, lineX2_FAI31_BOTTOMRIGHT, lineY2_FAI31_BOTTOMRIGHT, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_lineX1_FAI31_BOTTOMRIGHT.Dispose();hv_lineY1_FAI31_BOTTOMRIGHT.Dispose();hv_lineX2_FAI31_BOTTOMRIGHT.Dispose();hv_lineY2_FAI31_BOTTOMRIGHT.Dispose();hv_ptsXUsed.Dispose();hv_ptsYUsed.Dispose();hv_ptsXIgnored.Dispose();hv_ptsYIgnored.Dispose();
+      VisionProStyleFindLineOneStep(ho_Image_COPY_INP_TMP, out ho_findLineRegion, 
+          out ho_lineRegion, "negative", hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, 
+          hv_rectLen2, 10, hv_threshValue, "first", hv_ignorePortion, "true", hv_sigma1, 
+          hv_sigma2, 5120, 5120, hv_newWidth, hv_cannyHigh, hv_cannyLow, -1, out hv_lineX1_FAI31_BOTTOMRIGHT, 
+          out hv_lineY1_FAI31_BOTTOMRIGHT, out hv_lineX2_FAI31_BOTTOMRIGHT, out hv_lineY2_FAI31_BOTTOMRIGHT, 
+          out hv_ptsXUsed, out hv_ptsYUsed, out hv_ptsXIgnored, out hv_ptsYIgnored);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -7933,7 +8473,13 @@ public partial class HDevelopExport
           hv_Sigma1s, hv_Sigma2s, hv_NewWidths, hv_CannyLows, hv_CannyHighs, out hv_threshValue, 
           out hv_ignorePortion, out hv_sigma1, out hv_sigma2, out hv_newWidth, out hv_cannyLow, 
           out hv_cannyHigh);
-      //VisionProStyleFindLineOneStep_Pairs (Image, findLineRegion, lineRegion, rectY1, rectX1, rectRadian, rectLen1, rectLen2, 'positive', 10, [threshValue,threshValue,threshValue], sigma1, sigma2, 'last', 'false', ignorePortion, 'first', 1, 15, 5120, 5120, cannyHigh, cannyLow, 'true', newWidth, kernelWidth17, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored, lineX1, lineY1, lineX2, lineY2)
+      //VisionProStyleFindLineOneStep_Pairs (Image, findLineRegion, kernelWidth5, rectY1, rectY1, rectRadian, rectLen1, rectLen2, 'positive', 10, [threshValue,threshValue,threshValue], sigma1, sigma2, 'last', 'false', ignorePortion, 'first', 1, 15, 5120, 5120, cannyHigh, cannyLow, 'true', newWidth, -1, ptsXUsed, ptsYUsed, ptsXIgnored, ptsYIgnored, lineX1, lineY1, lineX2, lineY2)
+      ho_findLineRegion.Dispose();ho_lineRegion.Dispose();hv_XsUsed.Dispose();hv_YsUsed.Dispose();hv_XsIgnored.Dispose();hv_YsIgnored.Dispose();hv_lineX1.Dispose();hv_lineY1.Dispose();hv_lineX2.Dispose();hv_lineY2.Dispose();
+      FindLineGradiant_Pair(ho_Image_COPY_INP_TMP, out ho_findLineRegion, out ho_lineRegion, 
+          hv_rectY1, hv_rectX1, hv_rectRadian, hv_rectLen1, hv_rectLen2, 10, 0.2, 
+          "positive", ((new HTuple(15)).TupleConcat(15)).TupleConcat(15), 2, "last", 
+          "first", 1, 15, out hv_XsUsed, out hv_YsUsed, out hv_XsIgnored, out hv_YsIgnored, 
+          out hv_lineX1, out hv_lineY1, out hv_lineX2, out hv_lineY2);
       {
       HObject ExpTmpOutVar_0;
       HOperatorSet.ConcatObj(ho_FindLineRegions, ho_findLineRegion, out ExpTmpOutVar_0
@@ -8420,6 +8966,10 @@ public partial class HDevelopExport
       hv_lineY1_FAI23_TOP.Dispose();
       hv_lineX2_FAI23_TOP.Dispose();
       hv_lineY2_FAI23_TOP.Dispose();
+      hv_XsUsed.Dispose();
+      hv_YsUsed.Dispose();
+      hv_XsIgnored.Dispose();
+      hv_YsIgnored.Dispose();
       hv_rect1X1.Dispose();
       hv_rect1Y1.Dispose();
       hv_rect1Radian.Dispose();
@@ -8854,6 +9404,10 @@ public partial class HDevelopExport
       hv_lineY1_FAI23_TOP.Dispose();
       hv_lineX2_FAI23_TOP.Dispose();
       hv_lineY2_FAI23_TOP.Dispose();
+      hv_XsUsed.Dispose();
+      hv_YsUsed.Dispose();
+      hv_XsIgnored.Dispose();
+      hv_YsIgnored.Dispose();
       hv_rect1X1.Dispose();
       hv_rect1Y1.Dispose();
       hv_rect1Radian.Dispose();
@@ -9091,6 +9645,213 @@ public partial class HDevelopExport
       hv_colP3_TOP.Dispose();
       hv_rowP3_BOTTOM.Dispose();
       hv_colP3_BOTTOM.Dispose();
+
+      throw HDevExpDefaultException;
+    }
+  }
+
+  public void I94FindLeftCircle (HObject ho_Image, out HObject ho_ContourCircle, 
+      HTuple hv_row, HTuple hv_col, HTuple hv_radian, HTuple hv_len1, HTuple hv_len2, 
+      out HTuple hv_centerXImageAbs, out HTuple hv_centerYImageAbs, out HTuple hv_radiusPixel)
+  {
+
+
+
+
+    // Local iconic variables 
+
+    HObject ho_ROI_0, ho_ImageReduced1, ho_Edges2;
+    HObject ho_SelectedContours, ho_UnionContours, ho_outputContour;
+
+    // Local control variables 
+
+    HTuple hv_contourLength = new HTuple(), hv_StartPhi = new HTuple();
+    HTuple hv_EndPhi = new HTuple(), hv_PointOrder = new HTuple();
+    // Initialize local and output iconic variables 
+    HOperatorSet.GenEmptyObj(out ho_ContourCircle);
+    HOperatorSet.GenEmptyObj(out ho_ROI_0);
+    HOperatorSet.GenEmptyObj(out ho_ImageReduced1);
+    HOperatorSet.GenEmptyObj(out ho_Edges2);
+    HOperatorSet.GenEmptyObj(out ho_SelectedContours);
+    HOperatorSet.GenEmptyObj(out ho_UnionContours);
+    HOperatorSet.GenEmptyObj(out ho_outputContour);
+    hv_centerXImageAbs = new HTuple();
+    hv_centerYImageAbs = new HTuple();
+    hv_radiusPixel = new HTuple();
+    try
+    {
+
+      ho_ROI_0.Dispose();
+      HOperatorSet.GenRectangle2(out ho_ROI_0, hv_row, hv_col, hv_radian, hv_len1, 
+          hv_len2);
+
+      ho_ImageReduced1.Dispose();
+      HOperatorSet.ReduceDomain(ho_Image, ho_ROI_0, out ho_ImageReduced1);
+      ho_Edges2.Dispose();
+      HOperatorSet.EdgesSubPix(ho_ImageReduced1, out ho_Edges2, "canny", 3, 15, 30);
+
+      ho_SelectedContours.Dispose();
+      HOperatorSet.SelectContoursXld(ho_Edges2, out ho_SelectedContours, "contour_length", 
+          200, 999999, -0.5, 0.5);
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_UnionContours.Dispose();
+      HOperatorSet.UnionCocircularContoursXld(ho_SelectedContours, out ho_UnionContours, 
+          (new HTuple(180)).TupleRad(), (new HTuple(5)).TupleRad(), (new HTuple(180)).TupleRad()
+          , 2000, 10, 50, "true", 3);
+      }
+
+      ho_outputContour.Dispose();hv_contourLength.Dispose();
+      LongestXLD(ho_UnionContours, out ho_outputContour, out hv_contourLength);
+      hv_centerYImageAbs.Dispose();hv_centerXImageAbs.Dispose();hv_radiusPixel.Dispose();hv_StartPhi.Dispose();hv_EndPhi.Dispose();hv_PointOrder.Dispose();
+      HOperatorSet.FitCircleContourXld(ho_outputContour, "algebraic", -1, 0, 0, 3, 
+          2, out hv_centerYImageAbs, out hv_centerXImageAbs, out hv_radiusPixel, 
+          out hv_StartPhi, out hv_EndPhi, out hv_PointOrder);
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ContourCircle.Dispose();
+      HOperatorSet.GenCircleContourXld(out ho_ContourCircle, hv_centerYImageAbs, 
+          hv_centerXImageAbs, hv_radiusPixel, 0, (new HTuple(360)).TupleRad(), "positive", 
+          1);
+      }
+
+      ho_ROI_0.Dispose();
+      ho_ImageReduced1.Dispose();
+      ho_Edges2.Dispose();
+      ho_SelectedContours.Dispose();
+      ho_UnionContours.Dispose();
+      ho_outputContour.Dispose();
+
+      hv_contourLength.Dispose();
+      hv_StartPhi.Dispose();
+      hv_EndPhi.Dispose();
+      hv_PointOrder.Dispose();
+
+      return;
+    }
+    catch (HalconException HDevExpDefaultException)
+    {
+      ho_ROI_0.Dispose();
+      ho_ImageReduced1.Dispose();
+      ho_Edges2.Dispose();
+      ho_SelectedContours.Dispose();
+      ho_UnionContours.Dispose();
+      ho_outputContour.Dispose();
+
+      hv_contourLength.Dispose();
+      hv_StartPhi.Dispose();
+      hv_EndPhi.Dispose();
+      hv_PointOrder.Dispose();
+
+      throw HDevExpDefaultException;
+    }
+  }
+
+  public void I94FindRightCircle (HObject ho_Image, out HObject ho_ContourCircle, 
+      HTuple hv_row, HTuple hv_col, HTuple hv_radian, HTuple hv_len1, HTuple hv_len2, 
+      out HTuple hv_centerXImageAbs, out HTuple hv_centerYImageAbs, out HTuple hv_radiusPixel)
+  {
+
+
+
+
+    // Local iconic variables 
+
+    HObject ho_ROI_0, ho_ImageReduced, ho_Region;
+    HObject ho_ConnectedRegions, ho_SelectedRegions, ho_RegionDilation;
+    HObject ho_image_intersection, ho_Edges, ho_UnionContours2;
+    HObject ho_SelectedXLD;
+
+    // Local control variables 
+
+    HTuple hv_contourLength5 = new HTuple();
+    // Initialize local and output iconic variables 
+    HOperatorSet.GenEmptyObj(out ho_ContourCircle);
+    HOperatorSet.GenEmptyObj(out ho_ROI_0);
+    HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+    HOperatorSet.GenEmptyObj(out ho_Region);
+    HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
+    HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
+    HOperatorSet.GenEmptyObj(out ho_RegionDilation);
+    HOperatorSet.GenEmptyObj(out ho_image_intersection);
+    HOperatorSet.GenEmptyObj(out ho_Edges);
+    HOperatorSet.GenEmptyObj(out ho_UnionContours2);
+    HOperatorSet.GenEmptyObj(out ho_SelectedXLD);
+    hv_centerXImageAbs = new HTuple();
+    hv_centerYImageAbs = new HTuple();
+    hv_radiusPixel = new HTuple();
+    try
+    {
+
+      ho_ROI_0.Dispose();
+      HOperatorSet.GenRectangle2(out ho_ROI_0, hv_row, hv_col, hv_radian, hv_len1, 
+          hv_len2);
+      ho_ImageReduced.Dispose();
+      HOperatorSet.ReduceDomain(ho_Image, ho_ROI_0, out ho_ImageReduced);
+      ho_Region.Dispose();
+      HOperatorSet.Threshold(ho_ImageReduced, out ho_Region, 100, 255);
+      ho_ConnectedRegions.Dispose();
+      HOperatorSet.Connection(ho_Region, out ho_ConnectedRegions);
+
+      ho_SelectedRegions.Dispose();
+      HOperatorSet.SelectShape(ho_ConnectedRegions, out ho_SelectedRegions, "area", 
+          "and", 800000, 1200000);
+      ho_RegionDilation.Dispose();
+      HOperatorSet.DilationCircle(ho_SelectedRegions, out ho_RegionDilation, 35);
+
+      ho_image_intersection.Dispose();
+      HOperatorSet.ReduceDomain(ho_Image, ho_RegionDilation, out ho_image_intersection
+          );
+      ho_Edges.Dispose();
+      HOperatorSet.EdgesSubPix(ho_image_intersection, out ho_Edges, "canny", 1, 10, 
+          20);
+
+      ho_UnionContours2.Dispose();
+      HOperatorSet.UnionAdjacentContoursXld(ho_Edges, out ho_UnionContours2, 1000, 
+          1000, "attr_keep");
+      ho_SelectedXLD.Dispose();hv_contourLength5.Dispose();
+      LongestXLD(ho_UnionContours2, out ho_SelectedXLD, out hv_contourLength5);
+      hv_centerYImageAbs.Dispose();hv_centerXImageAbs.Dispose();hv_radiusPixel.Dispose();
+      HOperatorSet.SmallestCircleXld(ho_SelectedXLD, out hv_centerYImageAbs, out hv_centerXImageAbs, 
+          out hv_radiusPixel);
+      //fit_circle_contour_xld (SelectedXLD, 'algebraic', -1, 0, 0, 3, 2, rowRightCircle, colRightCircle, radRightCircle, StartPhi1, EndPhi1, PointOrder1)
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ContourCircle.Dispose();
+      HOperatorSet.GenCircleContourXld(out ho_ContourCircle, hv_centerYImageAbs, 
+          hv_centerXImageAbs, hv_radiusPixel, 0, (new HTuple(360)).TupleRad(), "positive", 
+          1);
+      }
+
+      ho_ROI_0.Dispose();
+      ho_ImageReduced.Dispose();
+      ho_Region.Dispose();
+      ho_ConnectedRegions.Dispose();
+      ho_SelectedRegions.Dispose();
+      ho_RegionDilation.Dispose();
+      ho_image_intersection.Dispose();
+      ho_Edges.Dispose();
+      ho_UnionContours2.Dispose();
+      ho_SelectedXLD.Dispose();
+
+      hv_contourLength5.Dispose();
+
+      return;
+    }
+    catch (HalconException HDevExpDefaultException)
+    {
+      ho_ROI_0.Dispose();
+      ho_ImageReduced.Dispose();
+      ho_Region.Dispose();
+      ho_ConnectedRegions.Dispose();
+      ho_SelectedRegions.Dispose();
+      ho_RegionDilation.Dispose();
+      ho_image_intersection.Dispose();
+      ho_Edges.Dispose();
+      ho_UnionContours2.Dispose();
+      ho_SelectedXLD.Dispose();
+
+      hv_contourLength5.Dispose();
 
       throw HDevExpDefaultException;
     }
@@ -20242,77 +21003,365 @@ public partial class HDevelopExport
 
     // Local iconic variables 
 
-    HObject ho_Image, ho_ImageUndistorted;
+    HObject ho_Image=null, ho_FindLineRegions=null;
+    HObject ho_LineRegions=null, ho_Cross=null;
 
     // Local control variables 
 
-    HTuple hv_ModelID = new HTuple(), hv_ChangeOfBase = new HTuple();
-    HTuple hv_ChangeOfBaseInv = new HTuple(), hv_RotationMat = new HTuple();
-    HTuple hv_RotationMatInv = new HTuple(), hv_MapToWorld = new HTuple();
-    HTuple hv_MapToImage = new HTuple(), hv_lineX1TopBase = new HTuple();
-    HTuple hv_lineY1TopBase = new HTuple(), hv_lineX2TopBase = new HTuple();
-    HTuple hv_lineY2TopBase = new HTuple(), hv_lineX1RightBase = new HTuple();
-    HTuple hv_lineY1RightBase = new HTuple(), hv_lineX2RightBase = new HTuple();
-    HTuple hv_lineY2RightBase = new HTuple();
+    HTuple hv_folderIndex = new HTuple(), hv_Width = new HTuple();
+    HTuple hv_Height = new HTuple(), hv_ModelID = new HTuple();
+    HTuple hv_imageDir = new HTuple(), hv_FileHandle = new HTuple();
+    HTuple hv_header = new HTuple(), hv_AcqHandle = new HTuple();
+    HTuple hv_XCoeff = new HTuple(), hv_YCoeff = new HTuple();
+    HTuple hv_FAINames = new HTuple(), hv_FAIBiases = new HTuple();
+    HTuple hv_FAIWeights = new HTuple(), hv_FindLineNames = new HTuple();
+    HTuple hv_NewWidths = new HTuple(), hv_Thresholds = new HTuple();
+    HTuple hv_IgnorePortions = new HTuple(), hv_Sigma1s = new HTuple();
+    HTuple hv_Sigma2s = new HTuple(), hv_CannyLows = new HTuple();
+    HTuple hv_CannyHighs = new HTuple(), hv_Index = new HTuple();
+    HTuple hv_IntersectsX = new HTuple(), hv_IntersectsY = new HTuple();
+    HTuple hv_Outputs = new HTuple(), hv_OutputsPixel = new HTuple();
+    HTuple hv_PointsXUsed = new HTuple(), hv_PointsYUsed = new HTuple();
+    HTuple hv_PointsXIgnored = new HTuple(), hv_PointsYIgnored = new HTuple();
+    HTuple hv_numOutputs = new HTuple(), hv_Index1 = new HTuple();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_Image);
-    HOperatorSet.GenEmptyObj(out ho_ImageUndistorted);
+    HOperatorSet.GenEmptyObj(out ho_FindLineRegions);
+    HOperatorSet.GenEmptyObj(out ho_LineRegions);
+    HOperatorSet.GenEmptyObj(out ho_Cross);
     try
     {
-      ho_Image.Dispose();
-      HOperatorSet.ReadImage(out ho_Image, "C:/Users/25001858/Desktop/Xiaojin/ModelImages/point_extraction_top_view.bmp");
+      hv_folderIndex.Dispose();
+      hv_folderIndex = 24;
+      hv_Width.Dispose();
+      hv_Width = 5120;
+      hv_Height.Dispose();
+      hv_Height = 5120;
       hv_ModelID.Dispose();
-      HOperatorSet.ReadShapeModel("C:/Users/25001858/Desktop/Xiaojin/Hdevs/ModelTopViewI94", 
-          out hv_ModelID);
-      ho_ImageUndistorted.Dispose();hv_ChangeOfBase.Dispose();hv_ChangeOfBaseInv.Dispose();hv_RotationMat.Dispose();hv_RotationMatInv.Dispose();hv_MapToWorld.Dispose();hv_MapToImage.Dispose();hv_lineX1TopBase.Dispose();hv_lineY1TopBase.Dispose();hv_lineX2TopBase.Dispose();hv_lineY2TopBase.Dispose();hv_lineX1RightBase.Dispose();hv_lineY1RightBase.Dispose();hv_lineX2RightBase.Dispose();hv_lineY2RightBase.Dispose();
-      I94TopViewChangeBase(ho_Image, out ho_ImageUndistorted, hv_ModelID, out hv_ChangeOfBase, 
-          out hv_ChangeOfBaseInv, out hv_RotationMat, out hv_RotationMatInv, out hv_MapToWorld, 
-          out hv_MapToImage, out hv_lineX1TopBase, out hv_lineY1TopBase, out hv_lineX2TopBase, 
-          out hv_lineY2TopBase, out hv_lineX1RightBase, out hv_lineY1RightBase, out hv_lineX2RightBase, 
-          out hv_lineY2RightBase);
+      HOperatorSet.ReadShapeModel("D:/share/Ïþ½ø/Hdevs/backViewModel", out hv_ModelID);
+      hv_imageDir.Dispose();
+      hv_imageDir = "D:/¬Fˆö²ÉˆD1015/i94/xia/PCS2/";
+
+      hv_FileHandle.Dispose();
+      HOperatorSet.OpenFile("C:/Users/ABC/Desktop/data.csv", "output", out hv_FileHandle);
+      hv_header.Dispose();
+      hv_header = new HTuple("21_1,21_2,23_1,23_2,24_1,25_1,25_2,26_1,26_2,27_1,27_2,28_1,28_2,29_1,29_2,31_1,32_1,33_1,123_1,123_2,123_3");
+      HOperatorSet.FwriteString(hv_FileHandle, hv_header);
+      HOperatorSet.FnewLine(hv_FileHandle);
+
+      HOperatorSet.SetSystem("image_dir", hv_imageDir);
+
+      hv_AcqHandle.Dispose();
+      HOperatorSet.OpenFramegrabber("File", 1, 1, hv_Width, hv_Height, 0, 0, "default", 
+          -1, "default", -1, "false", hv_imageDir, "", 1, 2, out hv_AcqHandle);
+
+
+      HOperatorSet.SetDraw(hv_ExpDefaultWinHandle, "margin");
+      //dev_close_window(...);
+      //dev_open_window(...);
+
+
+      hv_XCoeff.Dispose();
+      hv_XCoeff = 0.0076;
+      hv_YCoeff.Dispose();
+      hv_YCoeff = 0.0076;
+      hv_FAINames.Dispose();
+      hv_FAINames = new HTuple();
+      hv_FAIBiases.Dispose();
+      hv_FAIBiases = new HTuple();
+      hv_FAIWeights.Dispose();
+      hv_FAIWeights = new HTuple();
+      hv_FindLineNames.Dispose();
+      hv_FindLineNames = new HTuple();
+      hv_FindLineNames[0] = "TopBase";
+      hv_FindLineNames[1] = "LeftBase";
+      hv_FindLineNames[2] = "21-left";
+      hv_FindLineNames[3] = "21-right";
+      hv_FindLineNames[4] = "23-top";
+      hv_FindLineNames[5] = "23-bottom";
+      hv_FindLineNames[6] = "24-left";
+      hv_FindLineNames[7] = "24-right";
+      hv_FindLineNames[8] = "27-top";
+      hv_FindLineNames[9] = "27-bottom";
+      hv_FindLineNames[10] = "29-left";
+      hv_FindLineNames[11] = "29-right";
+      hv_FindLineNames[12] = "31-topLeft";
+      hv_FindLineNames[13] = "31-topRight";
+      hv_FindLineNames[14] = "31-bottomLeft";
+      hv_FindLineNames[15] = "31-bottomRight";
+      hv_FindLineNames[16] = "123";
+      hv_NewWidths.Dispose();
+      hv_NewWidths = new HTuple();
+      hv_NewWidths[0] = 5;
+      hv_NewWidths[1] = 5;
+      hv_NewWidths[2] = 5;
+      hv_NewWidths[3] = 5;
+      hv_NewWidths[4] = 5;
+      hv_NewWidths[5] = 5;
+      hv_NewWidths[6] = 5;
+      hv_NewWidths[7] = 5;
+      hv_NewWidths[8] = 5;
+      hv_NewWidths[9] = 5;
+      hv_NewWidths[10] = 5;
+      hv_NewWidths[11] = 5;
+      hv_NewWidths[12] = 5;
+      hv_NewWidths[13] = 5;
+      hv_NewWidths[14] = 5;
+      hv_NewWidths[15] = 5;
+      hv_NewWidths[16] = 2;
+      hv_Thresholds.Dispose();
+      hv_Thresholds = new HTuple();
+      hv_Thresholds[0] = 20;
+      hv_Thresholds[1] = 20;
+      hv_Thresholds[2] = 20;
+      hv_Thresholds[3] = 20;
+      hv_Thresholds[4] = 20;
+      hv_Thresholds[5] = 20;
+      hv_Thresholds[6] = 20;
+      hv_Thresholds[7] = 20;
+      hv_Thresholds[8] = 20;
+      hv_Thresholds[9] = 20;
+      hv_Thresholds[10] = 20;
+      hv_Thresholds[11] = 20;
+      hv_Thresholds[12] = 20;
+      hv_Thresholds[13] = 20;
+      hv_Thresholds[14] = 20;
+      hv_Thresholds[15] = 20;
+      hv_Thresholds[16] = 10;
+      hv_IgnorePortions.Dispose();
+      hv_IgnorePortions = new HTuple();
+      hv_IgnorePortions[0] = 0.2;
+      hv_IgnorePortions[1] = 0.2;
+      hv_IgnorePortions[2] = 0.2;
+      hv_IgnorePortions[3] = 0.2;
+      hv_IgnorePortions[4] = 0.2;
+      hv_IgnorePortions[5] = 0.2;
+      hv_IgnorePortions[6] = 0.2;
+      hv_IgnorePortions[7] = 0.2;
+      hv_IgnorePortions[8] = 0.2;
+      hv_IgnorePortions[9] = 0.2;
+      hv_IgnorePortions[10] = 0.2;
+      hv_IgnorePortions[11] = 0.2;
+      hv_IgnorePortions[12] = 0.2;
+      hv_IgnorePortions[13] = 0.2;
+      hv_IgnorePortions[14] = 0.2;
+      hv_IgnorePortions[15] = 0.2;
+      hv_IgnorePortions[16] = 0.2;
+      hv_Sigma1s.Dispose();
+      hv_Sigma1s = new HTuple();
+      hv_Sigma1s[0] = 1;
+      hv_Sigma1s[1] = 1;
+      hv_Sigma1s[2] = 1;
+      hv_Sigma1s[3] = 1;
+      hv_Sigma1s[4] = 1;
+      hv_Sigma1s[5] = 1;
+      hv_Sigma1s[6] = 1;
+      hv_Sigma1s[7] = 1;
+      hv_Sigma1s[8] = 1;
+      hv_Sigma1s[9] = 1;
+      hv_Sigma1s[10] = 1;
+      hv_Sigma1s[11] = 1;
+      hv_Sigma1s[12] = 1;
+      hv_Sigma1s[13] = 1;
+      hv_Sigma1s[14] = 1;
+      hv_Sigma1s[15] = 1;
+      hv_Sigma1s[16] = 1;
+      hv_Sigma2s.Dispose();
+      hv_Sigma2s = new HTuple();
+      hv_Sigma2s[0] = 1;
+      hv_Sigma2s[1] = 1;
+      hv_Sigma2s[2] = 1;
+      hv_Sigma2s[3] = 1;
+      hv_Sigma2s[4] = 1;
+      hv_Sigma2s[5] = 1;
+      hv_Sigma2s[6] = 1;
+      hv_Sigma2s[7] = 1;
+      hv_Sigma2s[8] = 1;
+      hv_Sigma2s[9] = 1;
+      hv_Sigma2s[10] = 1;
+      hv_Sigma2s[11] = 1;
+      hv_Sigma2s[12] = 1;
+      hv_Sigma2s[13] = 1;
+      hv_Sigma2s[14] = 1;
+      hv_Sigma2s[15] = 1;
+      hv_Sigma2s[16] = 1;
+      hv_CannyLows.Dispose();
+      hv_CannyLows = new HTuple();
+      hv_CannyLows[0] = 20;
+      hv_CannyLows[1] = 20;
+      hv_CannyLows[2] = 20;
+      hv_CannyLows[3] = 20;
+      hv_CannyLows[4] = 20;
+      hv_CannyLows[5] = 20;
+      hv_CannyLows[6] = 20;
+      hv_CannyLows[7] = 20;
+      hv_CannyLows[8] = 20;
+      hv_CannyLows[9] = 20;
+      hv_CannyLows[10] = 20;
+      hv_CannyLows[11] = 20;
+      hv_CannyLows[12] = 20;
+      hv_CannyLows[13] = 20;
+      hv_CannyLows[14] = 20;
+      hv_CannyLows[15] = 20;
+      hv_CannyLows[16] = 20;
+      hv_CannyHighs.Dispose();
+      hv_CannyHighs = new HTuple();
+      hv_CannyHighs[0] = 40;
+      hv_CannyHighs[1] = 40;
+      hv_CannyHighs[2] = 40;
+      hv_CannyHighs[3] = 40;
+      hv_CannyHighs[4] = 40;
+      hv_CannyHighs[5] = 40;
+      hv_CannyHighs[6] = 40;
+      hv_CannyHighs[7] = 40;
+      hv_CannyHighs[8] = 40;
+      hv_CannyHighs[9] = 40;
+      hv_CannyHighs[10] = 40;
+      hv_CannyHighs[11] = 40;
+      hv_CannyHighs[12] = 40;
+      hv_CannyHighs[13] = 40;
+      hv_CannyHighs[14] = 40;
+      hv_CannyHighs[15] = 40;
+      hv_CannyHighs[16] = 40;
+
+
+      for (hv_Index=1; (int)hv_Index<=32; hv_Index = (int)hv_Index + 1)
+      {
+        ho_Image.Dispose();
+        HOperatorSet.GrabImage(out ho_Image, hv_AcqHandle);
+        //Find model
+        ho_FindLineRegions.Dispose();ho_LineRegions.Dispose();hv_IntersectsX.Dispose();hv_IntersectsY.Dispose();hv_Outputs.Dispose();hv_OutputsPixel.Dispose();hv_PointsXUsed.Dispose();hv_PointsYUsed.Dispose();hv_PointsXIgnored.Dispose();hv_PointsYIgnored.Dispose();
+        I94BottomViewMeasure(ho_Image, out ho_FindLineRegions, out ho_LineRegions, 
+            hv_ModelID, hv_XCoeff, hv_YCoeff, hv_FAINames, hv_FAIBiases, hv_FindLineNames, 
+            hv_Thresholds, hv_IgnorePortions, hv_Sigma1s, hv_Sigma2s, hv_NewWidths, 
+            hv_CannyLows, hv_CannyHighs, out hv_IntersectsX, out hv_IntersectsY, 
+            out hv_Outputs, out hv_OutputsPixel, out hv_PointsXUsed, out hv_PointsYUsed, 
+            out hv_PointsXIgnored, out hv_PointsYIgnored);
+
+        hv_numOutputs.Dispose();
+        using (HDevDisposeHelper dh = new HDevDisposeHelper())
+        {
+        hv_numOutputs = new HTuple(hv_Outputs.TupleLength()
+            );
+        }
+
+        HOperatorSet.DispObj(ho_Image, hv_ExpDefaultWinHandle);
+        HOperatorSet.SetColor(hv_ExpDefaultWinHandle, "yellow");
+        HOperatorSet.DispObj(ho_LineRegions, hv_ExpDefaultWinHandle);
+        HOperatorSet.SetColor(hv_ExpDefaultWinHandle, "green");
+        ho_Cross.Dispose();
+        HOperatorSet.GenCrossContourXld(out ho_Cross, hv_PointsYUsed, hv_PointsXUsed, 
+            100, 0.785398);
+        HOperatorSet.SetColor(hv_ExpDefaultWinHandle, "red");
+        ho_Cross.Dispose();
+        HOperatorSet.GenCrossContourXld(out ho_Cross, hv_PointsYIgnored, hv_PointsXIgnored, 
+            100, 0.785398);
+        HOperatorSet.SetLineWidth(hv_ExpDefaultWinHandle, 3);
+        HOperatorSet.SetColor(hv_ExpDefaultWinHandle, "blue");
+        ho_Cross.Dispose();
+        HOperatorSet.GenCrossContourXld(out ho_Cross, hv_IntersectsY, hv_IntersectsX, 
+            200, 0.785398);
+        HOperatorSet.SetColor(hv_ExpDefaultWinHandle, "magenta");
+        HOperatorSet.DispObj(ho_FindLineRegions, hv_ExpDefaultWinHandle);
+        HOperatorSet.SetLineWidth(hv_ExpDefaultWinHandle, 1);
+
+        for (hv_Index1=0; (int)hv_Index1<=(int)((new HTuple(hv_Outputs.TupleLength()
+            ))-1); hv_Index1 = (int)hv_Index1 + 1)
+        {
+          using (HDevDisposeHelper dh = new HDevDisposeHelper())
+          {
+          HOperatorSet.FwriteString(hv_FileHandle, (hv_Outputs.TupleSelect(hv_Index1))+new HTuple(","));
+          }
+        }
+        HOperatorSet.FnewLine(hv_FileHandle);
+
+        //stop ()
+      }
+
+      HOperatorSet.CloseFile(hv_FileHandle);
+      HOperatorSet.ClearShapeModel(hv_ModelID);
+
 
     }
     catch (HalconException HDevExpDefaultException)
     {
       ho_Image.Dispose();
-      ho_ImageUndistorted.Dispose();
+      ho_FindLineRegions.Dispose();
+      ho_LineRegions.Dispose();
+      ho_Cross.Dispose();
 
+      hv_folderIndex.Dispose();
+      hv_Width.Dispose();
+      hv_Height.Dispose();
       hv_ModelID.Dispose();
-      hv_ChangeOfBase.Dispose();
-      hv_ChangeOfBaseInv.Dispose();
-      hv_RotationMat.Dispose();
-      hv_RotationMatInv.Dispose();
-      hv_MapToWorld.Dispose();
-      hv_MapToImage.Dispose();
-      hv_lineX1TopBase.Dispose();
-      hv_lineY1TopBase.Dispose();
-      hv_lineX2TopBase.Dispose();
-      hv_lineY2TopBase.Dispose();
-      hv_lineX1RightBase.Dispose();
-      hv_lineY1RightBase.Dispose();
-      hv_lineX2RightBase.Dispose();
-      hv_lineY2RightBase.Dispose();
+      hv_imageDir.Dispose();
+      hv_FileHandle.Dispose();
+      hv_header.Dispose();
+      hv_AcqHandle.Dispose();
+      hv_XCoeff.Dispose();
+      hv_YCoeff.Dispose();
+      hv_FAINames.Dispose();
+      hv_FAIBiases.Dispose();
+      hv_FAIWeights.Dispose();
+      hv_FindLineNames.Dispose();
+      hv_NewWidths.Dispose();
+      hv_Thresholds.Dispose();
+      hv_IgnorePortions.Dispose();
+      hv_Sigma1s.Dispose();
+      hv_Sigma2s.Dispose();
+      hv_CannyLows.Dispose();
+      hv_CannyHighs.Dispose();
+      hv_Index.Dispose();
+      hv_IntersectsX.Dispose();
+      hv_IntersectsY.Dispose();
+      hv_Outputs.Dispose();
+      hv_OutputsPixel.Dispose();
+      hv_PointsXUsed.Dispose();
+      hv_PointsYUsed.Dispose();
+      hv_PointsXIgnored.Dispose();
+      hv_PointsYIgnored.Dispose();
+      hv_numOutputs.Dispose();
+      hv_Index1.Dispose();
 
       throw HDevExpDefaultException;
     }
     ho_Image.Dispose();
-    ho_ImageUndistorted.Dispose();
+    ho_FindLineRegions.Dispose();
+    ho_LineRegions.Dispose();
+    ho_Cross.Dispose();
 
+    hv_folderIndex.Dispose();
+    hv_Width.Dispose();
+    hv_Height.Dispose();
     hv_ModelID.Dispose();
-    hv_ChangeOfBase.Dispose();
-    hv_ChangeOfBaseInv.Dispose();
-    hv_RotationMat.Dispose();
-    hv_RotationMatInv.Dispose();
-    hv_MapToWorld.Dispose();
-    hv_MapToImage.Dispose();
-    hv_lineX1TopBase.Dispose();
-    hv_lineY1TopBase.Dispose();
-    hv_lineX2TopBase.Dispose();
-    hv_lineY2TopBase.Dispose();
-    hv_lineX1RightBase.Dispose();
-    hv_lineY1RightBase.Dispose();
-    hv_lineX2RightBase.Dispose();
-    hv_lineY2RightBase.Dispose();
+    hv_imageDir.Dispose();
+    hv_FileHandle.Dispose();
+    hv_header.Dispose();
+    hv_AcqHandle.Dispose();
+    hv_XCoeff.Dispose();
+    hv_YCoeff.Dispose();
+    hv_FAINames.Dispose();
+    hv_FAIBiases.Dispose();
+    hv_FAIWeights.Dispose();
+    hv_FindLineNames.Dispose();
+    hv_NewWidths.Dispose();
+    hv_Thresholds.Dispose();
+    hv_IgnorePortions.Dispose();
+    hv_Sigma1s.Dispose();
+    hv_Sigma2s.Dispose();
+    hv_CannyLows.Dispose();
+    hv_CannyHighs.Dispose();
+    hv_Index.Dispose();
+    hv_IntersectsX.Dispose();
+    hv_IntersectsY.Dispose();
+    hv_Outputs.Dispose();
+    hv_OutputsPixel.Dispose();
+    hv_PointsXUsed.Dispose();
+    hv_PointsYUsed.Dispose();
+    hv_PointsXIgnored.Dispose();
+    hv_PointsYIgnored.Dispose();
+    hv_numOutputs.Dispose();
+    hv_Index1.Dispose();
 
   }
 
