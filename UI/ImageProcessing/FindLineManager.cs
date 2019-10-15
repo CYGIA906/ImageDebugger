@@ -25,7 +25,6 @@ namespace UI.ImageProcessing
     /// </summary>
     public class FindLineManager
     {
-
         public List<Tuple<List<double>, List<double>>> CrossesUsed
         {
             get { return _crossesUsed; }
@@ -74,14 +73,13 @@ namespace UI.ImageProcessing
 
         public void FindLines(List<HImage> images)
         {
-
             var imageFeedingDict = AssociateFeedingsWithImages(images);
             foreach (var pair in imageFeedingDict)
             {
                 var name = pair.Key;
                 var image = pair.Value.Item1;
                 var feeding = pair.Value.Item2;
-                Line line = TryFindLine(pair.Key, image, feeding);
+                Line line = TryFindLine(name, image, feeding);
                 _lines[name] = line;
             }
         }
@@ -95,6 +93,7 @@ namespace UI.ImageProcessing
             }
             catch (Exception e)
             {
+                Debugger.Break();
                 PromptUserInvoke($"Line {name} not found! {Environment.NewLine} {e.Message}");
             }
 
@@ -117,31 +116,29 @@ namespace UI.ImageProcessing
 
         public async Task FindLinesParallel(List<HImage> images)
         {
-
             Stopwatch stopwatch = Stopwatch.StartNew();
             var imageFeedingDict = AssociateFeedingsWithImages(images);
 
             var findLineTasks = new List<Task>();
             foreach (var pair in imageFeedingDict)
             {
-               findLineTasks.Add(Task.Run(() =>
-               {
-                   // find line
-                   var name = pair.Key;
-                   var image = pair.Value.Item1;
-                   var feeding = pair.Value.Item2;
-                   var line = TryFindLine(name, image, feeding);
+                findLineTasks.Add(Task.Run(() =>
+                {
+                    // find line
+                    var name = pair.Key;
+                    var image = pair.Value.Item1;
+                    var feeding = pair.Value.Item2;
+                    var line = TryFindLine(name, image, feeding);
 
-                   // Record line
-                   _lines[name] = line;
-               }));
+                    // Record line
+                    _lines[name] = line;
+                }));
             }
 
-           await Task.WhenAll(findLineTasks);
-           stopwatch.Stop();
+            await Task.WhenAll(findLineTasks);
+            stopwatch.Stop();
 
-           var timeElapse = stopwatch.ElapsedMilliseconds;
-
+            var timeElapse = stopwatch.ElapsedMilliseconds;
         }
 
         public Dictionary<string, FindLineFeeding> FindLineFeedings { get; set; }
@@ -180,10 +177,11 @@ namespace UI.ImageProcessing
                         feeding.NumSubRects, feeding.Threshold, feeding.Sigma1, feeding.Sigma2, feeding.WhichEdge,
                         feeding.IsVertical, feeding.IgnoreFraction, feeding.WhichPair, feeding.MinWidth,
                         feeding.MaxWidth, _width, _height, feeding.CannyHigh, feeding.CannyLow, "true",
-                        feeding.NewWidth, feeding.KernelWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored, out lineX1, out lineY1,
+                        feeding.NewWidth, feeding.KernelWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored,
+                        out lineX1, out lineY1,
                         out lineX2, out lineY2);
-
                 }
+
                 xs = xsUsed.DArr.ToList();
                 ys = ysUsed.DArr.ToList();
             } // using single edge
@@ -211,54 +209,58 @@ namespace UI.ImageProcessing
                     var xsys = HalconHelper.FindLineSubPixel(image, feeding.Row.DArr, feeding.Col.DArr,
                         feeding.Radian.DArr, feeding.Len1.DArr, feeding.Len2.DArr, feeding.Transition.S,
                         feeding.NumSubRects.I, feeding.Threshold.I, feeding.WhichEdge.S, feeding.IgnoreFraction.D,
-                        feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I, feeding.KernelWidth,
+                        feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I,
+                        feeding.KernelWidth,
                         out edges, out findLineRegion);
 
                     xs = xsys.Item1;
                     ys = xsys.Item2;
-
-
                 }
-                
             }
 
-           
-    
-         
-                IEnumerable<double> xsInlier, ysInlier;
-                var line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), feeding.ErrorThreshold, feeding.MaxTrials, feeding.IgnoreFraction, feeding.Probability, out xsInlier, out ysInlier);
-                xs = xsInlier.ToList();
-                ys = ysInlier.ToList();
-            
 
-            HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width, _height);
+            IEnumerable<double> xsInlier, ysInlier;
+            var line = HalconHelper.RansacFitLine(xs.ToArray(), ys.ToArray(), feeding.ErrorThreshold, feeding.MaxTrials,
+                feeding.IgnoreFraction, feeding.Probability, out xsInlier, out ysInlier);
+            xs = xsInlier.ToList();
+            ys = ysInlier.ToList();
+
+
+            HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, _width,
+                _height);
             lineX1 = line.XStart;
             lineY1 = line.YStart;
             lineX2 = line.XEnd;
             lineY2 = line.YEnd;
-          
+
 
             // Generate debugging graphics 
-            CrossesUsed.Add(new Tuple<List<double>, List<double>>(xs, ys));
-            
+
             HObject crossesIgnored;
             HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
 
-            HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
-            HOperatorSet.ConcatObj(_findLineRects, findLineRegion, out _findLineRects);
-            HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
-            HOperatorSet.ConcatObj(Edges, edges, out _edges);
+            // Critical section
+            lock (this)
+            {
+                CrossesUsed.Add(new Tuple<List<double>, List<double>>(xs, ys));
+                HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
+                HOperatorSet.ConcatObj(_findLineRects, findLineRegion, out _findLineRects);
+                HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
+                HOperatorSet.ConcatObj(Edges, edges, out _edges);
+            }
 
 
             return new Line(lineX1.D, lineY1.D, lineX2.D, lineY2.D);
         }
 
-        private void FitLineRegression(double[] xs, double[] ys, out HTuple lineX1, out HTuple lineY1, out HTuple lineX2, out HTuple lineY2)
+        private void FitLineRegression(double[] xs, double[] ys, out HTuple lineX1, out HTuple lineY1,
+            out HTuple lineX2, out HTuple lineY2)
         {
-           var lineResult = SimpleRegression.Fit(xs, ys);
-           var bias = lineResult.Item1;
-           var weight = lineResult.Item2;
-           HalconScripts.ImageLineIntersections(weight, bias, _width, _height, out lineX1, out lineY1, out lineX2, out lineY2);
+            var lineResult = SimpleRegression.Fit(xs, ys);
+            var bias = lineResult.Item1;
+            var weight = lineResult.Item2;
+            HalconScripts.ImageLineIntersections(weight, bias, _width, _height, out lineX1, out lineY1, out lineX2,
+                out lineY2);
         }
 
 
@@ -267,7 +269,8 @@ namespace UI.ImageProcessing
             return _lines[lineName];
         }
 
-        public FindLineManager(Dictionary<string, FindLineFeeding> findLineFeedings, SnackbarMessageQueue messageQueue = null)
+        public FindLineManager(Dictionary<string, FindLineFeeding> findLineFeedings,
+            SnackbarMessageQueue messageQueue = null)
         {
             FindLineFeedings = findLineFeedings;
             CrossesIgnored.GenEmptyObj();

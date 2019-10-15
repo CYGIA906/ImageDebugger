@@ -26,6 +26,7 @@ namespace UI.ImageProcessing
             foreach (var location in FindLineLocationsRelative)
             {
                 var locationAbs = solver.FindLineLocationRelativeToAbsolute(location);
+                locationAbs.Polarity = location.Polarity;
                 _findLineLocationsAbsDict[location.Name] = locationAbs;
             }
         }
@@ -102,14 +103,18 @@ namespace UI.ImageProcessing
             /// <param name="name"></param>
             /// <param name="findLineFeedings"></param>
             private void TryAddFindLineFeedings(string name, Dictionary<string, FindLineFeeding> findLineFeedings)
-        {
+            {
+
+                FindLineFeeding output;
+                string key;
             // No "-" means one find line rect for one line result
             if (!name.Contains("-"))
             {
+                key = name;
                 var param = FindLineParamsDict[name];
                 var location = _findLineLocationsAbsDict[name];
 
-                var feeding = new FindLineFeeding()
+                output = new FindLineFeeding()
                 {
                     Row = location.Y,
                     Col = location.X,
@@ -138,12 +143,11 @@ namespace UI.ImageProcessing
                     Probability = param.Probability,
                     KernelWidth = param.KernelWidth
                 };
-                findLineFeedings[name] = feeding;
             }
             else
             {
 
-                var key = name.Substring(0, name.IndexOf("-"));
+                 key = name.Substring(0, name.IndexOf("-"));
                 // If the key has already added... for example 2 for 2-left and 2-right
                 if(findLineFeedings.ContainsKey(key)) return;
 
@@ -152,7 +156,7 @@ namespace UI.ImageProcessing
 
                 if(locations.Count != parameters.Count) throw new InvalidOperationException($"Location count {locations.Count} != parameter count {parameters.Count}");
 
-                var feeding = new FindLineFeeding()
+                output = new FindLineFeeding()
                 {
                     Row = locations.Select(l=> l.Y).ToArray(),
                     Col = locations.Select(l => l.X).ToArray(),
@@ -182,8 +186,9 @@ namespace UI.ImageProcessing
                                         KernelWidth = parameters[0].KernelWidth
 
                 };
-                findLineFeedings[key] = feeding;
             }
+            findLineFeedings[key] = output;
+
         }
 
 

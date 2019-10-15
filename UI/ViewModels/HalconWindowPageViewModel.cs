@@ -52,18 +52,18 @@ namespace UI.ViewModels
 
         public async Task ProcessAsync(List<HImage> images)
         {
-            var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocaionsRelativeValues);
+            var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocationsRelativeValues);
 
             var result =
-                await MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue);
-            
+                await Task.Run(() =>
+                    MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue));
 
 
             result.HalconGraphics.DisplayGraphics(_windowHandle);
             result.DataRecorder.DisplayPoints(_windowHandle);
             result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
             UpdateFaiItems(result.FaiDictionary);
-            CsvSerializer.Serialize(FaiItems);
+            CsvSerializer.Serialize(FaiItems, CurrentImageName);
         }
 
         private void UpdateFaiItems(Dictionary<string, double> results)
@@ -136,7 +136,7 @@ namespace UI.ViewModels
             }
 
             // Init find line locations
-            FindLineLocaionsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
+            FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
 
             // Init commands
             ExecuteCommand = new RelayCommand(async () => { await ProcessOnceAsync(); });
@@ -170,17 +170,18 @@ namespace UI.ViewModels
 
         public string LastDirectory { get; set; }
 
-        public List<FindLineLocation> FindLineLocaionsRelativeValues { get; set; }
+        public List<FindLineLocation> FindLineLocationsRelativeValues { get; set; }
 
         public bool MultipleImagesRunning { get; set; }
 
         private async Task ProcessOnceAsync()
         {
-            if (ImageInputs == null) return;
+            // TODO: Refactor this buggy style
+            var images = ImageInputs;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            await ProcessAsync(ImageInputs);
+            await ProcessAsync(images);
 
             stopwatch.Stop();
             TimeElapsed = stopwatch.ElapsedMilliseconds.ToString();

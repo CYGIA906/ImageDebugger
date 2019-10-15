@@ -6,7 +6,7 @@ namespace UI.Model
 {
     public class FindLineLocation
     {
-        [XmlAttribute] public FindLinePolarity Polarity { get; set; } = FindLinePolarity.Negative;
+        [XmlAttribute] public FindLinePolarity Polarity { get; set; } = FindLinePolarity.Positive;
         [XmlAttribute] public string Name { get; set; }
         [XmlAttribute] public double X { get; set; }
         [XmlAttribute] public double Y { get; set; }

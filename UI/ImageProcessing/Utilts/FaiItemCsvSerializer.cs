@@ -18,13 +18,13 @@ namespace UI.ImageProcessing.Utilts
             OutputDir = outputDir;
         }
 
-        public void Serialize(IEnumerable<FaiItem> items)
+        public void Serialize(IEnumerable<FaiItem> items, string imageName)
         {
             var itemsSorted = items.OrderBy(item => item.Name);
             if (Header == null) InitHeader(itemsSorted.Select(item => item.Name));
 
             var line = itemsSorted.Select(item => item.ValueBiased.ToString("f4")).ToList();
-            line.Insert(0, DateTime.Now.ToString("HH:mm:ss:ff") );
+            line.Insert(0, imageName);
             var csvLine = string.Join(",", line);
 
             var fileExists = File.Exists(CsvPath);

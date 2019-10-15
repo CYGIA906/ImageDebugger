@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
@@ -53,11 +54,11 @@ namespace UI.ImageProcessing
 
             // Calculate matrices
 
-
             HalconScripts.GetI94TopViewBaseRects(images[backLightIndex], out imageUndistorted, _shapeModelHandle, out baseTopRow,
-                out baseTopCol, out baseTopRadian, out baseTopLen1, out baseTopLen2, out baseRightRow, 
-                out baseRightCol, out baseRightRadian, out baseRightLen1, out baseRightLen2, out mapToWorld, out mapToImage, out camParams
+                    out baseTopCol, out baseTopRadian, out baseTopLen1, out baseTopLen2, out baseRightRow, 
+                    out baseRightCol, out baseRightRadian, out baseRightLen1, out baseRightLen2, out mapToWorld, out mapToImage, out camParams
                 );
+          
             // Undistort images
             images[backLightIndex] = imageUndistorted.HobjectToHimage();
             HTuple _;
@@ -74,7 +75,7 @@ namespace UI.ImageProcessing
             findLineFeedingsTop.Radian = baseTopRadian;
             findLineFeedingsTop.Len1 = baseTopLen1;
             findLineFeedingsTop.Len2 = baseTopLen2;
-            findLineFeedingsTop.Transition = "positive";
+            findLineFeedingsTop.Transition = "negative";
             var lineTopBase = findLineManager.TryFindLine("X-aixs", images[backLightIndex], findLineFeedingsTop);
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
             
@@ -86,7 +87,7 @@ namespace UI.ImageProcessing
             findLineFeedingsRight.Radian = baseRightRadian;
             findLineFeedingsRight.Len1 = baseRightLen1;
             findLineFeedingsRight.Len2 = baseRightLen2;
-            findLineFeedingsRight.Transition = "positive";
+            findLineFeedingsRight.Transition = "negative";
             var lineRightBase = findLineManager.TryFindLine("Y-axis",images[backLightIndex], findLineFeedingsRight);
             HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
             

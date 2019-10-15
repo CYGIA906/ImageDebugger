@@ -39,7 +39,7 @@ namespace UI.Model
 
         #region Fit Line
 
-        [XmlAttribute] public double ErrorThreshold { get; set; } = 6.0;
+        [XmlAttribute] public double ErrorThreshold { get; set; } = 1.0;
 
         [XmlAttribute] public double Probability { get; set; } = 0.95;
 
@@ -51,8 +51,8 @@ namespace UI.Model
 
         [XmlAttribute] public PairSelection WhichPair { get; set; } = PairSelection.First;
 
-        [XmlAttribute] public int MinWidth { get; set; }
-        [XmlAttribute] public int MaxWidth { get; set; }
+        [XmlAttribute] public int MinWidth { get; set; } = -1;
+        [XmlAttribute] public int MaxWidth { get; set; } = -1;
 
         #endregion
 
