@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 using HalconDotNet;
+using MaterialDesignThemes.Wpf;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
@@ -21,9 +23,9 @@ namespace UI.ImageProcessing
         public string Name { get; }
         public event Action MeasurementResultPulled;
 
-        public Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
-            ObservableCollection<FaiItem> faiItems, int indexToShow, out HalconGraphics graphics,
-            out DataRecorder recorder)
+        public async Task<ImageProcessingResult> Process(List<HImage> images, FindLineConfigs findLineConfigs,
+            ObservableCollection<FaiItem> faiItems, int indexToShow, SnackbarMessageQueue messageQueue
+           )
         {
             int backLightIndex = 1;
             int frontLightIndex = 0;
@@ -62,7 +64,7 @@ namespace UI.ImageProcessing
             HalconScripts.UndistortImage(images[frontLightIndex], out imageUndistorted, camParams, out _);
             images[frontLightIndex] = imageUndistorted.HobjectToHimage();
             
-            var findLineManager = new FindLineManager();
+            var findLineManager = new FindLineManager(messageQueue);
 
             // Top base
             var findLineParamTop = findLineConfigs.FindLineParamsDict["TopBase"];
@@ -72,7 +74,7 @@ namespace UI.ImageProcessing
             findLineFeedingsTop.Radian = baseTopRadian;
             findLineFeedingsTop.Len1 = baseTopLen1;
             findLineFeedingsTop.Len2 = baseTopLen2;
-            var lineTopBase = findLineManager.FindLine(images[backLightIndex], findLineFeedingsTop);
+            var lineTopBase = findLineManager.TryFindLine("X-aixs", images[backLightIndex], findLineFeedingsTop);
             HalconScripts.SortLineLeftRight(lineTopBase.XStart, lineTopBase.YStart, lineTopBase.XEnd, lineTopBase.YEnd, out xLeft, out yLeft, out xRight, out yRight);
             
             // Right base
@@ -83,7 +85,7 @@ namespace UI.ImageProcessing
             findLineFeedingsRight.Radian = baseRightRadian;
             findLineFeedingsRight.Len1 = baseRightLen1;
             findLineFeedingsRight.Len2 = baseRightLen2;
-            var lineRightBase = findLineManager.FindLine(images[backLightIndex], findLineFeedingsRight);
+            var lineRightBase = findLineManager.TryFindLine("Y-axis",images[backLightIndex], findLineFeedingsRight);
             HalconScripts.SortLineUpDown(lineRightBase.XStart, lineRightBase.YStart, lineRightBase.XEnd, lineRightBase.YEnd, out xUp, out yUp, out xDown, out yDown);
             
              
@@ -94,7 +96,7 @@ namespace UI.ImageProcessing
            findLineConfigs.GenerateLocationsAbs(coordinateSolver);
            // Find lines
            findLineManager.FindLineFeedings = findLineConfigs.GenerateFindLineFeedings();
-            findLineManager.FindLines(images);
+           await findLineManager.FindLinesParallel(images);
             
             // Make parallel lines
             var lineFai2and3P2 = coordinateSolver.TranslateLineInWorldUnit(9, lineRightBase, true);
@@ -200,7 +202,7 @@ namespace UI.ImageProcessing
 
 
             // Record points
-            recorder = new DataRecorder(changeOfBaseInv);
+             var recorder = new DataRecorder(changeOfBaseInv);
             recorder.RecordPoint(findLineManager.GetLine("02"), lineRightBase, "XAxis-02");
             recorder.RecordPoint(findLineManager.GetLine("03"), lineRightBase, "YAxis-03");
             recorder.RecordPoint(findLineManager.GetLine("04"), lineRightBase, "YAxis-04");
@@ -298,7 +300,7 @@ namespace UI.ImageProcessing
 
             outputs["20_2"] = valueF20P2;
 
-            graphics = new HalconGraphics()
+            var graphics = new HalconGraphics()
              {
                  CrossesIgnored = findLineManager.CrossesIgnored,
                  CrossesUsed = findLineManager.CrossesUsed,
@@ -310,7 +312,12 @@ namespace UI.ImageProcessing
                  Image = images[indexToShow]
              };
 
-            return outputs;
+            return new ImageProcessingResult()
+            {
+                DataRecorder = recorder,
+                FaiDictionary = outputs,
+                HalconGraphics = graphics
+            };
         }
 
 

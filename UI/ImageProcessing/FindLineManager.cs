@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
@@ -10,6 +11,8 @@ using HalconDotNet;
 using MathNet.Numerics.LinearRegression;
 using UI.ImageProcessing.Utilts;
 using System.Threading.Tasks;
+using System.Windows.Threading;
+using MaterialDesignThemes.Wpf;
 
 namespace UI.ImageProcessing
 {
@@ -22,7 +25,6 @@ namespace UI.ImageProcessing
     /// </summary>
     public class FindLineManager
     {
-        private List<HImage> _images;
 
         public List<Tuple<List<double>, List<double>>> CrossesUsed
         {
@@ -48,7 +50,7 @@ namespace UI.ImageProcessing
             set { _findLineRects = value; }
         }
 
-      
+        public SnackbarMessageQueue MessageQueue { get; set; }
 
 
         private Dictionary<string, Line> _lines = new Dictionary<string, Line>();
@@ -64,54 +66,82 @@ namespace UI.ImageProcessing
         private HObject _edges = new HObject();
 
 
+        private void PromptUserInvoke(string message)
+        {
+            if (MessageQueue == null) return;
+            Dispatcher.CurrentDispatcher.Invoke(() => { MessageQueue.Enqueue(message); });
+        }
+
         public void FindLines(List<HImage> images)
         {
-            _images = images;
 
-            DispatchFindLineWorkers();
-        }
-
-        private void DispatchFindLineWorkers()
-        {
-
-           var imageFeedingDict = AssociateFeedingsWithImages();
+            var imageFeedingDict = AssociateFeedingsWithImages(images);
             foreach (var pair in imageFeedingDict)
             {
-                Line line;
                 var name = pair.Key;
-                try
-                {
-                    line = FindLine(pair.Value.Item1, pair.Value.Item2);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Find line failed at {name}\nMessage:{e}");
-                    MessageBox.Show($"Line {name} not found!");
-                    line = new Line(1, 0, 2, 0);
-                }
-
+                var image = pair.Value.Item1;
+                var feeding = pair.Value.Item2;
+                Line line = TryFindLine(pair.Key, image, feeding);
                 _lines[name] = line;
             }
-            
         }
 
-        private Dictionary<string, Tuple<HImage, FindLineFeeding>> AssociateFeedingsWithImages()
+        public Line TryFindLine(string name, HImage image, FindLineFeeding feeding)
+        {
+            Line line = new Line();
+            try
+            {
+                line = FindLine(image, feeding);
+            }
+            catch (Exception e)
+            {
+                PromptUserInvoke($"Line {name} not found! {Environment.NewLine} {e.Message}");
+            }
+
+            return line;
+        }
+
+        private Dictionary<string, Tuple<HImage, FindLineFeeding>> AssociateFeedingsWithImages(List<HImage> images)
         {
             var output = new Dictionary<string, Tuple<HImage, FindLineFeeding>>();
             foreach (var pair in FindLineFeedings)
             {
                 var name = pair.Key;
                 var feeding = pair.Value;
-                var image = _images[feeding.ImageIndex];
+                var image = images[feeding.ImageIndex];
                 output[name] = new Tuple<HImage, FindLineFeeding>(image, feeding);
             }
 
             return output;
         }
 
-        public Task FindLinesParallel(List<HImage> images)
+        public async Task FindLinesParallel(List<HImage> images)
         {
-            throw new NotImplementedException();
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            var imageFeedingDict = AssociateFeedingsWithImages(images);
+
+            var findLineTasks = new List<Task>();
+            foreach (var pair in imageFeedingDict)
+            {
+               findLineTasks.Add(Task.Run(() =>
+               {
+                   // find line
+                   var name = pair.Key;
+                   var image = pair.Value.Item1;
+                   var feeding = pair.Value.Item2;
+                   var line = TryFindLine(name, image, feeding);
+
+                   // Record line
+                   _lines[name] = line;
+               }));
+            }
+
+           await Task.WhenAll(findLineTasks);
+           stopwatch.Stop();
+
+           var timeElapse = stopwatch.ElapsedMilliseconds;
+
         }
 
         public Dictionary<string, FindLineFeeding> FindLineFeedings { get; set; }
@@ -237,21 +267,23 @@ namespace UI.ImageProcessing
             return _lines[lineName];
         }
 
-        public FindLineManager(Dictionary<string, FindLineFeeding> findLineFeedings)
+        public FindLineManager(Dictionary<string, FindLineFeeding> findLineFeedings, SnackbarMessageQueue messageQueue = null)
         {
             FindLineFeedings = findLineFeedings;
             CrossesIgnored.GenEmptyObj();
             LineRegions.GenEmptyObj();
             FindLineRects.GenEmptyObj();
             Edges.GenEmptyObj();
+            MessageQueue = messageQueue;
         }
 
-        public FindLineManager()
+        public FindLineManager(SnackbarMessageQueue messageQueue = null)
         {
             CrossesIgnored.GenEmptyObj();
             LineRegions.GenEmptyObj();
             FindLineRects.GenEmptyObj();
             Edges.GenEmptyObj();
+            MessageQueue = messageQueue;
         }
 
 

@@ -19,6 +19,8 @@ namespace UI.ImageProcessing
 
         public static int ImageWidth { get; set; } = 5120;
 
+        public bool IsDefaulConstructed { get; set; }
+
         public static int ImageHeight { get; set; } = 5120;
 
         private static List<Line>  LineToDisplay = new List<Line>();
@@ -33,7 +35,19 @@ namespace UI.ImageProcessing
             YEnd = yEnd;
 
             IsVisible = display;
+            IsDefaulConstructed = false;
         }
+
+        public Line()
+        {
+            XStart = 1;
+            YStart = 0;
+            XEnd = 2;
+            YEnd = 0;
+
+            IsDefaulConstructed = true;
+        }
+
 
         /// <summary>
         /// Compute the angle between two lines

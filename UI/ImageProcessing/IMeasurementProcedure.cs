@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using HalconDotNet;
+using MaterialDesignThemes.Wpf;
 using UI.Model;
 using UI.ViewModels;
 
@@ -22,9 +24,9 @@ namespace UI.ImageProcessing
         /// </summary>
         event Action MeasurementResultPulled;
 
-        Dictionary<string, double> Process(List<HImage> images, FindLineConfigs findLineConfigs,
-            ObservableCollection<FaiItem> faiItems, int indexToShow, out HalconGraphics graphics,
-            out DataRecorder recorder);
+        Task<ImageProcessingResult> Process(List<HImage> images, FindLineConfigs findLineConfigs,
+            ObservableCollection<FaiItem> faiItems, int indexToShow, SnackbarMessageQueue messageQueue
+          );
 
          ObservableCollection<FaiItem> GenFaiItemValues(string faiItemSerializationDir);
 

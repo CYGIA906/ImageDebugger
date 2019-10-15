@@ -27,10 +27,11 @@ namespace UI.ViewModels
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
 
-        public SnackbarMessageQueue SnackbarMessageQueue { get; set; } = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(500));
+        public SnackbarMessageQueue SnackbarMessageQueue { get; set; } =
+            new SnackbarMessageQueue(TimeSpan.FromMilliseconds(500));
 
         private HWindow _windowHandle;
-        
+
         public HObject DisplayImage { get; set; }
 
         private readonly IMeasurementProcedure MeasurementUnit = new I94TopViewMeasure("I94");
@@ -38,7 +39,7 @@ namespace UI.ViewModels
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
 
-        public ICommand OpenLastDirectoryCommand { get;  }
+        public ICommand OpenLastDirectoryCommand { get; }
         public string TimeElapsed { get; set; }
 
         public string ParamSerializationBaseDir
@@ -50,26 +51,21 @@ namespace UI.ViewModels
 
         public async Task ProcessAsync(List<HImage> images)
         {
-            HalconGraphics graphics = new HalconGraphics();
-            Dictionary<string, double> results = new Dictionary<string, double>();
             var findLineConfigs = new FindLineConfigs(FindLineParams.ToList(), FindLineLocaionsRelativeValues);
-            DataRecorder dataRecorder = null;
-            
-            await Task.Run(() =>
-            {
-                results =  MeasurementUnit.Process(images, findLineConfigs, FaiItems, IndexToShow, out graphics, out dataRecorder);
-            });
-            
-            
-            
-            graphics.DisplayGraphics(_windowHandle);
-            dataRecorder.DisplayPoints(_windowHandle);
-            dataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
-            UpdateFaiItems(results);
+
+            var result = await Task.Run(() =>
+                MeasurementUnit.Process(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue)
+            );
+
+
+            result.HalconGraphics.DisplayGraphics(_windowHandle);
+            result.DataRecorder.DisplayPoints(_windowHandle);
+            result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
+            UpdateFaiItems(result.FaiDictionary);
             CsvSerializer.Serialize(FaiItems);
         }
 
-        private void UpdateFaiItems(Dictionary<string,double> results)
+        private void UpdateFaiItems(Dictionary<string, double> results)
         {
             FaiItemsStopListeningToChange();
 
@@ -77,7 +73,7 @@ namespace UI.ViewModels
             {
                 item.Value = results[item.Name];
             }
-            
+
             FaiItemsRestartListeningToChange();
         }
 
@@ -117,9 +113,9 @@ namespace UI.ViewModels
         public HalconWindowPageViewModel(HWindow windowHandle)
         {
             _windowHandle = windowHandle;
-            
+
             CsvSerializer = new FaiItemCsvSerializer(CsvDir);
-            
+
             // Init fai items
             var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
             FaiItems = faiItemsFromDisk ?? MeasurementUnit.GenFaiItemValues(FaiItemSerializationDir);
@@ -132,7 +128,7 @@ namespace UI.ViewModels
             var findLineParamsFromDisk = TryLoadFindLineParamsFromDisk();
             FindLineParams = findLineParamsFromDisk ??
                              MeasurementUnit.GenFindLineParamValues(ParamSerializationBaseDir);
-            
+
             foreach (var param in FindLineParams)
             {
                 param.ResumeAutoSerialization();
@@ -141,15 +137,13 @@ namespace UI.ViewModels
             // Init find line locations
             FindLineLocaionsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
 
-             // Init commands
+            // Init commands
             ExecuteCommand = new RelayCommand(async () => { await ProcessOnceAsync(); });
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
-                
                 using (var fbd = new FolderBrowserDialog())
                 {
-             
                     DialogResult result = fbd.ShowDialog();
 
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
@@ -164,7 +158,7 @@ namespace UI.ViewModels
             {
                 while (!ImagesRunOut)
                 {
-                   await ProcessOnceAsync();
+                    await ProcessOnceAsync();
                 }
 
                 MultipleImagesRunning = false;
@@ -273,8 +267,5 @@ namespace UI.ViewModels
 
             return outputs;
         }
-
-        
-
     }
 }
