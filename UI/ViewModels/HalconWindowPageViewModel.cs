@@ -176,6 +176,7 @@ namespace UI.ViewModels
         {
             // TODO: Refactor this buggy style
             var images = ImageInputs;
+            if (images == null) return;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 

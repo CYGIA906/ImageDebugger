@@ -2726,7 +2726,8 @@ public partial class HDevelopExport
       ho_Image_COPY_INP_TMP.Dispose();
       ho_Image_COPY_INP_TMP = ExpTmpOutVar_0;
       }
-
+      ho_ImageUndistorted.Dispose();
+      ho_ImageUndistorted = new HObject(ho_Image_COPY_INP_TMP);
       hv_MapToWorld.Dispose();hv_MapToImage.Dispose();
       GenCalibrationMaps(ho_Image_COPY_INP_TMP, hv_OutCameraParams, hv_CameraPose, 
           out hv_MapToWorld, out hv_MapToImage);
@@ -2751,65 +2752,65 @@ public partial class HDevelopExport
       hv_row1TopBase.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_row1TopBase = 137-hv_modelRow;
+      hv_row1TopBase = 137.0-hv_modelRow;
       }
       hv_col1TopBase.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_col1TopBase = 2217-hv_modelCol;
+      hv_col1TopBase = 2217.0-hv_modelCol;
       }
       hv_radianTopBase.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_radianTopBase = (new HTuple(-91)).TupleRad()
+      hv_radianTopBase = (new HTuple(-91.0)).TupleRad()
           ;
       }
       hv_len1TopBase.Dispose();
-      hv_len1TopBase = 187;
+      hv_len1TopBase = 187.0;
       hv_len2TopBase.Dispose();
-      hv_len2TopBase = 107;
+      hv_len2TopBase = 107.0;
 
       hv_row1TopBase1.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_row1TopBase1 = 137-hv_modelRow;
+      hv_row1TopBase1 = 137.0-hv_modelRow;
       }
       hv_col1TopBase1.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_col1TopBase1 = 1628-hv_modelCol;
+      hv_col1TopBase1 = 1628.0-hv_modelCol;
       }
       hv_radianTopBase1.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_radianTopBase1 = (new HTuple(-91)).TupleRad()
+      hv_radianTopBase1 = (new HTuple(-91.0)).TupleRad()
           ;
       }
       hv_len1TopBase1.Dispose();
-      hv_len1TopBase1 = 187;
+      hv_len1TopBase1 = 187.0;
       hv_len2TopBase1.Dispose();
-      hv_len2TopBase1 = 107;
+      hv_len2TopBase1 = 107.0;
 
       hv_row1TopBase2.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_row1TopBase2 = 137-hv_modelRow;
+      hv_row1TopBase2 = 137.0-hv_modelRow;
       }
       hv_col1TopBase2.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_col1TopBase2 = 2876-hv_modelCol;
+      hv_col1TopBase2 = 2876.0-hv_modelCol;
       }
       hv_radianTopBase2.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_radianTopBase2 = (new HTuple(-91)).TupleRad()
+      hv_radianTopBase2 = (new HTuple(-91.0)).TupleRad()
           ;
       }
       hv_len1TopBase2.Dispose();
-      hv_len1TopBase2 = 187;
+      hv_len1TopBase2 = 187.0;
       hv_len2TopBase2.Dispose();
-      hv_len2TopBase2 = 160;
+      hv_len2TopBase2 = 160.0;
 
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
@@ -2874,44 +2875,44 @@ public partial class HDevelopExport
       hv_row1LeftBase.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_row1LeftBase = 2607-hv_modelRow;
+      hv_row1LeftBase = 2607.0-hv_modelRow;
       }
       hv_col1LeftBase.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_col1LeftBase = 995-hv_modelCol;
+      hv_col1LeftBase = 995.0-hv_modelCol;
       }
       hv_radianLeftBase.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_radianLeftBase = (new HTuple(-1)).TupleRad()
+      hv_radianLeftBase = (new HTuple(-1.0)).TupleRad()
           ;
       }
       hv_len1LeftBase.Dispose();
-      hv_len1LeftBase = 150;
+      hv_len1LeftBase = 150.0;
       hv_len2LeftBase.Dispose();
-      hv_len2LeftBase = 281;
+      hv_len2LeftBase = 281.0;
 
       hv_row1LeftBase1.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_row1LeftBase1 = 4216-hv_modelRow;
+      hv_row1LeftBase1 = 4216.0-hv_modelRow;
       }
       hv_col1LeftBase1.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_col1LeftBase1 = 995-hv_modelCol;
+      hv_col1LeftBase1 = 995.0-hv_modelCol;
       }
       hv_radianLeftBase1.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_radianLeftBase1 = (new HTuple(-1)).TupleRad()
+      hv_radianLeftBase1 = (new HTuple(-1.0)).TupleRad()
           ;
       }
       hv_len1LeftBase1.Dispose();
-      hv_len1LeftBase1 = 150;
+      hv_len1LeftBase1 = 150.0;
       hv_len2LeftBase1.Dispose();
-      hv_len2LeftBase1 = 281;
+      hv_len2LeftBase1 = 281.0;
 
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {

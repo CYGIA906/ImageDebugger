@@ -73,7 +73,9 @@ namespace UI.ImageProcessing
 
         public void Serialize(string path)
         {
-            
+
+            var dir = Directory.GetParent(path).FullName;
+            Directory.CreateDirectory(dir);
             // Create header line
             var headerNames = new List<string>();
             // Add in point header

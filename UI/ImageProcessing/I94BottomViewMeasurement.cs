@@ -112,13 +112,23 @@ namespace UI.ImageProcessing
             outputs["123_1"] = 0;
             outputs["123_2"] = 0;
             outputs["123_3"] = 0;
-
+            var graphics = new HalconGraphics()
+            {
+                CrossesIgnored = findLineManager.CrossesIgnored,
+                CrossesUsed = findLineManager.CrossesUsed,
+                FindLineRects = findLineManager.FindLineRects,
+                LineRegions = findLineManager.LineRegions,
+                Edges = findLineManager.Edges,
+//                PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
+//                PointLineGraphics = coordinateSolver.PointLineDistanceGraphics,
+                Image = image
+            };
 
             return new ImageProcessingResult()
             {
                 DataRecorder = new DataRecorder(changeOfBaseInv),
                 FaiDictionary = outputs,
-                HalconGraphics = new HalconGraphics()
+                HalconGraphics = graphics
             };
         }
 

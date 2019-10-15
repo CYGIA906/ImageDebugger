@@ -37,6 +37,7 @@ namespace UI.Model
 
         private void DisplayEdges(HWindow windowHandle)
         {
+            if (Edges == null) return;
             windowHandle.SetLineWidth(5);
             windowHandle.SetColor("orange");
             Edges.DispObj(windowHandle);
@@ -53,6 +54,7 @@ namespace UI.Model
         {
             windowHandle.SetColor("yellow");
             windowHandle.SetLineWidth(3);
+            if (PointLineGraphics == null) return;
             foreach (var line in PointLineGraphics)
             {
                 windowHandle.DispArrow(line.YStart, line.XStart, line.YEnd, line.XEnd, ArrowSize);
@@ -64,6 +66,8 @@ namespace UI.Model
         {
             windowHandle.SetColor("orange");
             windowHandle.SetDraw("fill");
+
+            if (PointLineGraphics == null) return;
 
             HObject draw = new HObject();
             draw.GenEmptyObj();
@@ -87,32 +91,36 @@ namespace UI.Model
 
         private void DisplayCrosses(HWindow windowHandle)
         {
+
             windowHandle.SetDraw("margin");
             windowHandle.SetLineWidth(1);
-            windowHandle.SetColor("green");
-            HObject crossesAllLine = new HObject();
-            crossesAllLine.GenEmptyObj();
-            foreach (var tuple in CrossesUsed)
+            if (CrossesUsed != null && CrossesUsed.Count > 0)
             {
-                var xs = tuple.Item1.ToArray();
-                var ys = tuple.Item2.ToArray();
-                HObject crossesOneLine;
-                HOperatorSet.GenCrossContourXld(out crossesOneLine, ys, xs, 0.5, 0.5);
-                crossesAllLine = crossesAllLine.ConcatObj(crossesOneLine);
+                windowHandle.SetColor("green");
+                HObject crossesAllLine = new HObject();
+                crossesAllLine.GenEmptyObj();
+                foreach (var tuple in CrossesUsed)
+                {
+                    var xs = tuple.Item1.ToArray();
+                    var ys = tuple.Item2.ToArray();
+                    HObject crossesOneLine;
+                    HOperatorSet.GenCrossContourXld(out crossesOneLine, ys, xs, 0.5, 0.5);
+                    crossesAllLine = crossesAllLine.ConcatObj(crossesOneLine);
+                }
+                windowHandle.DispObj(crossesAllLine);
             }
-            windowHandle.DispObj(crossesAllLine);
             
 
             windowHandle.SetColor("red");
-            CrossesIgnored.DispObj(windowHandle);
+            CrossesIgnored?.DispObj(windowHandle);
 
             windowHandle.SetColor("magenta");
             windowHandle.SetLineWidth(3);
-            FindLineRects.DispObj(windowHandle);
+            FindLineRects?.DispObj(windowHandle);
 
             
             windowHandle.SetColor("blue");
-            LineRegions.DispObj(windowHandle);
+            LineRegions?.DispObj(windowHandle);
         }
     }
 }

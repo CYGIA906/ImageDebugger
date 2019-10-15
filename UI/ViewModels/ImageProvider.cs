@@ -126,7 +126,11 @@ namespace UI.ViewModels
                 ImageQueues[imageIndex].Enqueue(path);
             }
 
-            if (numImagesInOneGo == 1) return;
+            if (numImagesInOneGo == 1)
+            {
+                NumImages = ImageQueues[0].Count;
+                return;
+            }
 
             var sortedImageQueues = new List<CountAwareQueue<string>>();
             foreach (var queue in ImageQueues)

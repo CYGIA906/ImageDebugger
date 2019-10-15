@@ -96,11 +96,9 @@ namespace UI.ImageProcessing
                 {
                     MaxBoundary = 35.27, MinBoundary = 35.17, SerializationDir = faiItemSerializationDir
                 }
-
             };
 
             return outputs;
-
         }
 
         public List<FindLineLocation> GenFindLineLocationValues()
@@ -183,16 +181,20 @@ namespace UI.ImageProcessing
                 new FindLineLocation()
                 {
                     // p
-                    Name = "31.topLeft", X = 283, Y = 2278, Angle = 45, Len2 = 260, ImageIndex = 0
+                    Name = "31.topLeft", X = 283, Y = 2278, Angle = 45, Len2 = 240, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
                     //p
-                    Name = "31.bottomLeft", X = 282, Y = 4238, Angle = -45, Len2 = 260, ImageIndex = 0
+                    Name = "31.bottomLeft", X = 282, Y = 4238, Angle = -45, Len2 = 240, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
-                    Name = "31.topRight", X = 2109, Y = 2275, Angle = 135, Len2 = 260, ImageIndex = 0
+                    Name = "31.topRight", X = 2109, Y = 2275, Angle = 135, Len2 = 240, ImageIndex = 0
+                },
+                new FindLineLocation()
+                {
+                    Name = "31.bottomRight", X = 2112, Y = 4236, Angle = -135, Len2 = 240, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
@@ -281,6 +283,10 @@ namespace UI.ImageProcessing
                 new FindLineParam()
                 {
                     Name = "31.topRight"
+                },
+                new FindLineParam()
+                {
+                    Name = "31.bottomRight"
                 },
                 new FindLineParam()
                 {
