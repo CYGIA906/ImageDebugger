@@ -25,13 +25,15 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
 
         <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Grid.Column="0" Panel.ZIndex="1">
             <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />
         </halconDotNet:HSmartWindowControlWPF>
+
+        <materialDesign:Snackbar Grid.Column="0" MessageQueue="{Binding RunStatusMessageQueue}"></materialDesign:Snackbar>
 
         <!-- Find line param LIST -->
         <Expander Background="Transparent" HorizontalAlignment="Left" Margin="0 30 0 0" Grid.Column="0"
@@ -57,7 +59,7 @@
 
 
         <!-- ImageProvider Area -->
-        <Border Grid.Row="0" Grid.Column="1">
+        <GroupBox Style="{DynamicResource MaterialDesignGroupBox}" Grid.Column="1" Header="Execution">
             <StackPanel>
                 <Button
                     Height="50"
@@ -102,7 +104,16 @@
                         Command="{Binding ContinuousRunCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                 </Viewbox>
             </StackPanel>
-        </Border>
+
+        </GroupBox>
+
+        <!--status area-->
+        <GroupBox Grid.Column="1" VerticalAlignment="Bottom" Header="Status" FontSize="16">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Time elapsed: </TextBlock>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}"></TextBlock>
+            </StackPanel>
+        </GroupBox>
 
         <!-- FAI LIST -->
         <Expander Grid.Column="0" Background="Transparent" HorizontalAlignment="Right" Panel.ZIndex="3" FontSize="24"

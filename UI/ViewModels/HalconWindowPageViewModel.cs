@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,13 +12,13 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using HalconDotNet;
+using MaterialDesignThemes.Wpf;
 using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
 
 
-// TODO: add faiitem serialize logic
 namespace UI.ViewModels
 {
     public partial class HalconWindowPageViewModel : ViewModelBase
@@ -25,6 +26,8 @@ namespace UI.ViewModels
         public ObservableCollection<FaiItem> FaiItems { get; private set; }
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
+
+        public SnackbarMessageQueue SnackbarMessageQueue { get; set; } = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(500));
 
         private HWindow _windowHandle;
         
@@ -36,6 +39,7 @@ namespace UI.ViewModels
         public ICommand ContinuousRunCommand { get; }
 
         public ICommand OpenLastDirectoryCommand { get;  }
+        public string TimeElapsed { get; set; }
 
         public string ParamSerializationBaseDir
         {
@@ -177,10 +181,14 @@ namespace UI.ViewModels
 
         private async Task ProcessOnceAsync()
         {
-            var inputs = ImageInputs;
-            if (inputs == null) return;
+            if (ImageInputs == null) return;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            await ProcessAsync(inputs);
+            await ProcessAsync(ImageInputs);
+
+            stopwatch.Stop();
+            TimeElapsed = stopwatch.ElapsedMilliseconds.ToString();
         }
 
 
