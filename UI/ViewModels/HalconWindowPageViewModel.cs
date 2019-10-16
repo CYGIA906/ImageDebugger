@@ -29,8 +29,7 @@ namespace UI.ViewModels
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
 
-        public SnackbarMessageQueue RunStatusMessageQueue { get; } =
-            new SnackbarMessageQueue(TimeSpan.FromMilliseconds(500));
+        public SnackbarMessageQueue RunStatusMessageQueue { get; set; }
 
         private HWindow _windowHandle;
 
@@ -143,11 +142,15 @@ namespace UI.ViewModels
 
             ContinuousRunCommand = new RelayCommand(async () =>
             {
-                while (!ImagesRunOut)
+                while (!EndOfOneRound && MultipleImagesRunning)
                 {
                     await ProcessOnceAsync();
                 }
 
+                // If automatically run to the end, reset the index
+                // Otherwise it maybe a pause request, and current index should not reset
+                if(MultipleImagesRunning) CurrentImageIndex = 0;
+                ;
                 MultipleImagesRunning = false;
             });
 

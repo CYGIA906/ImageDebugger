@@ -14,6 +14,10 @@ namespace UI.ViewModels
 
                 public string CurrentImageName { get; set; }
 
+                public int CurrentImageIndex { get; set; }
+
+                public bool EndOfOneRound => CurrentImageIndex == ImageMegaList[0].Count;
+
         /// <summary>
         /// Provide next image
         /// <exception cref="InvalidDataException">When images are all consumed</exception>
@@ -22,49 +26,49 @@ namespace UI.ViewModels
         {
             get
             {
-                if (CountOfQueuesNotEqual)
-                    throw new InvalidOperationException("Image queues do not agree on their counts");
 
-                if (ImagesRunOut) return null;
+                if (TotalImages == 0) return null;
+
+                if (EndOfOneRound)
+                {
+                    CurrentImageIndex = 0;
+                    return null;
+                }
 
                 var outputs = new List<HImage>();
-                foreach (var queue in ImageQueues)
+                foreach (var list in ImageMegaList)
                 {
-                    var imagePath = queue.Dequeue();
+                    var imagePath = list[CurrentImageIndex];
                     outputs.Add(new HImage(imagePath));
                     CurrentImageName = GetImageName(imagePath);
                 }
 
-                NumImages = ImageQueues[0].Count;
+                CurrentImageIndex++;
+
                 return outputs;
             }
         }
+
+        public int TotalImages { get; set; }
 
         private string GetImageName(string imagePath)
         {
             return Path.GetFileName(imagePath);
         }
 
-        private bool ImagesRunOut
-        {
-            get { return NumImages == 0; }
-        }
+    
 
         private bool CountOfQueuesNotEqual
         {
             get
             {
-                var countOfFirstQueue = ImageQueues[0].Count;
-                return ImageQueues.Any(ele => ele.Count != countOfFirstQueue);
+                var countOfFirstQueue = ImageMegaList[0].Count;
+                return ImageMegaList.Any(ele => ele.Count != countOfFirstQueue);
             }
         }
 
-        private List<CountAwareQueue<string>> ImageQueues { get; set; } = new List<CountAwareQueue<string>>();
+        private List<List<string>> ImageMegaList { get; set; } = new List<List<string>>();
 
-        /// <summary>
-        /// The number of images available
-        /// </summary>
-        public int NumImages { get; set; }
 
 
         /// <summary>
@@ -83,6 +87,7 @@ namespace UI.ViewModels
             get { return _imageDirectory; }
             set
             {
+                CurrentImageIndex = 0;
                 _imageDirectory = value;
 
                 string[] filePaths = Directory.GetFiles(_imageDirectory);
@@ -94,6 +99,12 @@ namespace UI.ViewModels
                     {
                         imagePaths.Add(imagePath);
                     }
+                }
+
+                if(imagePaths.Count == 0)
+                {
+                    RunStatusMessageQueue.Enqueue("This folder does not contains any supported images");
+                    return;
                 }
 
                 QueueUpImages(imagePaths);
@@ -123,33 +134,34 @@ namespace UI.ViewModels
                     imageIndex = int.Parse(imageIndexString) - 1;
                 }
 
-                ImageQueues[imageIndex].Enqueue(path);
+                ImageMegaList[imageIndex].Add(path);
             }
 
-            if (numImagesInOneGo == 1)
+            var numImagesInFirstList = ImageMegaList[0].Count;
+            if (ImageMegaList.Any(l => l.Count != numImagesInFirstList))
             {
-                NumImages = ImageQueues[0].Count;
+                RunStatusMessageQueue.Enqueue("Incorrect file names of the input directory");
                 return;
             }
 
-            var sortedImageQueues = new List<CountAwareQueue<string>>();
-            foreach (var queue in ImageQueues)
+            TotalImages = numImagesInFirstList;
+
+            var sortedImageMegaList = new List<List<string>>();
+            foreach (var queue in ImageMegaList)
             {
-                var orderedQueue = new CountAwareQueue<string>(queue.OrderBy(Path.GetFileName));
-                sortedImageQueues.Add(orderedQueue);
+                var orderedQueue = new List<string>(queue.OrderBy(Path.GetFileName));
+                sortedImageMegaList.Add(orderedQueue);
             }
 
-            ImageQueues = sortedImageQueues;
-
-            NumImages = ImageQueues[0].Count;
+            ImageMegaList = sortedImageMegaList;
         }
 
         private void ResetImageQueues(int numImagesInOneGo)
         {
-            ImageQueues.Clear();
+            ImageMegaList.Clear();
             for (int i = 0; i < numImagesInOneGo; i++)
             {
-                ImageQueues.Add(new CountAwareQueue<string>());
+                ImageMegaList.Add(new List<string>());
             }
 
         }
