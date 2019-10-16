@@ -109,9 +109,9 @@ namespace UI.ImageProcessing
             };
         }
         
-        public double PointLineDistanceInWorld(Point point, Line line)
+        public double PointLineDistanceInWorld(Point point, Line line, bool display = true)
         {
-            return PointLineDistanceInWorld(point.ImageX, point.ImageY, line);
+            return PointLineDistanceInWorld(point.ImageX, point.ImageY, line, display);
         }
 
         public double PointPointDistanceInWorld(Point pointA, Point pointB, bool display = false)

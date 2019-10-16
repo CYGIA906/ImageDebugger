@@ -17,7 +17,7 @@ namespace UI.ImageProcessing.TopView
         private HTuple _shapeModelHandle;
         public ObservableCollection<FaiItem> FaiItems { get; }
         public event Action MeasurementResultReady;
-        public string Name { get; }
+        public string Name { get; } = "I94_TOP";
         public event Action MeasurementResultPulled;
 
         public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
@@ -333,9 +333,8 @@ namespace UI.ImageProcessing.TopView
             }
         }
 
-        public I94TopViewMeasure(string name)
+        public I94TopViewMeasure()
         {
-            Name = name;
             ModelPath = "./ModelTopViewI94";
         }
 

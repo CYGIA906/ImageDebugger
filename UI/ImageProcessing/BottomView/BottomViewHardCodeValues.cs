@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography;
 using UI.Model;
 using UI.ViewModels;
 
@@ -197,7 +198,7 @@ namespace UI.ImageProcessing.BottomView
                 },
                 new FindLineLocation()
                 {
-                    Name = "123-left", X = 493, Y = 4533, Angle = -90, Len2 = 230, ImageIndex = 0
+                    Name = "123-left", X = 393, Y = 4533, Angle = -90, Len2 = 230, ImageIndex = 0
                 },
                 new FindLineLocation()
                 {
@@ -316,5 +317,46 @@ namespace UI.ImageProcessing.BottomView
 
             return outputs;
         }
+
+        public Dictionary<string, FindLineLocation> EdgeLocationsRelative { get; set; } = new Dictionary<string, FindLineLocation>()
+        {
+            {
+                "26-leftTop", new FindLineLocation()
+                {
+                    X = 478, Y = 795, Angle = 90, Len1 = 130, Len2 = 92
+                }
+            },
+            {
+                "26-leftBottom", new FindLineLocation()
+                {
+                    X = 478, Y = 1161, Angle = 90, Len1 = 130, Len2 = 92
+                }
+            }, 
+            {
+                "26-rightTop", new FindLineLocation()
+                {
+                    X = 1905, Y = 795, Angle = 90, Len1 = 130, Len2 = 92
+                }
+            },
+            {
+                "26-rightBottom", new FindLineLocation()
+                {
+                    X = 1905, Y = 1161, Angle = 90, Len1 = 130, Len2 = 92
+                }
+            },
+            {
+                "leftCircle", new FindLineLocation()
+                {
+                    X = 1210, Y = 1022, Angle = 90, Len1 = 847, Len2 = 617
+                }
+            },
+            {
+                "rightCircle", new FindLineLocation()
+                {
+                    X = 3140, Y = 2116, Angle = 90, Len1 = 635, Len2 = 617
+                }
+            },
+
+        };
     }
 }

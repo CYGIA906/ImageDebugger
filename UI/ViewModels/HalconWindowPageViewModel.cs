@@ -15,6 +15,7 @@ using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using UI.Commands;
 using UI.ImageProcessing;
+using UI.ImageProcessing.BottomView;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
 using I94TopViewMeasure = UI.ImageProcessing.TopView.I94TopViewMeasure;
@@ -35,7 +36,8 @@ namespace UI.ViewModels
 
         public HObject DisplayImage { get; set; }
 
-        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure("I94_TOP");
+        
+        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94BottomViewMeasurement();
 
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
