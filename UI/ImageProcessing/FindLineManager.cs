@@ -177,7 +177,7 @@ namespace UI.ImageProcessing
                         feeding.NumSubRects, feeding.Threshold, feeding.Sigma1, feeding.Sigma2, feeding.WhichEdge,
                         feeding.IsVertical, feeding.IgnoreFraction, feeding.WhichPair, feeding.MinWidth,
                         feeding.MaxWidth, _width, _height, feeding.CannyHigh, feeding.CannyLow, "true",
-                        feeding.NewWidth, feeding.KernelWidth, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored,
+                        feeding.NewWidth, feeding.KernelWidth,feeding.LongestOnly, out xsUsed, out ysUsed, out xsIgnored, out ysIgnored,
                         out lineX1, out lineY1,
                         out lineX2, out lineY2);
                 }
@@ -210,7 +210,7 @@ namespace UI.ImageProcessing
                         feeding.Radian.DArr, feeding.Len1.DArr, feeding.Len2.DArr, feeding.Transition.S,
                         feeding.NumSubRects.I, feeding.Threshold.I, feeding.WhichEdge.S, feeding.IgnoreFraction.D,
                         feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I,
-                        feeding.KernelWidth,
+                        feeding.KernelWidth, feeding.LongestOnly,
                         out edges, out findLineRegion);
 
                     xs = xsys.Item1;

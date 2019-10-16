@@ -86,7 +86,7 @@ namespace UI.ImageProcessing.Utilts
 
         public static Tuple<List<double>, List<double>> FindLineSubPixel(HImage image, double[] row, double[] col, double[] radian,
             double[] len1, double[] len2, string transition, int numSubRects, int threshold, string whichEdge, double ignoreFraction, int cannyLow, int cannyHigh, double sigma1, double sigma2,
-            int newWidth, int kernelWidth, out HObject edges, out HObject findLineRects)
+            int newWidth, int kernelWidth,HTuple longestOnly, out HObject edges, out HObject findLineRects)
         {
             var length = row.Length;
             findLineRects = new HObject();
@@ -109,7 +109,7 @@ namespace UI.ImageProcessing.Utilts
                 var lineOnEdge = FitLine2D(xs.DArr.ToList(), ys.DArr.ToList());
                 
 
-                HalconScripts.GetEdgesInSubRect2(image, out findLineRect, out edge, lineOnEdge.XStart, lineOnEdge.YStart, lineOnEdge.XEnd, lineOnEdge.YEnd, radian[i], newWidth, sigma2, cannyLow, cannyHigh, kernelWidth);
+                HalconScripts.GetEdgesInSubRect2(image, out findLineRect, out edge, lineOnEdge.XStart, lineOnEdge.YStart, lineOnEdge.XEnd, lineOnEdge.YEnd, radian[i], newWidth, sigma2, cannyLow, cannyHigh, kernelWidth, longestOnly);
                 edges.ConcatObj(edge);
                 edges = ConcatAll(edges, edge);
                 findLineRects = ConcatAll(findLineRects, findLineRect);

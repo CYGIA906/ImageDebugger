@@ -47,5 +47,7 @@ namespace UI.ImageProcessing
         public HTuple IsVertical { get; set; }
 
         public int KernelWidth { get; set; }
+
+        public HTuple LongestOnly { get; set; } = "false";
     }
 }

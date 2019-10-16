@@ -12,7 +12,7 @@ namespace UI.ImageProcessing
         public Dictionary<string, FindLineParam> FindLineParamsDict { get; private set; } = new Dictionary<string, FindLineParam>();
         private Dictionary<string, FindLineLocation> _findLineLocationsAbsDict = new Dictionary<string, FindLineLocation>();
 
-        public List<FindLineLocation> FindLineLocationsRelative { get;  set; }
+        public List<FindLineLocation> FindLineLocationsRelative { get; set; }
         private CoordinateSolver _solver;
 
 
@@ -76,7 +76,7 @@ namespace UI.ImageProcessing
             LocationsSerializeName = locationsSerializeName;
 
             LoadFindLineParamsFromDisk();
-            if(!string.IsNullOrEmpty(LocationsSerializeName)) LoadLocationsFromDisk();
+            if (!string.IsNullOrEmpty(LocationsSerializeName)) LoadLocationsFromDisk();
         }
 
 
@@ -95,18 +95,18 @@ namespace UI.ImageProcessing
             return outputs;
         }
 
-      
 
-            /// <summary>
-            /// If key not exist, add one find line feeding
-            /// </summary>
-            /// <param name="name"></param>
-            /// <param name="findLineFeedings"></param>
-            private void TryAddFindLineFeedings(string name, Dictionary<string, FindLineFeeding> findLineFeedings)
-            {
 
-                FindLineFeeding output;
-                string key;
+        /// <summary>
+        /// If key not exist, add one find line feeding
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="findLineFeedings"></param>
+        private void TryAddFindLineFeedings(string name, Dictionary<string, FindLineFeeding> findLineFeedings)
+        {
+
+            FindLineFeeding output;
+            string key;
             // No "-" means one find line rect for one line result
             if (!name.Contains("-"))
             {
@@ -141,32 +141,33 @@ namespace UI.ImageProcessing
                     MaxTrials = param.MaxTrials,
                     ErrorThreshold = param.ErrorThreshold,
                     Probability = param.Probability,
-                    KernelWidth = param.KernelWidth
+                    KernelWidth = param.KernelWidth,
+                    LongestOnly = param.LongestOnly ? "true" : "false"
                 };
             }
             else
             {
 
-                 key = name.Substring(0, name.IndexOf("-"));
+                key = name.Substring(0, name.IndexOf("-"));
                 // If the key has already added... for example 2 for 2-left and 2-right
-                if(findLineFeedings.ContainsKey(key)) return;
+                if (findLineFeedings.ContainsKey(key)) return;
 
                 var locations = _findLineLocationsAbsDict.Where(pair => pair.Key.Contains(key)).Select(pair => pair.Value).ToList();
                 var parameters = FindLineParamsDict.Where(pair => pair.Key.Contains(key)).Select(pair => pair.Value).ToList();
 
-                if(locations.Count != parameters.Count) throw new InvalidOperationException($"Location count {locations.Count} != parameter count {parameters.Count}");
+                if (locations.Count != parameters.Count) throw new InvalidOperationException($"Location count {locations.Count} != parameter count {parameters.Count}");
 
                 output = new FindLineFeeding()
                 {
-                    Row = locations.Select(l=> l.Y).ToArray(),
+                    Row = locations.Select(l => l.Y).ToArray(),
                     Col = locations.Select(l => l.X).ToArray(),
                     Radian = locations.Select(l => MathUtils.ToRadian(l.Angle)).ToArray(),
-                    Len1 = locations.Select(l=>l.Len1).ToArray(),
-                    Len2 = locations.Select(l=>l.Len2).ToArray(),
+                    Len1 = locations.Select(l => l.Len1).ToArray(),
+                    Len2 = locations.Select(l => l.Len2).ToArray(),
                     Transition = locations[0].Polarity == FindLinePolarity.Positive ? "positive" : "negative",
                     NumSubRects = parameters[0].NumSubRects,
                     IgnoreFraction = parameters[0].IgnoreFraction,
-                    Threshold = parameters.Select(p=>p.Threshold).ToArray(),
+                    Threshold = parameters.Select(p => p.Threshold).ToArray(),
                     Sigma1 = parameters[0].Sigma1,
                     Sigma2 = parameters[0].Sigma2,
                     WhichEdge = parameters[0].WhichEdge == EdgeSelection.First ? "first" : "last",
@@ -183,7 +184,9 @@ namespace UI.ImageProcessing
                     MaxTrials = parameters[0].MaxTrials,
                     ErrorThreshold = parameters[0].ErrorThreshold,
                     Probability = parameters[0].Probability,
-                                        KernelWidth = parameters[0].KernelWidth
+                    KernelWidth = parameters[0].KernelWidth,
+                    LongestOnly = parameters[0].LongestOnly ? "true" : "false"
+
 
                 };
             }
@@ -198,8 +201,8 @@ namespace UI.ImageProcessing
             {
                 var serializer = new XmlSerializer(typeof(FindLineLocation[]),
                     new XmlRootAttribute(LocationsSerializeName));
-                FindLineLocationsRelative = ((FindLineLocation[]) serializer.Deserialize(fs)).ToList();
-                
+                FindLineLocationsRelative = ((FindLineLocation[])serializer.Deserialize(fs)).ToList();
+
             }
         }
 
@@ -208,14 +211,14 @@ namespace UI.ImageProcessing
             using (var fs = new FileStream(ParamsPath, FileMode.Open))
             {
                 var serializer = new XmlSerializer(typeof(FindLineParam[]), new XmlRootAttribute(ParamsSerializeName));
-                var paramsLoaded = (FindLineParam[]) serializer.Deserialize(fs);
+                var paramsLoaded = (FindLineParam[])serializer.Deserialize(fs);
                 FindLineParamsDict = paramsLoaded.ToDictionary(p => p.Name, p => p);
             }
         }
 
         public void Serialize()
         {
-    
+
 
             // Serialize params
             using (var fs = new FileStream(ParamsPath, FileMode.Open))

@@ -33,6 +33,7 @@ namespace UI.Model
         [XmlAttribute] public int CannyLow { get; set; } = 20;
         [XmlAttribute] public int CannyHigh { get; set; } = 40;
         [XmlAttribute] public int KernelWidth { get; set; } = -1;
+        [XmlAttribute] public bool LongestOnly { get; set; } = false;
 
         #endregion
 
