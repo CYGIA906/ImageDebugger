@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 using PropertyChanged;
-using UI.Model;
 
-namespace UI.ViewModels
+namespace UI.Model
 {
     public class FaiItem : AutoSerializableBase<FaiItem>
     {

@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
-using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
 using UI.ViewModels;
 
-namespace UI.ImageProcessing
+namespace UI.ImageProcessing.TopView
 {
     public sealed partial class I94TopViewMeasure : IMeasurementProcedure
     {

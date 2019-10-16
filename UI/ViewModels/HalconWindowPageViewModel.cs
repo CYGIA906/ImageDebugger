@@ -17,7 +17,7 @@ using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
-using I94TopViewMeasure = UI.ImageProcessing.I94TopViewMeasure;
+using I94TopViewMeasure = UI.ImageProcessing.TopView.I94TopViewMeasure;
 
 
 namespace UI.ViewModels
@@ -35,7 +35,7 @@ namespace UI.ViewModels
 
         public HObject DisplayImage { get; set; }
 
-        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94BottomViewMeasurement("I94_BOTTOM");
+        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure("I94_TOP");
 
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }

@@ -8,7 +8,7 @@ using UI.ImageProcessing.Utilts;
 using UI.Model;
 using UI.ViewModels;
 
-namespace UI.ImageProcessing
+namespace UI.ImageProcessing.BottomView
 {
     public partial class I94BottomViewMeasurement : IMeasurementProcedure
     {

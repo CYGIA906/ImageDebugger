@@ -22,19 +22,23 @@
           <e p="I94Hdev.cs" t="Include" />
         </e>
         <e p="ImageProcessing" t="Include">
-          <e p="BottomViewHardCodeValues.cs" t="Include" />
+          <e p="BottomView" t="Include">
+            <e p="BottomViewHardCodeValues.cs" t="Include" />
+            <e p="I94BottomViewMeasurement.cs" t="Include" />
+          </e>
           <e p="CoordinateSolver.cs" t="Include" />
           <e p="DataRecorder.cs" t="Include" />
           <e p="FindLineConfigs.cs" t="Include" />
           <e p="FindLineFeeding.cs" t="Include" />
           <e p="FindLineManager.cs" t="Include" />
-          <e p="I94BottomViewMeasurement.cs" t="Include" />
-          <e p="I94TopViewMeasure.cs" t="Include" />
           <e p="IMeasurementProcedure.cs" t="Include" />
           <e p="Line.cs" t="Include" />
           <e p="MathUtils.cs" t="Include" />
           <e p="Point.cs" t="Include" />
-          <e p="TopViewHardCodeValues.cs" t="Include" />
+          <e p="TopView" t="Include">
+            <e p="I94TopViewMeasure.cs" t="Include" />
+            <e p="TopViewHardCodeValues.cs" t="Include" />
+          </e>
           <e p="Utilts" t="Include">
             <e p="FaiItemCsvSerializer.cs" t="Include" />
             <e p="FaiItemsExtension.cs" t="Include" />
@@ -49,6 +53,7 @@
         <e p="Model" t="Include">
           <e p="AutoSerializableBase.cs" t="Include" />
           <e p="CountAwareQueue.cs" t="Include" />
+          <e p="FaiItem.cs" t="Include" />
           <e p="FindLineLocation.cs" t="Include" />
           <e p="FindLineParam.cs" t="Include" />
           <e p="HalconGraphics.cs" t="Include" />
@@ -64,7 +69,6 @@
         <e p="UI.csproj" t="IncludeRecursive" />
         <e p="ViewModels" t="Include">
           <e p="AttachedPropertyOwnerBase.cs" t="Include" />
-          <e p="FaiItem.cs" t="Include" />
           <e p="HalconWindowPageViewModel.cs" t="Include" />
           <e p="ImageProvider.cs" t="Include" />
           <e p="ImageProviderViewModel.cs" t="Include" />

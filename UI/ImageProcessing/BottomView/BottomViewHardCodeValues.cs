@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UI.Model;
 using UI.ViewModels;
 
-namespace UI.ImageProcessing
+namespace UI.ImageProcessing.BottomView
 {
     public partial class I94BottomViewMeasurement
     {
@@ -309,6 +308,11 @@ namespace UI.ImageProcessing
                     Name = "LeftBase"
                 },
             };
+
+            foreach (var item in outputs)
+            {
+                item.SerializationDir = paramSerializationBaseDir;
+            }
 
             return outputs;
         }

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using UI.Model;
 using UI.ViewModels;
 
-namespace UI.ImageProcessing
+namespace UI.ImageProcessing.TopView
 {
     public sealed partial class I94TopViewMeasure
     {
@@ -100,7 +100,7 @@ namespace UI.ImageProcessing
                 },
                 new FindLineLocation()
                 {
-                    Name = "04", Angle = 90, X = 1224, Y = 4562, Len2 = 1024, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Negative
+                    Name = "04", Angle = -90, X = 1224, Y = 4562, Len2 = 1024, ImageIndex = frontLightIndex, Polarity = FindLinePolarity.Negative
                 },
                 new FindLineLocation()
                 {
