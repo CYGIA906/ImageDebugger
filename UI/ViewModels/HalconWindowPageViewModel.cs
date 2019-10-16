@@ -29,7 +29,7 @@ namespace UI.ViewModels
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
 
-        public SnackbarMessageQueue SnackbarMessageQueue { get; } =
+        public SnackbarMessageQueue RunStatusMessageQueue { get; } =
             new SnackbarMessageQueue(TimeSpan.FromMilliseconds(500));
 
         private HWindow _windowHandle;
@@ -37,7 +37,7 @@ namespace UI.ViewModels
         public HObject DisplayImage { get; set; }
 
         
-        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94BottomViewMeasurement();
+        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure();
 
         public ICommand ExecuteCommand { get; }
         public ICommand ContinuousRunCommand { get; }
@@ -164,7 +164,7 @@ namespace UI.ViewModels
 
             var result =
                 await Task.Run(() =>
-                    MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, SnackbarMessageQueue));
+                    MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, RunStatusMessageQueue));
 
 
             result.HalconGraphics.DisplayGraphics(_windowHandle);
