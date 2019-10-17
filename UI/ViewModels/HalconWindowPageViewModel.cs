@@ -31,6 +31,7 @@ namespace UI.ViewModels
 
         public SnackbarMessageQueue RunStatusMessageQueue { get; set; }
 
+
         private HWindow _windowHandle;
 
         public HObject DisplayImage { get; set; }

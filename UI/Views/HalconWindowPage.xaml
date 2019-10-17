@@ -68,7 +68,7 @@
 
             <!-- Snack bar -->
             <materialDesign:Snackbar Name="SnackBar" MessageQueue="{Binding RunStatusMessageQueue}"
-                                 VerticalAlignment="Top" Panel.ZIndex="2" FontSize="30" />
+                                 VerticalAlignment="Top" Panel.ZIndex="2" Foreground="{DynamicResource PrimaryHueDarkBrush}" Background="{DynamicResource SecondaryAccentBrush}" />
 
             <!-- Find line param LIST -->
             <Expander Background="Transparent" HorizontalAlignment="Left" 

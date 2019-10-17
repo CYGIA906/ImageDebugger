@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using HalconDotNet;
+using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 using UI.Model;
 
@@ -143,7 +144,7 @@ namespace UI.ViewModels
 
                 if(imagePaths.Count == 0)
                 {
-                    RunStatusMessageQueue.Enqueue("This folder does not contains any supported images");
+                    PromptUserThreadUnsafe("This folder does not contains any supported images");
                     return;
                 }
 
@@ -198,7 +199,7 @@ namespace UI.ViewModels
             var numImagesInFirstList = tempMegaList[0].Count;
             if (tempMegaList.Any(l => l.Count != numImagesInFirstList))
             {
-                RunStatusMessageQueue.Enqueue("Count of image lists not equal");
+                PromptUserThreadUnsafe("Count of image lists not equal");
                 return false;
             }
             
