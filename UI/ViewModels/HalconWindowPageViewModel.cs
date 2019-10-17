@@ -130,8 +130,9 @@ namespace UI.ViewModels
             {
                 string nextOrPrevious = (string) param;
                 if(nextOrPrevious!="Next" && nextOrPrevious != "Previous") throw new InvalidOperationException($"Invalid option for nextOrPrevious: {nextOrPrevious}");
-                
-                var input = nextOrPrevious == "Next" ? NextImages : PreviousImages;
+
+                bool forward = nextOrPrevious == "Next";
+                var input = forward? NextImages : PreviousImages;
                 await ProcessOnceAsync(input);
             });
 
@@ -157,7 +158,7 @@ namespace UI.ViewModels
 
                 // If automatically run to the end, reset the index
                 // Otherwise it maybe a pause request, and current index should not reset
-                if(MultipleImagesRunning) CurrentImageIndex = 0;
+                if(MultipleImagesRunning) CurrentImageIndex = -1;
                 ;
                 MultipleImagesRunning = false;
             });

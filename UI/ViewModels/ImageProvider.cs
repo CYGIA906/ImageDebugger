@@ -15,7 +15,7 @@ namespace UI.ViewModels
 
                 public string CurrentImageName { get; set; }
 
-                public int CurrentImageIndex { get; set; }
+                public int CurrentImageIndex { get; set; } = -1;
 
         
 
@@ -33,10 +33,11 @@ namespace UI.ViewModels
                     PromptUserThreadUnsafe("No images available");
                     return null;
                 }
-
+                // Increment first to make sure the index, imageName and image are consistent
+                CurrentImageIndex++;
                 if (CurrentImageIndex == TotalImages)
                 {
-                    CurrentImageIndex = 0;
+                    CurrentImageIndex = -1;
                     PromptUserThreadUnsafe("End of image list, start over");
                     // returning null will cause continuous running stop
                     return null;
@@ -50,7 +51,6 @@ namespace UI.ViewModels
                     CurrentImageName = GetImageName(imagePath);
                 }
 
-                CurrentImageIndex++;
 
                 return outputs;
             }
@@ -71,11 +71,12 @@ namespace UI.ViewModels
                     return null;
                 }
                 
+                // Increment first to make sure the index, imageName and image are consistent
+                CurrentImageIndex--;
                 if (CurrentImageIndex < 0)
                 {
                     CurrentImageIndex = TotalImages - 1;
                     PromptUserThreadUnsafe("Jump to the end of image list");
-                    return null;
                 }
                 
                 var outputs = new List<HImage>();
@@ -85,9 +86,7 @@ namespace UI.ViewModels
                     outputs.Add(new HImage(imagePath));
                     CurrentImageName = GetImageName(imagePath);
                 }
-
-                CurrentImageIndex--;
-
+                
                 return outputs;
             }
         }
