@@ -114,7 +114,7 @@ namespace UI.ImageProcessing
             return PointLineDistanceInWorld(point.ImageX, point.ImageY, line, display);
         }
 
-        public double PointPointDistanceInWorld(Point pointA, Point pointB, bool display = false)
+        public double PointPointDistanceInWorld(Point pointA, Point pointB, bool display = true)
         {
             HTuple distance;
             HalconScripts.DistanceInWorld_PP(pointA.ImageY, pointA.ImageX, pointB.ImageY, pointB.ImageX, _mapToWorld, out distance);

@@ -147,6 +147,20 @@ namespace UI.ImageProcessing.Utilts
             b = temp;
         }
 
+        /// <summary>
+        /// Fit line with Ransac algorithm
+        /// </summary>
+        /// <param name="xs">x components of input points</param>
+        /// <param name="ys">y components of input points</param>
+        /// <param name="errorThreshold"></param>
+        /// <param name="maxTrials"></param>
+        /// <param name="ignoreFraction"></param>
+        /// <param name="probability"></param>
+        /// <param name="xsUsed">x components of the inlier points</param>
+        /// <param name="ysUsed">y components of the inlier points</param>
+        /// <returns>
+        /// Fitted line with the farthest end points from inlier points
+        /// </returns>
         public static Line RansacFitLine(double[] xs, double[] ys, double errorThreshold, int maxTrials, double ignoreFraction, double probability, out IEnumerable<double> xsUsed, out IEnumerable<double> ysUsed)
         {
 

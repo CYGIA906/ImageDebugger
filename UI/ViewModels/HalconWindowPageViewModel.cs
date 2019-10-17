@@ -36,7 +36,7 @@ namespace UI.ViewModels
         public HObject DisplayImage { get; set; }
 
         
-        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure();
+        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94BottomViewMeasurement();
 
 
 

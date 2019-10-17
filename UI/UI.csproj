@@ -119,6 +119,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
     <Compile Include="ImageProcessing\BottomView\BottomViewHardCodeValues.cs" />
+    <Compile Include="ImageProcessing\BottomView\BottomViewProcessProcedure.cs" />
     <Compile Include="ImageProcessing\BottomView\I94BottomViewMeasurement.cs" />
     <Compile Include="ImageProcessing\CoordinateSolver.cs" />
     <Compile Include="ImageProcessing\FindLineFeeding.cs" />

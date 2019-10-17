@@ -48,6 +48,10 @@ namespace UI.ImageProcessing
             IsDefaulConstructed = true;
         }
 
+        public Line(Point pt1, Point pt2, bool display = false) : this(pt1.ImageX, pt1.ImageY, pt2.ImageX, pt2.ImageY, display)
+        {
+        }
+
 
         /// <summary>
         /// Compute the angle between two lines
@@ -98,6 +102,11 @@ namespace UI.ImageProcessing
             }
             lineRegions.DispObj(windowHandle);
             
+            ClearLineGraphics();
+        }
+
+        public static void ClearLineGraphics()
+        {
             LineToDisplay.Clear();
         }
 
@@ -144,6 +153,9 @@ namespace UI.ImageProcessing
                 LineToDisplay.Add(this);
             }
         }
+
+        public Point PointStart => new Point(XStart, YStart);
+        public Point PointEnd => new Point(XEnd, YEnd);
 
         public Line PerpendicularLineThatPasses(Point point)
         {

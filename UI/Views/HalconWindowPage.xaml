@@ -14,14 +14,14 @@
       Loaded="HalconWindowPage_OnLoaded">
     <DockPanel>
 
-        <DockPanel.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary
-                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </DockPanel.Resources>
+        <!-- <DockPanel.Resources> -->
+        <!--     <ResourceDictionary> -->
+        <!--         <ResourceDictionary.MergedDictionaries> -->
+        <!--             <ResourceDictionary -->
+        <!--                 Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" /> -->
+        <!--         </ResourceDictionary.MergedDictionaries> -->
+        <!--     </ResourceDictionary> -->
+        <!-- </DockPanel.Resources> -->
 
 
         <ToolBarTray DockPanel.Dock="Top" Panel.ZIndex="0" AllowDrop="False" >
@@ -41,7 +41,7 @@
                 </Button>
                 <Separator />
                 <!-- Run continuously -->
-                <ToggleButton Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchAccentToggleButton}"
                               ToolTip="Run continuously"
                               IsChecked="{Binding MultipleImagesRunning}"
                               Command="{Binding ContinuousRunCommand}"
