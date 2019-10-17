@@ -98,105 +98,88 @@ namespace UI.ImageProcessing.BottomView
 
             #endregion
 
-            #region Offset lines
+
+            #region 21
 
             var lineF21Top = coordinateSolver.TranslateLineInWorldUnit(21, lineTopBase, true);
             var lineF21Bottom = coordinateSolver.TranslateLineInWorldUnit(30, lineTopBase, true);
+            
+            var p1F21 = findLineManager.GetLine("21left").Intersect(lineF21Top);
+            var p2F21 = findLineManager.GetLine("21left").Intersect(lineF21Bottom);
+            var p3F21 = findLineManager.GetLine("21right").Intersect(lineF21Top);
+            var p4F21 = findLineManager.GetLine("21right").Intersect(lineF21Bottom);
+            
+            var valueF21Top = coordinateSolver.PointPointDistanceInWorld(p1F21, p3F21, true);
+            var valueF21Bottom = coordinateSolver.PointPointDistanceInWorld(p2F21, p4F21, true);
+            
+
+            #endregion
+
+            #region 23
 
             var lineF23Left = coordinateSolver.TranslateLineInWorldUnit(-5.5, lineLeftBase, true);
             var lineF23Right = coordinateSolver.TranslateLineInWorldUnit(-13.2, lineLeftBase, true);
+            
+            var lineF123Left = coordinateSolver.TranslateLineInWorldUnit(-5, lineLeftBase, true);
+            var lineF123Center = coordinateSolver.TranslateLineInWorldUnit(-9.269, lineLeftBase, true);
+            var lineF123Right = coordinateSolver.TranslateLineInWorldUnit(-14.5, lineLeftBase, true);
+            
+            var p1F23 = findLineManager.GetLine("23top").Intersect(lineF23Left);
+            var p2F23 = findLineManager.GetLine("23top").Intersect(lineF23Right);
+            var p3F23 = findLineManager.GetLine("23bottom").Intersect(lineF23Left);
+            var p4F23 = findLineManager.GetLine("23bottom").Intersect(lineF23Right);
+            
+            var pLeftF23 = Point.CenterPointInImage(p1F23, p3F23);
+            var pRightF23 = Point.CenterPointInImage(p2F23, p4F23);
+            
+            var valueF23Left = coordinateSolver.PointPointDistanceInWorld(p1F23, p3F23, true);
+            var valueF23Right = coordinateSolver.PointPointDistanceInWorld(p2F23, p4F23, true);
+            
+
+            #endregion
+
+            #region 24
 
             var lineF24Top = coordinateSolver.TranslateLineInWorldUnit(7.3, lineTopBase, true);
             var lineF24Bottom = coordinateSolver.TranslateLineInWorldUnit(8.5, lineTopBase, true);
+            
+            var p1F24 = findLineManager.GetLine("24.left").Intersect(lineF24Top);
+            var p2F24 = findLineManager.GetLine("24.left").Intersect(lineF24Bottom);
+            var p3F24 = findLineManager.GetLine("24.right").Intersect(lineF24Top);
+            var p4F24 = findLineManager.GetLine("24.right").Intersect(lineF24Bottom);
+            
+            var pLeftF24 = Point.CenterPointInImage(p1F24, p2F24);
+            var pRightF24 = Point.CenterPointInImage(p3F24, p4F24);
+            
+            var valueF24 = coordinateSolver.PointPointDistanceInWorld(pLeftF24, pRightF24, true);
 
+            #endregion
+
+            #region 25
+
+            var rectCircleLeft =
+                coordinateSolver.FindLineLocationRelativeToAbsolute(EdgeLocationsRelative["leftCircle"]);
+            HTuple circleXLeft, circleYLeft, circleRadiusLeft;
+            HObject leftCircleContour;
+            HalconScripts.I94FindLeftCircle(image, out leftCircleContour, rectCircleLeft.Y, rectCircleLeft.X,
+                MathUtils.ToRadian(rectCircleLeft.Angle), rectCircleLeft.Len1, rectCircleLeft.Len2, out circleXLeft,
+                out circleYLeft, out circleRadiusLeft);
+            
+            var valueF25_1 = circleRadiusLeft.D * Weight * 2;
+            var leftCenter = new Point(circleXLeft, circleYLeft);
+            var distYCircleLeft = coordinateSolver.PointLineDistanceInWorld(leftCenter, lineTopBase);
+            var distXCircleLeft = coordinateSolver.PointLineDistanceInWorld(leftCenter, lineLeftBase);
+            var valueF25_2 = 2.0 * Point.Distance(new Point(distXCircleLeft, distYCircleLeft), new Point(9.299, 7.886));
+
+            #endregion
+            
+            #region 26
 
             var lineF26Left =
                 coordinateSolver.TranslateLineInWorldUnit(-0.6, findLineManager.GetLine("24.left").SortUpDown(), true);
             var lineF26Right =
                 coordinateSolver.TranslateLineInWorldUnit(0.6, findLineManager.GetLine("24.right").SortUpDown(), true);
-
-            var lineF27Left = coordinateSolver.TranslateLineInWorldUnit(-23.5, lineLeftBase, true);
-            var lineF27Right = coordinateSolver.TranslateLineInWorldUnit(-25, lineLeftBase, true);
-
-            var lineF29Top = coordinateSolver.TranslateLineInWorldUnit(16, lineTopBase, true);
-            var lineF29Bottom = coordinateSolver.TranslateLineInWorldUnit(17.2, lineTopBase, true);
-
-            var lineF32Top = lineF21Top;
-            var lineF32Bottom = coordinateSolver.TranslateLineInWorldUnit(30.1, lineTopBase, true);
-
-            var lineF32Left = lineF23Left;
-            var lineF32Right = lineF23Right;
-            var lineF32IdealHorizontal = coordinateSolver.TranslateLineInWorldUnit(25.392, lineTopBase, true);
-            var lineF32IdealVertical = coordinateSolver.TranslateLineInWorldUnit(-9.299, lineLeftBase, true);
-
-
-            var lineF33Left = lineF26Left;
-            var lineF33Right = lineF26Right;
-
-            var lineF123Left = coordinateSolver.TranslateLineInWorldUnit(-5, lineLeftBase, true);
-            var lineF123Center = coordinateSolver.TranslateLineInWorldUnit(-9.269, lineLeftBase, true);
-            var lineF123Right = coordinateSolver.TranslateLineInWorldUnit(-14.5, lineLeftBase, true);
             
-
-            #endregion
-
-            #region Intersect lines
-
-            var p1F21 = findLineManager.GetLine("21left").Intersect(lineF21Top);
-            var p2F21 = findLineManager.GetLine("21left").Intersect(lineF21Bottom);
-            var p3F21 = findLineManager.GetLine("21right").Intersect(lineF21Top);
-            var p4F21 = findLineManager.GetLine("21right").Intersect(lineF21Bottom);
-
-            var p1F23 = findLineManager.GetLine("23top").Intersect(lineF23Left);
-            var p2F23 = findLineManager.GetLine("23top").Intersect(lineF23Right);
-            var p3F23 = findLineManager.GetLine("23bottom").Intersect(lineF23Left);
-            var p4F23 = findLineManager.GetLine("23bottom").Intersect(lineF23Right);
-
-            var p1F24 = findLineManager.GetLine("24.left").Intersect(lineF24Top);
-            var p2F24 = findLineManager.GetLine("24.left").Intersect(lineF24Bottom);
-            var p3F24 = findLineManager.GetLine("24.right").Intersect(lineF24Top);
-            var p4F24 = findLineManager.GetLine("24.right").Intersect(lineF24Bottom);
-
-            var pTopLeftF27 = findLineManager.GetLine("27.top").Intersect(lineF27Left);
-            var pTopRightF27 = findLineManager.GetLine("27.top").Intersect(lineF27Right);
-            var pBottomLeftF27 = findLineManager.GetLine("27.bottom").Intersect(lineF27Left);
-            var pBottomRightF27 = findLineManager.GetLine("27.bottom").Intersect(lineF27Right);
-
-            var pLeftTopF29 = findLineManager.GetLine("29.left").Intersect(lineF29Top);
-            var pLeftBottomF29 = findLineManager.GetLine("29.left").Intersect(lineF29Bottom);
-            var pRightTopF29 = findLineManager.GetLine("29.right").Intersect(lineF29Top);
-            var pRightBottomF29 = findLineManager.GetLine("29.right").Intersect(lineF29Bottom);
-
-            
-
-            // 32
-            var pTopLeftF32 = findLineManager.GetLine("23top").Intersect(lineF32Left);
-            var pTopRightF32 = findLineManager.GetLine("23top").Intersect(lineF32Right);
-            var pBottomLeftF32 = findLineManager.GetLine("23bottom").Intersect(lineF32Left);
-            var pBottomRightF32 = findLineManager.GetLine("23bottom").Intersect(lineF32Right);
-            var pLeftTopF32 = findLineManager.GetLine("21left").Intersect(lineF32Top);
-            var pLeftBottomF32 = findLineManager.GetLine("21left").Intersect(lineF32Bottom);
-            var pRightTopF32 = findLineManager.GetLine("21right").Intersect(lineF32Top);
-            var pRightBottomF32 = findLineManager.GetLine("21right").Intersect(lineF32Bottom);
-
-       
-            
-            // 123
-            var p1F123 = findLineManager.GetLine("123").Intersect(lineF123Left);
-            var p2F123 = findLineManager.GetLine("123").Intersect(lineF123Center);
-            var p3F123 = findLineManager.GetLine("123").Intersect(lineF123Right);
-            
-
-            #endregion
-
-            #region Determind points to measure
-
-            var pLeftF23 = Point.CenterPointInImage(p1F23, p3F23);
-            var pRightF23 = Point.CenterPointInImage(p2F23, p4F23);
-
-            var pLeftF24 = Point.CenterPointInImage(p1F24, p2F24);
-            var pRightF24 = Point.CenterPointInImage(p3F24, p4F24);
-
             var rectLeftTop = coordinateSolver.FindLineLocationRelativeToAbsolute(EdgeLocationsRelative["26-leftTop"]);
             var edgeLeftTop = GetContour(image, rectLeftTop);
             var pLeftTopF26 = LineContourIntersection(lineF26Left, edgeLeftTop);
@@ -212,26 +195,73 @@ namespace UI.ImageProcessing.BottomView
                 coordinateSolver.FindLineLocationRelativeToAbsolute(EdgeLocationsRelative["26-rightBottom"]);
             var edgeRightBottom = GetContour(image, rectRightBottom);
             var pRightBottomF26 = LineContourIntersection(lineF26Right, edgeRightBottom);
+            
+            var valueF26_1 = coordinateSolver.PointPointDistanceInWorld(pLeftTopF26, pLeftBottomF26, true);
+            var valueF26_2 = coordinateSolver.PointPointDistanceInWorld(pRightTopF26, pRightBottomF26, true);
+            
 
+            #endregion
+
+            #region 27
+
+            var rectCircleRight =
+                coordinateSolver.FindLineLocationRelativeToAbsolute(EdgeLocationsRelative["rightCircle"]);
+            HTuple circleXRight, circleYRight, circleRadiusRight;
+            HObject rightCircleContour;
+            HalconScripts.I94FindRightCircle(image, out rightCircleContour, rectCircleRight.Y, rectCircleRight.X,
+                MathUtils.ToRadian(rectCircleRight.Angle), rectCircleRight.Len1, rectCircleRight.Len2, out circleXRight,
+                out circleYRight, out circleRadiusRight);
+            
+            var rightCenter = new Point(circleXRight, circleYRight);
+
+            
+            var lineF27Left = coordinateSolver.TranslateLineInWorldUnit(-23.5, lineLeftBase, true);
+            var lineF27Right = coordinateSolver.TranslateLineInWorldUnit(-25, lineLeftBase, true);
+            
+            var pTopLeftF27 = findLineManager.GetLine("27.top").Intersect(lineF27Left);
+            var pTopRightF27 = findLineManager.GetLine("27.top").Intersect(lineF27Right);
+            var pBottomLeftF27 = findLineManager.GetLine("27.bottom").Intersect(lineF27Left);
+            var pBottomRightF27 = findLineManager.GetLine("27.bottom").Intersect(lineF27Right);
+            
             var pF27Top = Point.CenterPointInImage(pTopLeftF27, pTopRightF27);
             var pF27Bottom = Point.CenterPointInImage(pBottomLeftF27, pBottomRightF27);
             
+            var value27_1 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF27Top, true);
+            var value27_2 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF27Bottom, true);
+            
+
+            #endregion
+            
+            #region 28
+
+            var valueF28_1 = circleRadiusRight.D * Weight * 2;
+            var distYCircleRight = coordinateSolver.PointLineDistanceInWorld(rightCenter, lineTopBase);
+            var distXCircleRight = coordinateSolver.PointLineDistanceInWorld(rightCenter, lineLeftBase);
+            var valueF28_2 = 2.0 * Point.Distance(new Point(distXCircleRight, distYCircleRight), new Point(24.434, 16.624));  
+            
+
+            #endregion
+
+            #region 29
+
+            var lineF29Top = coordinateSolver.TranslateLineInWorldUnit(16, lineTopBase, true);
+            var lineF29Bottom = coordinateSolver.TranslateLineInWorldUnit(17.2, lineTopBase, true);
+            
+            var pLeftTopF29 = findLineManager.GetLine("29.left").Intersect(lineF29Top);
+            var pLeftBottomF29 = findLineManager.GetLine("29.left").Intersect(lineF29Bottom);
+            var pRightTopF29 = findLineManager.GetLine("29.right").Intersect(lineF29Top);
+            var pRightBottomF29 = findLineManager.GetLine("29.right").Intersect(lineF29Bottom);
+            
             var pF29Left = Point.CenterPointInImage(pLeftTopF29, pLeftBottomF29);
             var pF29Right = Point.CenterPointInImage(pRightTopF29, pRightBottomF29);
+            
+            var valueF29_1 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF29Left, true);
+            var valueF29_2 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF29Right, true);
 
-            var pF32Top = Point.CenterPointInImage(pLeftTopF32, pRightTopF32);
-            var pF32Bottom = Point.CenterPointInImage(pLeftBottomF32, pRightBottomF32);
-            var lineF32Vertical = new Line(pF32Top.ImageX, pF32Top.ImageY, pF32Bottom.ImageX, pF32Bottom.ImageY);
+            #endregion
 
-            var pF32Left = Point.CenterPointInImage(pTopLeftF32, pBottomLeftF32);
-            var pF32Right = Point.CenterPointInImage(pTopRightF32, pBottomRightF32);
-            var lineF32Horizontal = new Line(pF32Left.ImageX, pF32Left.ImageY, pF32Right.ImageX, pF32Right.ImageY);
+            #region 31
 
-            var pF32Ideal = lineF32IdealHorizontal.Intersect(lineF32IdealVertical);
-
-            var pF32 = lineF32Horizontal.Intersect(lineF32Vertical);
-
-            // 31
             var line3F31 = findLineManager.GetLine("31.topLeft").SortUpDown();
             var line1F31 = findLineManager.GetLine("31.bottomRight").SortUpDown();
             var p1L5F31 = Point.CenterPointInImage(new Point(line3F31.XStart, line3F31.YStart),
@@ -252,8 +282,50 @@ namespace UI.ImageProcessing.BottomView
             var lineHF31 = coordinateSolver.TranslateLineInWorldUnit(25.362, lineTopBase);
             var lineVF31 = coordinateSolver.TranslateLineInWorldUnit(-9.299, lineLeftBase);
             var pIdealF31 = lineHF31.Intersect(lineVF31);
+            var valueF31 = 2 * coordinateSolver.PointPointDistanceInWorld(pIdealF31, pMeasureF31);
 
-            // 33
+            #endregion
+
+            #region 32
+
+            var lineF32Top = lineF21Top;
+            var lineF32Bottom = coordinateSolver.TranslateLineInWorldUnit(30.1, lineTopBase, true);
+
+            var lineF32Left = lineF23Left;
+            var lineF32Right = lineF23Right;
+            var lineF32IdealHorizontal = coordinateSolver.TranslateLineInWorldUnit(25.392, lineTopBase, true);
+            var lineF32IdealVertical = coordinateSolver.TranslateLineInWorldUnit(-9.299, lineLeftBase, true);
+
+            var pTopLeftF32 = findLineManager.GetLine("23top").Intersect(lineF32Left);
+            var pTopRightF32 = findLineManager.GetLine("23top").Intersect(lineF32Right);
+            var pBottomLeftF32 = findLineManager.GetLine("23bottom").Intersect(lineF32Left);
+            var pBottomRightF32 = findLineManager.GetLine("23bottom").Intersect(lineF32Right);
+            var pLeftTopF32 = findLineManager.GetLine("21left").Intersect(lineF32Top);
+            var pLeftBottomF32 = findLineManager.GetLine("21left").Intersect(lineF32Bottom);
+            var pRightTopF32 = findLineManager.GetLine("21right").Intersect(lineF32Top);
+            var pRightBottomF32 = findLineManager.GetLine("21right").Intersect(lineF32Bottom);
+            
+            var pF32Top = Point.CenterPointInImage(pLeftTopF32, pRightTopF32);
+            var pF32Bottom = Point.CenterPointInImage(pLeftBottomF32, pRightBottomF32);
+            var lineF32Vertical = new Line(pF32Top.ImageX, pF32Top.ImageY, pF32Bottom.ImageX, pF32Bottom.ImageY);
+
+            var pF32Left = Point.CenterPointInImage(pTopLeftF32, pBottomLeftF32);
+            var pF32Right = Point.CenterPointInImage(pTopRightF32, pBottomRightF32);
+            var lineF32Horizontal = new Line(pF32Left.ImageX, pF32Left.ImageY, pF32Right.ImageX, pF32Right.ImageY);
+
+            var pF32Ideal = lineF32IdealHorizontal.Intersect(lineF32IdealVertical);
+
+            var pF32 = lineF32Horizontal.Intersect(lineF32Vertical);
+            
+            var valueF32 = 2 * coordinateSolver.PointPointDistanceInWorld(pF32Ideal, pF32);
+
+            #endregion
+
+            #region 33
+
+            var lineF33Left = lineF26Left;
+            var lineF33Right = lineF26Right;
+
             var pM1F33 = Point.CenterPointInImage(pLeftTopF26, pLeftBottomF26);
             var pM2F33 = Point.CenterPointInImage(pRightTopF26, pRightBottomF26);
             var l4F33 = new Line(pM1F33.ImageX, pM1F33.ImageY, pM2F33.ImageX, pM2F33.ImageY);
@@ -269,76 +341,25 @@ namespace UI.ImageProcessing.BottomView
             var lineHF33 = coordinateSolver.TranslateLineInWorldUnit(7.886, lineTopBase);
             var lineVF33 = coordinateSolver.TranslateLineInWorldUnit(-9.299, lineLeftBase);
             var pIdealF33 = lineHF33.Intersect(lineVF33);
-
-            #endregion
-
-            #region Find circles
-
-            var rectCircleLeft =
-                coordinateSolver.FindLineLocationRelativeToAbsolute(EdgeLocationsRelative["leftCircle"]);
-            HTuple circleXLeft, circleYLeft, circleRadiusLeft;
-            HObject leftCircleContour;
-            HalconScripts.I94FindLeftCircle(image, out leftCircleContour, rectCircleLeft.Y, rectCircleLeft.X,
-                MathUtils.ToRadian(rectCircleLeft.Angle), rectCircleLeft.Len1, rectCircleLeft.Len2, out circleXLeft,
-                out circleYLeft, out circleRadiusLeft);
-
-            var rectCircleRight =
-                coordinateSolver.FindLineLocationRelativeToAbsolute(EdgeLocationsRelative["rightCircle"]);
-            HTuple circleXRight, circleYRight, circleRadiusRight;
-            HObject rightCircleContour;
-            HalconScripts.I94FindRightCircle(image, out rightCircleContour, rectCircleRight.Y, rectCircleRight.X,
-                MathUtils.ToRadian(rectCircleRight.Angle), rectCircleRight.Len1, rectCircleRight.Len2, out circleXRight,
-                out circleYRight, out circleRadiusRight);
-
-            #endregion
             
-            // Measure
-
-            #region Measure
-
-            var valueF21Top = coordinateSolver.PointPointDistanceInWorld(p1F21, p3F21, true);
-            var valueF21Bottom = coordinateSolver.PointPointDistanceInWorld(p2F21, p4F21, true);
-
-            var valueF23Left = coordinateSolver.PointPointDistanceInWorld(p1F23, p3F23, true);
-            var valueF23Right = coordinateSolver.PointPointDistanceInWorld(p2F23, p4F23, true);
-
-            var valueF24 = coordinateSolver.PointPointDistanceInWorld(pLeftF24, pRightF24, true);
-
-            var valueF25_1 = circleRadiusLeft.D * Weight * 2;
-            var leftCenter = new Point(circleXLeft, circleYLeft);
-            var distYCircleLeft = coordinateSolver.PointLineDistanceInWorld(leftCenter, lineTopBase);
-            var distXCircleLeft = coordinateSolver.PointLineDistanceInWorld(leftCenter, lineLeftBase);
-            var valueF25_2 = 2.0 * Point.Distance(new Point(distXCircleLeft, distYCircleLeft), new Point(9.299, 7.886));
-
-            var valueF26_1 = coordinateSolver.PointPointDistanceInWorld(pLeftTopF26, pLeftBottomF26, true);
-            var valueF26_2 = coordinateSolver.PointPointDistanceInWorld(pRightTopF26, pRightBottomF26, true);
-            
-            var rightCenter = new Point(circleXRight, circleYRight);
-            var value27_1 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF27Top, true);
-            var value27_2 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF27Bottom, true);
-
-            var valueF28_1 = circleRadiusRight.D * Weight * 2;
-            var distYCircleRight = coordinateSolver.PointLineDistanceInWorld(rightCenter, lineTopBase);
-            var distXCircleRight = coordinateSolver.PointLineDistanceInWorld(rightCenter, lineLeftBase);
-            var valueF28_2 = 2.0 * Point.Distance(new Point(distXCircleRight, distYCircleRight), new Point(24.434, 16.624));    
-            
-            var valueF29_1 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF29Left, true);
-            var valueF29_2 = coordinateSolver.PointPointDistanceInWorld(rightCenter, pF29Right, true);
-
-            var valueF31 = 2 * coordinateSolver.PointPointDistanceInWorld(pIdealF31, pMeasureF31);
-
-            var valueF32 = 2 * coordinateSolver.PointPointDistanceInWorld(pF32Ideal, pF32);
-
             var valueF33 = 2 * coordinateSolver.PointPointDistanceInWorld(pIdealF33, pMeasureF33);
+            
 
+            #endregion
+
+            #region 123
+
+            var p1F123 = findLineManager.GetLine("123").Intersect(lineF123Left);
+            var p2F123 = findLineManager.GetLine("123").Intersect(lineF123Center);
+            var p3F123 = findLineManager.GetLine("123").Intersect(lineF123Right);
+            
             var valueF123_1 = coordinateSolver.PointLineDistanceInWorld(p1F123, lineTopBase);
             var valueF123_2 = coordinateSolver.PointLineDistanceInWorld(p2F123, lineTopBase);
             var valueF123_3 = coordinateSolver.PointLineDistanceInWorld(p3F123, lineTopBase);
             
 
             #endregion
-            
-            // output
+
 
             #region Outputs
 
