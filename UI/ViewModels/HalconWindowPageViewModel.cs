@@ -153,7 +153,9 @@ namespace UI.ViewModels
             {
                 while (CurrentImageIndex < TotalImages && MultipleImagesRunning)
                 {
-                    await ProcessOnceAsync(NextImages);
+                    var input = NextImages;
+                    if (input == null) break;
+                    await ProcessOnceAsync(input);
                 }
 
                 // If automatically run to the end, reset the index
