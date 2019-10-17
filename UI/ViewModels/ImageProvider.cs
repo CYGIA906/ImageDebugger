@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using HalconDotNet;
+using PropertyChanged;
 using UI.Model;
 
 namespace UI.ViewModels
@@ -13,8 +14,16 @@ namespace UI.ViewModels
     {
                 #region Image Providing Logic
 
-                public string CurrentImageName { get; set; }
+                public string CurrentImageName
+                {
+                    get
+                    {
+                        if (ImageMegaList == null || ImageMegaList.Count == 0 || ImageMegaList[0].Count == 0 || CurrentImageIndex < 0) return "";
+                        return GetImageName(ImageMegaList[0][CurrentImageIndex]);
+                    }
+                }
 
+                [AlsoNotifyFor("CurrentImageName")]
                 public int CurrentImageIndex { get; set; } = -1;
 
         
@@ -48,7 +57,6 @@ namespace UI.ViewModels
                 {
                     var imagePath = list[CurrentImageIndex];
                     outputs.Add(new HImage(imagePath));
-                    CurrentImageName = GetImageName(imagePath);
                 }
 
 
@@ -84,7 +92,6 @@ namespace UI.ViewModels
                 {
                     var imagePath = list[CurrentImageIndex];
                     outputs.Add(new HImage(imagePath));
-                    CurrentImageName = GetImageName(imagePath);
                 }
                 
                 return outputs;
@@ -147,7 +154,7 @@ namespace UI.ViewModels
              
              if (!updateImageListsSuccess) return;
              TotalImages = ImageMegaList[0].Count;
-             CurrentImageIndex = 0;
+             CurrentImageIndex = -1;
             }
         }
         
