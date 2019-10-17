@@ -16,7 +16,14 @@ namespace UI.ViewModels
 
                 public int CurrentImageIndex { get; set; }
 
-                public bool EndOfOneRound => CurrentImageIndex == ImageMegaList[0].Count;
+                public bool EndOfOneRound
+                {
+            get
+            {
+                if (ImageMegaList.Count == 0) return true;
+              return  CurrentImageIndex == ImageMegaList[0].Count;
+            }
+                }
 
         /// <summary>
         /// Provide next image

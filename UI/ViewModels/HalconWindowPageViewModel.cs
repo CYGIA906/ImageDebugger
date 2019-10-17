@@ -38,7 +38,10 @@ namespace UI.ViewModels
         
         private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure();
 
-        public ICommand ExecuteCommand { get; }
+
+
+        public ICommand RunNextCommand { get; }
+        public ICommand RunPreviousCommand { get; }
         public ICommand ContinuousRunCommand { get; }
 
         public ICommand OpenLastDirectoryCommand { get; }
@@ -124,7 +127,7 @@ namespace UI.ViewModels
             FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
 
             // Init commands
-            ExecuteCommand = new RelayCommand(async () => { await ProcessOnceAsync(); });
+            RunNextCommand = new RelayCommand(async () => { await ProcessOnceAsync(); });
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
