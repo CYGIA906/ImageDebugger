@@ -14,14 +14,14 @@
       Loaded="HalconWindowPage_OnLoaded">
     <DockPanel>
 
-        <!-- <DockPanel.Resources> -->
-        <!--     <ResourceDictionary> -->
-        <!--         <ResourceDictionary.MergedDictionaries> -->
-        <!--             <ResourceDictionary -->
-        <!--                 Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" /> -->
-        <!--         </ResourceDictionary.MergedDictionaries> -->
-        <!--     </ResourceDictionary> -->
-        <!-- </DockPanel.Resources> -->
+        <DockPanel.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.combobox.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </DockPanel.Resources>
             <Grid DockPanel.Dock="Top">
 
                 <Grid.ColumnDefinitions>
@@ -53,25 +53,33 @@
                                       IsChecked="{Binding MultipleImagesRunning}"
                                       Command="{Binding ContinuousRunCommand}"
                                       CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
+                        <Separator/>
                     </ToolBar>
                 </ToolBarTray>
-                
                 <materialDesign:Chip Grid.Column="1" Margin="5" Content="{Binding CurrentImageName}" Icon="{Binding CurrentImageIndex}" FontSize="20" VerticalAlignment="Center"></materialDesign:Chip>
+
             </Grid>
             
 
-           <Grid DockPanel.Dock="Bottom">
+           <Grid DockPanel.Dock="Top">
             <!-- Halcon window -->
-            <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <halconDotNet:HSmartWindowControlWPF Grid.Column="0" Name="HalconWindow" Panel.ZIndex="1">
                 <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />
             </halconDotNet:HSmartWindowControlWPF>
+            
+
+            <ComboBox Grid.Column="1" Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding ImageNames}" SelectedIndex="{Binding CurrentImageIndex}" VerticalAlignment="Top" HorizontalAlignment="Center" Panel.ZIndex="2"></ComboBox>
 
             <!-- Snack bar -->
-            <materialDesign:Snackbar Name="SnackBar" MessageQueue="{Binding RunStatusMessageQueue}"
+            <materialDesign:Snackbar Grid.Column="0" Name="SnackBar" MessageQueue="{Binding RunStatusMessageQueue}"
                                  VerticalAlignment="Top" Panel.ZIndex="2" Foreground="{DynamicResource PrimaryHueDarkBrush}" Background="{DynamicResource SecondaryAccentBrush}" />
 
             <!-- Find line param LIST -->
-            <Expander Background="Transparent" HorizontalAlignment="Left" 
+            <Expander Background="Transparent" HorizontalAlignment="Left" Grid.Column="0"
                   Panel.ZIndex="2" Foreground="AliceBlue"
                   FontSize="24"
                   ExpandDirection="Left">
@@ -96,7 +104,7 @@
 
 
             <!--status area-->
-            <GroupBox VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" Header="Status" FontSize="16">
+            <GroupBox Grid.Column="1" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" Header="Status" FontSize="16">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>Time elapsed:</TextBlock>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}" />
@@ -104,7 +112,7 @@
             </GroupBox>
 
             <!-- FAI LIST -->
-            <Expander Background="Transparent" VerticalAlignment="Top" Panel.ZIndex="3" FontSize="24"
+            <Expander Grid.Column="0" Background="Transparent" VerticalAlignment="Top" Panel.ZIndex="3" FontSize="24"
                   HorizontalAlignment="Right" Foreground="AliceBlue"
                   ExpandDirection="Left">
                 <Expander.Header>

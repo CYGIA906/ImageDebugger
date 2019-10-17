@@ -152,13 +152,27 @@ namespace UI.ViewModels
              
              // set it to empty so that user can reopen the same directory
              _imageDirectory = string.Empty;
+    
              
              if (!updateImageListsSuccess) return;
+             // Generate image names
+             ImageNames = GenImageNames();
              TotalImages = ImageMegaList[0].Count;
              CurrentImageIndex = -1;
             }
         }
-        
+
+        private List<string> GenImageNames()
+        {
+            var output = new List<string>();
+            foreach (var path in ImageMegaList[0])
+            {
+                output.Add(GetImageName(path));
+            }
+
+            return output;
+        }
+
         private string Separator { get; set; } = "-";
         
         /// <summary>
