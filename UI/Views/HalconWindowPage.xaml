@@ -22,34 +22,45 @@
         <!--         </ResourceDictionary.MergedDictionaries> -->
         <!--     </ResourceDictionary> -->
         <!-- </DockPanel.Resources> -->
+            <Grid DockPanel.Dock="Top">
 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ToolBarTray Panel.ZIndex="0" AllowDrop="False" Grid.Column="0">
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" VerticalAlignment="Top">
+                        <!-- Load images -->
+                        <Viewbox>
+                            <materialDesign:Badged Badge="{Binding TotalImages}">
+                                <Button Command="{Binding SelectImageDirCommand}" ToolTip="Open a image directory">
+                                    <materialDesign:PackIcon Kind="FolderOpenOutline" />
+                                </Button>
+                            </materialDesign:Badged></Viewbox>
+                        <Separator />
+                        <!-- Run previous image -->
+                        <Button Command="{Binding SingleRunCommand}" CommandParameter="Previous" ToolTip="Run previous image">
+                            <materialDesign:PackIcon Kind="ChevronLeftBox" />
+                        </Button>
+                        <!-- Run next image -->
+                        <Button Command="{Binding SingleRunCommand}" CommandParameter="Next" ToolTip="Run next image">
+                            <materialDesign:PackIcon Kind="ChevronRightBox" />
+                        </Button>
+                        <Separator />
+                        <!-- Run continuously -->
+                        <ToggleButton Style="{DynamicResource MaterialDesignSwitchAccentToggleButton}"
+                                      ToolTip="Run continuously"
+                                      IsChecked="{Binding MultipleImagesRunning}"
+                                      Command="{Binding ContinuousRunCommand}"
+                                      CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
+                    </ToolBar>
+                </ToolBarTray>
+                
+                <materialDesign:Chip Grid.Column="1" Margin="5" Content="{Binding CurrentImageName}" Icon="{Binding CurrentImageIndex}" FontSize="20" VerticalAlignment="Center"></materialDesign:Chip>
+            </Grid>
+            
 
-        <ToolBarTray DockPanel.Dock="Top" Panel.ZIndex="0" AllowDrop="False" >
-        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" VerticalAlignment="Top">
-            <!-- Load images -->
-                <Button Command="{Binding SelectImageDirCommand}" ToolTip="Open a image directory">
-                    <materialDesign:PackIcon Kind="FolderOpenOutline" />
-                </Button>
-                <Separator />
-                <!-- Run previous image -->
-                <Button Command="{Binding RunPreviousCommand}" ToolTip="Run previous image">
-                    <materialDesign:PackIcon Kind="ChevronLeftBox" />
-                </Button>
-                <!-- Run next image -->
-                <Button Command="{Binding RunNextCommand}" ToolTip="Run next image">
-                    <materialDesign:PackIcon Kind="ChevronRightBox" />
-                </Button>
-                <Separator />
-                <!-- Run continuously -->
-                <ToggleButton Style="{DynamicResource MaterialDesignSwitchAccentToggleButton}"
-                              ToolTip="Run continuously"
-                              IsChecked="{Binding MultipleImagesRunning}"
-                              Command="{Binding ContinuousRunCommand}"
-                              CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
-            </ToolBar>
-        </ToolBarTray>
-
-        <Grid>
+           <Grid DockPanel.Dock="Bottom">
             <!-- Halcon window -->
             <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1">
                 <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />

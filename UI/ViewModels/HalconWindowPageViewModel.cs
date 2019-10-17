@@ -40,8 +40,7 @@ namespace UI.ViewModels
 
 
 
-        public ICommand RunNextCommand { get; }
-        public ICommand RunPreviousCommand { get; }
+        public ICommand SingleRunCommand { get; }
         public ICommand ContinuousRunCommand { get; }
 
         public ICommand OpenLastDirectoryCommand { get; }
@@ -127,7 +126,14 @@ namespace UI.ViewModels
             FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
 
             // Init commands
-            RunNextCommand = new RelayCommand(async () => { await ProcessOnceAsync(); });
+            SingleRunCommand = new ParameterizedCommand(async param =>
+            {
+                string nextOrPrevious = (string) param;
+                if(nextOrPrevious!="Next" && nextOrPrevious != "Previous") throw new InvalidOperationException($"Invalid option for nextOrPrevious: {nextOrPrevious}");
+                
+                var input = nextOrPrevious == "Next" ? NextImages : PreviousImages;
+                await ProcessOnceAsync(input);
+            });
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
@@ -146,7 +152,7 @@ namespace UI.ViewModels
             {
                 while (CurrentImageIndex < TotalImages && MultipleImagesRunning)
                 {
-                    await ProcessOnceAsync();
+                    await ProcessOnceAsync(NextImages);
                 }
 
                 // If automatically run to the end, reset the index
@@ -179,10 +185,8 @@ namespace UI.ViewModels
             CsvSerializer.Serialize(FaiItems, CurrentImageName);
         }
 
-        private async Task ProcessOnceAsync()
+        private async Task ProcessOnceAsync(List<HImage> images)
         {
-            // TODO: Refactor this buggy style
-            var images = NextImages;
             if (images == null) return;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

@@ -151,7 +151,7 @@ namespace UI.ViewModels
              CurrentImageIndex = 0;
             }
         }
-
+        
         private string Separator { get; set; } = "-";
         
         /// <summary>

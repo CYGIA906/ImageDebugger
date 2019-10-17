@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using UI.ViewModels;
 
@@ -11,6 +12,7 @@ namespace UI.Views
         public HalconWindowPage()
         {
             InitializeComponent();
+            
         }
 
 
