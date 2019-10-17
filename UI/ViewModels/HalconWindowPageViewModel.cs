@@ -138,14 +138,13 @@ namespace UI.ViewModels
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
                         ImageDirectory = fbd.SelectedPath;
-                        LastDirectory = fbd.SelectedPath;
                     }
                 }
             });
 
             ContinuousRunCommand = new RelayCommand(async () =>
             {
-                while (!EndOfOneRound && MultipleImagesRunning)
+                while (CurrentImageIndex < TotalImages && MultipleImagesRunning)
                 {
                     await ProcessOnceAsync();
                 }
@@ -183,7 +182,7 @@ namespace UI.ViewModels
         private async Task ProcessOnceAsync()
         {
             // TODO: Refactor this buggy style
-            var images = ImageInputs;
+            var images = NextImages;
             if (images == null) return;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
