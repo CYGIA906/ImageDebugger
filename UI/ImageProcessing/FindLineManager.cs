@@ -93,7 +93,6 @@ namespace UI.ImageProcessing
             }
             catch (Exception e)
             {
-                Debugger.Break();
                 PromptUserInvoke($"Line {name} not found! {Environment.NewLine} {e.Message}");
             }
 

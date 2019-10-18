@@ -23,6 +23,7 @@ namespace UI.ViewModels
 
         /// <summary>
         /// Run async action that is only allowed to run one instance each time
+        /// This workaround exists because property can not be passed by ref
         /// For example, to avoid multiple button clicks before a task is finished
         /// The action is allowed to run if the wrapped property is false, i.e. not busy
         /// If the action is finished, the action is allowed to run again

@@ -21,7 +21,6 @@ using UI.ImageProcessing.Utilts;
 using UI.Model;
 
 
-
 namespace UI.ViewModels
 {
     public partial class HalconWindowPageViewModel : ViewModelBase
@@ -38,11 +37,11 @@ namespace UI.ViewModels
         public HObject DisplayImage { get; set; }
 
         public List<string> ImageNames { get; set; }
-        
+
         private IMeasurementProcedure MeasurementUnit { get; set; }
 
 
-        public ICommand RunNextCommand { get;  }
+        public ICommand RunNextCommand { get; }
 
         public ICommand RunPreviousCommand { get; }
 
@@ -108,7 +107,6 @@ namespace UI.ViewModels
         public FaiItemCsvSerializer CsvSerializer { get; set; }
 
 
-
         public HalconWindowPageViewModel(HWindow windowHandle, IMeasurementProcedure procedure)
         {
             _windowHandle = windowHandle;
@@ -119,20 +117,21 @@ namespace UI.ViewModels
             ReloadFindlineConfigurations();
 
             RunNextCommand = new RelayCommand(async () =>
-           {
-               //Note: Do not combine these two lines
-               // because Current image index will adjusts itself
-               CurrentImageIndex++;
-               await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
-                   async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
-
-           });
-           RunPreviousCommand = new RelayCommand(async () =>
-           {
-               CurrentImageIndex--;
-               await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
-                   async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
-           });
+            {
+                if (SystemIsBusy) return;
+                //Note: Do not combine these two lines
+                // because Current image index will adjusts itself
+                CurrentImageIndex++;
+                await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
+                    async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
+            });
+            RunPreviousCommand = new RelayCommand(async () =>
+            {
+                if (SystemIsBusy) return;
+                CurrentImageIndex--;
+                await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
+                    async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
+            });
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
@@ -149,29 +148,35 @@ namespace UI.ViewModels
 
             ContinuousRunCommand = new RelayCommand(async () =>
             {
-                while (MultipleImagesRunning)
-                {
-                    var lastIndex = CurrentImageIndex;
-                    CurrentImageIndex++;
-                    if (lastIndex == TotalImages - 1)
+                if (SystemIsBusy) return;
+
+                await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy, async () =>
                     {
-                        _currentImageIndex = -1;
-                        OnPropertyChanged(nameof(CurrentImageIndex));
-                        OnPropertyChanged(nameof(CurrentImageName));
-                        break;
-                    }
-                    await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
-                        async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });                
-                }
-                ;
+                        while (MultipleImagesRunning)
+                        {
+                            var lastIndex = CurrentImageIndex;
+                            CurrentImageIndex++;
+                            if (lastIndex == TotalImages - 1)
+                            {
+                                _currentImageIndex = -1;
+                                OnPropertyChanged(nameof(CurrentImageIndex));
+                                OnPropertyChanged(nameof(CurrentImageName));
+                                break;
+                            }
+
+                            await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+                        }
+                    })
+                    ;
+
                 MultipleImagesRunning = false;
             });
-            
+
             ImageNameSelectionChangedCommand = new RelayCommand(async () =>
             {
-                await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+                await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
+                    async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
             });
-            
         }
 
         private void ReloadFindlineConfigurations()
@@ -209,7 +214,8 @@ namespace UI.ViewModels
 
             var result =
                 await Task.Run(() =>
-                    MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow, RunStatusMessageQueue));
+                    MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow,
+                        RunStatusMessageQueue));
 
 
             result.HalconGraphics.DisplayGraphics(_windowHandle);
