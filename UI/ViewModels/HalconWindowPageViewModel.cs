@@ -19,6 +19,7 @@ using UI.ImageProcessing.BottomView;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
 using I94TopViewMeasure = UI.ImageProcessing.TopView.I94TopViewMeasure;
+using MessageBox = System.Windows.MessageBox;
 
 
 namespace UI.ViewModels
@@ -165,6 +166,7 @@ namespace UI.ViewModels
                     {
                         _currentImageIndex = -1;
                         OnPropertyChanged(nameof(CurrentImageIndex));
+                        OnPropertyChanged(nameof(CurrentImageName));
                         break;
                     }
                     await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
@@ -172,6 +174,11 @@ namespace UI.ViewModels
                 }
                 ;
                 MultipleImagesRunning = false;
+            });
+            
+            ImageNameSelectionChangedCommand = new RelayCommand(async () =>
+            {
+                await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
             });
 
             OpenLastDirectoryCommand = new RelayCommand(() => { ImageDirectory = LastDirectory; });

@@ -16,6 +16,16 @@ namespace UI.ViewModels
     {
                 #region Image Providing Logic
 
+                public string CurrentImageName
+                {
+                    get
+                    {
+                        if (ImageMegaList == null || ImageMegaList.Count == 0 || ImageMegaList[0].Count == 0 || CurrentImageIndex < 0) return "";
+                        return GetImageName(ImageMegaList[0][CurrentImageIndex]);
+                    }
+                }
+                
+                [AlsoNotifyFor(nameof(CurrentImageName))]
                 public int CurrentImageIndex
                 {
                     get { return _currentImageIndex; }
@@ -37,8 +47,8 @@ namespace UI.ViewModels
                     }
                 }
 
-                
 
+                public ICommand ImageNameSelectionChangedCommand { get; }
         private void PromptUserThreadUnsafe(string message)
         {
             RunStatusMessageQueue.Enqueue(message);
@@ -107,7 +117,7 @@ namespace UI.ViewModels
              TotalImages = ImageMegaList[0].Count;
              
              _currentImageIndex = -1;
-//             OnPropertyChanged("CurrentImageIndex");
+             OnPropertyChanged(nameof(CurrentImageIndex));
             }
         }
 

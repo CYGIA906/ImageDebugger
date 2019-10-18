@@ -7,6 +7,7 @@
       xmlns:halconDotNet="clr-namespace:HalconDotNet;assembly=halcondotnet"
       xmlns:viewModels="clr-namespace:UI.ViewModels"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d"
       d:DesignHeight="600"
       d:DesignWidth="800"
@@ -14,61 +15,80 @@
       Loaded="HalconWindowPage_OnLoaded">
     <DockPanel>
 
-        <DockPanel.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary
-                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.combobox.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </DockPanel.Resources>
-            <Grid DockPanel.Dock="Top">
+        <!-- <DockPanel.Resources> -->
+        <!--     <ResourceDictionary> -->
+        <!--         <ResourceDictionary.MergedDictionaries> -->
+        <!--             <ResourceDictionary -->
+        <!--                 Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.combobox.xaml" /> -->
+        <!--         </ResourceDictionary.MergedDictionaries> -->
+        <!--     </ResourceDictionary> -->
+        <!-- </DockPanel.Resources> -->
+        <Grid DockPanel.Dock="Top">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <ToolBarTray Panel.ZIndex="0" AllowDrop="False" Grid.Column="0">
-                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" VerticalAlignment="Top">
-                        <!-- Load images -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ToolBarTray Panel.ZIndex="0" AllowDrop="False" Grid.Column="0">
+                <ToolBar Style="{DynamicResource MaterialDesignToolBar}" VerticalAlignment="Top">
+                    <!-- Load images -->
+                    <Viewbox>
+                        <materialDesign:Badged Badge="{Binding TotalImages}">
+                            <Button Command="{Binding SelectImageDirCommand}" ToolTip="Open a image directory">
+                                <materialDesign:PackIcon Kind="FolderOpenOutline" />
+                            </Button>
+                        </materialDesign:Badged>
+                    </Viewbox>
+                    <Separator />
+                    <!-- Run previous image -->
+                    <Button Command="{Binding RunPreviousCommand}" ToolTip="Run previous image">
+                        <materialDesign:PackIcon Kind="ChevronLeftBox" />
+                    </Button>
+                    <!-- Run next image -->
+                    <Button Command="{Binding RunNextCommand}" ToolTip="Run next image">
+                        <materialDesign:PackIcon Kind="ChevronRightBox" />
+                    </Button>
+                    <Separator />
+                    <!-- Run continuously -->
+                    <ToggleButton Style="{DynamicResource MaterialDesignSwitchAccentToggleButton}"
+                                  ToolTip="Run continuously"
+                                  IsChecked="{Binding MultipleImagesRunning}"
+                                  Command="{Binding ContinuousRunCommand}"
+                                  CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
+                    <Separator />
+                    
+                    <materialDesign:Chip Margin="5" Icon="{Binding CurrentImageIndex}" FontSize="20"
+                                         VerticalAlignment="Center" Panel.ZIndex="4"
+                                         Background="{DynamicResource SecondaryAccentBrush}">
                         <Viewbox>
-                            <materialDesign:Badged Badge="{Binding TotalImages}">
-                                <Button Command="{Binding SelectImageDirCommand}" ToolTip="Open a image directory">
-                                    <materialDesign:PackIcon Kind="FolderOpenOutline" />
-                                </Button>
-                            </materialDesign:Badged></Viewbox>
-                        <Separator />
-                        <!-- Run previous image -->
-                        <Button Command="{Binding RunPreviousCommand}" ToolTip="Run previous image">
-                            <materialDesign:PackIcon Kind="ChevronLeftBox" />
-                        </Button>
-                        <!-- Run next image -->
-                        <Button Command="{Binding RunNextCommand}" ToolTip="Run next image">
-                            <materialDesign:PackIcon Kind="ChevronRightBox" />
-                        </Button>
-                        <Separator />
-                        <!-- Run continuously -->
-                        <ToggleButton Style="{DynamicResource MaterialDesignSwitchAccentToggleButton}"
-                                      ToolTip="Run continuously"
-                                      IsChecked="{Binding MultipleImagesRunning}"
-                                      Command="{Binding ContinuousRunCommand}"
-                                      CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
-                        <Separator/>
-                        <materialDesign:Chip Margin="5" Icon="{Binding CurrentImageIndex}" FontSize="20" VerticalAlignment="Center" Panel.ZIndex="4" Background="{DynamicResource SecondaryAccentBrush}">
-                            <Viewbox>
-                                <ComboBox Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding ImageNames}" 
-                                          SelectedIndex="{Binding CurrentImageIndex}" VerticalAlignment="Top" HorizontalAlignment="Center" 
-                                          Foreground="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold"></ComboBox>
-                            </Viewbox>
-                        </materialDesign:Chip>
-                    </ToolBar>
-                </ToolBarTray>
-            
+                            <ComboBox 
+                                ItemsSource="{Binding ImageNames}"
+                                SelectedIndex="{Binding CurrentImageIndex, Mode=OneWayToSource}"
+                                VerticalAlignment="Top" HorizontalAlignment="Center"
+                                Foreground="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ImageNameSelectionChangedCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </Viewbox>
+                    </materialDesign:Chip>
+                </ToolBar>
+            </ToolBarTray>
 
-            </Grid>
             
+            <materialDesign:ColorZone Grid.Column="1" TextElement.Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10"> 
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Current image name: "/>
+                    <TextBlock Text="{Binding CurrentImageName}"/>
+                </StackPanel>
+            </materialDesign:ColorZone>
+        </Grid>
 
-           <Grid DockPanel.Dock="Top">
+
+        <Grid DockPanel.Dock="Top">
             <!-- Halcon window -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -77,40 +97,41 @@
             <halconDotNet:HSmartWindowControlWPF Grid.Column="0" Name="HalconWindow" Panel.ZIndex="1">
                 <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />
             </halconDotNet:HSmartWindowControlWPF>
-            
 
 
             <!-- Snack bar -->
             <materialDesign:Snackbar Grid.Column="0" Name="SnackBar" MessageQueue="{Binding RunStatusMessageQueue}"
-                                 VerticalAlignment="Top" Panel.ZIndex="2" Foreground="{DynamicResource PrimaryHueDarkBrush}" Background="{DynamicResource SecondaryAccentBrush}" />
+                                     VerticalAlignment="Top" Panel.ZIndex="2"
+                                     Foreground="{DynamicResource PrimaryHueDarkBrush}"
+                                     Background="{DynamicResource SecondaryAccentBrush}" />
 
             <!-- Find line param LIST -->
             <Expander Background="Transparent" HorizontalAlignment="Left" Grid.Column="0"
-                  Panel.ZIndex="2" Foreground="AliceBlue"
-                  FontSize="24"
-                  ExpandDirection="Left">
+                      Panel.ZIndex="2" Foreground="AliceBlue"
+                      FontSize="24"
+                      ExpandDirection="Left">
                 <Expander.Header>
                     <TextBlock
-                    Text="Find line parameters" 
-                    RenderTransformOrigin=".5,.5">
+                        Text="Find line parameters"
+                        RenderTransformOrigin=".5,.5">
                         <TextBlock.LayoutTransform>
                             <RotateTransform
-                            Angle="90" />
+                                Angle="90" />
                         </TextBlock.LayoutTransform>
                     </TextBlock>
                 </Expander.Header>
                 <ScrollViewer HorizontalScrollBarVisibility="Auto">
                     <DataGrid HorizontalAlignment="Right"
-                          ItemsSource="{Binding FindLineParams}"
-                          CanUserSortColumns="True"
-                          CanUserAddRows="False" />
+                              ItemsSource="{Binding FindLineParams}"
+                              CanUserSortColumns="True"
+                              CanUserAddRows="False" />
                 </ScrollViewer>
             </Expander>
 
 
-
             <!--status area-->
-            <GroupBox Grid.Column="1" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" Header="Status" FontSize="16">
+            <GroupBox Grid.Column="1" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" Header="Status"
+                      FontSize="16">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>Time elapsed:</TextBlock>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}" />
@@ -119,22 +140,22 @@
 
             <!-- FAI LIST -->
             <Expander Grid.Column="0" Background="Transparent" VerticalAlignment="Top" Panel.ZIndex="3" FontSize="24"
-                  HorizontalAlignment="Right" Foreground="AliceBlue"
-                  ExpandDirection="Left">
+                      HorizontalAlignment="Right" Foreground="AliceBlue"
+                      ExpandDirection="Left">
                 <Expander.Header>
                     <TextBlock
-                    Text="Outputs"
-                    RenderTransformOrigin=".5,.5">
+                        Text="Outputs"
+                        RenderTransformOrigin=".5,.5">
                         <TextBlock.LayoutTransform>
                             <RotateTransform
-                            Angle="90" />
+                                Angle="90" />
                         </TextBlock.LayoutTransform>
                     </TextBlock>
                 </Expander.Header>
                 <DataGrid HorizontalAlignment="Right"
-                      ItemsSource="{Binding FaiItems, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                      CanUserSortColumns="True"
-                      CanUserAddRows="False" />
+                          ItemsSource="{Binding FaiItems, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                          CanUserSortColumns="True"
+                          CanUserAddRows="False" />
             </Expander>
 
         </Grid>
