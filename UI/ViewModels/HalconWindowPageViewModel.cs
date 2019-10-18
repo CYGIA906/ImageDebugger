@@ -39,7 +39,7 @@ namespace UI.ViewModels
 
         public List<string> ImageNames { get; set; }
         
-        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure();
+        private IMeasurementProcedure MeasurementUnit { get; set; }
 
 
         public ICommand RunNextCommand { get;  }
@@ -105,16 +105,12 @@ namespace UI.ViewModels
 
         public FaiItemCsvSerializer CsvSerializer { get; set; }
 
-        public void ChangeMeasurementUnit(string name)
-        {
-            CsvSerializer = new FaiItemCsvSerializer(CsvDir);
 
-            ReloadFindlineConfigurations();
-        }
 
-        public HalconWindowPageViewModel(HWindow windowHandle)
+        public HalconWindowPageViewModel(HWindow windowHandle, IMeasurementProcedure procedure)
         {
             _windowHandle = windowHandle;
+            MeasurementUnit = procedure;
 
             CsvSerializer = new FaiItemCsvSerializer(CsvDir);
 

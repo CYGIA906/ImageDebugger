@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
+using UI.ImageProcessing;
+using UI.ImageProcessing.BottomView;
+using UI.ImageProcessing.TopView;
 using UI.ViewModels;
 
 namespace UI.Views
@@ -21,11 +24,28 @@ namespace UI.Views
             var windowHandle = HalconWindow.HalconWindow;
             windowHandle.SetColored(3);
             windowHandle.SetPart(0, 0, -2, -2);
-            var dataContext = new HalconWindowPageViewModel(windowHandle);
             SnackBar.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
-            dataContext.RunStatusMessageQueue = SnackBar.MessageQueue;
-            DataContext = dataContext;
+            
+            InjectViewModel(windowHandle, SnackBar.MessageQueue, new I94TopViewMeasure());
+        }
 
+        private void InjectViewModel(HWindow windowHandle, SnackbarMessageQueue messageQueue, IMeasurementProcedure measurementProcedure )
+        {
+            // TODO: make this elegant
+            Line.ClearLineGraphics();
+            var dataContext = new HalconWindowPageViewModel(windowHandle, measurementProcedure);
+            dataContext.RunStatusMessageQueue = messageQueue;
+            DataContext = dataContext;
+        }
+
+        private void ChangeToTopView(object sender, RoutedEventArgs e)
+        {
+            InjectViewModel(HalconWindow.HalconWindow, SnackBar.MessageQueue, new I94TopViewMeasure());
+        }
+
+        private void ChangeToBottomView(object sender, RoutedEventArgs e)
+        {
+            InjectViewModel(HalconWindow.HalconWindow, SnackBar.MessageQueue, new I94BottomViewMeasurement());
         }
     }
 }

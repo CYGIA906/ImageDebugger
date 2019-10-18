@@ -15,14 +15,14 @@
       Loaded="HalconWindowPage_OnLoaded">
     <DockPanel>
 
-        <!-- <DockPanel.Resources> -->
-        <!--     <ResourceDictionary> -->
-        <!--         <ResourceDictionary.MergedDictionaries> -->
-        <!--             <ResourceDictionary -->
-        <!--                 Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.combobox.xaml" /> -->
-        <!--         </ResourceDictionary.MergedDictionaries> -->
-        <!--     </ResourceDictionary> -->
-        <!-- </DockPanel.Resources> -->
+        <DockPanel.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.popupbox.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </DockPanel.Resources>
         <Grid DockPanel.Dock="Top">
 
             <Grid.ColumnDefinitions>
@@ -40,6 +40,12 @@
                             </Button>
                         </materialDesign:Badged>
                     </Viewbox>
+                    <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres"   Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+                        <StackPanel>
+                            <Button Click="ChangeToTopView">Top</Button>
+                            <Button Click="ChangeToBottomView">Bottom</Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
                     <Separator />
                     <!-- Run previous image -->
                     <Button Command="{Binding RunPreviousCommand}" ToolTip="Run previous image">
@@ -70,10 +76,10 @@
                         </materialDesign:Chip.Icon>
                         <Viewbox>
                             <ComboBox ToolTip="Select an image to run"
-                                ItemsSource="{Binding ImageNames}"
-                                SelectedIndex="{Binding CurrentImageIndex, Mode=OneWayToSource}"
-                                VerticalAlignment="Top" HorizontalAlignment="Center"
-                                Foreground="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold">
+                                      ItemsSource="{Binding ImageNames}"
+                                      SelectedIndex="{Binding CurrentImageIndex, Mode=OneWayToSource}"
+                                      VerticalAlignment="Top" HorizontalAlignment="Center"
+                                      Foreground="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding ImageNameSelectionChangedCommand}" />
