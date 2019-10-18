@@ -105,34 +105,22 @@ namespace UI.ViewModels
 
         public FaiItemCsvSerializer CsvSerializer { get; set; }
 
+        public void ChangeMeasurementUnit(string name)
+        {
+            CsvSerializer = new FaiItemCsvSerializer(CsvDir);
+
+            ReloadFindlineConfigurations();
+        }
+
         public HalconWindowPageViewModel(HWindow windowHandle)
         {
             _windowHandle = windowHandle;
 
             CsvSerializer = new FaiItemCsvSerializer(CsvDir);
 
-            // Init fai items
-            var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
-            FaiItems = faiItemsFromDisk ?? MeasurementUnit.GenFaiItemValues(FaiItemSerializationDir);
-            foreach (var item in FaiItems)
-            {
-                item.ResumeAutoSerialization();
-            }
+            ReloadFindlineConfigurations();
 
-            // Init find line params
-            var findLineParamsFromDisk = TryLoadFindLineParamsFromDisk();
-            FindLineParams = findLineParamsFromDisk ??
-                             MeasurementUnit.GenFindLineParamValues(ParamSerializationBaseDir);
-
-            foreach (var param in FindLineParams)
-            {
-                param.ResumeAutoSerialization();
-            }
-
-            // Init find line locations
-            FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
-
-           RunNextCommand = new RelayCommand(async () =>
+            RunNextCommand = new RelayCommand(async () =>
            {
                //Note: Do not combine these two lines
                // because Current image index will adjusts itself
@@ -182,11 +170,32 @@ namespace UI.ViewModels
             {
                 await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
             });
-
-            OpenLastDirectoryCommand = new RelayCommand(() => { ImageDirectory = LastDirectory; });
             
         }
 
+        private void ReloadFindlineConfigurations()
+        {
+// Init fai items
+            var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
+            FaiItems = faiItemsFromDisk ?? MeasurementUnit.GenFaiItemValues(FaiItemSerializationDir);
+            foreach (var item in FaiItems)
+            {
+                item.ResumeAutoSerialization();
+            }
+
+            // Init find line params
+            var findLineParamsFromDisk = TryLoadFindLineParamsFromDisk();
+            FindLineParams = findLineParamsFromDisk ??
+                             MeasurementUnit.GenFindLineParamValues(ParamSerializationBaseDir);
+
+            foreach (var param in FindLineParams)
+            {
+                param.ResumeAutoSerialization();
+            }
+
+            // Init find line locations
+            FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
+        }
 
 
         public string LastDirectory { get; set; }
