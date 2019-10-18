@@ -54,9 +54,16 @@
                                       Command="{Binding ContinuousRunCommand}"
                                       CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                         <Separator/>
+                        <materialDesign:Chip Margin="5" Icon="{Binding CurrentImageIndex}" FontSize="20" VerticalAlignment="Center" Panel.ZIndex="4" Background="{DynamicResource SecondaryAccentBrush}">
+                            <Viewbox>
+                                <ComboBox Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding ImageNames}" 
+                                          SelectedIndex="{Binding CurrentImageIndex}" VerticalAlignment="Top" HorizontalAlignment="Center" 
+                                          Foreground="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold"></ComboBox>
+                            </Viewbox>
+                        </materialDesign:Chip>
                     </ToolBar>
                 </ToolBarTray>
-                <materialDesign:Chip Grid.Column="1" Margin="5" Content="{Binding CurrentImageName}" Icon="{Binding CurrentImageIndex}" FontSize="20" VerticalAlignment="Center"></materialDesign:Chip>
+            
 
             </Grid>
             
@@ -72,7 +79,6 @@
             </halconDotNet:HSmartWindowControlWPF>
             
 
-            <ComboBox Grid.Column="1" Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding ImageNames}" SelectedIndex="{Binding CurrentImageIndex}" VerticalAlignment="Top" HorizontalAlignment="Center" Panel.ZIndex="2"></ComboBox>
 
             <!-- Snack bar -->
             <materialDesign:Snackbar Grid.Column="0" Name="SnackBar" MessageQueue="{Binding RunStatusMessageQueue}"
