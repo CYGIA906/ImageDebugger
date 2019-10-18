@@ -154,8 +154,15 @@ namespace UI.ImageProcessing
             }
         }
 
-        public Point PointStart => new Point(XStart, YStart);
-        public Point PointEnd => new Point(XEnd, YEnd);
+        public Point PointStart
+        {
+            get { return new Point(XStart, YStart); }
+        }
+
+        public Point PointEnd
+        {
+            get { return new Point(XEnd, YEnd); }
+        }
 
         public Line PerpendicularLineThatPasses(Point point)
         {

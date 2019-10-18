@@ -64,10 +64,16 @@ namespace UI.Model
 
         [XmlIgnore] public string SerializationDir;
 
-        public bool FirstAttemptOnly() => NewWidth <= 0;
+        public bool FirstAttemptOnly()
+        {
+            return NewWidth <= 0;
+        }
 
 
-        public bool UsingPair() => MinWidth > 0 && MaxWidth > MinWidth;
+        public bool UsingPair()
+        {
+            return MinWidth > 0 && MaxWidth > MinWidth;
+        }
 
         public FindLineFeeding ToFindLineFeeding()
         {

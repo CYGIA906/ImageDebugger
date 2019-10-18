@@ -41,8 +41,10 @@ namespace UI.ViewModels
         private IMeasurementProcedure MeasurementUnit { get; set; } = new I94BottomViewMeasurement();
 
 
+        public ICommand RunNextCommand { get;  }
 
-        public ICommand SingleRunCommand { get; }
+        public ICommand RunPreviousCommand { get; }
+
         public ICommand ContinuousRunCommand { get; }
 
         public ICommand OpenLastDirectoryCommand { get; }
@@ -127,16 +129,8 @@ namespace UI.ViewModels
             // Init find line locations
             FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
 
-            // Init commands
-            SingleRunCommand = new ParameterizedCommand(async param =>
-            {
-                string nextOrPrevious = (string) param;
-                if(nextOrPrevious!="Next" && nextOrPrevious != "Previous") throw new InvalidOperationException($"Invalid option for nextOrPrevious: {nextOrPrevious}");
-
-                bool forward = nextOrPrevious == "Next";
-                var input = forward? NextImages : PreviousImages;
-                await ProcessOnceAsync(input);
-            });
+           RunNextCommand = new RelayCommand(() => { CurrentImageIndex++; });
+           RunPreviousCommand = new RelayCommand(() => { CurrentImageIndex--;});
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
@@ -168,7 +162,16 @@ namespace UI.ViewModels
             });
 
             OpenLastDirectoryCommand = new RelayCommand(() => { ImageDirectory = LastDirectory; });
+            
+            // init events
+            CurrentImageIndexChanged += async index =>
+            {
+                List<HImage> imageInputs = GrabImageInputs(index);
+                await ProcessOnceAsync(imageInputs);
+            };
         }
+
+
 
         public string LastDirectory { get; set; }
 
@@ -192,7 +195,6 @@ namespace UI.ViewModels
 
         private async Task ProcessOnceAsync(List<HImage> images)
         {
-            if (images == null) return;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 

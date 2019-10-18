@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -25,15 +26,36 @@ namespace UI.ViewModels
                 }
 
                 [AlsoNotifyFor("CurrentImageName")]
-                public int CurrentImageIndex { get; set; } = -1;
+                public int CurrentImageIndex
+                {
+                    get { return _currentImageIndex; }
+                    set
+                    {
+                        _currentImageIndex = value;
+                        if (_currentImageIndex == TotalImages)
+                        {
+                            CurrentImageIndex = 0;
+                            PromptUserThreadUnsafe("Current image index reaches the end, start over!");
+                            return;
+                        }
 
-        
+                        if (_currentImageIndex < 0)
+                        {
+                            CurrentImageIndex = TotalImages - 1;
+                            PromptUserThreadUnsafe("Jump to the end of image list!");
+                        }
+                        
+                        OnCurrentImageIndexChanged(_currentImageIndex);
+                    }
+                }
 
-        /// <summary>
-        /// Provide next image
-        /// <exception cref="InvalidDataException">When images are all consumed</exception>
-        /// </summary>
-        private List<HImage> NextImages
+                public event Action<int> CurrentImageIndexChanged; 
+
+                /// <summary>
+                /// Provide next image
+                /// <exception cref="InvalidDataException">When images are all consumed</exception>
+                /// </summary>
+                private List<HImage> NextImages
         {
             get
             {
@@ -117,6 +139,7 @@ namespace UI.ViewModels
             {".JPG", ".JPE", ".BMP", ".TIF", ".PNG"};
 
         private string _imageDirectory;
+        private int _currentImageIndex = -1;
 
         /// <summary>
         /// Directory to images
@@ -239,6 +262,16 @@ namespace UI.ViewModels
             return output;
         }
 
+        private List<HImage> GrabImageInputs(int index)
+        {
+            var output = new List<HImage>();
+            foreach (var list in ImageMegaList)
+            {
+                output.Add(new HImage(list[index]));
+            }
+
+            return output;
+        }
        
 
         /// <summary>
@@ -274,5 +307,9 @@ namespace UI.ViewModels
 
         #endregion
 
+        protected virtual void OnCurrentImageIndexChanged(int obj)
+        {
+            CurrentImageIndexChanged?.Invoke(obj);
+        }
     }
 }
