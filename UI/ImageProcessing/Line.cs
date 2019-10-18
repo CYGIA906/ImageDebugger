@@ -23,7 +23,7 @@ namespace UI.ImageProcessing
 
         public static int ImageHeight { get; set; } = 5120;
 
-        private static List<Line>  LineToDisplay = new List<Line>();
+        private static List<Line>  LineToDisplay { get; } = new List<Line>();
 
         private static HDevelopExport HalconScripts = new HDevelopExport();
 
@@ -94,15 +94,18 @@ namespace UI.ImageProcessing
             HObject lineRegions = new HObject();
             lineRegions.GenEmptyObj();
 
-            foreach (var line in LineToDisplay)
+            lock (LineToDisplay)
             {
-                HObject lineRegion;
-                HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, ImageWidth, ImageHeight);
-                HOperatorSet.ConcatObj(lineRegions, lineRegion, out lineRegions);
-            }
-            lineRegions.DispObj(windowHandle);
+                foreach (var line in LineToDisplay)
+                {
+                    HObject lineRegion;
+                    HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, ImageWidth, ImageHeight);
+                    HOperatorSet.ConcatObj(lineRegions, lineRegion, out lineRegions);
+                }
+                lineRegions.DispObj(windowHandle);
             
-            ClearLineGraphics();
+                ClearLineGraphics();
+            }
         }
 
         public static void ClearLineGraphics()
@@ -144,13 +147,25 @@ namespace UI.ImageProcessing
         {
             get
             {
-                return LineToDisplay.Contains(this);
+                lock (LineToDisplay)
+                {
+                    return LineToDisplay.Contains(this);
+                }
             }
             set
             {
-                if (!value) return;
-                if (LineToDisplay.Contains(this)) return;
-                LineToDisplay.Add(this);
+                lock (LineToDisplay)
+                {
+                    if(value)
+                    {
+                        if (LineToDisplay.Contains(this)) return;
+                        LineToDisplay.Add(this);
+                    }
+                    else
+                    {
+                        if (LineToDisplay.Contains(this)) LineToDisplay.Remove(this);
+                    }
+                }
             }
         }
 

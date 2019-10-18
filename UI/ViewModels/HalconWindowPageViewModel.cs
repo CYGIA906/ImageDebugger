@@ -129,8 +129,18 @@ namespace UI.ViewModels
             // Init find line locations
             FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
 
-           RunNextCommand = new RelayCommand(() => { CurrentImageIndex++; });
-           RunPreviousCommand = new RelayCommand(() => { CurrentImageIndex--;});
+           RunNextCommand = new RelayCommand(async () =>
+           {
+               //Note: Do not combine these two lines
+               // because Current image index will adjusts itself
+               CurrentImageIndex++;
+               await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+           });
+           RunPreviousCommand = new RelayCommand(async () =>
+           {
+               CurrentImageIndex--;
+               await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+           });
 
             SelectImageDirCommand = new RelayCommand(() =>
             {
@@ -147,28 +157,25 @@ namespace UI.ViewModels
 
             ContinuousRunCommand = new RelayCommand(async () =>
             {
-                while (CurrentImageIndex < TotalImages && MultipleImagesRunning)
+                while (MultipleImagesRunning)
                 {
-                    var input = NextImages;
-                    if (input == null) break;
-                    await ProcessOnceAsync(input);
+                    var lastIndex = CurrentImageIndex;
+                    CurrentImageIndex++;
+                    if (lastIndex == TotalImages - 1)
+                    {
+                        _currentImageIndex = -1;
+                        OnPropertyChanged(nameof(CurrentImageIndex));
+                        break;
+                    }
+                    await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+                
                 }
-
-                // If automatically run to the end, reset the index
-                // Otherwise it maybe a pause request, and current index should not reset
-                if(MultipleImagesRunning) CurrentImageIndex = -1;
                 ;
                 MultipleImagesRunning = false;
             });
 
             OpenLastDirectoryCommand = new RelayCommand(() => { ImageDirectory = LastDirectory; });
             
-            // init events
-            CurrentImageIndexChanged += async index =>
-            {
-                List<HImage> imageInputs = GrabImageInputs(index);
-                await ProcessOnceAsync(imageInputs);
-            };
         }
 
 
@@ -190,7 +197,7 @@ namespace UI.ViewModels
             result.DataRecorder.DisplayPoints(_windowHandle);
             result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
             UpdateFaiItems(result.FaiDictionary);
-            CsvSerializer.Serialize(FaiItems, CurrentImageName);
+            CsvSerializer.Serialize(FaiItems, ImageNames[CurrentImageIndex]);
         }
 
         private async Task ProcessOnceAsync(List<HImage> images)

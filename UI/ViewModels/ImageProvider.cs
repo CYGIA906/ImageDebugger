@@ -16,16 +16,6 @@ namespace UI.ViewModels
     {
                 #region Image Providing Logic
 
-                public string CurrentImageName
-                {
-                    get
-                    {
-                        if (ImageMegaList == null || ImageMegaList.Count == 0 || ImageMegaList[0].Count == 0 || CurrentImageIndex < 0) return "";
-                        return GetImageName(ImageMegaList[0][CurrentImageIndex]);
-                    }
-                }
-
-                [AlsoNotifyFor("CurrentImageName")]
                 public int CurrentImageIndex
                 {
                     get { return _currentImageIndex; }
@@ -44,82 +34,16 @@ namespace UI.ViewModels
                             CurrentImageIndex = TotalImages - 1;
                             PromptUserThreadUnsafe("Jump to the end of image list!");
                         }
-                        
-                        OnCurrentImageIndexChanged(_currentImageIndex);
                     }
                 }
 
-                public event Action<int> CurrentImageIndexChanged; 
-
-                /// <summary>
-                /// Provide next image
-                /// <exception cref="InvalidDataException">When images are all consumed</exception>
-                /// </summary>
-                private List<HImage> NextImages
-        {
-            get
-            {
-
-                if (TotalImages == 0)
-                {
-                    PromptUserThreadUnsafe("No images available");
-                    return null;
-                }
-                // Increment first to make sure the index, imageName and image are consistent
-                CurrentImageIndex++;
-                if (CurrentImageIndex == TotalImages)
-                {
-                    CurrentImageIndex = -1;
-                    PromptUserThreadUnsafe("End of image list, start over");
-                    // returning null will cause continuous running stop
-                    return null;
-                }
-
-                var outputs = new List<HImage>();
-                foreach (var list in ImageMegaList)
-                {
-                    var imagePath = list[CurrentImageIndex];
-                    outputs.Add(new HImage(imagePath));
-                }
-
-
-                return outputs;
-            }
-        }
+                
 
         private void PromptUserThreadUnsafe(string message)
         {
             RunStatusMessageQueue.Enqueue(message);
         }
 
-        private List<HImage> PreviousImages
-        {
-            get
-            {
-                if (TotalImages == 0)
-                {
-                    PromptUserThreadUnsafe("No images available");
-                    return null;
-                }
-                
-                // Increment first to make sure the index, imageName and image are consistent
-                CurrentImageIndex--;
-                if (CurrentImageIndex < 0)
-                {
-                    CurrentImageIndex = TotalImages - 1;
-                    PromptUserThreadUnsafe("Jump to the end of image list");
-                }
-                
-                var outputs = new List<HImage>();
-                foreach (var list in ImageMegaList)
-                {
-                    var imagePath = list[CurrentImageIndex];
-                    outputs.Add(new HImage(imagePath));
-                }
-                
-                return outputs;
-            }
-        }
 
         public int TotalImages { get; set; }
 
@@ -181,7 +105,9 @@ namespace UI.ViewModels
              // Generate image names
              ImageNames = GenImageNames();
              TotalImages = ImageMegaList[0].Count;
-             CurrentImageIndex = -1;
+             
+             _currentImageIndex = -1;
+//             OnPropertyChanged("CurrentImageIndex");
             }
         }
 
@@ -306,10 +232,6 @@ namespace UI.ViewModels
         public ICommand SelectImageDirCommand { get; private set; }
 
         #endregion
-
-        protected virtual void OnCurrentImageIndexChanged(int obj)
-        {
-            CurrentImageIndexChanged?.Invoke(obj);
-        }
+        
     }
 }
