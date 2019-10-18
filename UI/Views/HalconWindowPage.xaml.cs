@@ -16,7 +16,7 @@ namespace UI.Views
         {
             InitializeComponent();
             
-        }
+        } 
 
 
         private void HalconWindowPage_OnLoaded(object sender, RoutedEventArgs e)
@@ -41,11 +41,14 @@ namespace UI.Views
         private void ChangeToTopView(object sender, RoutedEventArgs e)
         {
             InjectViewModel(HalconWindow.HalconWindow, SnackBar.MessageQueue, new I94TopViewMeasure());
+            SnackBar.MessageQueue.Enqueue("Switched to top view");
         }
 
         private void ChangeToBottomView(object sender, RoutedEventArgs e)
         {
             InjectViewModel(HalconWindow.HalconWindow, SnackBar.MessageQueue, new I94BottomViewMeasurement());
+            SnackBar.MessageQueue.Enqueue("Switched to bottom view");
+
         }
     }
 }

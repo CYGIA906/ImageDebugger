@@ -21,6 +21,9 @@
         <e p="Hdevs" t="Include">
           <e p="I94Hdev.cs" t="Include" />
         </e>
+        <e p="Helpers" t="Include">
+          <e p="ExpressionHelper.cs" t="Include" />
+        </e>
         <e p="ImageProcessing" t="Include">
           <e p="BottomView" t="Include">
             <e p="BottomViewHardCodeValues.cs" t="Include" />

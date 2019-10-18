@@ -51,6 +51,8 @@ namespace UI.ViewModels
         public ICommand OpenLastDirectoryCommand { get; }
         public string TimeElapsed { get; set; }
 
+        public bool SystemIsBusy { get; set; }
+
         public string ParamSerializationBaseDir
         {
             get { return SerializationDir + "/FindLineParams"; }
@@ -121,12 +123,15 @@ namespace UI.ViewModels
                //Note: Do not combine these two lines
                // because Current image index will adjusts itself
                CurrentImageIndex++;
-               await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+               await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
+                   async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
+
            });
            RunPreviousCommand = new RelayCommand(async () =>
            {
                CurrentImageIndex--;
-               await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+               await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
+                   async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
            });
 
             SelectImageDirCommand = new RelayCommand(() =>
@@ -155,8 +160,8 @@ namespace UI.ViewModels
                         OnPropertyChanged(nameof(CurrentImageName));
                         break;
                     }
-                    await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
-                
+                    await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
+                        async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });                
                 }
                 ;
                 MultipleImagesRunning = false;

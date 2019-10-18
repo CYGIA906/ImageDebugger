@@ -40,7 +40,7 @@
                             </Button>
                         </materialDesign:Badged>
                     </Viewbox>
-                    <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres"   Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}">
+                    <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres"   Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="10">
                         <StackPanel>
                             <Button Click="ChangeToTopView">Top</Button>
                             <Button Click="ChangeToBottomView">Bottom</Button>
