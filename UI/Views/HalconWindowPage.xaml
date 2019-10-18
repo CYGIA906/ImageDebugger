@@ -58,11 +58,18 @@
                                   CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                     <Separator />
                     
-                    <materialDesign:Chip Margin="5" Icon="{Binding CurrentImageIndex}" FontSize="20"
+                    <ComboBox ToolTip="Select image index to show in the screen" ItemsSource="{Binding ImageToShowSelectionList}" SelectedIndex="{Binding IndexToShow}" MinWidth="50"></ComboBox>
+                    
+                    <Separator/>
+                    <!-- Select image and run -->
+                    <materialDesign:Chip Margin="5" FontSize="20"
                                          VerticalAlignment="Center" Panel.ZIndex="4"
                                          Background="{DynamicResource SecondaryAccentBrush}">
+                        <materialDesign:Chip.Icon>
+                            <TextBlock Text="{Binding CurrentImageIndex}" ToolTip="Current image index"></TextBlock>
+                        </materialDesign:Chip.Icon>
                         <Viewbox>
-                            <ComboBox 
+                            <ComboBox ToolTip="Select an image to run"
                                 ItemsSource="{Binding ImageNames}"
                                 SelectedIndex="{Binding CurrentImageIndex, Mode=OneWayToSource}"
                                 VerticalAlignment="Top" HorizontalAlignment="Center"
@@ -90,11 +97,8 @@
 
         <Grid DockPanel.Dock="Top">
             <!-- Halcon window -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <halconDotNet:HSmartWindowControlWPF Grid.Column="0" Name="HalconWindow" Panel.ZIndex="1">
+     
+            <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1">
                 <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />
             </halconDotNet:HSmartWindowControlWPF>
 
@@ -106,7 +110,7 @@
                                      Background="{DynamicResource SecondaryAccentBrush}" />
 
             <!-- Find line param LIST -->
-            <Expander Background="Transparent" HorizontalAlignment="Left" Grid.Column="0"
+            <Expander Background="Transparent" HorizontalAlignment="Left" 
                       Panel.ZIndex="2" Foreground="AliceBlue"
                       FontSize="24"
                       ExpandDirection="Left">
@@ -130,16 +134,16 @@
 
 
             <!--status area-->
-            <GroupBox Grid.Column="1" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" Header="Status"
+            <GroupBox VerticalAlignment="Bottom" HorizontalAlignment="Right" Header="Status" Panel.ZIndex="2"
                       FontSize="16">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Background="AliceBlue" MinWidth="150">
                     <TextBlock>Time elapsed:</TextBlock>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}" />
                 </StackPanel>
             </GroupBox>
 
             <!-- FAI LIST -->
-            <Expander Grid.Column="0" Background="Transparent" VerticalAlignment="Top" Panel.ZIndex="3" FontSize="24"
+            <Expander  Background="Transparent" VerticalAlignment="Top" Panel.ZIndex="3" FontSize="24"
                       HorizontalAlignment="Right" Foreground="AliceBlue"
                       ExpandDirection="Left">
                 <Expander.Header>

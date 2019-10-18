@@ -16,10 +16,10 @@ using MaterialDesignThemes.Wpf;
 using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.BottomView;
+using UI.ImageProcessing.TopView;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
-using I94TopViewMeasure = UI.ImageProcessing.TopView.I94TopViewMeasure;
-using MessageBox = System.Windows.MessageBox;
+
 
 
 namespace UI.ViewModels
@@ -39,7 +39,7 @@ namespace UI.ViewModels
 
         public List<string> ImageNames { get; set; }
         
-        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94BottomViewMeasurement();
+        private IMeasurementProcedure MeasurementUnit { get; set; } = new I94TopViewMeasure();
 
 
         public ICommand RunNextCommand { get;  }
@@ -100,6 +100,8 @@ namespace UI.ViewModels
                 FaiItems[i].Value = values[i];
             }
         }
+
+        public List<int> ImageToShowSelectionList { get; private set; } = new List<int>();
 
         public FaiItemCsvSerializer CsvSerializer { get; set; }
 

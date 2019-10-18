@@ -20,7 +20,7 @@ namespace UI.ViewModels
                 {
                     get
                     {
-                        if (ImageMegaList == null || ImageMegaList.Count == 0 || ImageMegaList[0].Count == 0 || CurrentImageIndex < 0) return "";
+                        if (ImageMegaList == null || ImageMegaList.Count == 0 || ImageMegaList[0].Count == 0 || CurrentImageIndex < 0 || CurrentImageIndex >= TotalImages) return "";
                         return GetImageName(ImageMegaList[0][CurrentImageIndex]);
                     }
                 }
@@ -115,10 +115,23 @@ namespace UI.ViewModels
              // Generate image names
              ImageNames = GenImageNames();
              TotalImages = ImageMegaList[0].Count;
-             
+             ImageToShowSelectionList = GenImageToShowSelectionList(ImageMegaList.Count);
+
              _currentImageIndex = -1;
              OnPropertyChanged(nameof(CurrentImageIndex));
+             OnPropertyChanged(nameof(CurrentImageName));
             }
+        }
+
+        private List<int> GenImageToShowSelectionList(int numImagesOneGo)
+        {
+            var output = new List<int>();
+            for (int i = 0; i < numImagesOneGo; i++)
+            {
+                output.Add(i);
+            }
+
+            return output;
         }
 
         private List<string> GenImageNames()
