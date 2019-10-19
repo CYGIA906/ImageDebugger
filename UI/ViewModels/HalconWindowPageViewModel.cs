@@ -25,6 +25,7 @@ namespace UI.ViewModels
 {
     public partial class HalconWindowPageViewModel : ViewModelBase
     {
+        private IMeasurementProcedure _measurementUnit;
         public ObservableCollection<FaiItem> FaiItems { get; private set; }
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
@@ -32,13 +33,22 @@ namespace UI.ViewModels
         public SnackbarMessageQueue RunStatusMessageQueue { get; set; }
 
 
-        private HWindow _windowHandle;
+        public HWindow WindowHandle { get; set; }
 
         public HObject DisplayImage { get; set; }
 
         public List<string> ImageNames { get; set; }
 
-        private IMeasurementProcedure MeasurementUnit { get; set; }
+        public IMeasurementProcedure MeasurementUnit
+        {
+            get => _measurementUnit;
+            set
+            {
+                _measurementUnit = value;
+                CsvSerializer = new FaiItemCsvSerializer(CsvDir);
+                ReloadFindlineConfigurations();
+            }
+        }
 
 
         public ICommand RunNextCommand { get; }
@@ -79,28 +89,10 @@ namespace UI.ViewModels
         private void ShowImageAndGraphics(HImage image, HObject graphics)
         {
 //            HOperatorSet.ClearWindow(_windowHandle);
-            image.DispObj(_windowHandle);
-            if (graphics.IsInitialized()) graphics.DispObj(_windowHandle);
+            image.DispObj(WindowHandle);
+            if (graphics.IsInitialized()) graphics.DispObj(WindowHandle);
         }
-
-
-        /// <summary>
-        /// Take measured values from halcon script and fill them into <see cref="FaiItems"/>
-        /// </summary>
-        /// <param name="measuredValues"></param>
-        private void FillFaiItems(HTuple measuredValues)
-        {
-            var values = measuredValues.ToDArr();
-            var numValues = values.Length;
-            var numItems = FaiItems.Count;
-            if (numItems != numValues)
-                throw new InvalidOperationException($"Expect {numItems} but get {numValues} measured values");
-
-            for (int i = 0; i < numValues; i++)
-            {
-                FaiItems[i].Value = values[i];
-            }
-        }
+        
 
         public List<int> ImageToShowSelectionList { get; private set; } = new List<int>();
 
@@ -109,12 +101,12 @@ namespace UI.ViewModels
 
         public HalconWindowPageViewModel(HWindow windowHandle, IMeasurementProcedure procedure)
         {
-            _windowHandle = windowHandle;
+            WindowHandle = windowHandle;
             MeasurementUnit = procedure;
+        }
 
-            CsvSerializer = new FaiItemCsvSerializer(CsvDir);
-
-            ReloadFindlineConfigurations();
+        public HalconWindowPageViewModel()
+        {
 
             RunNextCommand = new RelayCommand(async () =>
             {
@@ -218,8 +210,11 @@ namespace UI.ViewModels
                         RunStatusMessageQueue));
 
 
-            result.HalconGraphics.DisplayGraphics(_windowHandle);
-            result.DataRecorder.DisplayPoints(_windowHandle);
+            if (WindowHandle!=null)
+            {
+                result.HalconGraphics.DisplayGraphics(WindowHandle);
+                result.DataRecorder.DisplayPoints(WindowHandle);
+            }
             result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
             UpdateFaiItems(result.FaiDictionary);
             CsvSerializer.Serialize(FaiItems, ImageNames[CurrentImageIndex]);

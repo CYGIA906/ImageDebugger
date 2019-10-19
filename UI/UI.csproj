@@ -121,7 +121,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ParameterizedCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Converters\EnumToMeasurementPageConverters.cs" />
+    <Compile Include="Converters\EnumToMeasurementPageConverter.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />
     <Compile Include="Enums\MeasurementPage.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />

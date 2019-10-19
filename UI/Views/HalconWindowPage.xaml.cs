@@ -10,12 +10,13 @@ using UI.ViewModels;
 
 namespace UI.Views
 {
-    public partial class HalconWindowPage : Page
+    public partial class HalconWindowPage : PageBase<HalconWindowPageViewModel>
     {
+
+        
         public HalconWindowPage()
         {
             InitializeComponent();
-            
         } 
 
 
@@ -26,7 +27,8 @@ namespace UI.Views
             windowHandle.SetPart(0, 0, -2, -2);
             SnackBar.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
             
-            InjectViewModel(windowHandle, SnackBar.MessageQueue, new I94TopViewMeasure());
+            ViewModel.WindowHandle = windowHandle;
+            ViewModel.RunStatusMessageQueue = SnackBar.MessageQueue;
         }
 
         private void InjectViewModel(HWindow windowHandle, SnackbarMessageQueue messageQueue, IMeasurementProcedure measurementProcedure )

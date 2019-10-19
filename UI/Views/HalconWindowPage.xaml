@@ -1,4 +1,4 @@
-﻿<Page x:Class="UI.Views.HalconWindowPage"
+﻿<local:PageBase x:TypeArguments="viewModels:HalconWindowPageViewModel" x:Class="UI.Views.HalconWindowPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -40,12 +40,7 @@
                             </Button>
                         </materialDesign:Badged>
                     </Viewbox>
-                    <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres"   Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="10">
-                        <StackPanel>
-                            <Button Click="ChangeToTopView">Top</Button>
-                            <Button Click="ChangeToBottomView">Bottom</Button>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
+                  
                     <Separator />
                     <!-- Run previous image -->
                     <Button Command="{Binding RunPreviousCommand}" ToolTip="Run previous image">
@@ -176,4 +171,4 @@
         </Grid>
 
     </DockPanel>
-</Page>
+</local:PageBase>
