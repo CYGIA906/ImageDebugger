@@ -8,61 +8,28 @@ using System.Windows.Threading;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
+using UI.Helpers;
 
 namespace UI.ViewModels
 {
     public partial class HalconWindowPageViewModel
     {
-                #region Image Providing Logic
+        #region Image Providing Logic
 
-                public string CurrentImageName
-                {
-                    get
-                    {
-                        if (ImageMegaList == null || ImageMegaList.Count == 0 || ImageMegaList[0].Count == 0 || CurrentImageIndex < 0 || CurrentImageIndex >= TotalImages) return "";
-                        return GetImageName(ImageMegaList[0][CurrentImageIndex]);
-                    }
-                }
-                
-                [AlsoNotifyFor(nameof(CurrentImageName))]
-                public int CurrentImageIndex
-                {
-                    get { return _currentImageIndex; }
-                    set
-                    {
-                        _currentImageIndex = value;
-                        if (_currentImageIndex == TotalImages)
-                        {
-                            CurrentImageIndex = 0;
-                            PromptUserThreadUnsafe("Current image index reaches the end, start over!");
-                            return;
-                        }
+        public string CurrentImageName { get; set; }
 
-                        if (_currentImageIndex < 0)
-                        {
-                            CurrentImageIndex = TotalImages - 1;
-                            PromptUserThreadUnsafe("Jump to the end of image list!");
-                        }
-                    }
-                }
+        public ICommand ImageNameSelectionChangedCommand { get; }
 
-
-                public ICommand ImageNameSelectionChangedCommand { get; }
         private void PromptUserThreadUnsafe(string message)
         {
             RunStatusMessageQueue.Enqueue(message);
         }
 
 
-        public int TotalImages { get; set; }
-
         private string GetImageName(string imagePath)
         {
             return Path.GetFileName(imagePath);
         }
-
-        private List<List<string>> ImageMegaList { get; set; } = new List<List<string>>();
-
 
 
         /// <summary>
@@ -72,7 +39,6 @@ namespace UI.ViewModels
             {".JPG", ".JPE", ".BMP", ".TIF", ".PNG"};
 
         private string _imageDirectory;
-        private int _currentImageIndex = -1;
 
         /// <summary>
         /// Directory to images
@@ -98,27 +64,22 @@ namespace UI.ViewModels
                     }
                 }
 
-                if(imagePaths.Count == 0)
+                if (imagePaths.Count == 0)
                 {
                     PromptUserThreadUnsafe("This folder does not contains any supported images");
                     return;
                 }
 
-             bool updateImageListsSuccess =   TryAssignImageLists(imagePaths);
-             
-             // set it to empty so that user can reopen the same directory
-             _imageDirectory = string.Empty;
-    
-             
-             if (!updateImageListsSuccess) return;
-             // Generate image names
-             ImageNames = GenImageNames();
-             TotalImages = ImageMegaList[0].Count;
-             ImageToShowSelectionList = GenImageToShowSelectionList(ImageMegaList.Count);
+                bool updateImageListsSuccess = TryAssignImageLists(imagePaths);
 
-             _currentImageIndex = -1;
-             OnPropertyChanged(nameof(CurrentImageIndex));
-             OnPropertyChanged(nameof(CurrentImageName));
+                // set it to empty so that user can reopen the same directory
+                _imageDirectory = string.Empty;
+
+
+                if (!updateImageListsSuccess) return;
+                // Generate image names
+                ImageNames = GenImageNames();
+                ImageToShowSelectionList = GenImageToShowSelectionList(NumLists);
             }
         }
 
@@ -136,16 +97,16 @@ namespace UI.ViewModels
         private List<string> GenImageNames()
         {
             var output = new List<string>();
-            foreach (var path in ImageMegaList[0])
+            foreach (var paths in this)
             {
-                output.Add(GetImageName(path));
+                output.Add(GetImageName(paths[0]));
             }
 
             return output;
         }
 
         private string Separator { get; set; } = "-";
-        
+
         /// <summary>
         /// Assign and return true only if all named correctly and all lists have the same count
         /// </summary>
@@ -154,7 +115,7 @@ namespace UI.ViewModels
         private bool TryAssignImageLists(List<string> imagePaths)
         {
             int numImagesInOneGo = GetNumImagesInOneGo(imagePaths);
-           List<List<string>> tempMegaList = MakeTempMegaList(numImagesInOneGo);
+            List<List<string>> tempMegaList = MakeTempMegaList(numImagesInOneGo);
 
 
             foreach (var path in imagePaths)
@@ -187,7 +148,7 @@ namespace UI.ViewModels
                 PromptUserThreadUnsafe("Count of image lists not equal");
                 return false;
             }
-            
+
             var sortedImageMegaList = new List<List<string>>();
             foreach (var queue in tempMegaList)
             {
@@ -195,7 +156,7 @@ namespace UI.ViewModels
                 sortedImageMegaList.Add(orderedQueue);
             }
 
-            ImageMegaList = sortedImageMegaList;
+            Reconstruct(sortedImageMegaList);
             return true;
         }
 
@@ -210,17 +171,6 @@ namespace UI.ViewModels
             return output;
         }
 
-        private List<HImage> GrabImageInputs(int index)
-        {
-            var output = new List<HImage>();
-            foreach (var list in ImageMegaList)
-            {
-                output.Add(new HImage(list[index]));
-            }
-
-            return output;
-        }
-       
 
         /// <summary>
         /// Determine how many images should be provided within one button hit
@@ -254,6 +204,5 @@ namespace UI.ViewModels
         public ICommand SelectImageDirCommand { get; private set; }
 
         #endregion
-        
     }
 }

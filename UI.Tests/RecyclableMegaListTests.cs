@@ -107,6 +107,19 @@ namespace UI.Tests
         #region Clear
 
         [Test]
+        public void Reconstruct_Always_SetCurrentIndexToMinusOne()
+        {
+            var megaList = MakeRecyclableMegaList();
+            
+            megaList.Reconstruct(new List<List<int>>());
+            var actual = megaList.CurrentIndex;
+
+            var expected = -1;
+            Assert.AreEqual(expected, actual);
+
+        }
+
+        [Test]
         public void Clear_Always_SetCountToZero()
         {
             var megaList = MakeRecyclableMegaList();
@@ -248,7 +261,7 @@ namespace UI.Tests
         {
             var megaList = MakeRecyclableMegaList();
 
-            var actual = megaList.PreviousUnbound();
+            var actual = megaList.PreviousUnbounded();
             var expected = LastRow;
 
             Assert.IsTrue(ListValueEqual(actual, expected));
@@ -260,7 +273,7 @@ namespace UI.Tests
             var megaList = MakeRecyclableMegaList();
 
             megaList.JumpTo(1);
-            var actual = megaList.PreviousUnbound();
+            var actual = megaList.PreviousUnbounded();
             var expected = FirstRow;
 
             Assert.IsTrue(ListValueEqual(actual, expected));
@@ -272,7 +285,7 @@ namespace UI.Tests
             var megaList = MakeRecyclableMegaList();
 
             megaList.JumpTo(0);
-            var actual = megaList.PreviousUnbound();
+            var actual = megaList.PreviousUnbounded();
             var expected = LastRow;
 
             Assert.IsTrue(ListValueEqual(actual, expected));

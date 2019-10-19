@@ -18,7 +18,7 @@ using UI.Models;
 
 namespace UI.ViewModels
 {
-    public partial class HalconWindowPageViewModel : ViewModelBase
+    public partial class HalconWindowPageViewModel : RecyclableMegaList<string>
     {
         private IMeasurementProcedure _measurementUnit;
         public ObservableCollection<FaiItem> FaiItems { get; private set; }
@@ -104,21 +104,25 @@ namespace UI.ViewModels
         public HalconWindowPageViewModel()
         {
 
+            // Update the current image name to show
+            IndexChanged += index =>
+            {
+                CurrentImageName = index < 0 ? "" : ImageNames[index];
+            };
+                
+            
             RunNextCommand = new RelayCommand(async () =>
             {
                 if (SystemIsBusy) return;
-                //Note: Do not combine these two lines
-                // because Current image index will adjusts itself
-                CurrentImageIndex++;
                 await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
-                    async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
+                    async () => { await ProcessOnceAsync(ConvertPathsToImages(NextUnbounded())); });
             });
+            
             RunPreviousCommand = new RelayCommand(async () =>
             {
                 if (SystemIsBusy) return;
-                CurrentImageIndex--;
                 await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
-                    async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
+                    async () => { await ProcessOnceAsync(ConvertPathsToImages(PreviousUnbounded())); });
             });
 
             SelectImageDirCommand = new RelayCommand(() =>
@@ -142,17 +146,10 @@ namespace UI.ViewModels
                     {
                         while (MultipleImagesRunning)
                         {
-                            var lastIndex = CurrentImageIndex;
-                            CurrentImageIndex++;
-                            if (lastIndex == TotalImages - 1)
-                            {
-                                _currentImageIndex = -1;
-                                OnPropertyChanged(nameof(CurrentImageIndex));
-                                OnPropertyChanged(nameof(CurrentImageName));
-                                break;
-                            }
+                            var inputPaths = NextBounded();
+                            if (inputPaths == null) break;
 
-                            await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex));
+                            await ProcessOnceAsync(ConvertPathsToImages(inputPaths));
                         }
                     })
                     ;
@@ -160,11 +157,23 @@ namespace UI.ViewModels
                 MultipleImagesRunning = false;
             });
 
-            ImageNameSelectionChangedCommand = new RelayCommand(async () =>
+            ImageNameSelectionChangedCommand = new ParameterizedCommand(async o =>
             {
+                int index = (int) o;
                 await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
-                    async () => { await ProcessOnceAsync(GrabImageInputs(CurrentImageIndex)); });
+                    async () => { await ProcessOnceAsync(ConvertPathsToImages(JumpTo(index))); });
             });
+        }
+
+        private List<HImage> ConvertPathsToImages(List<string> imagePaths)
+        {
+            var output = new List<HImage>();
+            foreach (var path in imagePaths)
+            {
+                output.Add(new HImage(path));
+            }
+
+            return output;
         }
 
         private void ReloadFindlineConfigurations()
@@ -213,7 +222,7 @@ namespace UI.ViewModels
             }
             result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
             UpdateFaiItems(result.FaiDictionary);
-            CsvSerializer.Serialize(FaiItems, ImageNames[CurrentImageIndex]);
+            CsvSerializer.Serialize(FaiItems, ImageNames[CurrentIndex]);
         }
 
         private async Task ProcessOnceAsync(List<HImage> images)

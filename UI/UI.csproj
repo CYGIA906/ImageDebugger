@@ -128,6 +128,7 @@
     <Compile Include="Enums\MeasurementPage.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\MegaListHelper.cs" />
     <Compile Include="ImageProcessing\BottomView\BottomViewHardCodeValues.cs" />
     <Compile Include="ImageProcessing\BottomView\BottomViewProcessProcedure.cs" />
     <Compile Include="ImageProcessing\BottomView\I94BottomViewMeasure.cs" />

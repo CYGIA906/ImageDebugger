@@ -34,7 +34,7 @@
                 <ToolBar Style="{DynamicResource MaterialDesignToolBar}" VerticalAlignment="Top">
                     <!-- Load images -->
                     <Viewbox>
-                        <materialDesign:Badged Badge="{Binding TotalImages}">
+                        <materialDesign:Badged Badge="{Binding Count}">
                             <Button Command="{Binding SelectImageDirCommand}" ToolTip="Open a image directory">
                                 <materialDesign:PackIcon Kind="FolderOpenOutline" />
                             </Button>
@@ -67,17 +67,16 @@
                                          VerticalAlignment="Center" Panel.ZIndex="4"
                                          Background="{DynamicResource SecondaryAccentBrush}">
                         <materialDesign:Chip.Icon>
-                            <TextBlock Text="{Binding CurrentImageIndex}" ToolTip="Current image index"></TextBlock>
+                            <TextBlock Text="{Binding CurrentIndex}" ToolTip="Current image index"></TextBlock>
                         </materialDesign:Chip.Icon>
                         <Viewbox>
                             <ComboBox ToolTip="Select an image to run"
                                       ItemsSource="{Binding ImageNames}"
-                                      SelectedIndex="{Binding CurrentImageIndex, Mode=OneWayToSource}"
                                       VerticalAlignment="Top" HorizontalAlignment="Center"
                                       Foreground="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ImageNameSelectionChangedCommand}" />
+                                        <i:InvokeCommandAction Command="{Binding ImageNameSelectionChangedCommand}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ComboBox>
