@@ -8,7 +8,6 @@ using System.Windows.Threading;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
-using UI.Model;
 
 namespace UI.ViewModels
 {

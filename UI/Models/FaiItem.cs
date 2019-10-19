@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using PropertyChanged;
 
-namespace UI.Model
+namespace UI.Models
 {
     public class FaiItem : AutoSerializableBase<FaiItem>
     {

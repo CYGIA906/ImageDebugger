@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UI.ImageProcessing;
 
-namespace UI.Model
+namespace UI.Models
 {
     public class ImageProcessingResult
     {

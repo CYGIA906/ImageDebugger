@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using UI.ImageProcessing.Utilts;
-using UI.Model;
+using UI.Models;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing.TopView

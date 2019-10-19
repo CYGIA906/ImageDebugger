@@ -13,7 +13,7 @@ using MaterialDesignThemes.Wpf;
 using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
-using UI.Model;
+using UI.Models;
 
 
 namespace UI.ViewModels
@@ -27,8 +27,9 @@ namespace UI.ViewModels
 
         public SnackbarMessageQueue RunStatusMessageQueue { get; set; } = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
 
-        public string ProcedureName => MeasurementUnit.Name;
-        
+        public string ProcedureName => MeasurementUnit == null ? "" : MeasurementUnit.Name;
+       
+
         public HWindow WindowHandle { get; set; }
 
         public HObject DisplayImage { get; set; }
@@ -37,7 +38,7 @@ namespace UI.ViewModels
 
         public IMeasurementProcedure MeasurementUnit
         {
-            get => _measurementUnit;
+            get { return _measurementUnit; }
             set
             {
                 _measurementUnit = value;

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace UI.Model
+namespace UI.Models
 {
     public class FindLineLocation
     {

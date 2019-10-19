@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Design.Serialization;
-using System.Security.Cryptography;
 using HalconDotNet;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
 
-namespace UI.Model
+namespace UI.Models
 {
     public class HalconGraphics
     {

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using MathNet.Numerics.Integration;
 
-namespace UI.Model
+namespace UI.Models
 {
     /// <summary>
     /// This class will fire size changed event when its size is changed'

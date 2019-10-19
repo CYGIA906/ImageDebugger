@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UI.Model;
+using UI.Models;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing.Utilts

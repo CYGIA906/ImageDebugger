@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using PropertyChanged;
 using UI.ImageProcessing;
 
-namespace UI.Model
+namespace UI.Models
 {
     public class FindLineParam : AutoSerializableBase<FindLineParam>
     {

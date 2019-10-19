@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
+    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\nunit.engine.api.dll" t="Include" />
+    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\nunit.engine.dll" t="Include" />
+    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.dll" t="Include" />
+    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.pdb" t="Include" />
     <e p="C:\Users\afterbunny\.Rider2019.2\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\afterbunny\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.-1259227406.00" t="ExcludeRecursive" />
     <e p="C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger" t="IncludeFlat">
@@ -62,7 +66,7 @@
         </e>
         <e p="MainWindow.xaml" t="Include" />
         <e p="MainWindow.xaml.cs" t="Include" />
-        <e p="Model" t="Include">
+        <e p="Models" t="Include">
           <e p="AutoSerializableBase.cs" t="Include" />
           <e p="CountAwareQueue.cs" t="Include" />
           <e p="FaiItem.cs" t="Include" />
@@ -88,7 +92,7 @@
           <e p="ImageProvider.cs" t="Include" />
           <e p="ImageProviderViewModel.cs" t="Include" />
           <e p="MainWindowViewModel.cs" t="Include" />
-          <e p="RecyclableList.cs" t="Include" />
+          <e p="RecyclableMegaList.cs" t="Include" />
           <e p="ViewModelBase.cs" t="Include" />
         </e>
         <e p="Views" t="Include">
@@ -99,6 +103,18 @@
           <e p="PageBase.cs" t="Include" />
           <e p="UserControlBase.cs" t="Include" />
         </e>
+      </e>
+      <e p="UI.Tests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="net461" t="Include">
+              <e p="UI.Tests.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="RecyclableMegaListTests.cs" t="Include" />
+        <e p="UI.Tests.csproj" t="IncludeRecursive" />
       </e>
     </e>
   </component>

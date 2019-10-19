@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using UI.ImageProcessing.Utilts;
-using UI.Model;
+using UI.Models;
 
 namespace UI.ImageProcessing.BottomView
 {

@@ -7,7 +7,7 @@ using Accord.MachineLearning.VectorMachines.Learning;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using UI.ImageProcessing.Utilts;
-using UI.Model;
+using UI.Models;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing.BottomView

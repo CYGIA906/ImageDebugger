@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
-using UI.Model;
+using UI.Models;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing

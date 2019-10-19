@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using UI.Model;
+using UI.Models;
 using UI.ViewModels;
 
 namespace UI.ImageProcessing.TopView

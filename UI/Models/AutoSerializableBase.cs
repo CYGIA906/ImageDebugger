@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml.Serialization;
 using UI.ViewModels;
 
-namespace UI.Model
+namespace UI.Models
 {
     public class AutoSerializableBase<T> : ViewModelBase
     {

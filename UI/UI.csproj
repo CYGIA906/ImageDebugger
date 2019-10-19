@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -145,13 +146,13 @@
     <Compile Include="ImageProcessing\Utilts\FaiItemsExtension.cs" />
     <Compile Include="ImageProcessing\Utilts\HalconHelper.cs" />
     <Compile Include="Interfaces\IImageProvider.cs" />
-    <Compile Include="Model\AutoSerializableBase.cs" />
-    <Compile Include="Model\CountAwareQueue.cs" />
-    <Compile Include="Model\FaiItem.cs" />
-    <Compile Include="Model\FindLineLocation.cs" />
-    <Compile Include="Model\FindLineParam.cs" />
-    <Compile Include="Model\HalconGraphics.cs" />
-    <Compile Include="Model\ImageProcessingResult.cs" />
+    <Compile Include="Models\AutoSerializableBase.cs" />
+    <Compile Include="Models\CountAwareQueue.cs" />
+    <Compile Include="Models\FaiItem.cs" />
+    <Compile Include="Models\FindLineLocation.cs" />
+    <Compile Include="Models\FindLineParam.cs" />
+    <Compile Include="Models\HalconGraphics.cs" />
+    <Compile Include="Models\ImageProcessingResult.cs" />
     <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />
     <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />
     <Compile Include="ViewModels\ImageProvider.cs" />

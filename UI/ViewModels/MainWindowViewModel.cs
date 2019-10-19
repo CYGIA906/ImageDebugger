@@ -25,7 +25,10 @@ namespace UI.ViewModels
         /// </summary>
         public MeasurementPage CurrentMeasurementPage { get; set; } = MeasurementPage.I94Top;
 
-        public string CurrentMeasurementName => CurrentMeasurementPage.ToString();
+        public string CurrentMeasurementName
+        {
+            get { return CurrentMeasurementPage.ToString(); }
+        }
 
         public MainWindowViewModel()
         {

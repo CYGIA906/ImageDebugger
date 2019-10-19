@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using UI.Model;
+using UI.Models;
 
 namespace UI.ImageProcessing
 {
