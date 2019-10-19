@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Serialization;
@@ -15,8 +12,6 @@ using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using UI.Commands;
 using UI.ImageProcessing;
-using UI.ImageProcessing.BottomView;
-using UI.ImageProcessing.TopView;
 using UI.ImageProcessing.Utilts;
 using UI.Model;
 
@@ -58,7 +53,6 @@ namespace UI.ViewModels
 
         public ICommand ContinuousRunCommand { get; }
 
-        public ICommand OpenLastDirectoryCommand { get; }
         public string TimeElapsed { get; set; }
 
         public bool SystemIsBusy { get; set; }

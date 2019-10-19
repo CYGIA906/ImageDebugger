@@ -121,6 +121,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ParameterizedCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Converters\EnumToMeasurementPageConverter.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />
     <Compile Include="Enums\MeasurementPage.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />
     <Compile Include="ViewModels\ImageProvider.cs" />
     <Compile Include="ViewModels\ImageProviderViewModel.cs" />
+    <Compile Include="ViewModels\RecyclableMegaList.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\HalconWindowPage.xaml.cs">

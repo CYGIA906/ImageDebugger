@@ -16,6 +16,7 @@
         <e p="Commands" t="Include">
           <e p="ParameterizedCommand.cs" t="Include" />
           <e p="RelayCommand.cs" t="Include" />
+          <e p="SimpleCommand.cs" t="Include" />
         </e>
         <e p="Converters" t="Include">
           <e p="EnumToMeasurementPageConverter.cs" t="Include" />
@@ -87,6 +88,7 @@
           <e p="ImageProvider.cs" t="Include" />
           <e p="ImageProviderViewModel.cs" t="Include" />
           <e p="MainWindowViewModel.cs" t="Include" />
+          <e p="RecyclableList.cs" t="Include" />
           <e p="ViewModelBase.cs" t="Include" />
         </e>
         <e p="Views" t="Include">
