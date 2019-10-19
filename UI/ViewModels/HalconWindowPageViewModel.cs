@@ -106,7 +106,12 @@ namespace UI.ViewModels
             {
                 CurrentImageName = index < 0 ? "" : ImageNames[index];
             };
-                
+            
+            // Prompt user when the current index overflows
+            UpperIndexExceeded += () =>PromptUserThreadUnsafe("Reached the end of list, start over");
+            // Prompt user when the current index jumps to end of list
+            LowerIndexExceeded += () => PromptUserThreadUnsafe("Jump to the end of image list");
+
             RunNextCommand = new RelayCommand(async () =>
             {
                 if (SystemIsBusy) return;

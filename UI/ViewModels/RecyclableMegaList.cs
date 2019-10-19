@@ -44,8 +44,21 @@ namespace UI.ViewModels
         /// </summary>
         private List<List<T>> MegaList { get; set; }
 
-
+        /// <summary>
+        /// This event will fire when <see cref="CurrentIndex"/> is changed
+        /// </summary>
         public event Action<int> CurrentIndexChanged;
+
+
+        /// <summary>
+        /// Fires when the current index is about to go equal or above <see cref="Count"/>
+        /// </summary>
+        public event Action UpperIndexExceeded;
+
+        /// <summary>
+        /// Fires when the current index is about to go below 0
+        /// </summary>
+        public event Action LowerIndexExceeded;
 
         /// <summary>
         /// Set current index to dstIndex and return that element
@@ -71,7 +84,11 @@ namespace UI.ViewModels
         public List<T> NextUnbounded()
         {
             InnerIndex++;
-            if (InnerIndex >= MegaList[0].Count) InnerIndex = 0;
+            if (InnerIndex >= MegaList[0].Count)
+            {
+                InnerIndex = 0;
+                OnUpperIndexExceeded();
+            }
 
             CurrentIndex = InnerIndex;
             return this[InnerIndex];
@@ -89,6 +106,7 @@ namespace UI.ViewModels
             if (InnerIndex >= MegaList[0].Count)
             {
                 InnerIndex = -1;
+                OnUpperIndexExceeded();
                 return null;
             }
 
@@ -105,7 +123,11 @@ namespace UI.ViewModels
         public List<T> PreviousUnbounded()
         {
             InnerIndex--;
-            if (InnerIndex < 0) InnerIndex = MegaList[0].Count - 1;
+            if (InnerIndex < 0)
+            {
+                InnerIndex = MegaList[0].Count - 1;
+                OnLowerIndexExceeded();
+            }
 
             CurrentIndex = InnerIndex;
             return this[InnerIndex];
@@ -237,6 +259,16 @@ namespace UI.ViewModels
         protected virtual void OnCurrentIndexChanged(int obj)
         {
             CurrentIndexChanged?.Invoke(obj);
+        }
+
+        protected virtual void OnUpperIndexExceeded()
+        {
+            UpperIndexExceeded?.Invoke();
+        }
+
+        protected virtual void OnLowerIndexExceeded()
+        {
+            LowerIndexExceeded?.Invoke();
         }
     }
 }
