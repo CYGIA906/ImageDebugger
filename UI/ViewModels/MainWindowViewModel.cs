@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MaterialDesignThemes.Wpf;
 using UI.Commands;
 using UI.Enums;
 
@@ -27,9 +28,19 @@ namespace UI.ViewModels
 
         public MainWindowViewModel()
         {
-            SwitchTopViewCommand = new RelayCommand(() => { CurrentMeasurementPage = MeasurementPage.I94Top;});
-            SwitchBottomViewCommand = new RelayCommand(() => { CurrentMeasurementPage = MeasurementPage.I94Bottom; });
+            SwitchTopViewCommand = new RelayCommand(() =>
+            {
+                CurrentMeasurementPage = MeasurementPage.I94Top;
+                MessageQueue.Enqueue("Switched to top view");
+            });
+            SwitchBottomViewCommand = new RelayCommand(() =>
+            {
+                CurrentMeasurementPage = MeasurementPage.I94Bottom;
+                MessageQueue.Enqueue("Switched to bottom view");
+            });
         }
-        
+
+
+        public SnackbarMessageQueue MessageQueue { get; set; }
     }
 }
