@@ -112,21 +112,21 @@ namespace UI.ViewModels
             // Prompt user when the current index jumps to end of list
             LowerIndexExceeded += () => PromptUserThreadUnsafe("Jump to the end of image list");
 
-            RunNextCommand = new RelayCommand(async () =>
+            RunNextCommand = new SimpleCommand(async o =>
             {
                 if (SystemIsBusy) return;
                 await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
                     async () => { await ProcessOnceAsync(ConvertPathsToImages(NextUnbounded())); });
-            });
+            }, o => HasImages);
             
-            RunPreviousCommand = new RelayCommand(async () =>
+            RunPreviousCommand = new SimpleCommand(async o =>
             {
                 if (SystemIsBusy) return;
                 await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
                     async () => { await ProcessOnceAsync(ConvertPathsToImages(PreviousUnbounded())); });
-            });
+            }, o => HasImages);
 
-            SelectImageDirCommand = new RelayCommand(() =>
+            SelectImageDirCommand = new SimpleCommand(o =>
             {
                 using (var fbd = new FolderBrowserDialog())
                 {
@@ -137,9 +137,9 @@ namespace UI.ViewModels
                         ImageDirectory = fbd.SelectedPath;
                     }
                 }
-            });
+            }, o => !SystemIsBusy);
 
-            ContinuousRunCommand = new RelayCommand(async () =>
+            ContinuousRunCommand = new SimpleCommand(async o =>
             {
                 if (SystemIsBusy) return;
 
@@ -156,14 +156,14 @@ namespace UI.ViewModels
                     ;
 
                 MultipleImagesRunning = false;
-            });
+            }, o => HasImages);
 
-            ImageNameSelectionChangedCommand = new ParameterizedCommand(async o =>
+            ImageNameSelectionChangedCommand = new SimpleCommand(async o =>
             {
                 int index = (int) o;
                 await RunOnlySingleFireIsAllowedEachTimeCommand(() => SystemIsBusy,
                     async () => { await ProcessOnceAsync(ConvertPathsToImages(JumpTo(index))); });
-            });
+            }, o => HasImages);
         }
 
         private List<HImage> ConvertPathsToImages(List<string> imagePaths)

@@ -96,7 +96,7 @@
             <!-- Current image name -->
             <materialDesign:ColorZone TextElement.Foreground="AliceBlue" 
                                       TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}"
-                                      CornerRadius="15" Margin="30 50" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                      CornerRadius="15" Margin="30 80" VerticalAlignment="Top" HorizontalAlignment="Right"
                                       Panel.ZIndex="2"> 
                     <TextBlock Text="{Binding CurrentImageName}"/>
             </materialDesign:ColorZone>

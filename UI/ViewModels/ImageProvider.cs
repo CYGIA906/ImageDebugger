@@ -24,8 +24,7 @@ namespace UI.ViewModels
         {
             RunStatusMessageQueue.Enqueue(message);
         }
-
-
+        
         private string GetImageName(string imagePath)
         {
             return Path.GetFileName(imagePath);
@@ -202,6 +201,7 @@ namespace UI.ViewModels
         }
 
         public ICommand SelectImageDirCommand { get; private set; }
+        public bool HasImages => Count > 0;
 
         #endregion
     }
