@@ -23,11 +23,11 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DockPanel.Resources>
+        
         <Grid DockPanel.Dock="Top">
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
             <ToolBarTray Panel.ZIndex="0" AllowDrop="False" Grid.Column="0">
@@ -92,16 +92,28 @@
             </ToolBarTray>
 
             
-            <materialDesign:ColorZone Grid.Column="1" TextElement.Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}" CornerRadius="10"> 
-                <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Current image name: "/>
-                    <TextBlock Text="{Binding CurrentImageName}"/>
+        
+            
+            <!--status area-->
+            <GroupBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Header="Status"
+                      FontSize="16">
+                <StackPanel Orientation="Horizontal" Background="AliceBlue" MinWidth="150">
+                    <TextBlock>Time elapsed:</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}" />
                 </StackPanel>
-            </materialDesign:ColorZone>
+            </GroupBox>
         </Grid>
 
 
         <Grid DockPanel.Dock="Top">
+            <!-- Current image name -->
+            <materialDesign:ColorZone TextElement.Foreground="AliceBlue" 
+                                      TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}"
+                                      CornerRadius="15" Margin="30 50" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                      Panel.ZIndex="2"> 
+                    <TextBlock Text="{Binding CurrentImageName}"/>
+            </materialDesign:ColorZone>
+            
             <!-- Halcon window -->
      
             <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1">
@@ -139,14 +151,7 @@
             </Expander>
 
 
-            <!--status area-->
-            <GroupBox VerticalAlignment="Bottom" HorizontalAlignment="Right" Header="Status" Panel.ZIndex="2"
-                      FontSize="16">
-                <StackPanel Orientation="Horizontal" Background="AliceBlue" MinWidth="150">
-                    <TextBlock>Time elapsed:</TextBlock>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}" />
-                </StackPanel>
-            </GroupBox>
+            
 
             <!-- FAI LIST -->
             <Expander  Background="Transparent" VerticalAlignment="Top" Panel.ZIndex="3" FontSize="24"

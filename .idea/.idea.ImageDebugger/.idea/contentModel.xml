@@ -17,6 +17,13 @@
           <e p="ParameterizedCommand.cs" t="Include" />
           <e p="RelayCommand.cs" t="Include" />
         </e>
+        <e p="Converters" t="Include">
+          <e p="EnumToMeasurementPageConverters.cs" t="Include" />
+          <e p="ValueConverterBase.cs" t="Include" />
+        </e>
+        <e p="Enums" t="Include">
+          <e p="MeasurementPage.cs" t="Include" />
+        </e>
         <e p="FodyWeavers.xml" t="Include" />
         <e p="Hdevs" t="Include">
           <e p="I94Hdev.cs" t="Include" />
@@ -28,7 +35,7 @@
           <e p="BottomView" t="Include">
             <e p="BottomViewHardCodeValues.cs" t="Include" />
             <e p="BottomViewProcessProcedure.cs" t="Include" />
-            <e p="I94BottomViewMeasurement.cs" t="Include" />
+            <e p="I94BottomViewMeasure.cs" t="Include" />
           </e>
           <e p="CoordinateSolver.cs" t="Include" />
           <e p="DataRecorder.cs" t="Include" />
@@ -79,6 +86,7 @@
           <e p="HalconWindowPageViewModel.cs" t="Include" />
           <e p="ImageProvider.cs" t="Include" />
           <e p="ImageProviderViewModel.cs" t="Include" />
+          <e p="MainWindowViewModel.cs" t="Include" />
           <e p="ViewModelBase.cs" t="Include" />
         </e>
         <e p="Views" t="Include">

@@ -121,11 +121,14 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ParameterizedCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\EnumToMeasurementPageConverters.cs" />
+    <Compile Include="Converters\ValueConverterBase.cs" />
+    <Compile Include="Enums\MeasurementPage.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="ImageProcessing\BottomView\BottomViewHardCodeValues.cs" />
     <Compile Include="ImageProcessing\BottomView\BottomViewProcessProcedure.cs" />
-    <Compile Include="ImageProcessing\BottomView\I94BottomViewMeasurement.cs" />
+    <Compile Include="ImageProcessing\BottomView\I94BottomViewMeasure.cs" />
     <Compile Include="ImageProcessing\CoordinateSolver.cs" />
     <Compile Include="ImageProcessing\FindLineFeeding.cs" />
     <Compile Include="ImageProcessing\FindLineManager.cs" />
@@ -152,6 +155,7 @@
     <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />
     <Compile Include="ViewModels\ImageProvider.cs" />
     <Compile Include="ViewModels\ImageProviderViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\HalconWindowPage.xaml.cs">
       <DependentUpon>HalconWindowPage.xaml</DependentUpon>

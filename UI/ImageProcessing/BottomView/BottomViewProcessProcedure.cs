@@ -8,7 +8,7 @@ using UI.Model;
 
 namespace UI.ImageProcessing.BottomView
 {
-    public partial class I94BottomViewMeasurement
+    public partial class I94BottomViewMeasure
     {
            public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
             ObservableCollection<FaiItem> faiItems, int indexToShow,

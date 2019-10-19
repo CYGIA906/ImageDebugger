@@ -6,7 +6,7 @@ using UI.ViewModels;
 
 namespace UI.ImageProcessing.BottomView
 {
-    public partial class I94BottomViewMeasurement
+    public partial class I94BottomViewMeasure
     {
         public ObservableCollection<FaiItem> GenFaiItemValues(string faiItemSerializationDir)
         {

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:UI"
         xmlns:views="clr-namespace:UI.Views"
         xmlns:halconDotNet="clr-namespace:HalconDotNet;assembly=halcondotnet"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -16,8 +17,24 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="MainWindow" Height="800" Width="1200"
         WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
+        
+        
         <Frame Source="Views/HalconWindowPage.xaml">
         </Frame>
+        <materialDesign:PopupBox PlacementMode="TopAndAlignLeftEdges"   Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Panel.ZIndex="5"> 
+            <StackPanel>
+                <Button>Top</Button>
+                <Button>Bottom</Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
     </Grid>
 </Window>

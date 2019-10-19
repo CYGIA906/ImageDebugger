@@ -12,7 +12,7 @@ using UI.ViewModels;
 
 namespace UI.ImageProcessing.BottomView
 {
-    public partial class I94BottomViewMeasurement : IMeasurementProcedure
+    public partial class I94BottomViewMeasure : IMeasurementProcedure
     {
         public event Action MeasurementResultReady;
         public string Name { get; } = "I94_BOTTOM";
@@ -26,7 +26,7 @@ namespace UI.ImageProcessing.BottomView
         public double Weight { get; set; } = 0.0076;
 
 
-        public I94BottomViewMeasurement()
+        public I94BottomViewMeasure()
         {
             HOperatorSet.ReadShapeModel("./backViewModel", out _shapeModelHandle);
         }

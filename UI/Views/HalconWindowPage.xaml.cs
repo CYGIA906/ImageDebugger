@@ -46,7 +46,7 @@ namespace UI.Views
 
         private void ChangeToBottomView(object sender, RoutedEventArgs e)
         {
-            InjectViewModel(HalconWindow.HalconWindow, SnackBar.MessageQueue, new I94BottomViewMeasurement());
+            InjectViewModel(HalconWindow.HalconWindow, SnackBar.MessageQueue, new I94BottomViewMeasure());
             SnackBar.MessageQueue.Enqueue("Switched to bottom view");
 
         }
