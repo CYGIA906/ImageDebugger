@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
@@ -41,6 +42,6 @@ namespace UI.ViewModels
         }
 
 
-        public SnackbarMessageQueue MessageQueue { get; set; }
+        public SnackbarMessageQueue MessageQueue { get; set; } = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
     }
 }

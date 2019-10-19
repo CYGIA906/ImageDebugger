@@ -89,14 +89,7 @@
             
         
             
-            <!--status area-->
-            <GroupBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Header="Status"
-                      FontSize="16">
-                <StackPanel Orientation="Horizontal" Background="AliceBlue" MinWidth="150">
-                    <TextBlock>Time elapsed:</TextBlock>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}" />
-                </StackPanel>
-            </GroupBox>
+       
         </Grid>
 
 
@@ -168,6 +161,15 @@
                           CanUserAddRows="False" />
             </Expander>
 
+            <!--status area-->
+            <GroupBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Header="{Binding ProcedureName}" Panel.ZIndex="3"
+                      FontSize="16">
+                <StackPanel Orientation="Horizontal" Background="AliceBlue" MinWidth="150">
+                    <TextBlock>Time elapsed:</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding TimeElapsed}" />
+                </StackPanel>
+            </GroupBox>
+            
         </Grid>
 
     </DockPanel>

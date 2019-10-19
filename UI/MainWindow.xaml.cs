@@ -18,8 +18,8 @@ namespace UI
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Snackbar.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
-            ((MainWindowViewModel) DataContext).MessageQueue = Snackbar.MessageQueue;
+//            Snackbar.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
+//            ((MainWindowViewModel) DataContext).MessageQueue = Snackbar.MessageQueue;
         }
     }
 }

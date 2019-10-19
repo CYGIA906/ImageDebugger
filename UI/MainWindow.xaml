@@ -14,7 +14,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="{Binding CurrentMeasurementName}" Height="800" Width="1200"
+        Title="Image Debugger" Height="800" Width="1200"
         WindowState="Maximized" Loaded="MainWindow_OnLoaded">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
@@ -28,7 +28,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <materialDesign:Snackbar Name="Snackbar" VerticalAlignment="Center" HorizontalAlignment="Center" Background="AliceBlue" Foreground="Black" Panel.ZIndex="5">
+        <materialDesign:Snackbar Name="Snackbar" MessageQueue="{Binding MessageQueue}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="AliceBlue" Foreground="Black" Panel.ZIndex="5">
         </materialDesign:Snackbar>
         
         

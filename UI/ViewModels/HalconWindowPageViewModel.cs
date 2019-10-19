@@ -30,9 +30,10 @@ namespace UI.ViewModels
 
         public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
 
-        public SnackbarMessageQueue RunStatusMessageQueue { get; set; }
+        public SnackbarMessageQueue RunStatusMessageQueue { get; set; } = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(5000));
 
-
+        public string ProcedureName => MeasurementUnit.Name;
+        
         public HWindow WindowHandle { get; set; }
 
         public HObject DisplayImage { get; set; }
@@ -252,7 +253,7 @@ namespace UI.ViewModels
 
         public string SerializationDir
         {
-            get { return Application.StartupPath + "/" + MeasurementUnit.Name; }
+            get { return Application.StartupPath + "/" + ProcedureName; }
         }
 
         public string FaiItemSerializationDir
