@@ -10,7 +10,20 @@ namespace UI.ViewModels
     /// </summary>
     public class RecyclableMegaList<T> : ViewModelBase, ICollection<List<T>>
     {
+        private int _innerIndex;
         private int _currentIndex;
+
+        /// <summary>
+        /// Current index of the internal list
+        /// </summary>
+        private int InnerIndex
+        {
+            get { return _innerIndex; }
+             set
+            {
+                _innerIndex = value;
+            }
+        }
 
         /// <summary>
         /// Current index of the internal list
@@ -20,16 +33,19 @@ namespace UI.ViewModels
             get { return _currentIndex; }
             private set
             {
-                _currentIndex = value;
+                _currentIndex = value; 
+                OnCurrentIndexChanged(value);
             }
         }
+
 
         /// <summary>
         /// Internal list that stores the data
         /// </summary>
         private List<List<T>> MegaList { get; set; }
 
-        public event Action<int> IndexChanged;
+
+        public event Action<int> CurrentIndexChanged;
 
         /// <summary>
         /// Set current index to dstIndex and return that element
@@ -40,9 +56,9 @@ namespace UI.ViewModels
         {
             if (dstIndex >= Count || dstIndex < 0)
                 throw new IndexOutOfRangeException("The index to jump to is invalid");
-            CurrentIndex = dstIndex;
+            InnerIndex = dstIndex;
 
-            OnIndexChanged(CurrentIndex);
+            CurrentIndex = InnerIndex;
             return this[dstIndex];
         }
 
@@ -54,11 +70,11 @@ namespace UI.ViewModels
         /// <returns></returns>
         public List<T> NextUnbounded()
         {
-            CurrentIndex++;
-            if (CurrentIndex >= MegaList[0].Count) CurrentIndex = 0;
+            InnerIndex++;
+            if (InnerIndex >= MegaList[0].Count) InnerIndex = 0;
 
-            OnIndexChanged(CurrentIndex);
-            return this[CurrentIndex];
+            CurrentIndex = InnerIndex;
+            return this[InnerIndex];
         }
 
         /// <summary>
@@ -69,15 +85,15 @@ namespace UI.ViewModels
         /// <returns></returns>
         public List<T> NextBounded()
         {
-            CurrentIndex++;
-            if (CurrentIndex >= MegaList[0].Count)
+            InnerIndex++;
+            if (InnerIndex >= MegaList[0].Count)
             {
-                CurrentIndex = -1;
+                InnerIndex = -1;
                 return null;
             }
 
-            OnIndexChanged(CurrentIndex);
-            return this[CurrentIndex];
+            CurrentIndex = InnerIndex;
+            return this[InnerIndex];
         }
         
         /// <summary>
@@ -88,11 +104,11 @@ namespace UI.ViewModels
         /// <returns></returns>
         public List<T> PreviousUnbounded()
         {
-            CurrentIndex--;
-            if (CurrentIndex < 0) CurrentIndex = MegaList[0].Count - 1;
+            InnerIndex--;
+            if (InnerIndex < 0) InnerIndex = MegaList[0].Count - 1;
 
-            OnIndexChanged(CurrentIndex);
-            return this[CurrentIndex];
+            CurrentIndex = InnerIndex;
+            return this[InnerIndex];
         }
 
         /// <summary>
@@ -102,8 +118,8 @@ namespace UI.ViewModels
         public void Reconstruct(List<List<T>> newValue)
         {
             MegaList = newValue;
-            CurrentIndex = -1;
-            OnIndexChanged(CurrentIndex);
+            InnerIndex = -1;
+            CurrentIndex = InnerIndex;
         }
 
   
@@ -132,7 +148,7 @@ namespace UI.ViewModels
         /// <param name="numList">Number of lists within the mega list</param>
         public RecyclableMegaList(int numList = 1)
         {
-            CurrentIndex = -1;
+            InnerIndex = -1;
             MegaList = new List<List<T>>();
             NumLists = numList;
         }
@@ -189,8 +205,8 @@ namespace UI.ViewModels
         public void Clear()
         {
             MegaList.Clear();
-            CurrentIndex = -1;
-            OnIndexChanged(CurrentIndex);
+            InnerIndex = -1;
+            CurrentIndex = InnerIndex;
         }
 
         public bool Contains(List<T> item)
@@ -218,9 +234,9 @@ namespace UI.ViewModels
             get { return false; }
         }
 
-        protected virtual void OnIndexChanged(int newIndex)
+        protected virtual void OnCurrentIndexChanged(int obj)
         {
-            IndexChanged?.Invoke(newIndex);
+            CurrentIndexChanged?.Invoke(obj);
         }
     }
 }

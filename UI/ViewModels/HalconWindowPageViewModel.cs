@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
+using PropertyChanged;
 using UI.Commands;
 using UI.ImageProcessing;
 using UI.ImageProcessing.Utilts;
@@ -94,23 +96,17 @@ namespace UI.ViewModels
 
         public FaiItemCsvSerializer CsvSerializer { get; set; }
 
-
-        public HalconWindowPageViewModel(HWindow windowHandle, IMeasurementProcedure procedure)
-        {
-            WindowHandle = windowHandle;
-            MeasurementUnit = procedure;
-        }
+        
 
         public HalconWindowPageViewModel()
         {
 
-            // Update the current image name to show
-            IndexChanged += index =>
+            // Update current image name to show
+            CurrentIndexChanged += index =>
             {
                 CurrentImageName = index < 0 ? "" : ImageNames[index];
             };
                 
-            
             RunNextCommand = new RelayCommand(async () =>
             {
                 if (SystemIsBusy) return;
@@ -321,4 +317,5 @@ namespace UI.ViewModels
             return outputs;
         }
     }
+    
 }

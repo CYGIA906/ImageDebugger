@@ -16,7 +16,7 @@ namespace UI.ViewModels
     {
         #region Image Providing Logic
 
-        public string CurrentImageName { get; set; }
+        public string CurrentImageName { get; private set; }
 
         public ICommand ImageNameSelectionChangedCommand { get; }
 
