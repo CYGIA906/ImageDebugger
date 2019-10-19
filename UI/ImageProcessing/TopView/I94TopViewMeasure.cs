@@ -18,6 +18,7 @@ namespace UI.ImageProcessing.TopView
         public ObservableCollection<FaiItem> FaiItems { get; }
         public event Action MeasurementResultReady;
         public string Name { get; } = "I94_TOP";
+        public int NumImagesInOneGoRequired { get; } = 2;
         public event Action MeasurementResultPulled;
 
         public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,

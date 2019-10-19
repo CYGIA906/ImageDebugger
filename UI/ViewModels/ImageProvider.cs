@@ -114,6 +114,13 @@ namespace UI.ViewModels
         private bool TryAssignImageLists(List<string> imagePaths)
         {
             int numImagesInOneGo = GetNumImagesInOneGo(imagePaths);
+
+            if (numImagesInOneGo != MeasurementUnit.NumImagesInOneGoRequired)
+            {
+                PromptUserThreadUnsafe("Incorrect number of input images, check the image directory!");
+                return false;
+            }
+            
             List<List<string>> tempMegaList = MakeTempMegaList(numImagesInOneGo);
 
 

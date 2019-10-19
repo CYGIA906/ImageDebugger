@@ -8,6 +8,8 @@ namespace UI.ImageProcessing.BottomView
 {
     public partial class I94BottomViewMeasure
     {
+        public int NumImagesInOneGoRequired { get; } = 1;
+
         public ObservableCollection<FaiItem> GenFaiItemValues(string faiItemSerializationDir)
         {
             var outputs = new ObservableCollection<FaiItem>()

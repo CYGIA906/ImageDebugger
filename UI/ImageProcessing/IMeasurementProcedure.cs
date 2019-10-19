@@ -18,6 +18,8 @@ namespace UI.ImageProcessing
         event Action MeasurementResultReady;
         
         string Name { get; }
+        
+        int NumImagesInOneGoRequired { get; }
 
         /// <summary>
         /// Fire after the feed back of measurement result

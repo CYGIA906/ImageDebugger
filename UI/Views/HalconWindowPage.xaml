@@ -59,7 +59,7 @@
                                   CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                     <Separator />
                     
-                    <ComboBox ToolTip="Select image index to show in the screen" ItemsSource="{Binding ImageToShowSelectionList}" SelectedIndex="{Binding IndexToShow}" MinWidth="50"></ComboBox>
+                    <ComboBox ToolTip="Select image index to show in the screen" ItemsSource="{Binding ImageToShowSelectionList}" SelectedIndex="{Binding IndexToShow}" MinWidth="30"></ComboBox>
                     
                     <Separator/>
                     <!-- Select image and run -->
@@ -70,7 +70,7 @@
                             <TextBlock Text="{Binding CurrentIndex}" ToolTip="Current image index"></TextBlock>
                         </materialDesign:Chip.Icon>
                         <Viewbox>
-                            <ComboBox ToolTip="Select an image to run"
+                            <ComboBox ToolTip="Select an image to run" MinWidth="80"
                                       ItemsSource="{Binding ImageNames}"
                                       VerticalAlignment="Top" HorizontalAlignment="Center"
                                       Foreground="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold">
@@ -96,7 +96,7 @@
             <!-- Current image name -->
             <materialDesign:ColorZone TextElement.Foreground="AliceBlue" 
                                       TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}"
-                                      CornerRadius="15" Margin="30 80" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                      CornerRadius="15" Margin="80 50" VerticalAlignment="Top" HorizontalAlignment="Right"
                                       Panel.ZIndex="2"> 
                     <TextBlock Text="{Binding CurrentImageName}"/>
             </materialDesign:ColorZone>
