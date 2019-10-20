@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using System.Windows.Media.Animation;
+﻿using System.Collections.Generic;
 using HalconDotNet;
-using UI.ImageProcessing.Utilts;
 using UI.Models;
 
 namespace UI.ImageProcessing

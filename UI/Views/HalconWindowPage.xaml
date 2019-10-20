@@ -54,7 +54,7 @@
                     <!-- Run continuously -->
                     <ToggleButton Style="{DynamicResource MaterialDesignSwitchAccentToggleButton}"
                                   ToolTip="Run continuously"
-                                  IsChecked="{Binding MultipleImagesRunning}"
+                                  IsChecked="{Binding IsContinuouslyRunning}"
                                   Command="{Binding ContinuousRunCommand}"
                                   CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                     <Separator />

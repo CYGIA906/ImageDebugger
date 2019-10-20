@@ -6,20 +6,41 @@ using HalconDotNet;
 using MaterialDesignThemes.Wpf;
 using UI.ImageProcessing.Utilts;
 using UI.Models;
-using UI.ViewModels;
 
 namespace UI.ImageProcessing.TopView
 {
     public sealed partial class I94TopViewMeasure : IMeasurementProcedure
     {
         private static HDevelopExport HalconScripts = new HDevelopExport();
+        /// <summary>
+        /// Path to the shape model
+        /// </summary>
         private string _modelPath;
+        /// <summary>
+        /// Shape model handle
+        /// </summary>
         private HTuple _shapeModelHandle;
-        public ObservableCollection<FaiItem> FaiItems { get; }
-        public event Action MeasurementResultReady;
+
+        public I94TopViewMeasure()
+        {
+            ModelPath = "./ModelTopViewI94";
+        }
+
+        /// <summary>
+        /// Path to the shape model in disk
+        /// </summary>
+        public string ModelPath
+        {
+            get { return _modelPath; }
+            set
+            {
+                _modelPath = value;
+                HOperatorSet.ReadShapeModel(_modelPath, out _shapeModelHandle);
+            }
+        }
+
         public string Name { get; } = "I94_TOP";
         public int NumImagesInOneGoRequired { get; } = 2;
-        public event Action MeasurementResultPulled;
 
         public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
             ObservableCollection<FaiItem> faiItems, int indexToShow, SnackbarMessageQueue messageQueue
@@ -260,10 +281,7 @@ namespace UI.ImageProcessing.TopView
 
             // outputs
             var outputs = new Dictionary<string, double>();
-            
-            //Stop auto-serialization of FaiItems
-            OnMeasurementResultReady();
-            
+
             outputs["02_2"] = valueF2P2;
             
             outputs["03_2"] = valueF3P2;
@@ -321,33 +339,6 @@ namespace UI.ImageProcessing.TopView
         }
 
 
-        /// <summary>
-        /// Path to the shape model in disk
-        /// </summary>
-        public string ModelPath
-        {
-            get { return _modelPath; }
-            set
-            {
-                _modelPath = value;
-                HOperatorSet.ReadShapeModel(_modelPath, out _shapeModelHandle);
-            }
-        }
 
-        public I94TopViewMeasure()
-        {
-            ModelPath = "./ModelTopViewI94";
-        }
-
-
-        private void OnMeasurementResultReady()
-        {
-            MeasurementResultReady?.Invoke();
-        }
-
-        private void OnMeasurementResultPulled()
-        {
-            MeasurementResultPulled?.Invoke();
-        }
     }
 }

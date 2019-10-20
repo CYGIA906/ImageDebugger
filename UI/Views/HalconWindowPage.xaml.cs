@@ -1,11 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using HalconDotNet;
-using MaterialDesignThemes.Wpf;
-using UI.ImageProcessing;
-using UI.ImageProcessing.BottomView;
-using UI.ImageProcessing.TopView;
+﻿using System.Windows;
 using UI.ViewModels;
 
 namespace UI.Views

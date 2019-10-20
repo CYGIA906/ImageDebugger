@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Xml.Xsl;
 using Accord.MachineLearning;
 using Accord.Math;
 using Accord.Statistics.Models.Regression.Linear;
 using HalconDotNet;
-using MaterialDesignColors;
-using MathNet.Numerics;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearRegression;
-using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 
 namespace UI.ImageProcessing.Utilts

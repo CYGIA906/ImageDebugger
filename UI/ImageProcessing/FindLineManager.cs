@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Media;
-using Accord.Math;
 using HalconDotNet;
 using MathNet.Numerics.LinearRegression;
 using UI.ImageProcessing.Utilts;

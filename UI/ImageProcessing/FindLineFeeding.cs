@@ -1,5 +1,4 @@
 ﻿using HalconDotNet;
-using MaterialDesignThemes.Wpf.Transitions;
 
 namespace UI.ImageProcessing
 {

@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Accord.MachineLearning.VectorMachines.Learning;
 using HalconDotNet;
-using MaterialDesignThemes.Wpf;
-using UI.ImageProcessing.Utilts;
 using UI.Models;
-using UI.ViewModels;
 
 namespace UI.ImageProcessing.BottomView
 {

@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using UI.ViewModels;
+﻿using UI.ViewModels;
 
 namespace UI.Views
 {

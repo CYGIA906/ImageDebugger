@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using MaterialDesignThemes.Wpf;
-using UI.ViewModels;
+﻿using System.Windows;
 
 namespace UI
 {
