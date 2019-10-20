@@ -42,12 +42,12 @@ namespace UI.ImageProcessing.BottomView
             #region Change base
 
             var image = images[0];
-            HalconScripts.GetI94BottomViewBaseRects(image, out imageUndistorted, _shapeModelHandle, out baseTopRow,
+            HalconScripts.GetI94BottomViewBaseRectsNoRectify(image,  _shapeModelHandle, out baseTopRow,
                 out baseTopCol, out baseTopRadian, out baseTopLen1, out baseTopLen2, out baseLeftRow,
                 out baseLeftCol, out baseLeftRadian, out baseLeftLen1, out baseLeftLen2, out mapToWorld, out mapToImage,
                 out camParams
             );
-            images[0] = imageUndistorted.HobjectToHimage();
+//            images[0] = imageUndistorted.HobjectToHimage();
 
 
             var findLineManager = new FindLineManager(messageQueue);

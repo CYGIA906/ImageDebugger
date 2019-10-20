@@ -104,7 +104,7 @@
             <!-- Halcon window -->
      
             <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1">
-                <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />
+                <!-- <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" /> -->
             </halconDotNet:HSmartWindowControlWPF>
 
 
@@ -133,7 +133,8 @@
                     <DataGrid HorizontalAlignment="Right"
                               ItemsSource="{Binding FindLineParams}"
                               CanUserSortColumns="True"
-                              CanUserAddRows="False" />
+                              CanUserAddRows="False" 
+                    />
                 </ScrollViewer>
             </Expander>
 

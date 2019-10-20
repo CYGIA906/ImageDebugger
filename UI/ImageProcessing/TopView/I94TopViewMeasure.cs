@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using HalconDotNet;
 using MaterialDesignThemes.Wpf;
@@ -72,16 +73,16 @@ namespace UI.ImageProcessing.TopView
 
             // Calculate matrices
 
-            HalconScripts.GetI94TopViewBaseRects(images[backLightIndex], out imageUndistorted, _shapeModelHandle, out baseTopRow,
+            HalconScripts.GetI94TopViewBaseRectsNoRectify(images[backLightIndex],  _shapeModelHandle, out baseTopRow,
                     out baseTopCol, out baseTopRadian, out baseTopLen1, out baseTopLen2, out baseRightRow, 
                     out baseRightCol, out baseRightRadian, out baseRightLen1, out baseRightLen2, out mapToWorld, out mapToImage, out camParams
                 );
-          
+            
             // Undistort images
-            images[backLightIndex] = imageUndistorted.HobjectToHimage();
-            HTuple _;
-            HalconScripts.UndistortImage(images[frontLightIndex], out imageUndistorted, camParams, out _);
-            images[frontLightIndex] = imageUndistorted.HobjectToHimage();
+//            images[backLightIndex] = imageUndistorted.HobjectToHimage();
+//            HTuple _;
+//            HalconScripts.UndistortImage(images[frontLightIndex], out imageUndistorted, camParams, out _);
+//            images[frontLightIndex] = imageUndistorted.HobjectToHimage();
             
             var findLineManager = new FindLineManager(messageQueue);
 
