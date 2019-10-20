@@ -1,9 +1,10 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using UI.ViewModels;
 
 namespace UI.Views
 {
-    public partial class HalconWindowPage : PageBase<HalconWindowPageViewModel>
+    public partial class HalconWindowPage : Page
     {
 
         
@@ -18,8 +19,8 @@ namespace UI.Views
             var windowHandle = HalconWindow.HalconWindow;
             windowHandle.SetColored(3);
             windowHandle.SetPart(0, 0, -2, -2);
-            
-            ViewModel.WindowHandle = windowHandle;
+
+            ((HalconWindowPageViewModel)DataContext).WindowHandle = windowHandle;
         }
         
     }

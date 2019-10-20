@@ -6,9 +6,7 @@ namespace UI.ImageProcessing.BottomView
 {
     public partial class I94BottomViewMeasure : IMeasurementProcedure
     {
-        public event Action MeasurementResultReady;
         public string Name { get; } = "I94_BOTTOM";
-        public event Action MeasurementResultPulled;
 
         private readonly HDevelopExport HalconScripts = new HDevelopExport();
         private HTuple _shapeModelHandle;

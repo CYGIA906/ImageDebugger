@@ -33,8 +33,8 @@ namespace UI.Converters
             // Try get the first halcon window page with the requested measurement procedure
             try
             {
-                output = pageEnum == MeasurementPage.I94Top? MeasurementPages.First(page => page.ViewModel.MeasurementUnit is I94TopViewMeasure)
-                    : MeasurementPages.First(page => page.ViewModel.MeasurementUnit is I94BottomViewMeasure);
+                output = pageEnum == MeasurementPage.I94Top? MeasurementPages.First(page => ((HalconWindowPageViewModel)page.DataContext).MeasurementUnit is I94TopViewMeasure)
+                    : MeasurementPages.First(page => ((HalconWindowPageViewModel)page.DataContext).MeasurementUnit is I94BottomViewMeasure);
             }
             // If the list not contain a halcon page with the specific measurement procedure
             // Add one and return it
@@ -52,7 +52,7 @@ namespace UI.Converters
 
                 var page = new HalconWindowPage()
                 {
-                    ViewModel = new HalconWindowPageViewModel()
+                    DataContext = new HalconWindowPageViewModel()
                     {
                         MeasurementUnit = procedure
                     }
