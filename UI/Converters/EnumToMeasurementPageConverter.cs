@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.ImageProcessing;
 using UI.Views;
-using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowPageViewModel;
+using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowViewModel.HalconWindowPageViewModel;
 using I94BottomViewMeasure = ImageDebugger.Core.ImageProcessing.BottomView.I94BottomViewMeasure;
 using I94TopViewMeasure = ImageDebugger.Core.ImageProcessing.TopView.I94TopViewMeasure;
 

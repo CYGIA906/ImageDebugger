@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
@@ -12,10 +11,11 @@ using HalconDotNet;
 using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.ImageProcessing;
 using ImageDebugger.Core.ImageProcessing.Utilts;
+using ImageDebugger.Core.IoC.Interface;
 using ImageDebugger.Core.Models;
 using MaterialDesignThemes.Wpf;
 
-namespace ImageDebugger.Core.ViewModels
+namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
 {
     public partial class HalconWindowPageViewModel : RecyclableMegaList<string>
     {
@@ -199,18 +199,7 @@ public List<int> ImageToShowSelectionList { get; private set; } = new List<int>(
                     async () => { await TimedProcessAsync(ConvertPathsToImages(PreviousUnbounded())); });
             }, o => HasImages);
 
-            SelectImageDirCommand = new SimpleCommand(o =>
-            {
-//                using (var fbd = new FolderBrowserDialog())
-//                {
-//                    DialogResult result = fbd.ShowDialog();
-//
-//                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-//                    {
-//                        ImageDirectory = fbd.SelectedPath;
-//                    }
-//                }
-            }, o => !SystemIsBusy);
+            SelectImageDirCommand = new SimpleCommand(o => { ImagePaths = IoC.IoC.Get<IImageProvider>().GetImages(); }, o => !SystemIsBusy);
 
             ContinuousRunCommand = new SimpleCommand(async o =>
             {
@@ -334,14 +323,7 @@ private async Task ProcessAsync(List<HImage> images)
 /// <summary>
 /// The base directory for serializing everything
 /// </summary>
-        public string SerializationDir
-        {
-    get
-    {
-        throw new NotImplementedException();
-//        return Application.StartupPath + "/" + ProcedureName;
-    }
-        }
+        public string SerializationDir => IoC.IoC.Get<ISerializationManager>().SerializationBaseDir + "/" + ProcedureName;
 
 /// <summary>
 /// The directory to serialize fai item settings

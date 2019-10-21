@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{687635E2-8EBB-4B98-B701-77D882FA9FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Tests", "UI.Tests\UI.Tests.csproj", "{75C5A54D-9404-4C55-A584-C21F72FE2497}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDebugger.Core.Tests", "ImageDebugger.Core.Tests\ImageDebugger.Core.Tests.csproj", "{75C5A54D-9404-4C55-A584-C21F72FE2497}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDebugger.Core", "ImageDebugger.Core\ImageDebugger.Core.csproj", "{43275736-8146-432F-9BA0-FDCD1EDCDA8A}"
 EndProject

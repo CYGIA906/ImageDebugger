@@ -15,7 +15,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Image Debugger" Height="800" Width="1200"
-        WindowState="Maximized" Loaded="MainWindow_OnLoaded">
+        WindowState="Maximized">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>

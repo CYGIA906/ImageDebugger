@@ -11,12 +11,6 @@ namespace UI
         {
             InitializeComponent();
         }
-
-
-        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-//            Snackbar.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
-//            ((MainWindowViewModel) DataContext).MessageQueue = Snackbar.MessageQueue;
-        }
+        
     }
 }

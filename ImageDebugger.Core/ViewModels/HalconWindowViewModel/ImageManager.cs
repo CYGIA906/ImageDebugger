@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
-namespace ImageDebugger.Core.ViewModels
+namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
 {
     public partial class HalconWindowPageViewModel
     {
@@ -40,64 +40,41 @@ namespace ImageDebugger.Core.ViewModels
         }
 
 
-        /// <summary>
-        /// Known list of image extensions to filter non-image files
-        /// </summary>
-        private static readonly List<string> ImageExtensions = new List<string>
-            {".JPG", ".JPE", ".BMP", ".TIF", ".PNG"};
 
-        private string _imageDirectory;
 
-        /// <summary>
-        /// Directory to images
-        /// 1. If folder not contains any images do not update any state
-        /// 2. If image names incorrect or image lists not equal, do not update any state
-        /// 3. If naming correct and list all have the same count, update image lists, current image index and total images
-        /// </summary>
-        private string ImageDirectory
+        private List<string> _imagePaths;
+
+  
+
+        public List<string> ImagePaths
         {
-            get { return _imageDirectory; }
+            get => _imagePaths;
             set
             {
-                _imageDirectory = value;
 
-                string[] filePaths = Directory.GetFiles(_imageDirectory);
-                var imagePaths = new List<string>();
-
-                foreach (var imagePath in filePaths)
-                {
-                    if (IsImageFile(imagePath))
-                    {
-                        imagePaths.Add(imagePath);
-                    }
-                }
-
-                if (imagePaths.Count == 0)
+                if (value.Count == 0)
                 {
                     PromptUserThreadSafe("This folder does not contains any supported images");
                     return;
-                }
-
-                bool updateImageListsSuccess = TryAssignImageLists(imagePaths);
-
-                // set it to empty so that user can reopen the same directory
-                _imageDirectory = string.Empty;
-
-
+                }                
+                
+                bool updateImageListsSuccess = TryAssignImageLists(value);
                 if (!updateImageListsSuccess) return;
+                
                 // Generate image names
                 ImageNames = GenImageNames();
                 ImageToShowSelectionList = GenImageToShowSelectionList(NumLists);
+                _imagePaths = value;
             }
         }
 
-    /// <summary>
-    /// Generate a list of image index to show
-    /// The size of the list equals to the size of input images
-    /// required for each image processing run
-    /// </summary>
-    /// <param name="numImagesOneGo"></param>
-    /// <returns></returns>
+        /// <summary>
+        /// Generate a list of image index to show
+        /// The size of the list equals to the size of input images
+        /// required for each image processing run
+        /// </summary>
+        /// <param name="numImagesOneGo"></param>
+        /// <returns></returns>
         private List<int> GenImageToShowSelectionList(int numImagesOneGo)
         {
             var output = new List<int>();
@@ -230,15 +207,7 @@ namespace ImageDebugger.Core.ViewModels
             return allImageNames.Count(ele => ele.StartsWith(testPrefix));
         }
 
-        /// <summary>
-        /// Filter image files based on file extension
-        /// </summary>
-        /// <param name="imagePath"></param>
-        /// <returns></returns>
-        private bool IsImageFile(string imagePath)
-        {
-            return ImageExtensions.Contains(Path.GetExtension(imagePath)?.ToUpper());
-        }
+     
 
         /// <summary>
         /// Command to open a image directory and assign mega image list

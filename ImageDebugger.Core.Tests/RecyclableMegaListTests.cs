@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageDebugger.Core.ViewModels;
+using ImageDebugger.Core.ViewModels.HalconWindowViewModel;
 using NUnit.Framework;
 
-namespace UI.Tests
+namespace ImageDebugger.Core.Tests
 {
     [TestFixture]
     public class RecyclableMegaListTests

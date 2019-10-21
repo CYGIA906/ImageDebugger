@@ -92,6 +92,10 @@
       <HintPath>..\packages\MathNet.Numerics.4.8.1\lib\net461\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PropertyChanged, Version=2.6.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd">
       <HintPath>..\packages\PropertyChanged.Fody.2.6.1\lib\net452\PropertyChanged.dll</HintPath>
       <Private>True</Private>
@@ -124,6 +128,8 @@
     <Compile Include="AttachedProperties\AttachedPropertyOwnerBase.cs" />
     <Compile Include="Converters\EnumToMeasurementPageConverter.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />
+    <Compile Include="DataAccess\ImageProvider.cs" />
+    <Compile Include="DataAccess\SerializationManager.cs" />
     <Compile Include="Views\HalconWindowPage.xaml.cs">
       <DependentUpon>HalconWindowPage.xaml</DependentUpon>
     </Compile>
