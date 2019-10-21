@@ -86,7 +86,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="ImageDebugger.Core.Tests.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="net461" t="Include">
               <e p="ImageDebugger.Core.Tests.AssemblyInfo.cs" t="Include" />
             </e>

@@ -87,6 +87,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
             if (InnerIndex >= MegaList[0].Count)
             {
                 InnerIndex = 0;
+                CurrentIndex = InnerIndex;
                 OnUpperIndexExceeded();
             }
 
@@ -106,6 +107,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
             if (InnerIndex >= MegaList[0].Count)
             {
                 InnerIndex = -1;
+                CurrentIndex = InnerIndex;
                 OnUpperIndexExceeded();
                 return null;
             }
@@ -126,6 +128,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
             if (InnerIndex < 0)
             {
                 InnerIndex = MegaList[0].Count - 1;
+                CurrentIndex = InnerIndex;
                 OnLowerIndexExceeded();
             }
 
