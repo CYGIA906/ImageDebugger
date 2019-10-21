@@ -15,7 +15,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Image Debugger" Height="800" Width="1200"
-        WindowState="Maximized">
+        WindowState="Maximized" FocusManager.FocusedElement="{Binding ElementName=Frame}">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>
@@ -27,13 +27,17 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    
+
     <Grid>
         <materialDesign:Snackbar Name="Snackbar" MessageQueue="{Binding MessageQueue}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="AliceBlue" Foreground="Black" Panel.ZIndex="5">
         </materialDesign:Snackbar>
         
         
-        <Frame Content="{Binding CurrentMeasurementPage, Converter={converters:EnumToMeasurementPageConverter}}" NavigationUIVisibility="Hidden" >
-        </Frame>
+        <!-- <Frame x:Name="Frame" Content="{Binding CurrentMeasurementPage, Converter={converters:EnumToMeasurementPageConverter}}" NavigationUIVisibility="Hidden" > -->
+        <!-- </Frame> -->
+        <ContentControl x:Name="Frame" Content="{Binding CurrentMeasurementPage, Converter={converters:EnumToMeasurementPageConverter}}"></ContentControl>
+        
         <materialDesign:PopupBox PlacementMode="TopAndAlignLeftEdges"   Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                                  Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Panel.ZIndex="5"> 
             <StackPanel>

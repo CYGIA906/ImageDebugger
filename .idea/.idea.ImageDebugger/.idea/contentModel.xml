@@ -129,6 +129,12 @@
         </e>
         <e p="UI.csproj" t="IncludeRecursive" />
         <e p="Views" t="Include">
+          <e p="FindLineSettingView" t="Include">
+            <e p="FindLineSettingItemView.xaml" t="Include" />
+            <e p="FindLineSettingItemView.xaml.cs" t="Include" />
+            <e p="FindLineSettingListView.xaml" t="Include" />
+            <e p="FindLineSettingListView.xaml.cs" t="Include" />
+          </e>
           <e p="HalconWindowPage.xaml" t="Include" />
           <e p="HalconWindowPage.xaml.cs" t="Include" />
           <e p="PageBase.cs" t="Include" />

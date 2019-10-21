@@ -130,6 +130,12 @@
     <Compile Include="Converters\ValueConverterBase.cs" />
     <Compile Include="DataAccess\ImageProvider.cs" />
     <Compile Include="DataAccess\SerializationManager.cs" />
+    <Compile Include="Views\FindLineSettingView\FindLineSettingItemView.xaml.cs">
+      <DependentUpon>FindLineSettingItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FindLineSettingView\FindLineSettingListView.xaml.cs">
+      <DependentUpon>FindLineSettingListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HalconWindowPage.xaml.cs">
       <DependentUpon>HalconWindowPage.xaml</DependentUpon>
     </Compile>
@@ -151,6 +157,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FindLineSettingView\FindLineSettingItemView.xaml" />
+    <Page Include="Views\FindLineSettingView\FindLineSettingListView.xaml" />
     <Page Include="Views\HalconWindowPage.xaml" />
   </ItemGroup>
   <ItemGroup>

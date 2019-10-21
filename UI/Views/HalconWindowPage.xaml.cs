@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowViewModel.HalconWindowPageViewModel;
 
 namespace UI.Views
 {
-    public partial class HalconWindowPage : Page
+    public partial class HalconWindowPage : UserControl
     {
 
         
@@ -21,6 +22,7 @@ namespace UI.Views
             windowHandle.SetPart(0, 0, -2, -2);
 
             ((HalconWindowPageViewModel)DataContext).WindowHandle = windowHandle;
+
         }
         
     }

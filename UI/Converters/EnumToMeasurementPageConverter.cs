@@ -26,7 +26,7 @@ namespace UI.Converters
             throw new NotImplementedException();
         }
 
-        private static Page RetrievePage(MeasurementPage pageEnum)
+        private static UserControl RetrievePage(MeasurementPage pageEnum)
         {
 
             HalconWindowPage output;
