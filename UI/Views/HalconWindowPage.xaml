@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:UI.Views"
       xmlns:halconDotNet="clr-namespace:HalconDotNet;assembly=halcondotnet"
-      xmlns:viewModels="clr-namespace:UI.ViewModels"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d"

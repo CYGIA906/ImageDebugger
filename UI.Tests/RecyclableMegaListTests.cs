@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImageDebugger.Core.ViewModels;
 using NUnit.Framework;
-using UI.ViewModels;
 
 namespace UI.Tests
 {

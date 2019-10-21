@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Controls;
-using UI.Enums;
-using UI.ImageProcessing;
-using UI.ImageProcessing.BottomView;
-using UI.ImageProcessing.TopView;
-using UI.ViewModels;
+using ImageDebugger.Core.Enums;
+using ImageDebugger.Core.ImageProcessing;
 using UI.Views;
+using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowPageViewModel;
+using I94BottomViewMeasure = ImageDebugger.Core.ImageProcessing.BottomView.I94BottomViewMeasure;
+using I94TopViewMeasure = ImageDebugger.Core.ImageProcessing.TopView.I94TopViewMeasure;
 
 namespace UI.Converters
 {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:UI.Converters"
-        xmlns:viewModels="clr-namespace:UI.ViewModels"
+        xmlns:viewModels="clr-namespace:ImageDebugger.Core.ViewModels;assembly=ImageDebugger.Core"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"

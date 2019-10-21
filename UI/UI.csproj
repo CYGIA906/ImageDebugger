@@ -121,52 +121,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\ParameterizedCommand.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Commands\SimpleCommand.cs" />
+    <Compile Include="AttachedProperties\AttachedPropertyOwnerBase.cs" />
     <Compile Include="Converters\EnumToMeasurementPageConverter.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />
-    <Compile Include="Enums\MeasurementPage.cs" />
-    <Compile Include="Hdevs\I94Hdev.cs" />
-    <Compile Include="Helpers\ExpressionHelper.cs" />
-    <Compile Include="Helpers\MegaListHelper.cs" />
-    <Compile Include="ImageProcessing\BottomView\BottomViewHardCodeValues.cs" />
-    <Compile Include="ImageProcessing\BottomView\BottomViewProcessProcedure.cs" />
-    <Compile Include="ImageProcessing\BottomView\I94BottomViewMeasure.cs" />
-    <Compile Include="ImageProcessing\CoordinateSolver.cs" />
-    <Compile Include="ImageProcessing\FindLineFeeding.cs" />
-    <Compile Include="ImageProcessing\FindLineManager.cs" />
-    <Compile Include="ImageProcessing\FindLineConfigs.cs" />
-    <Compile Include="ImageProcessing\IMeasurementProcedure.cs" />
-    <Compile Include="ImageProcessing\Line.cs" />
-    <Compile Include="ImageProcessing\MathUtils.cs" />
-    <Compile Include="ImageProcessing\Point.cs" />
-    <Compile Include="ImageProcessing\DataRecorder.cs" />
-    <Compile Include="ImageProcessing\TopView\I94TopViewMeasure.cs" />
-    <Compile Include="ImageProcessing\TopView\TopViewHardCodeValues.cs" />
-    <Compile Include="ImageProcessing\Utilts\FaiItemCsvSerializer.cs" />
-    <Compile Include="ImageProcessing\Utilts\FaiItemsExtension.cs" />
-    <Compile Include="ImageProcessing\Utilts\HalconHelper.cs" />
-    <Compile Include="Interfaces\IImageProvider.cs" />
-    <Compile Include="Models\AutoSerializableBase.cs" />
-    <Compile Include="Models\CountAwareQueue.cs" />
-    <Compile Include="Models\FaiItem.cs" />
-    <Compile Include="Models\FindLineLocation.cs" />
-    <Compile Include="Models\FindLineParam.cs" />
-    <Compile Include="Models\HalconGraphics.cs" />
-    <Compile Include="Models\ImageProcessingResult.cs" />
-    <Compile Include="ViewModels\AttachedPropertyOwnerBase.cs" />
-    <Compile Include="ViewModels\HalconWindowPageViewModel.cs" />
-    <Compile Include="ViewModels\ImageProvider.cs" />
-    <Compile Include="ViewModels\ImageProviderViewModel.cs" />
-    <Compile Include="ViewModels\RecyclableMegaList.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\HalconWindowPage.xaml.cs">
       <DependentUpon>HalconWindowPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ImageProviderView.xaml.cs">
-      <DependentUpon>ImageProviderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PageBase.cs" />
     <Compile Include="Views\UserControlBase.cs" />
@@ -187,7 +146,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HalconWindowPage.xaml" />
-    <Page Include="Views\ImageProviderView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -221,6 +179,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImageDebugger.Core\ImageDebugger.Core.csproj">
+      <Project>{43275736-8146-432f-9ba0-fdcd1edcda8a}</Project>
+      <Name>ImageDebugger.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

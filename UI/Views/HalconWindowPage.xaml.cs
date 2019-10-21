@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using UI.ViewModels;
+using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowPageViewModel;
 
 namespace UI.Views
 {
