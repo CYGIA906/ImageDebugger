@@ -395,7 +395,7 @@ namespace ImageDebugger.Core.ImageProcessing.BottomView
                 Edges = HalconHelper.ConcatAll(findLineManager.Edges, edgeLeftTop, edgeLeftBottom, edgeRightTop, edgeRightBottom, leftCircleContour, rightCircleContour),
                 PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
                 PointLineGraphics = coordinateSolver.PointLineDistanceGraphics,
-                Image = image
+//                Image = image
             };
             
 

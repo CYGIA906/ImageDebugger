@@ -15,7 +15,7 @@ namespace ImageDebugger.Core.Models
         public HObject FindLineRects { get; set; }
         public HObject LineRegions { get; set; }
 
-        public HImage Image { get; set; }
+//        public HImage Image { get; set; }
 
         
         private static readonly HDevelopExport HalconScripts = new HDevelopExport();
@@ -24,7 +24,7 @@ namespace ImageDebugger.Core.Models
         {
 
             
-            windowHandle.DispImage(Image);
+//            windowHandle.DispImage(Image);
             DisplayCrosses(windowHandle);
             DisplayPointLineDistanceGraphics(windowHandle);
             DisplayPointPointDistanceGraphics(windowHandle);

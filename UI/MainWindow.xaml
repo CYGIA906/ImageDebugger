@@ -6,6 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:UI.Converters"
         xmlns:viewModels="clr-namespace:ImageDebugger.Core.ViewModels;assembly=ImageDebugger.Core"
+        xmlns:views="clr-namespace:UI.Views"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"

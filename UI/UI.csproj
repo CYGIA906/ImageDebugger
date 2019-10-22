@@ -127,6 +127,7 @@
     </ApplicationDefinition>
     <Compile Include="AttachedProperties\AttachedPropertyOwnerBase.cs" />
     <Compile Include="Converters\EnumToMeasurementPageConverter.cs" />
+    <Compile Include="Converters\EventToCommandBehaviour.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />
     <Compile Include="DataAccess\ImageProvider.cs" />
     <Compile Include="DataAccess\SerializationManager.cs" />

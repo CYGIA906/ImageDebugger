@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HalconDotNet;
 using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowViewModel.HalconWindowPageViewModel;
 
 namespace UI.Views
@@ -22,8 +23,12 @@ namespace UI.Views
             windowHandle.SetPart(0, 0, -2, -2);
 
             ((HalconWindowPageViewModel)DataContext).WindowHandle = windowHandle;
-
+//            HalconWindow.HMouseMove += HalconWindowOnHMouseMove;
         }
-        
+
+//        private void HalconWindowOnHMouseMove(object sender, HSmartWindowControlWPF.HMouseEventArgsWPF e)
+//        {
+//            throw new System.NotImplementedException();
+//        }
     }
 }

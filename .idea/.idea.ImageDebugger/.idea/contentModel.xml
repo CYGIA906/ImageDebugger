@@ -86,7 +86,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="ImageDebugger.Core.Tests.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Release" t="Include">
+          <e p="Debug" t="Include">
             <e p="net461" t="Include">
               <e p="ImageDebugger.Core.Tests.AssemblyInfo.cs" t="Include" />
             </e>
@@ -108,6 +108,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Converters" t="Include">
           <e p="EnumToMeasurementPageConverter.cs" t="Include" />
+          <e p="EventToCommandBehaviour.cs" t="Include" />
           <e p="ValueConverterBase.cs" t="Include" />
         </e>
         <e p="DataAccess" t="Include">

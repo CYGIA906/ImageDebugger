@@ -329,7 +329,7 @@ namespace ImageDebugger.Core.ImageProcessing.TopView
                  Edges = findLineManager.Edges,
                  PointPointGraphics = coordinateSolver.PointPointDistanceGraphics,
                  PointLineGraphics = coordinateSolver.PointLineDistanceGraphics, 
-                 Image = images[indexToShow]
+//                 Image = images[indexToShow]
              };
 
             return new ImageProcessingResult()

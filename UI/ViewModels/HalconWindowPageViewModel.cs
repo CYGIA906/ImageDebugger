@@ -61,6 +61,7 @@ namespace UI.ViewModels
         /// </summary>
         public List<string> ImageNames { get; set; }
 
+
         /// <summary>
         /// The measurement procedure that image processing happens
         /// </summary>

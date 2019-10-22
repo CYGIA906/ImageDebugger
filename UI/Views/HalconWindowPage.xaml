@@ -7,10 +7,12 @@
       xmlns:halconDotNet="clr-namespace:HalconDotNet;assembly=halcondotnet"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:converters="clr-namespace:UI.Converters"
       mc:Ignorable="d"
       d:DesignHeight="600"
       d:DesignWidth="800"
       Loaded="HalconWindowPage_OnLoaded">
+   
     <DockPanel>
         
 
@@ -84,7 +86,7 @@
         </Grid>
 
 
-        <Grid DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top" >
             <!-- Current image name -->
             <materialDesign:ColorZone TextElement.Foreground="AliceBlue" 
                                       TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}"
@@ -95,9 +97,21 @@
             
             <!-- Halcon window -->
      
-            <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1">
-                <!-- <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" /> -->
+            <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1" ToolTip="{Binding XYGrayValue}">
+      
+                <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />
+             <i:Interaction.Behaviors>
+                 <converters:EventToCommandBehavior Event="HMouseMove" Command="{Binding DisplayXYGrayCommand}" PassArguments="True"></converters:EventToCommandBehavior>
+             </i:Interaction.Behaviors>
+
             </halconDotNet:HSmartWindowControlWPF>
+            
+            <Popup IsOpen="True" Placement="Relative" HorizontalOffset="{Binding MouseX}" VerticalOffset="{Binding MouseY}" PlacementTarget="{Binding ElementName=HalconWindow}">
+                <StackPanel>
+                    <TextBlock Text="{Binding XYGrayValue}" Background="{DynamicResource SecondaryAccentBrush}" Foreground="{DynamicResource PrimaryHueDarkBrush}"></TextBlock>
+                </StackPanel>
+            </Popup>
+
 
 
             <!-- Snack bar -->
