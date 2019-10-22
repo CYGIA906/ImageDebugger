@@ -29,6 +29,11 @@
         </ResourceDictionary>
     </Window.Resources>
     
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding SwitchTopViewCommand}"></KeyBinding>
+        <KeyBinding Key="F2" Command="{Binding SwitchBottomViewCommand}"></KeyBinding>
+    </Window.InputBindings>
+    
 
     <Grid>
         <materialDesign:Snackbar Name="Snackbar" MessageQueue="{Binding MessageQueue}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="AliceBlue" Foreground="Black" Panel.ZIndex="5">

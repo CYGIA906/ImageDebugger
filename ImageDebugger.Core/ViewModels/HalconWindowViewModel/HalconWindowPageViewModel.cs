@@ -320,7 +320,8 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
                 await Task.Run(() =>
                     MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow,
                         RunStatusMessageQueue));
-
+            
+            DisplayImage = images[IndexToShow];
             images[IndexToShow].DispImage(WindowHandle);
 
             if (WindowHandle != null)

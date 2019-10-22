@@ -99,7 +99,7 @@
      
             <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1" ToolTip="{Binding XYGrayValue}">
       
-                <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" />
+                <!-- <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" /> -->
              <i:Interaction.Behaviors>
                  <converters:EventToCommandBehavior Event="HMouseMove" Command="{Binding DisplayXYGrayCommand}" PassArguments="True"></converters:EventToCommandBehavior>
              </i:Interaction.Behaviors>
