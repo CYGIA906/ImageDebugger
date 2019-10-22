@@ -121,6 +121,10 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         /// </summary>
         public bool ShouldImageInfoDisplay { get; set; }
 
+        /// <summary>
+        /// Display current gray value and image x, y coordinates
+        /// </summary>
+        /// <param name="o"></param>
         private void DisplayXYGray(object o)
         {
             double grayvalue = -1;
@@ -141,7 +145,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
             // output grayvalue info
             GrayValueInfo = new ImageInfoViewModel()
             {
-                X = imageX, Y = imageY, GrayValue = grayvalue.ToString("f1")
+                X = imageX, Y = imageY, GrayValue = (int) grayvalue
             };
 
             // Set the pop-up position
@@ -317,6 +321,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
                     MeasurementUnit.ProcessAsync(images, findLineConfigs, FaiItems, IndexToShow,
                         RunStatusMessageQueue));
 
+            images[IndexToShow].DispImage(WindowHandle);
 
             if (WindowHandle != null)
             {
@@ -324,7 +329,6 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
                 result.DataRecorder.DisplayPoints(WindowHandle);
             }
 
-            DisplayImage = images[IndexToShow];
             result.DataRecorder.Serialize(CsvDir + "/DebuggingData.csv");
             UpdateFaiItems(result.FaiDictionary);
             CsvSerializer.Serialize(FaiItems, ImageNames[CurrentIndex]);

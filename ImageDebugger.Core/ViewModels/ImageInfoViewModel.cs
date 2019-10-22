@@ -16,7 +16,7 @@
         /// <summary>
         /// Gray value of the image point
         /// </summary>
-        public string GrayValue { get; set; }
+        public int GrayValue { get; set; }
         
     }
 }

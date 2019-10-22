@@ -8,34 +8,47 @@
              xmlns:viewModels="clr-namespace:ImageDebugger.Core.ViewModels;assembly=ImageDebugger.Core"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Background="Transparent">
-    <Border x:Name="Container" CornerRadius="10" Background="{DynamicResource SecondaryAccentBrush}">
-        
-        <Grid >
-            <!-- <Grid.OpacityMask> -->
-            <!--     <VisualBrush Visual="{Binding ElementName=Container}" /> -->
-            <!-- </Grid.OpacityMask> -->
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            
-            <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="3 2" VerticalAlignment="Center">GrayValue:</TextBlock>
-            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Margin="3 2" VerticalAlignment="Center">X:</TextBlock>
-            <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Margin="3 2" VerticalAlignment="Center">Y:</TextBlock>
-            
-            <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2" VerticalAlignment="Center" Text="{Binding GrayValue}"></TextBlock>
-            <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2" VerticalAlignment="Center" Text="{Binding X}"></TextBlock>
-            <TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2" VerticalAlignment="Center" Text="{Binding Y}"></TextBlock>
-        </Grid>
-    </Border>
+
+            <Grid Background="Transparent">
+                    <Grid.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=Container}" />
+                </Grid.OpacityMask>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="5" x:Name="Container" CornerRadius="10" Background="{DynamicResource SecondaryAccentBrush}" Padding="0"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="3 2" Background="Transparent"
+                           VerticalAlignment="Center">
+                    GrayValue:
+                </TextBlock>
+                <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Margin="3 2"
+                           VerticalAlignment="Center">
+                    X:
+                </TextBlock>
+                <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
+                <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Margin="3 2"
+                           VerticalAlignment="Center">
+                    Y:
+                </TextBlock>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2"
+                           VerticalAlignment="Center" Text="{Binding GrayValue}" />
+                <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2"
+                           VerticalAlignment="Center" Text="{Binding X}" />
+                <TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2"
+                           VerticalAlignment="Center" Text="{Binding Y}" />
+            </Grid>
+
 </UserControl>
