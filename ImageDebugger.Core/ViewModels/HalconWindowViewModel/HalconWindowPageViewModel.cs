@@ -116,20 +116,35 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         /// </summary>
         public ICommand DisplayXYGrayCommand { get; set; }
 
+        /// <summary>
+        /// Whether the image info should be displayed
+        /// </summary>
+        public bool ShouldImageInfoDisplay { get; set; }
 
         private void DisplayXYGray(object o)
         {
-            double grayvalue = 0;
+            double grayvalue = -1;
+            int imageX = -1, imageY = -1;
+            ShouldImageInfoDisplay = true;
             HSmartWindowControlWPF.HMouseEventArgsWPF e = (HSmartWindowControlWPF.HMouseEventArgsWPF) o;
             try
             {
-                 grayvalue = (DisplayImage as HImage)?.GetGrayval(e.Row, e.Column);
+                imageX = (int) e.Column;
+                imageY = (int) e.Row;
+                grayvalue = (DisplayImage as HImage)?.GetGrayval(imageY, imageX);
             }
             catch (Exception exception)
             {
+                ShouldImageInfoDisplay = false;
             }
-            
-            XYGrayValue = $"{grayvalue.ToString("f1")} at({e.Column}, {e.Row}";
+
+            // output grayvalue info
+            GrayValueInfo = new ImageInfoViewModel()
+            {
+                X = imageX, Y = imageY, GrayValue = grayvalue.ToString("f1")
+            };
+
+            // Set the pop-up position
             MouseX = (int) e.X + 20;
             MouseY = (int) e.Y + 20;
         }
@@ -144,6 +159,11 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         /// Specifies whether image processing is running
         /// </summary>
         public bool SystemIsBusy { get; set; }
+
+        /// <summary>
+        /// Gray value information of the current image point under the cursor
+        /// </summary>
+        public ImageInfoViewModel GrayValueInfo { get; set; }
 
         /// <summary>
         /// The directory for outputting find-line parameter config files
@@ -162,7 +182,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
 
         public int MouseY { get; set; }
         
-        public string XYGrayValue { get; set; }
+  
 
         /// <summary>
         /// Update fai items to display after image processing

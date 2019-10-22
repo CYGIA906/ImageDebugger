@@ -140,6 +140,9 @@
     <Compile Include="Views\HalconWindowPage.xaml.cs">
       <DependentUpon>HalconWindowPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ImageInfoView.xaml.cs">
+      <DependentUpon>ImageInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PageBase.cs" />
     <Compile Include="Views\UserControlBase.cs" />
     <Page Include="MainWindow.xaml">
@@ -161,6 +164,7 @@
     <Page Include="Views\FindLineSettingView\FindLineSettingItemView.xaml" />
     <Page Include="Views\FindLineSettingView\FindLineSettingListView.xaml" />
     <Page Include="Views\HalconWindowPage.xaml" />
+    <Page Include="Views\ImageInfoView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

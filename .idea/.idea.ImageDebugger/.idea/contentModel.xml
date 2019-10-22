@@ -78,6 +78,7 @@
             <e p="ImageManager.cs" t="Include" />
             <e p="RecyclableMegaList.cs" t="Include" />
           </e>
+          <e p="ImageInfoViewModel.cs" t="Include" />
           <e p="MainWindowViewModel.cs" t="Include" />
           <e p="ViewModelBase.cs" t="Include" />
         </e>
@@ -138,6 +139,8 @@
           </e>
           <e p="HalconWindowPage.xaml" t="Include" />
           <e p="HalconWindowPage.xaml.cs" t="Include" />
+          <e p="ImageInfoView.xaml" t="Include" />
+          <e p="ImageInfoView.xaml.cs" t="Include" />
           <e p="PageBase.cs" t="Include" />
           <e p="UserControlBase.cs" t="Include" />
         </e>

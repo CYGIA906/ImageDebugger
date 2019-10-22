@@ -106,10 +106,8 @@
 
             </halconDotNet:HSmartWindowControlWPF>
             
-            <Popup IsOpen="True" Placement="Relative" HorizontalOffset="{Binding MouseX}" VerticalOffset="{Binding MouseY}" PlacementTarget="{Binding ElementName=HalconWindow}">
-                <StackPanel>
-                    <TextBlock Text="{Binding XYGrayValue}" Background="{DynamicResource SecondaryAccentBrush}" Foreground="{DynamicResource PrimaryHueDarkBrush}"></TextBlock>
-                </StackPanel>
+            <Popup IsOpen="{Binding ShouldImageInfoDisplay}" Placement="Relative" HorizontalOffset="{Binding MouseX}" VerticalOffset="{Binding MouseY}" PlacementTarget="{Binding ElementName=HalconWindow}">
+               <local:ImageInfoView DataContext="{Binding GrayValueInfo}"/>
             </Popup>
 
 
