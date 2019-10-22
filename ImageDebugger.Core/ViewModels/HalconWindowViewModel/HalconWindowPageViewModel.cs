@@ -180,7 +180,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         /// <summary>
         /// The index within the input batch of images to show
         /// </summary>
-        public int IndexToShow { get; set; } = 1;
+        public int IndexToShow { get; set; } = 0;
 
         public int MouseX { get; set; }
 
