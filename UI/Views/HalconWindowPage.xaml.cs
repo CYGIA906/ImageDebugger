@@ -1,16 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using HalconDotNet;
-using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowViewModel.HalconWindowPageViewModel;
+using ImageDebugger.Core.ViewModels.CameraMeasurement;
 
 namespace UI.Views
 {
-    public partial class HalconWindowPage : UserControl
+    public partial class CameraMeasurementView : UserControl
     {
 
         
-        public HalconWindowPage()
+        public CameraMeasurementView()
         {
             InitializeComponent();
         } 
@@ -22,7 +20,7 @@ namespace UI.Views
             windowHandle.SetColored(3);
             windowHandle.SetPart(0, 0, -2, -2);
 
-            ((HalconWindowPageViewModel)DataContext).WindowHandle = windowHandle;
+            ((CameraMeasurementViewModel)DataContext).WindowHandle = windowHandle;
 //            HalconWindow.HMouseMove += HalconWindowOnHMouseMove;
         }
 

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace UI.Converters
+namespace ImageDebugger.Core.WPFBase
 {
     /// <summary>
     /// Classes that inherit this class don't need to provide singleton instance when using in XAML

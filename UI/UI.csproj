@@ -125,10 +125,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AttachedProperties\AttachedPropertyOwnerBase.cs" />
     <Compile Include="Converters\EnumToMeasurementPageConverter.cs" />
     <Compile Include="Converters\EventToCommandBehaviour.cs" />
-    <Compile Include="Converters\ValueConverterBase.cs" />
     <Compile Include="DataAccess\ImageProvider.cs" />
     <Compile Include="DataAccess\SerializationManager.cs" />
     <Compile Include="Views\FindLineSettingView\FindLineSettingItemView.xaml.cs">
@@ -138,7 +136,7 @@
       <DependentUpon>FindLineSettingListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HalconWindowPage.xaml.cs">
-      <DependentUpon>HalconWindowPage.xaml</DependentUpon>
+      <DependentUpon>CameraMeasurementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ImageInfoView.xaml.cs">
       <DependentUpon>ImageInfoView.xaml</DependentUpon>
@@ -163,7 +161,7 @@
     </Page>
     <Page Include="Views\FindLineSettingView\FindLineSettingItemView.xaml" />
     <Page Include="Views\FindLineSettingView\FindLineSettingListView.xaml" />
-    <Page Include="Views\HalconWindowPage.xaml" />
+    <Page Include="Views\CameraMeasurementView.xaml" />
     <Page Include="Views\ImageInfoView.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +202,9 @@
       <Project>{43275736-8146-432f-9ba0-fdcd1edcda8a}</Project>
       <Name>ImageDebugger.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AttachedProperties" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

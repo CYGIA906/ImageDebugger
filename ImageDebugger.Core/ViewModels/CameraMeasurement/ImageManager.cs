@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
-namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
+namespace ImageDebugger.Core.ViewModels.CameraMeasurement
 {
-    public partial class HalconWindowPageViewModel
+    public partial class CameraMeasurementViewModel
     {
         #region Image Providing Logic
 

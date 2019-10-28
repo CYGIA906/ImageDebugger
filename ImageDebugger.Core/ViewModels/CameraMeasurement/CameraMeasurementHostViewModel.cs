@@ -4,9 +4,9 @@ using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.Enums;
 using MaterialDesignThemes.Wpf;
 
-namespace ImageDebugger.Core.ViewModels
+namespace ImageDebugger.Core.ViewModels.CameraMeasurement
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class CameraMeasurementHostViewModel : ViewModelBase
     {
         /// <summary>
         /// Command to switch to bottom view page
@@ -28,7 +28,7 @@ namespace ImageDebugger.Core.ViewModels
             get { return CurrentMeasurementPage.ToString(); }
         }
 
-        public MainWindowViewModel()
+        public CameraMeasurementHostViewModel()
         {
             SwitchTopViewCommand = new RelayCommand(() =>
             {

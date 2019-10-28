@@ -74,14 +74,18 @@
           <e p="AssemblyInfo.cs" t="Include" />
         </e>
         <e p="ViewModels" t="Include">
-          <e p="HalconWindowViewModel" t="Include">
-            <e p="HalconWindowPageViewModel.cs" t="Include" />
+          <e p="CameraMeasurement" t="Include">
+            <e p="CameraMeasurementHostViewModel.cs" t="Include" />
+            <e p="CameraMeasurementViewModel.cs" t="Include" />
             <e p="ImageManager.cs" t="Include" />
-            <e p="RecyclableMegaList.cs" t="Include" />
           </e>
           <e p="ImageInfoViewModel.cs" t="Include" />
-          <e p="MainWindowViewModel.cs" t="Include" />
+          <e p="RecyclableMegaList.cs" t="Include" />
           <e p="ViewModelBase.cs" t="Include" />
+        </e>
+        <e p="WPFBase" t="Include">
+          <e p="AttachedPropertyOwnerBase.cs" t="Include" />
+          <e p="ValueConverterBase.cs" t="Include" />
         </e>
       </e>
       <e p="ImageDebugger.Core.Tests" t="IncludeRecursive">
@@ -104,14 +108,11 @@
         <e p="App.config" t="Include" />
         <e p="App.xaml" t="Include" />
         <e p="App.xaml.cs" t="Include" />
-        <e p="AttachedProperties" t="Include">
-          <e p="AttachedPropertyOwnerBase.cs" t="Include" />
-        </e>
+        <e p="AttachedProperties" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Converters" t="Include">
           <e p="EnumToMeasurementPageConverter.cs" t="Include" />
           <e p="EventToCommandBehaviour.cs" t="Include" />
-          <e p="ValueConverterBase.cs" t="Include" />
         </e>
         <e p="DataAccess" t="Include">
           <e p="ImageProvider.cs" t="Include" />
@@ -132,13 +133,13 @@
         </e>
         <e p="UI.csproj" t="IncludeRecursive" />
         <e p="Views" t="Include">
+          <e p="CameraMeasurementView.xaml" t="Include" />
           <e p="FindLineSettingView" t="Include">
             <e p="FindLineSettingItemView.xaml" t="Include" />
             <e p="FindLineSettingItemView.xaml.cs" t="Include" />
             <e p="FindLineSettingListView.xaml" t="Include" />
             <e p="FindLineSettingListView.xaml.cs" t="Include" />
           </e>
-          <e p="HalconWindowPage.xaml" t="Include" />
           <e p="HalconWindowPage.xaml.cs" t="Include" />
           <e p="ImageInfoView.xaml" t="Include" />
           <e p="ImageInfoView.xaml.cs" t="Include" />

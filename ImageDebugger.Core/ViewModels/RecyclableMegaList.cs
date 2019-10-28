@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ImageDebugger.Core.Helpers;
 
-namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
+namespace ImageDebugger.Core.ViewModels
 {
     /// <summary>
     /// A list that is able to loop backward and forward infinitely

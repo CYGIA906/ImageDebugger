@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using System.Xml.Serialization;
 using HalconDotNet;
 using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.Helpers;
@@ -17,9 +13,9 @@ using ImageDebugger.Core.IoC.Interface;
 using ImageDebugger.Core.Models;
 using MaterialDesignThemes.Wpf;
 
-namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
+namespace ImageDebugger.Core.ViewModels.CameraMeasurement
 {
-    public partial class HalconWindowPageViewModel : RecyclableMegaList<string>
+    public partial class CameraMeasurementViewModel : RecyclableMegaList<string>
     {
         /// <summary>
         /// The measurement procedure class that image processing is going to happen
@@ -221,7 +217,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         /// <summary>
         /// Default constructor
         /// </summary>
-        public HalconWindowPageViewModel()
+        public CameraMeasurementViewModel()
         {
             // Update current image name to show
             CurrentIndexChanged += index => { CurrentImageName = index < 0 ? "" : ImageNames[index]; };

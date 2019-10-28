@@ -1,7 +1,7 @@
 ﻿
 using System.Windows;
 
-namespace UI.AttachedProperties
+namespace ImageDebugger.Core.WPFBase
 {
       /// <summary>
     /// A base class for attached property owner class to re-implement

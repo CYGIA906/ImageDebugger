@@ -5,8 +5,9 @@ using System.Linq;
 using System.Windows.Controls;
 using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.ImageProcessing;
+using ImageDebugger.Core.ViewModels.CameraMeasurement;
+using ImageDebugger.Core.WPFBase;
 using UI.Views;
-using HalconWindowPageViewModel = ImageDebugger.Core.ViewModels.HalconWindowViewModel.HalconWindowPageViewModel;
 using I94BottomViewMeasure = ImageDebugger.Core.ImageProcessing.BottomView.I94BottomViewMeasure;
 using I94TopViewMeasure = ImageDebugger.Core.ImageProcessing.TopView.I94TopViewMeasure;
 
@@ -29,12 +30,12 @@ namespace UI.Converters
         private static UserControl RetrievePage(MeasurementPage pageEnum)
         {
 
-            HalconWindowPage output;
+            CameraMeasurementView output;
             // Try get the first halcon window page with the requested measurement procedure
             try
             {
-                output = pageEnum == MeasurementPage.I94Top? MeasurementPages.First(page => ((HalconWindowPageViewModel)page.DataContext).MeasurementUnit is I94TopViewMeasure)
-                    : MeasurementPages.First(page => ((HalconWindowPageViewModel)page.DataContext).MeasurementUnit is I94BottomViewMeasure);
+                output = pageEnum == MeasurementPage.I94Top? MeasurementPages.First(page => ((CameraMeasurementViewModel)page.DataContext).MeasurementUnit is I94TopViewMeasure)
+                    : MeasurementPages.First(page => ((CameraMeasurementViewModel)page.DataContext).MeasurementUnit is I94BottomViewMeasure);
             }
             // If the list not contain a halcon page with the specific measurement procedure
             // Add one and return it
@@ -50,9 +51,9 @@ namespace UI.Converters
                     procedure = new I94BottomViewMeasure();
                 }
 
-                var page = new HalconWindowPage()
+                var page = new CameraMeasurementView()
                 {
-                    DataContext = new HalconWindowPageViewModel()
+                    DataContext = new CameraMeasurementViewModel()
                     {
                         MeasurementUnit = procedure
                     }
@@ -66,7 +67,7 @@ namespace UI.Converters
             return output;
         }
         
-        private static List<HalconWindowPage> MeasurementPages { get; } = new List<HalconWindowPage>();
+        private static List<CameraMeasurementView> MeasurementPages { get; } = new List<CameraMeasurementView>();
 
     }
 }

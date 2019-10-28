@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageDebugger.Core.ViewModels;
-using ImageDebugger.Core.ViewModels.HalconWindowViewModel;
+using ImageDebugger.Core.ViewModels.CameraMeasurement;
 using NUnit.Framework;
 
 namespace ImageDebugger.Core.Tests
