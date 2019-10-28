@@ -11,8 +11,8 @@ namespace ImageDebugger.Core.ImageProcessing.BottomView
     public partial class I94BottomViewMeasure
     {
            public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
-            ObservableCollection<FaiItem> faiItems, int indexToShow,
-            SnackbarMessageQueue messageQueue)
+               List<FaiItem> faiItems, int indexToShow,
+               SnackbarMessageQueue messageQueue)
         {
             #region Initial variables
 

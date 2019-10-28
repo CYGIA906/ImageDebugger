@@ -22,6 +22,7 @@
           <e p="I94Hdev.cs" t="Include" />
         </e>
         <e p="Helpers" t="Include">
+          <e p="AutoSerializableHelper.cs" t="Include" />
           <e p="ExpressionHelper.cs" t="Include" />
           <e p="MegaListHelper.cs" t="Include" />
         </e>
@@ -87,7 +88,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="ImageDebugger.Core.Tests.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Release" t="Include">
+          <e p="Debug" t="Include">
             <e p="net461" t="Include">
               <e p="ImageDebugger.Core.Tests.AssemblyInfo.cs" t="Include" />
             </e>

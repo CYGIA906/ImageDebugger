@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace UI.Helpers
+namespace ImageDebugger.Core.Helpers
 {
     public static class ExpressionHelper
     {

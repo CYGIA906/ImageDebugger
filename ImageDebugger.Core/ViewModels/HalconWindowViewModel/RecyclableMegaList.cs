@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UI.Helpers;
+using ImageDebugger.Core.Helpers;
 
 namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
 {

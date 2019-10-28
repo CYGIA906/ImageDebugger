@@ -6,11 +6,7 @@ namespace ImageDebugger.Core.Models
 {
     public class FaiItem : AutoSerializableBase<FaiItem>
     {
-        /// <summary>
-        /// Fai name
-        /// </summary>
-        [XmlAttribute][DoNotNotify]
-        public string Name { get;  set; } 
+       
 
         /// <summary>
         /// Max boundary of the fai item
@@ -48,15 +44,10 @@ namespace ImageDebugger.Core.Models
         {
             get { return ValueBiased > MinBoundary && ValueBiased < MaxBoundary; }
         }
-
-        [XmlIgnore]
-        public string SerializationDir;
+        
 
 
-        protected override string GetSerializationPath()
-        {
-            return Path.Combine(SerializationDir, Name + ".xml");
-        }
+    
 
         public FaiItem(string name)
         {

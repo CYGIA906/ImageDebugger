@@ -90,6 +90,7 @@
     <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Enums\MeasurementPage.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
+    <Compile Include="Helpers\AutoSerializableHelper.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\MegaListHelper.cs" />
     <Compile Include="ImageProcessing\BottomView\BottomViewHardCodeValues.cs" />

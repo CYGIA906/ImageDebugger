@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using HalconDotNet;
 using ImageDebugger.Core.Commands;
+using ImageDebugger.Core.Helpers;
 using ImageDebugger.Core.ImageProcessing;
 using ImageDebugger.Core.ImageProcessing.Utilts;
 using ImageDebugger.Core.IoC.Interface;
@@ -28,13 +29,13 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         /// <summary>
         /// The fai item list for displaying result to the UI
         /// </summary>
-        public ObservableCollection<FaiItem> FaiItems { get; private set; }
+        public List<FaiItem> FaiItems { get; private set; }
 
         /// <summary>
         /// The find line parameters to display for editing
         /// and will be apply to tweak haw the lines will be found
         /// </summary>
-        public ObservableCollection<FindLineParam> FindLineParams { get; private set; }
+        public List<FindLineParam> FindLineParams { get; private set; }
 
         /// <summary>
         /// The message queue for outputting debugging information to user
@@ -74,22 +75,14 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
                 _measurementUnit = value;
                 CsvSerializer = new FaiItemCsvSerializer(CsvDir);
                 // Init fai items
-                var faiItemsFromDisk = TryLoadFaiItemsFromDisk();
-                FaiItems = faiItemsFromDisk ?? MeasurementUnit.GenFaiItemValues(FaiItemSerializationDir);
-                foreach (var item in FaiItems)
-                {
-                    item.ResumeAutoSerialization();
-                }
+                FaiItems = LoadFaiItemsFromDisk().ToList();
+                
 
                 // Init find line params
-                var findLineParamsFromDisk = TryLoadFindLineParamsFromDisk();
-                FindLineParams = findLineParamsFromDisk ??
-                                 MeasurementUnit.GenFindLineParamValues(ParamSerializationBaseDir);
+                FindLineParams = LoadFindLineParamsFromDisk().ToList();
+                
 
-                foreach (var param in FindLineParams)
-                {
-                    param.ResumeAutoSerialization();
-                }
+                
 
                 // Init find line locations
                 FindLineLocationsRelativeValues = MeasurementUnit.GenFindLineLocationValues();
@@ -363,7 +356,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         {
             foreach (var item in FaiItems)
             {
-                item.ResumeAutoSerialization();
+                item.ShouldAutoSerialize = true;
             }
         }
 
@@ -374,7 +367,7 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         {
             foreach (var item in FaiItems)
             {
-                item.StopAutoSerialization();
+                item.ShouldAutoSerialize = false;
             }
         }
 
@@ -396,62 +389,20 @@ namespace ImageDebugger.Core.ViewModels.HalconWindowViewModel
         /// Try to load fai item setting from disk if any
         /// </summary>
         /// <returns>The loaded fai items</returns>
-        private ObservableCollection<FaiItem> TryLoadFaiItemsFromDisk()
+        private IEnumerable<FaiItem> LoadFaiItemsFromDisk()
         {
-            var directoryInfo = Directory.CreateDirectory(FaiItemSerializationDir);
-            var xmls = directoryInfo.GetFiles("*.xml");
-            if (xmls.Length == 0) return null;
-
-            var outputs = new ObservableCollection<FaiItem>();
-            foreach (var fileInfo in xmls)
-            {
-                string filePath = fileInfo.FullName;
-                using (var fs = new FileStream(filePath, FileMode.Open))
-                {
-                    var serializer = new XmlSerializer(typeof(FaiItem));
-                    FaiItem item = (FaiItem) serializer.Deserialize(fs);
-                    item.SerializationDir = FaiItemSerializationDir;
-                    outputs.Add(item);
-                }
-            }
-
-            foreach (var item in outputs)
-            {
-                item.ResumeAutoSerialization();
-            }
-
-            return outputs;
+            var itemNames = MeasurementUnit.GenFaiItemValues("").Select(item => item.Name);
+            return AutoSerializableHelper.LoadAutoSerializables<FaiItem>(itemNames, FaiItemSerializationDir);
         }
 
         /// <summary>
         /// Try to load find-line parameters from disk if any
         /// </summary>
         /// <returns>The loaded find-line parameters</returns>
-        private ObservableCollection<FindLineParam> TryLoadFindLineParamsFromDisk()
+        private IEnumerable<FindLineParam> LoadFindLineParamsFromDisk()
         {
-            var directoryInfo = Directory.CreateDirectory(ParamSerializationBaseDir);
-            var xmls = directoryInfo.GetFiles("*.xml");
-            if (xmls.Length == 0) return null;
-
-            var outputs = new ObservableCollection<FindLineParam>();
-            foreach (var fileInfo in xmls)
-            {
-                string filePath = fileInfo.FullName;
-                using (var fs = new FileStream(filePath, FileMode.Open))
-                {
-                    var serializer = new XmlSerializer(typeof(FindLineParam));
-                    FindLineParam item = (FindLineParam) serializer.Deserialize(fs);
-                    item.SerializationDir = ParamSerializationBaseDir;
-                    outputs.Add(item);
-                }
-            }
-
-            foreach (var item in outputs)
-            {
-                item.ResumeAutoSerialization();
-            }
-
-            return outputs;
+            var paramNames = MeasurementUnit.GenFindLineParamValues("").Select(item => item.Name);
+            return AutoSerializableHelper.LoadAutoSerializables<FindLineParam>(paramNames, ParamSerializationBaseDir);
         }
     }
 }

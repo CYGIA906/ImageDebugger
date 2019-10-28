@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using UI.Helpers;
+using ImageDebugger.Core.Helpers;
 
 namespace ImageDebugger.Core.ViewModels
 {

@@ -7,7 +7,6 @@ namespace ImageDebugger.Core.Models
 {
     public class FindLineParam : AutoSerializableBase<FindLineParam>
     {
-        [DoNotNotify] [XmlAttribute] public string Name { get; set; }
 
         #region FirstAttempt
 
@@ -57,13 +56,7 @@ namespace ImageDebugger.Core.Models
 
         #endregion
 
-        protected override string GetSerializationPath()
-        {
-            return Path.Combine(SerializationDir, Name + ".xml");
-        }
-
-        [XmlIgnore] public string SerializationDir;
-
+        
         public bool FirstAttemptOnly()
         {
             return NewWidth <= 0;

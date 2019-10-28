@@ -12,63 +12,63 @@ namespace ImageDebugger.Core.ImageProcessing.TopView
         {
             var outputs = new ObservableCollection<FaiItem>();
             outputs.Add(new FaiItem("02_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 15.49, MinBoundary = 15.390});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 15.49, MinBoundary = 15.390});
 
             outputs.Add(new FaiItem("03_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 15.906, MinBoundary = 15.806});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 15.906, MinBoundary = 15.806});
 
             outputs.Add(new FaiItem("04_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
             outputs.Add(new FaiItem("04_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
             outputs.Add(new FaiItem("04_3")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 34.92, MinBoundary = 34.82});
 
             outputs.Add(new FaiItem("05_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
             outputs.Add(new FaiItem("05_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
             outputs.Add(new FaiItem("05_3")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 36.15, MinBoundary = 36.05});
 
             outputs.Add(new FaiItem("06_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
             outputs.Add(new FaiItem("06_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
             outputs.Add(new FaiItem("06_3")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 22.153, MinBoundary = 22.053});
 
             outputs.Add(new FaiItem("09_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
             outputs.Add(new FaiItem("09_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
             outputs.Add(new FaiItem("09_3")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 11.231, MinBoundary = 11.131});
 
             outputs.Add(new FaiItem("12_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 18.805, MinBoundary = 18.705});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 18.805, MinBoundary = 18.705});
             outputs.Add(new FaiItem("12_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 18.805, MinBoundary = 18.705});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 18.805, MinBoundary = 18.705});
 
             outputs.Add(new FaiItem("16_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 29.599, MinBoundary = 29.499});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 29.599, MinBoundary = 29.499});
             outputs.Add(new FaiItem("16_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 29.599, MinBoundary = 29.499});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 29.599, MinBoundary = 29.499});
 
             outputs.Add(new FaiItem("17_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 17.154, MinBoundary = 17.054});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 17.154, MinBoundary = 17.054});
             outputs.Add(new FaiItem("17_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 17.154, MinBoundary = 17.054});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 17.154, MinBoundary = 17.054});
 
             outputs.Add(new FaiItem("19_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 1.658, MinBoundary = 1.558});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 1.658, MinBoundary = 1.558});
             outputs.Add(new FaiItem("19_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 1.658, MinBoundary = 1.558});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 1.658, MinBoundary = 1.558});
 
             outputs.Add(new FaiItem("20_1")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 19.353, MinBoundary = 19.253});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 19.353, MinBoundary = 19.253});
             outputs.Add(new FaiItem("20_2")
-                {SerializationDir = faiItemSerializationDir, MaxBoundary = 0.06, MinBoundary = 0});
+                {SerializationDirectory = faiItemSerializationDir, MaxBoundary = 0.06, MinBoundary = 0});
 
             return outputs;
         }
@@ -272,7 +272,7 @@ namespace ImageDebugger.Core.ImageProcessing.TopView
 
             foreach (var param in outputs)
             {
-                param.SerializationDir = paramSerializationBaseDir;
+                param.SerializationDirectory = paramSerializationBaseDir;
             }
 
             return outputs;

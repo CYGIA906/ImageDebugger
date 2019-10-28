@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace UI.Helpers
+namespace ImageDebugger.Core.Helpers
 {
     public static class MegaListHelper
     {
