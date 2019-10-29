@@ -17,7 +17,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace ImageDebugger.Core.ViewModels.CameraMeasurement
 {
-    public partial class CameraMeasurementViewModel : MeasurementPlayerViewModelBase
+    public class CameraMeasurementViewModel : MeasurementPlayerViewModelBase
     {
         /// <summary>
         /// The measurement procedure class that image processing is going to happen

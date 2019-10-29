@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using HalconDotNet;
 using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.Helpers;
@@ -29,6 +31,9 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             get { return Path.Combine(ApplicationViewModel.SolutionDirectory + "/Configs/3D/", LineScanMeasurementProcedure.Name); }
         }
 
+        /// <summary>
+        /// The content to show in the drawer that sits on the right
+        /// </summary>
         public DrawerContentType3D DrawerContent { get; set; } = DrawerContentType3D.PointSettings;
 
         private string PointSettingSerializationDir
@@ -36,6 +41,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             get { return Path.Combine(SerializationBaseDir, "Points"); }
         }
 
+        protected override int NumImagesInOneGoRequired => LineScanMeasurementProcedure.NumImageRequireInSingleRun;
 
         public LineScanMeasurementViewModel()
         {
@@ -43,12 +49,18 @@ namespace ImageDebugger.Core.ViewModels.LineScan
                 AutoSerializableHelper.LoadAutoSerializables<PointSettingViewModel>(
                     LineScanMeasurementProcedure.PointNames, PointSettingSerializationDir).ToList(); 
             
+            this.ImageProcessStartAsync += OnImageProcessStartAsync;
             
             // Commands
             ShowPointSettingViewCommand = new RelayCommand(ShowPointSettingView);
             ShowFlatnessViewCommand = new RelayCommand(ShowFlatnessView);
             ShowParallelismViewCommand = new RelayCommand(ShowParallelismView);
             ShowThicknessViewCommand = new RelayCommand(ShowThicknessView);
+        }
+
+        private Task OnImageProcessStartAsync(List<HImage> images)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void ShowThicknessView()

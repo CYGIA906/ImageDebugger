@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HalconDotNet;
 
 namespace ImageDebugger.Core.ImageProcessing.LineScan
 {
@@ -7,5 +8,9 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         IEnumerable<string> PointNames { get;  }
         
         string Name { get; set; }
+        
+        int NumImageRequireInSingleRun { get; set; }
+
+        ImageProcessingResults3D Process(List<HImage> images);
     }
 }

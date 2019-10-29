@@ -1,11 +1,21 @@
 ﻿using System.Collections.Generic;
+using HalconDotNet;
 
 namespace ImageDebugger.Core.ImageProcessing.LineScan
 {
     public class I40LineScanMeasurement : ILineScanMeasurementProcedure
     {
+        /// <summary>
+        /// The name of the points to be found
+        /// </summary>
         public IEnumerable<string> PointNames { get; }
         public string Name { get; set; } = "I40";
+        public int NumImageRequireInSingleRun { get; set; } = 1;
+        public ImageProcessingResults3D Process(List<HImage> images)
+        {
+           var image = ToKeyenceHeightImage(images[0]);
+           
+        }
 
         public I40LineScanMeasurement()
         {
@@ -28,6 +38,21 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             };
 
             return output;
+        }
+        
+        
+
+
+
+        /// <summary>
+        /// Convert 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        private static HImage ToKeyenceHeightImage(HImage image)
+        {
+            image = image.ScaleImage(1.0, -32768.0);
+            return image.ScaleImage(1.6, 0);
         }
     }
 }

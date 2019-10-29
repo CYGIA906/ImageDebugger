@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HalconDotNet;
+using MathNet.Numerics.Random;
 
 namespace ImageDebugger.Core.ImageProcessing
 {
@@ -195,6 +196,16 @@ namespace ImageDebugger.Core.ImageProcessing
             HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.ImageX, point.ImageY, out intersectX, out intersectY);
 
             return Intersect(new Line(intersectX, intersectY, point.ImageX, point.ImageY));
+        }
+
+        public Line Translate(double distance, bool display = false)
+        {
+            if (IsVertical) SortUpDown();
+            else SortLeftRight();
+            HTuple x1, x2, y1, y2;
+            HalconScripts.GetParallelLine(XStart, YStart, XEnd, YEnd, distance, out x1, out y1, out x2, out y2);
+            
+            return new Line(x1, y1, x2, y2, display);
         }
     }
 }  
