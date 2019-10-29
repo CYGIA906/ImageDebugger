@@ -65,7 +65,6 @@ namespace ImageDebugger.Core.IoC
             Kernel.Bind<T>().ToConstant(value: new TChild());
         }
 
-        public static string SerializationDirectory => Get<ISerializationManager>().SerializationBaseDir;
 
     }
 }

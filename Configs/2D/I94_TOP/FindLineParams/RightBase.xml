@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<FindLineParam xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="RightBase" WhichEdge="First" Threshold="30" NumSubRects="10" IgnoreFraction="0" Sigma1="1" NewWidth="5" Sigma2="5" CannyLow="15" CannyHigh="30" KernelWidth="-1" LongestOnly="false" ErrorThreshold="0.1" Probability="0.95" MaxTrials="100" WhichPair="First" MinWidth="-1" MaxWidth="-1">
+  <SerializationDirectory>C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger\UI\bin\Debug/I94_TOP/FindLineParams</SerializationDirectory>
+</FindLineParam>

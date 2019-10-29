@@ -6,6 +6,7 @@ using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.Helpers;
 using ImageDebugger.Core.ImageProcessing.LineScan;
+using ImageDebugger.Core.ViewModels.Application;
 using ImageDebugger.Core.ViewModels.Base;
 using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
 
@@ -23,13 +24,18 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         /// <summary>
         /// Root directory for serialization
         /// </summary>
-        private string SerializationBaseDir =>
-            Path.Combine(IoC.IoC.SerializationDirectory, LineScanMeasurementProcedure.Name);
+        private string SerializationBaseDir
+        {
+            get { return Path.Combine(ApplicationViewModel.SolutionDirectory + "/Configs/3D/", LineScanMeasurementProcedure.Name); }
+        }
 
         public DrawerContentType3D DrawerContent { get; set; } = DrawerContentType3D.PointSettings;
 
-        private string PointSettingSerializationDir => Path.Combine(SerializationBaseDir, "Points");
-            
+        private string PointSettingSerializationDir
+        {
+            get { return Path.Combine(SerializationBaseDir, "Points"); }
+        }
+
 
         public LineScanMeasurementViewModel()
         {

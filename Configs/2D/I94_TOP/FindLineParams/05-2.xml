@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<FindLineParam xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="05-2" WhichEdge="First" WhichPair="First" Threshold="30" IgnoreFraction="0.1" NewWidth="3" Sigma1="5" Sigma2="3" CannyLow="20" CannyHigh="40" FirstAttemptOnly="false" UsingPair="false" MinWidth="-1" MaxWidth="-1" NumSubRects="20" ErrorThreshold="0.2" Probability="0.95" MaxTrials="100" KernelWidth="-1" />

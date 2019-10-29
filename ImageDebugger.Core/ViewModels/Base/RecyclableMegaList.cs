@@ -253,7 +253,10 @@ namespace ImageDebugger.Core.ViewModels.Base
         /// <summary>
         /// Count of elements in individual list
         /// </summary>
-        public int Count => MegaList.Count == 0 ? 0 : MegaList[0].Count;
+        public int Count
+        {
+            get { return MegaList.Count == 0 ? 0 : MegaList[0].Count; }
+        }
 
         public bool IsReadOnly
         {

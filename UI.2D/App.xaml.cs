@@ -20,7 +20,6 @@ namespace UI._2D
 
             // Set up IoC
             IoC.Kernel.Bind<IImageProvider>().ToConstant(new ImageProvider());
-            IoC.Kernel.Bind<ISerializationManager>().ToConstant(new SerializationManager());
             IoC.Setup();
             
             // Open main window

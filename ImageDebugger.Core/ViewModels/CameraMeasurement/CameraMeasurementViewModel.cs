@@ -11,6 +11,7 @@ using ImageDebugger.Core.ImageProcessing;
 using ImageDebugger.Core.ImageProcessing.Utilts;
 using ImageDebugger.Core.IoC.Interface;
 using ImageDebugger.Core.Models;
+using ImageDebugger.Core.ViewModels.Application;
 using ImageDebugger.Core.ViewModels.Base;
 using MaterialDesignThemes.Wpf;
 
@@ -38,7 +39,10 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
         /// <summary>
         /// Name of the image processing procedure
         /// </summary>
-        public string ProcedureName => MeasurementUnit == null ? "" : MeasurementUnit.Name;
+        public string ProcedureName
+        {
+            get { return MeasurementUnit == null ? "" : MeasurementUnit.Name; }
+        }
 
 
         /// <summary>
@@ -114,7 +118,10 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
             ImageProcessStartAsync += ProcessAsync;
         }
 
-        protected override int NumImagesInOneGoRequired => MeasurementUnit.NumImagesInOneGoRequired;
+        protected override int NumImagesInOneGoRequired
+        {
+            get { return MeasurementUnit.NumImagesInOneGoRequired; }
+        }
 
 
         /// <summary>
@@ -155,8 +162,10 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
         /// <summary>
         /// The base directory for serializing everything
         /// </summary>
-        public string SerializationDir =>
-            IoC.IoC.Get<ISerializationManager>().SerializationBaseDir + "/" + ProcedureName;
+        public string SerializationDir
+        {
+            get { return ApplicationViewModel.SolutionDirectory + "/Configs/2D/" + ProcedureName; }
+        }
 
         /// <summary>
         /// The directory to serialize fai item settings

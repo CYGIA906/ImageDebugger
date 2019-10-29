@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<PointSettingViewModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="19-F13" X="-2.44" Y="5.51" KernelSize="3" ZWeight="1" ZBias="0" ImageIndex="0">
+  <SerializationDirectory>C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger\UI.3D\bin\Debug\I40\Points</SerializationDirectory>
+</PointSettingViewModel>

@@ -119,7 +119,6 @@
     <Compile Include="Converters\EnumToMeasurementPageConverter.cs" />
     <Compile Include="Converters\EventToCommandBehaviour.cs" />
     <Compile Include="DataAccess\ImageProvider.cs" />
-    <Compile Include="DataAccess\SerializationManager.cs" />
     <Compile Include="Views\HalconWindowPage.xaml.cs">
       <DependentUpon>CameraMeasurementView.xaml</DependentUpon>
     </Compile>

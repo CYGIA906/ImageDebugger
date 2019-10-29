@@ -18,7 +18,6 @@ namespace UI._3D
 
             // Set up IoC
             IoC.RegisterAsSingleton<IImageProvider, ImageProvider>();
-            IoC.RegisterAsSingleton<ISerializationManager, SerializationManager>();
             IoC.Setup();
             
             // Open main window

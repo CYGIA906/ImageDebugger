@@ -54,7 +54,10 @@ namespace ImageDebugger.Core.ViewModels.Base
            [DoNotNotify]
            public List<HImage> ImageInputs { get; set; }
            
-        public HImage DisplayImage => ImageInputs == null || ImageInputs.Count <= IndexToShow ? null : ImageInputs[IndexToShow];
+        public HImage DisplayImage
+        {
+            get { return ImageInputs == null || ImageInputs.Count <= IndexToShow ? null : ImageInputs[IndexToShow]; }
+        }
 
         /// <summary>
         /// Specifies whether image processing is continuously running
@@ -168,7 +171,7 @@ namespace ImageDebugger.Core.ViewModels.Base
 
         private List<string> ImagePaths
         {
-            get => _imagePaths;
+            get { return _imagePaths; }
             set
             {
 
@@ -360,7 +363,10 @@ namespace ImageDebugger.Core.ViewModels.Base
         /// <summary>
         /// Specifies whether there are images available for image processing 
         /// </summary>
-        public bool HasImages => Count > 0;
+        public bool HasImages
+        {
+            get { return Count > 0; }
+        }
 
         public MeasurementPlayerViewModelBase()
         {
