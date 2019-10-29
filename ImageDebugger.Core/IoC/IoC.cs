@@ -52,5 +52,17 @@ namespace ImageDebugger.Core.IoC
             return Kernel.Get<T>();
         }
         
+        /// <summary>
+        /// Register an concrete service object as singleton
+        /// Shortcut for kernel.bind().ToConstant()
+        /// </summary>
+        /// <param name="implementObject"></param>
+        /// <typeparam name="T">Base type of service</typeparam> 
+        /// <typeparam name="TChild">Concrete type of service</typeparam>
+        public static void RegisterAsSingleton<T, TChild>(TChild implementObject) where TChild : T
+        {
+            Kernel.Bind<T>().ToConstant(value: implementObject);
+        }
+        
     }
 }

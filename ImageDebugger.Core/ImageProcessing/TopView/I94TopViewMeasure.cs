@@ -45,7 +45,7 @@ namespace ImageDebugger.Core.ImageProcessing.TopView
   
 
         public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
-            List<FaiItem> faiItems, int indexToShow, SnackbarMessageQueue messageQueue)
+            List<FaiItem> faiItems, int indexToShow, ISnackbarMessageQueue messageQueue)
         {
             int backLightIndex = 1;
             int frontLightIndex = 0;

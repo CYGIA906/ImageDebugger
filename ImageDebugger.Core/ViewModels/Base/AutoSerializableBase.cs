@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Reflection;
-using System.Xml;
 using System.Xml.Serialization;
-using ImageDebugger.Core.ViewModels;
 using PropertyChanged;
 
-namespace ImageDebugger.Core.Models
+namespace ImageDebugger.Core.ViewModels.Base
 {
     public class AutoSerializableBase<T> : ViewModelBase
     {

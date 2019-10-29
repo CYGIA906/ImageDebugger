@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Serialization;
 using ImageDebugger.Core.Models;
+using ImageDebugger.Core.ViewModels.Base;
 
 namespace ImageDebugger.Core.Helpers
 {
@@ -55,6 +56,34 @@ namespace ImageDebugger.Core.Helpers
             }
 
             return outputs;
+        }
+
+        /// <summary>
+        /// Set ShouldAutoSerialize of auto-serializables to true
+        /// </summary>
+        /// <param name="autoSerializables"></param>
+        /// <typeparam name="T">Concrete type of auto-serializable</typeparam>
+        public static void StartAutoSerializing<T>(this IEnumerable<AutoSerializableBase<T>> autoSerializables)
+            where T : AutoSerializableBase<T>
+        {
+            foreach (var autoSerializable in autoSerializables)
+            {
+                autoSerializable.ShouldAutoSerialize = true;
+            }
+        }
+        
+        /// <summary>
+        /// Set ShouldAutoSerialize of auto-serializables to false
+        /// </summary>
+        /// <param name="autoSerializables"></param>
+        /// <typeparam name="T">Concrete type of auto-serializable</typeparam>
+        public static void StopAutoSerializing<T>(this IEnumerable<AutoSerializableBase<T>> autoSerializables)
+            where T : AutoSerializableBase<T>
+        {
+            foreach (var autoSerializable in autoSerializables)
+            {
+                autoSerializable.ShouldAutoSerialize = false;
+            }
         }
     }
 } 

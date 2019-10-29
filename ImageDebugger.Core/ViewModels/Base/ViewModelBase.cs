@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ImageDebugger.Core.Helpers;
 
-namespace ImageDebugger.Core.ViewModels
+namespace ImageDebugger.Core.ViewModels.Base
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

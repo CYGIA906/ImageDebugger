@@ -40,6 +40,10 @@
           <e p="FindLineManager.cs" t="Include" />
           <e p="IMeasurementProcedure.cs" t="Include" />
           <e p="Line.cs" t="Include" />
+          <e p="LineScan" t="Include">
+            <e p="I40LineScanMeasurement.cs" t="Include" />
+            <e p="ILineScanMeasurementProcedure.cs" t="Include" />
+          </e>
           <e p="MathUtils.cs" t="Include" />
           <e p="Point.cs" t="Include" />
           <e p="TopView" t="Include">
@@ -60,7 +64,6 @@
           <e p="IoC.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
-          <e p="AutoSerializableBase.cs" t="Include" />
           <e p="CountAwareQueue.cs" t="Include" />
           <e p="FaiItem.cs" t="Include" />
           <e p="FindLineLocation.cs" t="Include" />
@@ -74,14 +77,23 @@
           <e p="AssemblyInfo.cs" t="Include" />
         </e>
         <e p="ViewModels" t="Include">
+          <e p="Base" t="Include">
+            <e p="AutoSerializableBase.cs" t="Include" />
+            <e p="MeasurementPlayerViewModelBase.cs" t="Include" />
+            <e p="RecyclableMegaList.cs" t="Include" />
+            <e p="ViewModelBase.cs" t="Include" />
+          </e>
           <e p="CameraMeasurement" t="Include">
             <e p="CameraMeasurementHostViewModel.cs" t="Include" />
             <e p="CameraMeasurementViewModel.cs" t="Include" />
-            <e p="ImageManager.cs" t="Include" />
           </e>
           <e p="ImageInfoViewModel.cs" t="Include" />
-          <e p="RecyclableMegaList.cs" t="Include" />
-          <e p="ViewModelBase.cs" t="Include" />
+          <e p="LineScan" t="Include">
+            <e p="LineScanMeasurementViewModel.cs" t="Include" />
+            <e p="PointSetting" t="Include">
+              <e p="PointSettingViewModel.cs" t="Include" />
+            </e>
+          </e>
         </e>
         <e p="WPFBase" t="Include">
           <e p="AttachedPropertyOwnerBase.cs" t="Include" />
@@ -146,6 +158,21 @@
           <e p="PageBase.cs" t="Include" />
           <e p="UserControlBase.cs" t="Include" />
         </e>
+      </e>
+      <e p="UI.3D" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="App.xaml" t="Include" />
+        <e p="App.xaml.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="MainWindow.xaml" t="Include" />
+        <e p="MainWindow.xaml.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+        </e>
+        <e p="UI.3D.csproj" t="IncludeRecursive" />
       </e>
     </e>
   </component>

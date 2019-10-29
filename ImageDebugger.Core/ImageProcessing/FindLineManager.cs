@@ -43,7 +43,7 @@ namespace ImageDebugger.Core.ImageProcessing
             set { _findLineRects = value; }
         }
 
-        public SnackbarMessageQueue MessageQueue { get; set; }
+        public ISnackbarMessageQueue MessageQueue { get; set; }
 
 
         private Dictionary<string, Line> _lines = new Dictionary<string, Line>();
@@ -262,7 +262,7 @@ namespace ImageDebugger.Core.ImageProcessing
         }
 
         public FindLineManager(Dictionary<string, FindLineFeeding> findLineFeedings,
-            SnackbarMessageQueue messageQueue = null)
+            ISnackbarMessageQueue messageQueue = null)
         {
             FindLineFeedings = findLineFeedings;
             CrossesIgnored.GenEmptyObj();
@@ -272,7 +272,7 @@ namespace ImageDebugger.Core.ImageProcessing
             MessageQueue = messageQueue;
         }
 
-        public FindLineManager(SnackbarMessageQueue messageQueue = null)
+        public FindLineManager(ISnackbarMessageQueue messageQueue = null)
         {
             CrossesIgnored.GenEmptyObj();
             LineRegions.GenEmptyObj();

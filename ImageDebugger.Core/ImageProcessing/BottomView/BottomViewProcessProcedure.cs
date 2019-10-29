@@ -12,7 +12,7 @@ namespace ImageDebugger.Core.ImageProcessing.BottomView
     {
            public async Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
                List<FaiItem> faiItems, int indexToShow,
-               SnackbarMessageQueue messageQueue)
+               ISnackbarMessageQueue messageQueue)
         {
             #region Initial variables
 

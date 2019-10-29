@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.Enums;
+using ImageDebugger.Core.ViewModels.Base;
 using MaterialDesignThemes.Wpf;
 
 namespace ImageDebugger.Core.ViewModels.CameraMeasurement

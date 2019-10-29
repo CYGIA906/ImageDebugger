@@ -31,7 +31,7 @@ namespace ImageDebugger.Core.ImageProcessing
         /// <param name="messageQueue">A message queue for outputting debugging informations</param>
         /// <returns></returns>
         Task<ImageProcessingResult> ProcessAsync(List<HImage> images, FindLineConfigs findLineConfigs,
-            List<FaiItem> faiItems, int indexToShow, SnackbarMessageQueue messageQueue);
+            List<FaiItem> faiItems, int indexToShow, ISnackbarMessageQueue messageQueue);
 
 /// <summary>
 /// Generate settings for all fai items to measure usually at the first time to run

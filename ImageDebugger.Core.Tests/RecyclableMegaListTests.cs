@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageDebugger.Core.ViewModels;
+using ImageDebugger.Core.ViewModels.Base;
 using ImageDebugger.Core.ViewModels.CameraMeasurement;
 using NUnit.Framework;
 

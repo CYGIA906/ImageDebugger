@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
+using ImageDebugger.Core.ViewModels.Base;
 using PropertyChanged;
 
 namespace ImageDebugger.Core.Models

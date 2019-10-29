@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using ImageDebugger.Core.ViewModels;
+using ImageDebugger.Core.ViewModels.Base;
 
 namespace UI.Views
 {

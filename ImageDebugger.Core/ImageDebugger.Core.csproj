@@ -106,6 +106,8 @@
     <Compile Include="ImageProcessing\FindLineManager.cs" />
     <Compile Include="ImageProcessing\IMeasurementProcedure.cs" />
     <Compile Include="ImageProcessing\Line.cs" />
+    <Compile Include="ImageProcessing\LineScan\I40LineScanMeasurement.cs" />
+    <Compile Include="ImageProcessing\LineScan\ILineScanMeasurementProcedure.cs" />
     <Compile Include="ImageProcessing\MathUtils.cs" />
     <Compile Include="ImageProcessing\Point.cs" />
     <Compile Include="ImageProcessing\TopView\I94TopViewMeasure.cs" />
@@ -116,7 +118,6 @@
     <Compile Include="IoC\Interface\IImageProvider.cs" />
     <Compile Include="IoC\Interface\ISerializationManager.cs" />
     <Compile Include="IoC\IoC.cs" />
-    <Compile Include="Models\AutoSerializableBase.cs" />
     <Compile Include="Models\CountAwareQueue.cs" />
     <Compile Include="Models\FaiItem.cs" />
     <Compile Include="Models\FindLineLocation.cs" />
@@ -124,12 +125,15 @@
     <Compile Include="Models\HalconGraphics.cs" />
     <Compile Include="Models\ImageProcessingResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Base\AutoSerializableBase.cs" />
+    <Compile Include="ViewModels\Base\MeasurementPlayerViewModelBase.cs" />
+    <Compile Include="ViewModels\Base\RecyclableMegaList.cs" />
+    <Compile Include="ViewModels\Base\ViewModelBase.cs" />
     <Compile Include="ViewModels\CameraMeasurement\CameraMeasurementHostViewModel.cs" />
     <Compile Include="ViewModels\CameraMeasurement\CameraMeasurementViewModel.cs" />
-    <Compile Include="ViewModels\CameraMeasurement\ImageManager.cs" />
     <Compile Include="ViewModels\ImageInfoViewModel.cs" />
-    <Compile Include="ViewModels\RecyclableMegaList.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\LineScan\LineScanMeasurementViewModel.cs" />
+    <Compile Include="ViewModels\LineScan\PointSetting\PointSettingViewModel.cs" />
     <Compile Include="WPFBase\AttachedPropertyOwnerBase.cs" />
     <Compile Include="WPFBase\ValueConverterBase.cs" />
   </ItemGroup>

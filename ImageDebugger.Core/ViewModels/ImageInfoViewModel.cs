@@ -1,4 +1,6 @@
-﻿namespace ImageDebugger.Core.ViewModels
+﻿using ImageDebugger.Core.ViewModels.Base;
+
+namespace ImageDebugger.Core.ViewModels
 {
     public class ImageInfoViewModel : ViewModelBase
     {
