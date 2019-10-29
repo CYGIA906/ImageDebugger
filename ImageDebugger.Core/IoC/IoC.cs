@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using ImageDebugger.Core.IoC.Interface;
+using Ninject;
 
 
 namespace ImageDebugger.Core.IoC
@@ -59,10 +60,12 @@ namespace ImageDebugger.Core.IoC
         /// <param name="implementObject"></param>
         /// <typeparam name="T">Base type of service</typeparam> 
         /// <typeparam name="TChild">Concrete type of service</typeparam>
-        public static void RegisterAsSingleton<T, TChild>(TChild implementObject) where TChild : T
+        public static void RegisterAsSingleton<T, TChild>() where TChild : T, new()
         {
-            Kernel.Bind<T>().ToConstant(value: implementObject);
+            Kernel.Bind<T>().ToConstant(value: new TChild());
         }
-        
+
+        public static string SerializationDirectory => Get<ISerializationManager>().SerializationBaseDir;
+
     }
 }

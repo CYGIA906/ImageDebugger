@@ -36,7 +36,7 @@
         
         <!-- <Frame x:Name="Frame" Content="{Binding CurrentMeasurementPage, Converter={converters:EnumToMeasurementPageConverter}}" NavigationUIVisibility="Hidden" > -->
         <!-- </Frame> -->
-        <ContentControl x:Name="Frame" Content="{Binding CurrentMeasurementPage, Converter={converters:EnumToMeasurementPageConverter}}"></ContentControl>
+        <ContentControl x:Name="Frame" Content="{Binding CurrentMeasurementPage2D, Converter={converters:EnumToMeasurementPageConverter}}"></ContentControl>
         
         <materialDesign:PopupBox PlacementMode="TopAndAlignLeftEdges"   Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
                                  Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Panel.ZIndex="5"> 

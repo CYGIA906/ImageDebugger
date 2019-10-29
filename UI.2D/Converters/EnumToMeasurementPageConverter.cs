@@ -18,7 +18,7 @@ namespace UI._2D.Converters
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return null;
-            var pageEnum = (MeasurementPage) value;
+            var pageEnum = (MeasurementPage2D) value;
             return RetrievePage(pageEnum);
         }
 
@@ -27,14 +27,14 @@ namespace UI._2D.Converters
             throw new NotImplementedException();
         }
 
-        private static UserControl RetrievePage(MeasurementPage pageEnum)
+        private static UserControl RetrievePage(MeasurementPage2D page2DEnum)
         {
 
             CameraMeasurementView output;
             // Try get the first halcon window page with the requested measurement procedure
             try
             {
-                output = pageEnum == MeasurementPage.I94Top? MeasurementPages.First(page => ((CameraMeasurementViewModel)page.DataContext).MeasurementUnit is I94TopViewMeasure)
+                output = page2DEnum == MeasurementPage2D.I94Top? MeasurementPages.First(page => ((CameraMeasurementViewModel)page.DataContext).MeasurementUnit is I94TopViewMeasure)
                     : MeasurementPages.First(page => ((CameraMeasurementViewModel)page.DataContext).MeasurementUnit is I94BottomViewMeasure);
             }
             // If the list not contain a halcon page with the specific measurement procedure
@@ -42,7 +42,7 @@ namespace UI._2D.Converters
             catch (InvalidOperationException e)
             {
                 IMeasurementProcedure procedure;
-                if (pageEnum == MeasurementPage.I94Top)
+                if (page2DEnum == MeasurementPage2D.I94Top)
                 {
                     procedure = new I94TopViewMeasure();
                 }

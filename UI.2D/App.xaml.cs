@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using ImageDebugger.Core.IoC;
 using ImageDebugger.Core.IoC.Interface;
+using UI._2D.DataAccess;
 
 namespace UI._2D
 {

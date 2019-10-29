@@ -76,6 +76,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\EnumToDrawContentViewConverter.cs" />
+    <Compile Include="Views\Drawer\DrawerContent\FlatnessView.xaml.cs">
+      <DependentUpon>FlatnessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Drawer\DrawerContent\ParallelismView.xaml.cs">
+      <DependentUpon>ParallelismView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Drawer\DrawerContent\PointSettingView.xaml.cs">
+      <DependentUpon>PointSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Drawer\DrawerContent\ThicknessView.xaml.cs">
+      <DependentUpon>ThicknessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Drawer\DrawerHostView.xaml.cs">
+      <DependentUpon>DrawerHostView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LineScanMeasurement\LineScanMeasurementView.xaml.cs">
       <DependentUpon>LineScanMeasurementView.xaml</DependentUpon>
     </Compile>
@@ -113,6 +129,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Drawer\DrawerContent\FlatnessView.xaml" />
+    <Page Include="Views\Drawer\DrawerContent\ParallelismView.xaml" />
+    <Page Include="Views\Drawer\DrawerContent\PointSettingView.xaml" />
+    <Page Include="Views\Drawer\DrawerContent\ThicknessView.xaml" />
+    <Page Include="Views\Drawer\DrawerHostView.xaml" />
     <Page Include="Views\LineScanMeasurement\LineScanMeasurementView.xaml" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="UI._3D.Views.Drawer.DrawerHostView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:UI._3D.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Tab view -->
+        <materialDesign:ColorZone Margin="10 5" HorizontalAlignment="Right"
+                                  Mode="PrimaryMid">
+            <StackPanel
+                Orientation="Horizontal"
+                Margin="2">
+                <RadioButton
+                    Style="{StaticResource MaterialDesignTabRadioButton}"
+                    Margin="4"
+                    IsChecked="True"
+                    Content="Points" Command="{Binding ShowPointSettingViewCommand}" />
+                <RadioButton
+                    Style="{StaticResource MaterialDesignTabRadioButton}"
+                    Margin="4"
+                    IsChecked="False"
+                    Content="Flatness" Command="{Binding ShowFlatnessViewCommand}" />
+                <RadioButton
+                    Style="{StaticResource MaterialDesignTabRadioButton}"
+                    Margin="4"
+                    IsChecked="False"
+                    Content="Parallelism" Command="{Binding ShowParallelismViewCommand}" />
+                <RadioButton
+                    Style="{StaticResource MaterialDesignTabRadioButton}"
+                    Margin="4"
+                    IsChecked="False"
+                    Content="Thickness" Command="{Binding ShowThicknessViewCommand}" />
+            </StackPanel>
+        </materialDesign:ColorZone>
+        
+
+        <ContentControl Grid.Row="1" Content="{Binding DrawerContent, Converter={converters:EnumToDrawContentViewConverter}}"/>
+    </Grid>
+</UserControl>

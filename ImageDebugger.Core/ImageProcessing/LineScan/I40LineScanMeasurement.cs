@@ -5,6 +5,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
     public class I40LineScanMeasurement : ILineScanMeasurementProcedure
     {
         public IEnumerable<string> PointNames { get; }
+        public string Name { get; set; } = "I40";
 
         public I40LineScanMeasurement()
         {

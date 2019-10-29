@@ -16,7 +16,8 @@
           <e p="SimpleCommand.cs" t="Include" />
         </e>
         <e p="Enums" t="Include">
-          <e p="MeasurementPage.cs" t="Include" />
+          <e p="DrawerContentType3D.cs" t="Include" />
+          <e p="MeasurementPage2D.cs" t="Include" />
         </e>
         <e p="Hdevs" t="Include">
           <e p="I94Hdev.cs" t="Include" />
@@ -158,6 +159,9 @@
         <e p="App.xaml" t="Include" />
         <e p="App.xaml.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Converters" t="Include">
+          <e p="EnumToDrawContentViewConverter.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Properties" t="Include">
@@ -167,6 +171,20 @@
         </e>
         <e p="UI.3D.csproj" t="IncludeRecursive" />
         <e p="Views" t="Include">
+          <e p="Drawer" t="Include">
+            <e p="DrawerContent" t="Include">
+              <e p="FlatnessView.xaml" t="Include" />
+              <e p="FlatnessView.xaml.cs" t="Include" />
+              <e p="ParallelismView.xaml" t="Include" />
+              <e p="ParallelismView.xaml.cs" t="Include" />
+              <e p="PointSettingView.xaml" t="Include" />
+              <e p="PointSettingView.xaml.cs" t="Include" />
+              <e p="ThicknessView.xaml" t="Include" />
+              <e p="ThicknessView.xaml.cs" t="Include" />
+            </e>
+            <e p="DrawerHostView.xaml" t="Include" />
+            <e p="DrawerHostView.xaml.cs" t="Include" />
+          </e>
           <e p="LineScanMeasurement" t="Include">
             <e p="LineScanMeasurementView.xaml" t="Include" />
             <e p="LineScanMeasurementView.xaml.cs" t="Include" />

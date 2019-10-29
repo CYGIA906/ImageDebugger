@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using ImageDebugger.Core.IoC.Interface;
 
-namespace UI
+namespace UI._2D.DataAccess
 {
     public class ImageProvider : IImageProvider
     {

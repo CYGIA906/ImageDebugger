@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Windows;
-using ImageDebugger.Core.IoC;
 using ImageDebugger.Core.IoC.Interface;
 
-namespace UI
+namespace UI._2D.DataAccess
 {
     public class SerializationManager : ISerializationManager
     {

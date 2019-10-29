@@ -83,7 +83,8 @@
     <Compile Include="Commands\ParameterizedCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\SimpleCommand.cs" />
-    <Compile Include="Enums\MeasurementPage.cs" />
+    <Compile Include="Enums\DrawerContentType3D.cs" />
+    <Compile Include="Enums\MeasurementPage2D.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
     <Compile Include="Helpers\AutoSerializableHelper.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />

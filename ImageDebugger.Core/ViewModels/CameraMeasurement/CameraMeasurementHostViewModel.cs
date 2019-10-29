@@ -22,23 +22,23 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
         /// <summary>
         /// Current measurement page to show
         /// </summary>
-        public MeasurementPage CurrentMeasurementPage { get; set; } = MeasurementPage.I94Top;
+        public MeasurementPage2D CurrentMeasurementPage2D { get; set; } = MeasurementPage2D.I94Top;
 
         public string CurrentMeasurementName
         {
-            get { return CurrentMeasurementPage.ToString(); }
+            get { return CurrentMeasurementPage2D.ToString(); }
         }
 
         public CameraMeasurementHostViewModel()
         {
             SwitchTopViewCommand = new RelayCommand(() =>
             {
-                CurrentMeasurementPage = MeasurementPage.I94Top;
+                CurrentMeasurementPage2D = MeasurementPage2D.I94Top;
                 MessageQueue.Enqueue("Switched to top view");
             });
             SwitchBottomViewCommand = new RelayCommand(() =>
             {
-                CurrentMeasurementPage = MeasurementPage.I94Bottom;
+                CurrentMeasurementPage2D = MeasurementPage2D.I94Bottom;
                 MessageQueue.Enqueue("Switched to bottom view");
             });
         }

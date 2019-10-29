@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using ImageDebugger.Core.IoC;
 using ImageDebugger.Core.IoC.Interface;
+using UI._2D.DataAccess;
 using UI._3D.Views;
 
 namespace UI._3D
@@ -16,8 +17,8 @@ namespace UI._3D
             base.OnStartup(e);
 
             // Set up IoC
-            IoC.Kernel.Bind<IImageProvider>().ToConstant(new ImageProvider());
-            IoC.Kernel.Bind<ISerializationManager>().ToConstant(new SerializationManager());
+            IoC.RegisterAsSingleton<IImageProvider, ImageProvider>();
+            IoC.RegisterAsSingleton<ISerializationManager, SerializationManager>();
             IoC.Setup();
             
             // Open main window
