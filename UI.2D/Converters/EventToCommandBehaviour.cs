@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace UI.Converters
+namespace UI._2D.Converters
 {
   /// <summary>
-/// Behavior that will connect an UI event to a viewmodel Command,
+/// Behavior that will connect an UI._2D event to a viewmodel Command,
 /// allowing the event arguments to be passed as the CommandParameter.
 /// </summary>
 public class EventToCommandBehavior : Behavior<FrameworkElement>

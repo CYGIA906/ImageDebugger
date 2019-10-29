@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using ImageDebugger.Core.IoC;
 using ImageDebugger.Core.IoC.Interface;
-using UI.DataAccess;
 
-namespace UI
+namespace UI._2D
 {
     /// <summary>
     /// Interaction logic for App.xaml

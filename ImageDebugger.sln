@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{687635E2-8EBB-4B98-B701-77D882FA9FF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.2D", "UI.2D\UI.2D.csproj", "{687635E2-8EBB-4B98-B701-77D882FA9FF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDebugger.Core.Tests", "ImageDebugger.Core.Tests\ImageDebugger.Core.Tests.csproj", "{75C5A54D-9404-4C55-A584-C21F72FE2497}"
 EndProject

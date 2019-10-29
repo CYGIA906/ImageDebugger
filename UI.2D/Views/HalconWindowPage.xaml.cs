@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using ImageDebugger.Core.ViewModels.CameraMeasurement;
 
-namespace UI.Views
+namespace UI._2D.Views
 {
     public partial class CameraMeasurementView : UserControl
     {

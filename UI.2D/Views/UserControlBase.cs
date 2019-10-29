@@ -2,7 +2,7 @@
 using ImageDebugger.Core.ViewModels;
 using ImageDebugger.Core.ViewModels.Base;
 
-namespace UI.Views
+namespace UI
 {
     public class UserControlBase<ViewModelType> : UserControl
         where ViewModelType : ViewModelBase, new()

@@ -1,13 +1,14 @@
-﻿<Window x:Class="UI.MainWindow"
+﻿<Window x:Class="UI._2D.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:converters="clr-namespace:UI.Converters"
-        xmlns:viewModels="clr-namespace:ImageDebugger.Core.ViewModels;assembly=ImageDebugger.Core"
-        xmlns:views="clr-namespace:UI.Views"
+ 
         xmlns:cameraMeasurement="clr-namespace:ImageDebugger.Core.ViewModels.CameraMeasurement;assembly=ImageDebugger.Core"
+        xmlns:ui="clr-namespace:UI"
+        xmlns:views="clr-namespace:UI._2D.Views"
+        xmlns:converters="clr-namespace:UI._2D.Converters"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -21,14 +22,6 @@
     <Window.DataContext>
         <cameraMeasurement:CameraMeasurementHostViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.popupbox.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding SwitchTopViewCommand}"></KeyBinding>

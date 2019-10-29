@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.Views
+namespace UI._2D.Views
 {
     public partial class ImageInfoView : UserControl
     {

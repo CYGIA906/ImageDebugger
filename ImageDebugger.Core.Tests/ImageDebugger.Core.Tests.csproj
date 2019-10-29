@@ -16,7 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ImageDebugger.Core\ImageDebugger.Core.csproj" />
-      <ProjectReference Include="..\UI\UI.csproj" />
+      <ProjectReference Include="..\UI.2D\UI.2D.csproj" />
     </ItemGroup>
 
 </Project>

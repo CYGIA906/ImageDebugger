@@ -7,11 +7,11 @@ using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.ImageProcessing;
 using ImageDebugger.Core.ViewModels.CameraMeasurement;
 using ImageDebugger.Core.WPFBase;
-using UI.Views;
+using UI._2D.Views;
 using I94BottomViewMeasure = ImageDebugger.Core.ImageProcessing.BottomView.I94BottomViewMeasure;
 using I94TopViewMeasure = ImageDebugger.Core.ImageProcessing.TopView.I94TopViewMeasure;
 
-namespace UI.Converters
+namespace UI._2D.Converters
 {
     public class EnumToMeasurementPageConverter : ValueConverterBase<EnumToMeasurementPageConverter>
     {

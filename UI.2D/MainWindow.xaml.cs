@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace UI
+namespace UI._2D
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
