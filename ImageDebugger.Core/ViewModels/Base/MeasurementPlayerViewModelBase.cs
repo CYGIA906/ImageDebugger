@@ -9,6 +9,7 @@ using HalconDotNet;
 using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.IoC.Interface;
 using MaterialDesignThemes.Wpf;
+using PropertyChanged;
 
 namespace ImageDebugger.Core.ViewModels.Base
 {
@@ -50,6 +51,7 @@ namespace ImageDebugger.Core.ViewModels.Base
             MouseY = (int) e.Y + 20;
         }
 
+           [DoNotNotify]
            public List<HImage> ImageInputs { get; set; }
            
         public HImage DisplayImage => ImageInputs == null || ImageInputs.Count <= IndexToShow ? null : ImageInputs[IndexToShow];
@@ -164,7 +166,7 @@ namespace ImageDebugger.Core.ViewModels.Base
         private List<string> _imagePaths;
 
 
-        public List<string> ImagePaths
+        private List<string> ImagePaths
         {
             get => _imagePaths;
             set
@@ -315,7 +317,7 @@ namespace ImageDebugger.Core.ViewModels.Base
         /// </summary>
         /// <param name="imagePaths">Paths to images</param>
         /// <returns></returns>
-        protected List<HImage> ConvertPathsToImages(List<string> imagePaths)
+        private List<HImage> ConvertPathsToImages(List<string> imagePaths)
         {
             var output = new List<HImage>();
             foreach (var path in imagePaths)

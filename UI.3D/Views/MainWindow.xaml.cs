@@ -1,4 +1,4 @@
-﻿namespace UI._3D
+﻿namespace UI._3D.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

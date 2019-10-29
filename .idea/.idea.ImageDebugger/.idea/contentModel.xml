@@ -158,8 +158,6 @@
         <e p="App.xaml" t="Include" />
         <e p="App.xaml.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="MainWindow.xaml" t="Include" />
-        <e p="MainWindow.xaml.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Properties" t="Include">
@@ -168,6 +166,14 @@
           <e p="Resources.resx" t="Include" />
         </e>
         <e p="UI.3D.csproj" t="IncludeRecursive" />
+        <e p="Views" t="Include">
+          <e p="LineScanMeasurement" t="Include">
+            <e p="LineScanMeasurementView.xaml" t="Include" />
+            <e p="LineScanMeasurementView.xaml.cs" t="Include" />
+          </e>
+          <e p="MainWindow.xaml" t="Include" />
+          <e p="MainWindow.xaml.cs" t="Include" />
+        </e>
       </e>
     </e>
   </component>
