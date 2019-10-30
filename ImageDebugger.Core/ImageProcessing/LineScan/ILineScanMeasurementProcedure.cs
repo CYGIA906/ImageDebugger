@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using HalconDotNet;
+using MaterialDesignThemes.Wpf;
 
 namespace ImageDebugger.Core.ImageProcessing.LineScan
 {
@@ -11,6 +12,6 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         
         int NumImageRequireInSingleRun { get; set; }
 
-        ImageProcessingResults3D Process(List<HImage> images);
+        ImageProcessingResults3D Process(List<HImage> images, ISnackbarMessageQueue messageQueue);
     }
 }

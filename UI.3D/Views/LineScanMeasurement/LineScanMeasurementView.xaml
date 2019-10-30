@@ -12,7 +12,7 @@
              xmlns:lineScan="clr-namespace:ImageDebugger.Core.ViewModels.LineScan;assembly=ImageDebugger.Core"
              xmlns:drawer="clr-namespace:UI._3D.Views.Drawer"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="OnControlLoaded">
     <UserControl.DataContext>
         <lineScan:LineScanMeasurementViewModel />
     </UserControl.DataContext>

@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using HalconDotNet;
+using ImageDebugger.Core.Models;
+using ImageDebugger.Core.ViewModels.Application;
+using MaterialDesignThemes.Wpf;
 
 namespace ImageDebugger.Core.ImageProcessing.LineScan
 {
@@ -11,15 +15,64 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         public IEnumerable<string> PointNames { get; }
         public string Name { get; set; } = "I40";
         public int NumImageRequireInSingleRun { get; set; } = 1;
-        public ImageProcessingResults3D Process(List<HImage> images)
+        
+        private HDevelopExport _halconScripts = new HDevelopExport();
+        public ImageProcessingResults3D Process(List<HImage> images, ISnackbarMessageQueue messageQueue)
         {
-           var image = ToKeyenceHeightImage(images[0]);
+            var image = images[0];
+
+           HTuple realTimeModelHandle, rowV, colV, radianV, len1V, len2V, rowH, colH, radianH, len1H, len2H;
+           _halconScripts.I40GetBaseRects(image, _shapeModelHandleRight, out realTimeModelHandle, out rowV, out colV,
+               out radianV, out len1V, out len2V, out rowH, out colH, out radianH, out len1H, out len2H);
+
+            image = ToKeyenceHeightImage(image);
+            
+
+           var findLineFeedingH = _findLineParamH.ToFindLineFeeding();
+           findLineFeedingH.Row = rowH;
+           findLineFeedingH.Col = colH;
+           findLineFeedingH.Radian = radianH;
+           findLineFeedingH.Len1 = len1H;
+           findLineFeedingH.Len2 = len2H;
+           findLineFeedingH.Transition = "positive";
            
+           var findLineFeedingV = _findLineParamV.ToFindLineFeeding();
+           findLineFeedingV.Row = rowV;
+           findLineFeedingV.Col = colV;
+           findLineFeedingV.Radian = radianV;
+           findLineFeedingV.Len1 = len1V;
+           findLineFeedingV.Len2 = len2V;
+           findLineFeedingV.Transition = "positive";
+
+           var findLineManager = new FindLineManager(messageQueue);
+           var lineH = findLineManager.TryFindLine("lineH", image, findLineFeedingH);
+//           lineH.IsVisible = true;
+           var lineV = findLineManager.TryFindLine("lineV", image, findLineFeedingV);
+//           lineV.IsVisible = true;
+           
+           
+          var output = new ImageProcessingResults3D()
+          {
+              Image = image
+          };
+             
+//          output.AddLineRegion(findLineManager.LineRegions);
+          output.AddFindLineRects(findLineManager.FindLineRects);
+
+          return output;
+
         }
+
+        private HTuple _shapeModelHandleRight;
+
+        public string ShapeModelPath =>
+            ApplicationViewModel.SolutionDirectory + "/Configs/3D/I40/ShapeModels/ModelRight";
 
         public I40LineScanMeasurement()
         {
             PointNames = GenPointNames();
+            
+            HOperatorSet.ReadShapeModel(ShapeModelPath, out _shapeModelHandleRight);
         }
 
         private IEnumerable<string> GenPointNames()
@@ -41,7 +94,16 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         }
         
         
-
+        private FindLineParam _findLineParamH = new FindLineParam()
+        {
+            CannyHigh = 2, CannyLow = 1, Threshold = 1, NewWidth = -1
+        };
+        
+        
+        private FindLineParam _findLineParamV = new FindLineParam()
+        {
+            CannyHigh = 2, CannyLow = 1, Threshold = 1, NewWidth = -1
+        };
 
 
         /// <summary>
@@ -51,8 +113,9 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         /// <returns></returns>
         private static HImage ToKeyenceHeightImage(HImage image)
         {
+            image = image.ConvertImageType("real");
             image = image.ScaleImage(1.0, -32768.0);
-            return image.ScaleImage(1.6, 0);
+            return image.ScaleImage(1.6 * 0.001, 0);
         }
     }
 }

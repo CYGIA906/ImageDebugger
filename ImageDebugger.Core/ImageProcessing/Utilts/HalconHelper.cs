@@ -19,14 +19,17 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
         
         public static HObject ConcatAll(params HObject[] objects)
         {
-            var objectOut = objects[0];
-            int startIndex = (objectOut == null || !objectOut.IsInitialized()) ? 1 : 0;
-            for (int i = startIndex; i < objects.Length; i++)
+            var notNull = objects.Where(o => o != null && o.IsInitialized()).ToList();
+            if (notNull.Count == 0) return null;
+            if (notNull.Count == 1) return notNull[0];
+
+            var firstObject = notNull[0];
+            for (int i = 1; i < notNull.Count; i++)
             {
-                HOperatorSet.ConcatObj(objectOut, objects[i], out objectOut);
+                firstObject = firstObject.ConcatObj(notNull[i]);
             }
 
-            return objectOut;
+            return firstObject;
         }
         
         

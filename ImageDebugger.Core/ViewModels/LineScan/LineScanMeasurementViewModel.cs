@@ -16,7 +16,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
 {
     public class LineScanMeasurementViewModel : MeasurementPlayerViewModelBase
     {
-        private ILineScanMeasurementProcedure LineScanMeasurementProcedure { get; set; } = new I40LineScanMeasurement();
+        private ILineScanMeasurementProcedure LineScanMeasurementProcedure { get; set; } = new  I40LineScanMeasurement();
 
         /// <summary>
         /// Point settings
@@ -58,9 +58,11 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             ShowThicknessViewCommand = new RelayCommand(ShowThicknessView);
         }
 
-        private Task OnImageProcessStartAsync(List<HImage> images)
+        private async Task OnImageProcessStartAsync(List<HImage> images)
         {
-            throw new System.NotImplementedException();
+            var result = await Task.Run(() => LineScanMeasurementProcedure.Process(ImageInputs, RunStatusMessageQueue));
+            
+            result.Display(WindowHandle);
         }
 
         private void ShowThicknessView()

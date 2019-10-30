@@ -10,7 +10,6 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
     {
         private HObject LineRegions { get; set; }
 
-        private HObject FoundLines { get; set; }
 
         private HObject FindLineRects { get; set; }
 
@@ -24,10 +23,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             LineRegions = HalconHelper.ConcatAll(LineRegions, lineRegion);
         }
 
-        public void AddFoundLines(HObject line)
-        {
-            FoundLines = HalconHelper.ConcatAll(FoundLines, line);
-        }
+ 
 
         public void AddFindLineRects(HObject rect)
         {
@@ -36,6 +32,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
 
         private void DisplayPointMarkers(HWindow windowHandle)
         {
+            if (PointMarkers == null || PointMarkers.Count == 0) return; 
             windowHandle.SetColor("blue");
             HObject crosses = new HObject();
             var offset = 5;
@@ -56,16 +53,16 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
 
         public void Display(HWindow windowHandle)
         {
-            Image.DispImage(windowHandle);
+            Image?.DispImage(windowHandle);
             
             windowHandle.SetColor("magenta");
-            LineRegions.DispObj(windowHandle);
+            LineRegions?.DispObj(windowHandle);
             
             windowHandle.SetColor("green");
-            FoundLines.DispObj(windowHandle);
+            Line.DisplayGraphics(windowHandle);
             
             windowHandle.SetColor("orange");
-            FindLineRects.DispObj(windowHandle);
+            FindLineRects?.DispObj(windowHandle);
             
             windowHandle.SetColor("blue");
             DisplayPointMarkers(windowHandle);
