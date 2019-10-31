@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using ImageDebugger.Core.Models;
 using ImageDebugger.Core.ViewModels.Base;
@@ -63,7 +64,7 @@ namespace ImageDebugger.Core.Helpers
         /// </summary>
         /// <param name="autoSerializables"></param>
         /// <typeparam name="T">Concrete type of auto-serializable</typeparam>
-        public static void StartAutoSerializing<T>(this IEnumerable<AutoSerializableBase<T>> autoSerializables)
+        public static void StartAutoSerializing<T>(this IEnumerable<T> autoSerializables)
             where T : AutoSerializableBase<T>
         {
             foreach (var autoSerializable in autoSerializables)
@@ -77,13 +78,26 @@ namespace ImageDebugger.Core.Helpers
         /// </summary>
         /// <param name="autoSerializables"></param>
         /// <typeparam name="T">Concrete type of auto-serializable</typeparam>
-        public static void StopAutoSerializing<T>(this IEnumerable<AutoSerializableBase<T>> autoSerializables)
+        public static void StopAutoSerializing<T>(this IEnumerable<T> autoSerializables)
             where T : AutoSerializableBase<T>
         {
             foreach (var autoSerializable in autoSerializables)
             {
                 autoSerializable.ShouldAutoSerialize = false;
             }
+        }
+
+        /// <summary>
+        /// Return the first auto-serializable with the required name
+        /// </summary>
+        /// <param name="autoSerializables"></param>
+        /// <param name="name"></param>
+        /// <typeparam name="T">Concrete type of auto-serializable</typeparam>
+        /// <returns></returns>
+        public static T ByName<T>(this IEnumerable<T> autoSerializables, string name)
+        where T : AutoSerializableBase<T>
+        {
+            return autoSerializables.First(ele => ele.Name == name);
         }
     }
 } 

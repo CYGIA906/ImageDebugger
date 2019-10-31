@@ -119,16 +119,23 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
            var imageLeftRight =  emptyImage.Compose3(rightImage.ScaleImageMax(), leftImageAligned.ScaleImageMax());
            var imageBottomRight = emptyImage.Compose3(rightImage.ScaleImageMax(), bottomImageAligned.ScaleImageMax());
 
+           var bottomImageHeight = ToKeyenceHeightImage(bottomImageAligned);
+           var leftImageHeight = ToKeyenceHeightImage(leftImageAligned);
+           var rightImageHeight = ToKeyenceHeightImage(rightImage);
+
 
            var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
-            var pointMarkers = pointLocator.LocatePoints(pointSettings);
+            var pointMarkers = pointLocator.LocatePoints(pointSettings, new List<HImage>()
+            {
+                bottomImageHeight, leftImageHeight, rightImageHeight
+            });
 
 
             var output = new ImageProcessingResults3D()
             {
                 Images = new List<HImage>()
                 {
-                    rightImage, imageLeftRight, imageBottomRight
+                    rightImageHeight, imageLeftRight, imageBottomRight
                 },
                 CrossedUsed = findLineManager.GenCrossesUsed(),
                 PointMarkers = pointMarkers

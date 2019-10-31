@@ -10,6 +10,7 @@
         <DataGrid ItemsSource="{Binding PointSettingViewModels}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Value" Binding="{Binding Path=Value, StringFormat=N3}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="X" Binding="{Binding Path=X}" />
                 <DataGridTextColumn Header="Y" Binding="{Binding Path=Y}" />
                 <DataGridTextColumn Header="Kernel Size" Binding="{Binding Path=KernelSize}" />

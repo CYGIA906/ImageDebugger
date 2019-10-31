@@ -73,8 +73,22 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             WindowHandle.DispImage(result.Images[0]);
             WindowHandleLeftRight.DispColor(result.Images[1]);
             WindowHandleBottomRight.DispColor(result.Images[2]);
-            
             result.Display(WindowHandle);
+            
+            UpdatePointSettings(result.PointMarkers);
+
+        }
+
+        private void UpdatePointSettings(List<PointMarker> pointMarkers)
+        {
+            PointSettingViewModels.StopAutoSerializing();
+
+            foreach (var pointMarker in pointMarkers)
+            {
+                PointSettingViewModels.ByName(pointMarker.Name).Value = pointMarker.Height;
+            }            
+            
+            PointSettingViewModels.StartAutoSerializing();
         }
 
         private void ShowThicknessView()

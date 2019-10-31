@@ -8,6 +8,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan.PointSetting
         [XmlAttribute] public double X { get; set; }
         [XmlAttribute] public double Y { get; set; }
         [XmlAttribute] public int KernelSize { get; set; } = 3;
+        [XmlAttribute] public double Value { get; set; }
         [XmlAttribute] public double ZWeight { get; set; } = 1;
         [XmlAttribute] public double ZBias { get; set; }
         [XmlAttribute] public int ImageIndex { get; set; }
