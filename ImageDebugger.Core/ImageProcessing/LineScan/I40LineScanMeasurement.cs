@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using HalconDotNet;
 using ImageDebugger.Core.Models;
 using ImageDebugger.Core.ViewModels.Application;
+using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
 using MaterialDesignThemes.Wpf;
 
 namespace ImageDebugger.Core.ImageProcessing.LineScan
@@ -17,7 +19,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         public int NumImageRequireInSingleRun { get; set; } = 1;
         
         private HDevelopExport _halconScripts = new HDevelopExport();
-        public ImageProcessingResults3D Process(List<HImage> images, ISnackbarMessageQueue messageQueue)
+        public ImageProcessingResults3D Process(List<HImage> images, List<PointSettingViewModel> pointSettings,
+            ISnackbarMessageQueue messageQueue)
         {
             var image = images[0];
 
@@ -50,12 +53,26 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
            var lineV = findLineManager.TryFindLine("lineV", heightImage, findLineFeedingV);
            lineV.IsVisible = true;
            
+           // Translate base
+          lineH = lineH.SortUpDown();
+          lineV = lineV.SortLeftRight();
+
+          var xAxis = lineH.Translate(-1.0 / _horizontalCoeff * 6.788);
+          xAxis.IsVisible = true;
+          var yAxis = lineV.Translate(-1.0 / _verticalCoeff * 19.605);
+          yAxis.IsVisible = true;
+           
+          var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
+          var pointMarkers = pointLocator.LocatePoints(pointSettings);
+          
            
            
            
           var output = new ImageProcessingResults3D()
           {
-              Image = heightImage
+              Image = heightImage,
+              CrossedUsed = findLineManager.GenCrossesUsed(),
+              PointMarkers = pointMarkers
           };
 
           var rects = findLineManager.FindLineRects;
@@ -63,7 +80,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
           output.AddLineRegion(findLineManager.LineRegions);
           output.AddFindLineRects(rects);
           output.AddEdges(findLineManager.Edges);
-          findLineManager.CrossesUsed
+          
 
           return output;
 
@@ -122,6 +139,32 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             image = image.ConvertImageType("real");
             image = image.ScaleImage(1.0, -32768.0);
             return image.ScaleImage(1.6 * 0.001, 0);
+        }
+
+        private readonly double _horizontalCoeff = 0.01248;
+
+        private readonly double _verticalCoeff = 0.0497;
+
+        private HTuple GenMapToWorld()
+        {
+            var arr = new double[]
+            {
+                _horizontalCoeff, 0, 0,
+                0, _verticalCoeff, 0,
+                0, 0, 1
+            };
+            return new HTuple(arr);
+        }
+        
+        private HTuple GenMapToImage()
+        {
+            var arr = new double[]
+            {
+                1.0/_horizontalCoeff, 0, 0,
+                0, 1.0/_verticalCoeff, 0,
+                0, 0, 1
+            };
+            return new HTuple(arr);
         }
     }
 }

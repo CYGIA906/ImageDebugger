@@ -15,6 +15,7 @@ namespace UI._3D.Views.LineScanMeasurement
         {
             var dataContext = DataContext as MeasurementPlayerViewModelBase;
             dataContext.WindowHandle = HalconWindow.HalconWindow;
+            dataContext.WindowHandle.SetPart(0,0,-2,-2);
         }
     }
 }

@@ -282,6 +282,27 @@ namespace ImageDebugger.Core.ImageProcessing
             MessageQueue = messageQueue;
         }
 
+        /// <summary>
+        /// Generate <see cref="HObject"/> from points
+        /// </summary>
+        /// <returns></returns>
+        public HObject GenCrossesUsed()
+        {
+            HObject crossesAllLine = new HObject();
+            crossesAllLine.GenEmptyObj();
+            foreach (var tuple in CrossesUsed)
+            {
+                var xs = tuple.Item1.ToArray();
+                var ys = tuple.Item2.ToArray();
+                HObject crossesOneLine;
+                HOperatorSet.GenCrossContourXld(out crossesOneLine, ys, xs, 0.5, 0.5);
+                crossesAllLine = crossesAllLine.ConcatObj(crossesOneLine);
+            }
+            
+            
+
+            return crossesAllLine;
+        }
 
         public int CrossSize { get; set; } = 100;
 

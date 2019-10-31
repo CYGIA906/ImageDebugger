@@ -103,6 +103,7 @@
     <Compile Include="ImageProcessing\LineScan\I40LineScanMeasurement.cs" />
     <Compile Include="ImageProcessing\LineScan\ILineScanMeasurementProcedure.cs" />
     <Compile Include="ImageProcessing\LineScan\ImageProcessingResults3D.cs" />
+    <Compile Include="ImageProcessing\LineScan\PointLocator.cs" />
     <Compile Include="ImageProcessing\LineScan\PointMarker.cs" />
     <Compile Include="ImageProcessing\MathUtils.cs" />
     <Compile Include="ImageProcessing\Point.cs" />

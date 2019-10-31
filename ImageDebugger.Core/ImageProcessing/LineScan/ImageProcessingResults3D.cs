@@ -13,10 +13,11 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
 
         private HObject FindLineRects { get; set; }
 
-        private List<PointMarker> PointMarkers { get; set; }
+        public List<PointMarker> PointMarkers { get; set; }
         public HObject Edges { get; set; }
 
-
+        public HObject CrossedUsed { get; set; }
+        
         public HImage Image { get; set; }
 
 
@@ -50,7 +51,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
                 HOperatorSet.GenCrossContourXld(out cross, pointMarker.ImageY, pointMarker.ImageX, 10, 0.5);
                 crosses = HalconHelper.ConcatAll(crosses, cross);
                 
-                windowHandle.DispText($"{pointMarker.Name}{Environment.NewLine}{pointMarker.Height.ToString("f3")}", "image", pointMarker.ImageY + offset, pointMarker.ImageX + offset, "red", "border_radius", 2);
+//                windowHandle.DispText($"{pointMarker.Name}{Environment.NewLine}{pointMarker.Height.ToString("f3")}", "image", pointMarker.ImageY + offset, pointMarker.ImageX + offset, "red", "border_radius", 2);
             }
             
             windowHandle.DispObj(crosses);
@@ -68,6 +69,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             
             windowHandle.SetColor("green");
             Line.DisplayGraphics(windowHandle);
+            CrossedUsed?.DispObj(windowHandle);
             
             windowHandle.SetDraw("margin");
             windowHandle.SetColor("orange");

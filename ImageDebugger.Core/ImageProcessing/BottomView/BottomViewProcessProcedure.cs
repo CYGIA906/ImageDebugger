@@ -389,7 +389,7 @@ namespace ImageDebugger.Core.ImageProcessing.BottomView
             var graphics = new HalconGraphics()
             {
                 CrossesIgnored = findLineManager.CrossesIgnored,
-                CrossesUsed = findLineManager.CrossesUsed,
+                CrossesUsed = findLineManager.GenCrossesUsed(),
                 FindLineRects = findLineManager.FindLineRects,
                 LineRegions = findLineManager.LineRegions,
                 Edges = HalconHelper.ConcatAll(findLineManager.Edges, edgeLeftTop, edgeLeftBottom, edgeRightTop, edgeRightBottom, leftCircleContour, rightCircleContour),

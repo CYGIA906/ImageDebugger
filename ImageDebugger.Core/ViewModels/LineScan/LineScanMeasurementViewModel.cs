@@ -60,7 +60,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
 
         private async Task OnImageProcessStartAsync(List<HImage> images)
         {
-            var result = await Task.Run(() => LineScanMeasurementProcedure.Process(ImageInputs, RunStatusMessageQueue));
+            var result = await Task.Run(() => LineScanMeasurementProcedure.Process(ImageInputs, PointSettingViewModels, RunStatusMessageQueue));
 
             DisplayImage = result.Image;
             result.Display(WindowHandle);

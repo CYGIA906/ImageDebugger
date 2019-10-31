@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using HalconDotNet;
+using ImageDebugger.Core.ImageProcessing.LineScan;
 using ImageDebugger.Core.Models;
+using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
 
 namespace ImageDebugger.Core.ImageProcessing
 {
@@ -120,6 +122,8 @@ namespace ImageDebugger.Core.ImageProcessing
 
             return distance.D;
         }
-        
+
+
+   
     }
 }

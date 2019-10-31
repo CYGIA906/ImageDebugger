@@ -46,6 +46,7 @@
             <e p="I40LineScanMeasurement.cs" t="Include" />
             <e p="ILineScanMeasurementProcedure.cs" t="Include" />
             <e p="ImageProcessingResults3D.cs" t="Include" />
+            <e p="PointLocator.cs" t="Include" />
             <e p="PointMarker.cs" t="Include" />
           </e>
           <e p="MathUtils.cs" t="Include" />

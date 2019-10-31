@@ -322,7 +322,7 @@ namespace ImageDebugger.Core.ImageProcessing.TopView
             var graphics = new HalconGraphics()
              {
                  CrossesIgnored = findLineManager.CrossesIgnored,
-                 CrossesUsed = findLineManager.CrossesUsed,
+                 CrossesUsed = findLineManager.GenCrossesUsed(),
                  FindLineRects = findLineManager.FindLineRects,
                  LineRegions = findLineManager.LineRegions,
                  Edges = findLineManager.Edges,
