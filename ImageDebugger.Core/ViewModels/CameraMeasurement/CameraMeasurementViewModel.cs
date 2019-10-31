@@ -145,7 +145,7 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
                         RunStatusMessageQueue));
 
 
-            DisplayImage.DispImage(WindowHandle);
+            InfoImage.DispImage(WindowHandle);
 
             if (WindowHandle != null)
             {

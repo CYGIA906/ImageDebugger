@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
-
+            <!-- Toolbar -->
             <ToolBarTray Panel.ZIndex="0" AllowDrop="False" Grid.Column="0">
                 <ToolBar Style="{DynamicResource MaterialDesignToolBar}" VerticalAlignment="Top">
                     <!-- Load images -->
@@ -89,6 +89,11 @@
 
         <Grid DockPanel.Dock="Top">
             <!-- Current image name -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
             <materialDesign:ColorZone TextElement.Foreground="AliceBlue"
                                       TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}"
                                       CornerRadius="15" Margin="80 50" VerticalAlignment="Top"
@@ -98,8 +103,7 @@
             </materialDesign:ColorZone>
 
             <!-- Halcon window -->
-
-            <halconDotNet:HSmartWindowControlWPF Name="HalconWindow" Panel.ZIndex="1" ToolTip="{Binding XYGrayValue}">
+            <halconDotNet:HSmartWindowControlWPF Grid.Column="0" Name="HalconWindow" Panel.ZIndex="1">
 
                 <!-- <halconDotNet:HIconicDisplayObjectWPF IconicObject="{Binding DisplayImage}" /> -->
                 <i:Interaction.Behaviors>
@@ -108,12 +112,22 @@
                 </i:Interaction.Behaviors>
 
             </halconDotNet:HSmartWindowControlWPF>
-
-            <Popup IsOpen="{Binding ShouldImageInfoDisplay}" Placement="Relative" HorizontalOffset="{Binding MouseX}"
+            <!-- Image info view popup -->
+            <Popup Grid.Column="0" IsOpen="{Binding ShouldImageInfoDisplay}" Placement="Relative" HorizontalOffset="{Binding MouseX}"
                    VerticalOffset="{Binding MouseY}" PlacementTarget="{Binding ElementName=HalconWindow}">
                 <views:ImageInfoView DataContext="{Binding GrayValueInfo}" />
             </Popup>
 
+            <Separator Grid.Column="1"/>
+            <!-- Alignment window -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <halconDotNet:HSmartWindowControlWPF Grid.Row="0" Name="AlignmentWindowLeftRight"  Panel.ZIndex="1" />
+                <halconDotNet:HSmartWindowControlWPF Grid.Row="1" Name="AlignmentWindowBottomRight"  Panel.ZIndex="1" />
+            </Grid>
 
             <!-- Snack bar -->
             <materialDesign:Snackbar Grid.Column="0" Name="SnackBar" MessageQueue="{Binding RunStatusMessageQueue}"
@@ -123,7 +137,7 @@
 
 
             <!-- Drawer -->
-            <materialDesign:DrawerHost Panel.ZIndex="9" Background="White"
+            <materialDesign:DrawerHost Grid.Column="0" Grid.ColumnSpan="3" Panel.ZIndex="9" Background="White"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Top"
                                        BorderThickness="2"
@@ -147,7 +161,7 @@
 
 
             <!--status area-->
-            <GroupBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Header="{Binding ProcedureName}"
+            <GroupBox Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Header="{Binding ProcedureName}"
                       Panel.ZIndex="3"
                       FontSize="16">
                 <StackPanel Orientation="Horizontal" Background="AliceBlue" MinWidth="150">

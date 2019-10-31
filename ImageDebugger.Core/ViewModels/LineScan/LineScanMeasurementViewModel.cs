@@ -24,6 +24,10 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         /// </summary>
         public List<PointSettingViewModel> PointSettingViewModels { get; set; }
 
+        public HWindow WindowHandleBottomRight { get; set; }
+        
+        public HWindow WindowHandleLeftRight { get; set; }
+        
         /// <summary>
         /// Root directory for serialization
         /// </summary>
@@ -63,7 +67,13 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         {
             var result = await Task.Run(() => LineScanMeasurementProcedure.Process(ImageInputs, PointSettingViewModels, RunStatusMessageQueue));
 
-            DisplayImage = result.Image;
+            InfoImage = result.Images[0];
+            
+            
+            WindowHandle.DispImage(result.Images[0]);
+            WindowHandleLeftRight.DispColor(result.Images[1]);
+            WindowHandleBottomRight.DispColor(result.Images[2]);
+            
             result.Display(WindowHandle);
         }
 

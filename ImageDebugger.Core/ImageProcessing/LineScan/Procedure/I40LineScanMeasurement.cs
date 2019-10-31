@@ -57,7 +57,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
         
         private FindLineParam _findLineParamV = new FindLineParam()
         {
-            CannyHigh = 200, CannyLow = 100, Threshold = 100, ErrorThreshold = 0.5, NewWidth = 2
+            CannyHigh = 200, CannyLow = 100, Threshold = 500, ErrorThreshold = 0.2, NewWidth = 2, NumSubRects = 30, Sigma1 = 4
         };
 
        

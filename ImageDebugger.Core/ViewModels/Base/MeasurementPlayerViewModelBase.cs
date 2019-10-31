@@ -33,7 +33,7 @@ namespace ImageDebugger.Core.ViewModels.Base
             {
                 imageX = (int) e.Column;
                 imageY = (int) e.Row;
-                grayvalue = (DisplayImage as HImage)?.GetGrayval(imageY, imageX);
+                grayvalue = (InfoImage as HImage)?.GetGrayval(imageY, imageX);
             }
             catch (Exception exception)
             {
@@ -54,7 +54,11 @@ namespace ImageDebugger.Core.ViewModels.Base
            [DoNotNotify]
            public List<HImage> ImageInputs { get; set; }
            
-        public HImage DisplayImage { get; set; }
+           /// <summary>
+           /// Image that is used at the background for
+           /// providing X,Y and grayvalue information
+           /// </summary>
+        public HImage InfoImage { get; set; }
 
         /// <summary>
         /// Specifies whether image processing is continuously running
@@ -428,7 +432,7 @@ namespace ImageDebugger.Core.ViewModels.Base
 
       
             
-            DisplayXYGrayCommand = new SimpleCommand(DisplayXYGray, o=> DisplayImage!=null);
+            DisplayXYGrayCommand = new SimpleCommand(DisplayXYGray, o=> InfoImage!=null);
 
         }
 

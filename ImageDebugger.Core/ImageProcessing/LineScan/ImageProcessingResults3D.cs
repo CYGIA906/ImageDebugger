@@ -18,7 +18,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
 
         public HObject CrossedUsed { get; set; }
         
-        public HImage Image { get; set; }
+        public List<HImage> Images { get; set; }
 
 
         public void AddLineRegion(HObject lineRegion)
@@ -62,13 +62,13 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
 
         public void Display(HWindow windowHandle)
         {
-            Image?.DispImage(windowHandle);
             
             windowHandle.SetColor("magenta");
             LineRegions?.DispObj(windowHandle);
             
             windowHandle.SetColor("green");
             Line.DisplayGraphics(windowHandle);
+            windowHandle.SetColor("firebrick");
             CrossedUsed?.DispObj(windowHandle);
             
             windowHandle.SetDraw("margin");

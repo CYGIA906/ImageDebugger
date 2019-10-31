@@ -107,36 +107,34 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             HTuple rowBottom, colBottom, angleBottom, scoreBottom, mapBottomToRight;
             bottomImage.FindShapeModel(new HShapeModel(realTimeModelHandle.H), -0.3, 0.6, 0.2, 1,0.5,"least_squares", 0, 0.9, out rowBottom, out colBottom, out angleBottom, out scoreBottom);
             HOperatorSet.VectorAngleToRigid(rowBottom, colBottom, angleBottom, rowRightModel, colRightModel, radianRightModel, out mapBottomToRight);
-            bottomImage.AffineTransImage(new HHomMat2D(mapBottomToRight), "constant", "false");
+            var bottomImageAligned = bottomImage.AffineTransImage(new HHomMat2D(mapBottomToRight), "constant", "false");
             
             
             #endregion
             
 
             //Debug: Compose image
-//            HImage emptyImage = new HImage();
-//            emptyImage.GenImageConst("byte", imageWidth, imageHeight);
-//           var imageComposed =  emptyImage.Compose3(rightImage.ScaleImageMax(), leftImageAligned.ScaleImageMax());
-//           imageComposed.WriteImage("tiff", 0, "Composed.tif");
+            HImage emptyImage = new HImage();
+            emptyImage.GenImageConst("byte", imageWidth, imageHeight);
+           var imageLeftRight =  emptyImage.Compose3(rightImage.ScaleImageMax(), leftImageAligned.ScaleImageMax());
+           var imageBottomRight = emptyImage.Compose3(rightImage.ScaleImageMax(), bottomImageAligned.ScaleImageMax());
 
 
-           
-
-
-
-            var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
+           var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
             var pointMarkers = pointLocator.LocatePoints(pointSettings);
 
 
             var output = new ImageProcessingResults3D()
             {
-                Image = rightImage,
+                Images = new List<HImage>()
+                {
+                    rightImage, imageLeftRight, imageBottomRight
+                },
                 CrossedUsed = findLineManager.GenCrossesUsed(),
                 PointMarkers = pointMarkers
             };
 
             var rects = findLineManager.FindLineRects;
-            int count = rects.CountObj();
             output.AddLineRegion(findLineManager.LineRegions);
             output.AddFindLineRects(rects);
             output.AddEdges(findLineManager.Edges);
