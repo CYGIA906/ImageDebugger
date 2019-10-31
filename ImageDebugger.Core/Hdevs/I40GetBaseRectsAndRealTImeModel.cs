@@ -52,13 +52,13 @@ public partial class HDevelopExport
     hv_len1HRect = new HTuple();
     hv_len2HRect = new HTuple();
     ho_ROI_0.Dispose();
-    HOperatorSet.GenRectangle1(out ho_ROI_0, 126.831, 111.206, 465.524, 1574.75);
+    HOperatorSet.GenRectangle1(out ho_ROI_0, 56.831, 111.206, 465.524, 1574.75);
 
     ho_ImageReduced.Dispose();
     HOperatorSet.ReduceDomain(ho_Modelright, ho_ROI_0, out ho_ImageReduced);
 
     hv_Row.Dispose();hv_Column.Dispose();hv_Angle.Dispose();hv_Score.Dispose();
-    HOperatorSet.FindShapeModel(ho_Modelright, hv_ModelID, -0.39, 0.79, 0.2, 1, 
+    HOperatorSet.FindShapeModel(ho_ImageReduced, hv_ModelID, -0.39, 0.79, 0.2, 1, 
         0.5, "least_squares", 0, 0.9, out hv_Row, out hv_Column, out hv_Angle, out hv_Score);
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
@@ -81,7 +81,7 @@ public partial class HDevelopExport
     hv_angleVRect.Dispose();
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
-    hv_angleVRect = (new HTuple(90)).TupleRad()
+    hv_angleVRect = (new HTuple(-90)).TupleRad()
         ;
     }
     hv_len1VRect.Dispose();
@@ -143,7 +143,6 @@ public partial class HDevelopExport
   // Main procedure 
 
 
-  
 
 }
 

@@ -14,6 +14,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         private HObject FindLineRects { get; set; }
 
         private List<PointMarker> PointMarkers { get; set; }
+        public HObject Edges { get; set; }
+
 
         public HImage Image { get; set; }
 
@@ -29,6 +31,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         {
             FindLineRects = HalconHelper.ConcatAll(FindLineRects, rect);
         }
+        
+        public void AddEdges(HObject edges)
+        {
+            Edges = HalconHelper.ConcatAll(Edges, edges);
+        }
+
 
         private void DisplayPointMarkers(HWindow windowHandle)
         {
@@ -61,8 +69,14 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             windowHandle.SetColor("green");
             Line.DisplayGraphics(windowHandle);
             
+            windowHandle.SetDraw("margin");
             windowHandle.SetColor("orange");
             FindLineRects?.DispObj(windowHandle);
+            
+            windowHandle.SetColor("medium slate blue");
+            windowHandle.SetLineWidth(3);
+            Edges?.DispObj(windowHandle);
+            windowHandle.SetLineWidth(1);
             
             windowHandle.SetColor("blue");
             DisplayPointMarkers(windowHandle);

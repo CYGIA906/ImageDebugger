@@ -84,7 +84,7 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
         }
 
         public static Tuple<List<double>, List<double>> FindLineSubPixel(HImage image, double[] row, double[] col, double[] radian,
-            double[] len1, double[] len2, string transition, int numSubRects, int threshold, string whichEdge, double ignoreFraction, int cannyLow, int cannyHigh, double sigma1, double sigma2,
+            double[] len1, double[] len2, string transition, int numSubRects, double threshold, string whichEdge, double ignoreFraction, double cannyLow, double cannyHigh, double sigma1, double sigma2,
             int newWidth, int kernelWidth,HTuple longestOnly, out HObject edges, out HObject findLineRects)
         {
             var length = row.Length;

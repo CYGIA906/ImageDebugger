@@ -25,7 +25,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
            _halconScripts.I40GetBaseRects(image, _shapeModelHandleRight, out realTimeModelHandle, out rowV, out colV,
                out radianV, out len1V, out len2V, out rowH, out colH, out radianH, out len1H, out len2H);
 
-            image = ToKeyenceHeightImage(image);
+            var heightImage = ToKeyenceHeightImage(image);
             
 
            var findLineFeedingH = _findLineParamH.ToFindLineFeeding();
@@ -34,7 +34,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
            findLineFeedingH.Radian = radianH;
            findLineFeedingH.Len1 = len1H;
            findLineFeedingH.Len2 = len2H;
-           findLineFeedingH.Transition = "positive";
+           findLineFeedingH.Transition = "negative";
            
            var findLineFeedingV = _findLineParamV.ToFindLineFeeding();
            findLineFeedingV.Row = rowV;
@@ -42,22 +42,28 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
            findLineFeedingV.Radian = radianV;
            findLineFeedingV.Len1 = len1V;
            findLineFeedingV.Len2 = len2V;
-           findLineFeedingV.Transition = "positive";
+           findLineFeedingV.Transition = "negative";
 
            var findLineManager = new FindLineManager(messageQueue);
-           var lineH = findLineManager.TryFindLine("lineH", image, findLineFeedingH);
-//           lineH.IsVisible = true;
-           var lineV = findLineManager.TryFindLine("lineV", image, findLineFeedingV);
-//           lineV.IsVisible = true;
+           var lineH = findLineManager.TryFindLine("lineH", heightImage, findLineFeedingH);
+           lineH.IsVisible = true;
+           var lineV = findLineManager.TryFindLine("lineV", heightImage, findLineFeedingV);
+           lineV.IsVisible = true;
+           
+           
            
            
           var output = new ImageProcessingResults3D()
           {
-              Image = image
+              Image = heightImage
           };
-             
-//          output.AddLineRegion(findLineManager.LineRegions);
-          output.AddFindLineRects(findLineManager.FindLineRects);
+
+          var rects = findLineManager.FindLineRects;
+          int count = rects.CountObj();
+          output.AddLineRegion(findLineManager.LineRegions);
+          output.AddFindLineRects(rects);
+          output.AddEdges(findLineManager.Edges);
+          findLineManager.CrossesUsed
 
           return output;
 
@@ -96,13 +102,13 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         
         private FindLineParam _findLineParamH = new FindLineParam()
         {
-            CannyHigh = 2, CannyLow = 1, Threshold = 1, NewWidth = -1
+            CannyHigh = 1, CannyLow = 0.5, Threshold = 0.5, ErrorThreshold = 0.5
         };
         
         
         private FindLineParam _findLineParamV = new FindLineParam()
         {
-            CannyHigh = 2, CannyLow = 1, Threshold = 1, NewWidth = -1
+            CannyHigh = 2, CannyLow = 1, Threshold = 1, ErrorThreshold = 0.5, NewWidth = 2
         };
 
 

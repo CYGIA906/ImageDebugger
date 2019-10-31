@@ -34,6 +34,7 @@ namespace UI._2D.DataAccess
 
             using (var fbd = new FolderBrowserDialog())
             {
+                fbd.SelectedPath = "C:\\Users\\afterbunny\\Desktop\\Projects\\LineScan\\Data\\1030\\速度150\\3";
                 DialogResult result = fbd.ShowDialog();
                 var selectedPath = fbd.SelectedPath;
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(selectedPath))

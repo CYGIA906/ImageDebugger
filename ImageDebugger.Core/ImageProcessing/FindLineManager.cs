@@ -86,6 +86,7 @@ namespace ImageDebugger.Core.ImageProcessing
             }
             catch (Exception e)
             {
+                Debugger.Break();
                 PromptUserInvoke($"Line {name} not found! {Environment.NewLine} {e.Message}");
             }
 
@@ -198,10 +199,10 @@ namespace ImageDebugger.Core.ImageProcessing
 //                        feeding.CannyHigh, feeding.CannyLow, out lineX1, out lineY1, out lineX2, out lineY2, out xsUsed,
 //                        out ysUsed, out xsIgnored, out ysIgnored);
 
-                    var xsys = HalconHelper.FindLineSubPixel(image, feeding.Row.DArr, feeding.Col.DArr,
-                        feeding.Radian.DArr, feeding.Len1.DArr, feeding.Len2.DArr, feeding.Transition.S,
-                        feeding.NumSubRects.I, feeding.Threshold.I, feeding.WhichEdge.S, feeding.IgnoreFraction.D,
-                        feeding.CannyLow.I, feeding.CannyHigh.I, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I,
+                    var xsys = HalconHelper.FindLineSubPixel(image, feeding.Row, feeding.Col,
+                        feeding.Radian, feeding.Len1, feeding.Len2, feeding.Transition.S,
+                        feeding.NumSubRects.I, feeding.Threshold, feeding.WhichEdge.S, feeding.IgnoreFraction.D,
+                        feeding.CannyLow, feeding.CannyHigh.D, feeding.Sigma1.D, feeding.Sigma2.D, feeding.NewWidth.I,
                         feeding.KernelWidth, feeding.LongestOnly,
                         out edges, out findLineRegion);
 

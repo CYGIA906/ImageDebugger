@@ -12,7 +12,7 @@ namespace ImageDebugger.Core.Models
         #region FirstAttempt
 
         [XmlAttribute] public EdgeSelection WhichEdge { get; set; } = EdgeSelection.First;
-        [XmlAttribute] public int Threshold { get; set; } = 20;
+        [XmlAttribute] public double Threshold { get; set; } = 20;
 
         /// <summary>
         /// Number of measure rectangle to generate
@@ -30,8 +30,8 @@ namespace ImageDebugger.Core.Models
         [XmlAttribute] public int NewWidth { get; set; } = 5;
 
         [XmlAttribute] public double Sigma2 { get; set; } = 1;
-        [XmlAttribute] public int CannyLow { get; set; } = 20;
-        [XmlAttribute] public int CannyHigh { get; set; } = 40;
+        [XmlAttribute] public double CannyLow { get; set; } = 20;
+        [XmlAttribute] public double CannyHigh { get; set; } = 40;
         [XmlAttribute] public int KernelWidth { get; set; } = -1;
         [XmlAttribute] public bool LongestOnly { get; set; } = false;
 

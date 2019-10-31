@@ -18,7 +18,7 @@ namespace ImageDebugger.Core.ViewModels
         /// <summary>
         /// Gray value of the image point
         /// </summary>
-        public int GrayValue { get; set; }
+        public string GrayValue { get; set; }
         
     }
 }

@@ -43,7 +43,7 @@ namespace ImageDebugger.Core.ViewModels.Base
             // output grayvalue info
             GrayValueInfo = new ImageInfoViewModel()
             {
-                X = imageX, Y = imageY, GrayValue = (int) grayvalue
+                X = imageX, Y = imageY, GrayValue =  grayvalue.ToString("f3")
             };
 
             // Set the pop-up position
@@ -54,10 +54,7 @@ namespace ImageDebugger.Core.ViewModels.Base
            [DoNotNotify]
            public List<HImage> ImageInputs { get; set; }
            
-        public HImage DisplayImage
-        {
-            get { return ImageInputs == null || ImageInputs.Count <= IndexToShow ? null : ImageInputs[IndexToShow]; }
-        }
+        public HImage DisplayImage { get; set; }
 
         /// <summary>
         /// Specifies whether image processing is continuously running
