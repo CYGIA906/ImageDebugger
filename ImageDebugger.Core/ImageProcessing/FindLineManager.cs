@@ -77,12 +77,12 @@ namespace ImageDebugger.Core.ImageProcessing
             }
         }
 
-        public Line TryFindLine(string name, HImage image, FindLineFeeding feeding)
+        public Line TryFindLine(string name, HImage image, FindLineFeeding feeding, bool recordGraphics=true)
         {
             Line line = new Line();
             try
             {
-                line = FindLine(image, feeding);
+                line = FindLine(image, feeding, recordGraphics);
             }
             catch (Exception e)
             {
@@ -136,7 +136,7 @@ namespace ImageDebugger.Core.ImageProcessing
 
         public Dictionary<string, FindLineFeeding> FindLineFeedings { get; set; }
 
-        public Line FindLine(HImage image, FindLineFeeding feeding)
+        public Line FindLine(HImage image, FindLineFeeding feeding, bool recordGraphics = true)
         {
             HObject lineRegion, findLineRegion;
             HTuple xsUsed = new HTuple();
@@ -229,17 +229,20 @@ namespace ImageDebugger.Core.ImageProcessing
 
             // Generate debugging graphics 
 
-            HObject crossesIgnored;
-            HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
-
-            // Critical section
-            lock (this)
+            if (recordGraphics)
             {
-                CrossesUsed.Add(new Tuple<List<double>, List<double>>(xs, ys));
-                HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
-                HOperatorSet.ConcatObj(_findLineRects, findLineRegion, out _findLineRects);
-                HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
-                HOperatorSet.ConcatObj(Edges, edges, out _edges);
+                HObject crossesIgnored;
+                HOperatorSet.GenCrossContourXld(out crossesIgnored, ysIgnored, xsIgnored, CrossSize, CrossAngle);
+
+                // Critical section
+                lock (this)
+                {
+                    CrossesUsed.Add(new Tuple<List<double>, List<double>>(xs, ys));
+                    HOperatorSet.ConcatObj(_crossesIgnored, crossesIgnored, out _crossesIgnored);
+                    HOperatorSet.ConcatObj(_findLineRects, findLineRegion, out _findLineRects);
+                    HOperatorSet.ConcatObj(_lineRegions, lineRegion, out _lineRegions);
+                    HOperatorSet.ConcatObj(Edges, edges, out _edges);
+                }
             }
 
 

@@ -10,17 +10,19 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
         public ImageProcessingResults3D Process(List<HImage> images, List<PointSettingViewModel> pointSettings,
             ISnackbarMessageQueue messageQueue)
         {
-            var bottomImage = images[0];
+            var bottomImage = images[0].MirrorImage("column");
             var leftImage = images[1];
             var rightImage = images[2];
+            HTuple imageWidth, imageHeight;
+            rightImage.GetImageSize(out imageWidth, out imageHeight);
 
             #region Right View    
 
-            HTuple realTimeModelHandle, rowV, colV, radianV, len1V, len2V, rowH, colH, radianH, len1H, len2H;
-            _halconScripts.I40GetBaseRects(rightImage, _shapeModelHandleRight, out realTimeModelHandle, out rowV,
-                out colV,
-                out radianV, out len1V, out len2V, out rowH, out colH, out radianH, out len1H, out len2H);
-
+            HTuple realTimeModelHandle, rowV, colV, radianV, len1V, len2V, rowH, colH, radianH, len1H, len2H, rowRightModel, colRightModel, radianRightModel;
+            _halconScripts.I40GetBaseRectsAndCreateNewModel(rightImage, _shapeModelHandleRight, out realTimeModelHandle, out rowV,
+                out colV, out radianV, out len1V, out len2V, out rowH, out colH, out radianH, out len1H, out len2H,
+                out rowRightModel, out colRightModel, out radianRightModel);
+            
             var heightImage = ToKeyenceHeightImage(rightImage);
 
 
@@ -44,22 +46,22 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
 
             var findLineManager = new FindLineManager(messageQueue);
-            //var lineHRight = findLineManager.TryFindLine("lineHRight", rightImage, findLineFeedingH);
-            //lineHRight.IsVisible = true;
-            //var lineVRight = findLineManager.TryFindLine("lineVRight", rightImage, findLineFeedingV);
-            //lineVRight.IsVisible = true;
+            var lineHRight = findLineManager.TryFindLine("lineHRight", rightImage, findLineFeedingH);
+            lineHRight.IsVisible = true;
+            var lineVRight = findLineManager.TryFindLine("lineVRight", rightImage, findLineFeedingV);
+            lineVRight.IsVisible = true;
 
-            //// Translate base
-            //lineHRight = lineHRight.SortUpDown();
-            //lineVRight  = lineVRight.SortLeftRight();
+            // Translate base
+            lineHRight = lineHRight.SortUpDown();
+            lineVRight  = lineVRight.SortLeftRight();
             
-            //var alignPointRight = lineHRight.Intersect(lineVRight);
-            //var rotationRight = MathUtils.ToRadian(lineVRight.Angle);
+            var alignPointRight = lineHRight.Intersect(lineVRight);
+            var rotationRight = MathUtils.ToRadian(lineVRight.Angle);
 
-            //var xAxis = lineHRight.Translate(-1.0 / _horizontalCoeff * 6.788);
-            //xAxis.IsVisible = true;
-            //var yAxis = lineVRight.Translate(-1.0 / _verticalCoeff * 19.605);
-            //yAxis.IsVisible = true;
+            var xAxis = lineHRight.Translate(-1.0 / _horizontalCoeff * 6.788);
+            xAxis.IsVisible = true;
+            var yAxis = lineVRight.Translate(-1.0 / _verticalCoeff * 19.605);
+            yAxis.IsVisible = true;
 
             #endregion
 
@@ -67,8 +69,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             #region Left View
 
             var leftImageMirrored = leftImage.MirrorImage("column");
-            HTuple _;
-            _halconScripts.I40GetBaseRects(leftImageMirrored, _shapeModelHandleRight, out _, out rowV,
+            _halconScripts.I40GetBaseRects(leftImageMirrored, realTimeModelHandle, out rowV,
                 out colV,
                 out radianV, out len1V, out len2V, out rowH, out colH, out radianH, out len1H, out len2H);
             
@@ -81,36 +82,57 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             findLineFeedingV.Col = colV;
 
 
-            var lineHLeft= findLineManager.TryFindLine("lineHLeft", leftImageMirrored, findLineFeedingH);
-            lineHLeft.IsVisible = true;
-            var lineVLeft= findLineManager.TryFindLine("lineVLeft", leftImageMirrored, findLineFeedingV);
-            lineVLeft.IsVisible = true;
+            var lineHLeft= findLineManager.TryFindLine("lineHLeft", leftImageMirrored, findLineFeedingH, false);
+//            lineHLeft.IsVisible = true;
+            var lineVLeft= findLineManager.TryFindLine("lineVLeft", leftImageMirrored, findLineFeedingV, false);
+//            lineVLeft.IsVisible = true;
 
-            //lineHLeft= lineHLeft.SortUpDown();
-            //lineVLeft= lineVLeft.SortLeftRight();
+            lineHLeft= lineHLeft.SortUpDown();
+            lineVLeft= lineVLeft.SortLeftRight();
 
             var alignPointLeft = lineHLeft.Intersect(lineVLeft);
 //            var rotationLeft = MathUtils.ToRadian(lineVLeft.Angle)
             
-            // Align left view to right view
-            //HTuple mapFromLeftToRight;
-            //HOperatorSet.VectorAngleToRigid(alignPointLeft.ImageY, alignPointLeft.ImageX, 0, alignPointRight.ImageY,
-            //    alignPointRight.ImageX, 0, out mapFromLeftToRight);
-            //var leftImageAligned =
-            //    leftImageMirrored.AffineTransImage(new HHomMat2D(mapFromLeftToRight), "constant", "false");
+//             Align left view to right view
+            HTuple mapFromLeftToRight;
+            HOperatorSet.VectorAngleToRigid(alignPointLeft.ImageY, alignPointLeft.ImageX, 0, alignPointRight.ImageY,
+                alignPointRight.ImageX, 0, out mapFromLeftToRight);
+            var leftImageAligned =
+                leftImageMirrored.AffineTransImage(new HHomMat2D(mapFromLeftToRight), "constant", "false");
 
             #endregion
 
+            #region Bottom View
+
+            HTuple rowBottom, colBottom, angleBottom, scoreBottom, mapBottomToRight;
+            bottomImage.FindShapeModel(new HShapeModel(realTimeModelHandle.H), -0.3, 0.6, 0.2, 1,0.5,"least_squares", 0, 0.9, out rowBottom, out colBottom, out angleBottom, out scoreBottom);
+            HOperatorSet.VectorAngleToRigid(rowBottom, colBottom, angleBottom, rowRightModel, colRightModel, radianRightModel, out mapBottomToRight);
+            bottomImage.AffineTransImage(new HHomMat2D(mapBottomToRight), "constant", "false");
             
-            //var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
-            //var pointMarkers = pointLocator.LocatePoints(pointSettings);
+            
+            #endregion
+            
+
+            //Debug: Compose image
+//            HImage emptyImage = new HImage();
+//            emptyImage.GenImageConst("byte", imageWidth, imageHeight);
+//           var imageComposed =  emptyImage.Compose3(rightImage.ScaleImageMax(), leftImageAligned.ScaleImageMax());
+//           imageComposed.WriteImage("tiff", 0, "Composed.tif");
+
+
+           
+
+
+
+            var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
+            var pointMarkers = pointLocator.LocatePoints(pointSettings);
 
 
             var output = new ImageProcessingResults3D()
             {
-                Image = leftImageMirrored,
+                Image = rightImage,
                 CrossedUsed = findLineManager.GenCrossesUsed(),
-                //PointMarkers = pointMarkers
+                PointMarkers = pointMarkers
             };
 
             var rects = findLineManager.FindLineRects;

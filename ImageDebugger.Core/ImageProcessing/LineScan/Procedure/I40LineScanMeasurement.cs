@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using HalconDotNet;
 using ImageDebugger.Core.Models;
 using ImageDebugger.Core.ViewModels.Application;
@@ -59,7 +60,9 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             CannyHigh = 200, CannyLow = 100, Threshold = 100, ErrorThreshold = 0.5, NewWidth = 2
         };
 
-
+       
+        
+        
         /// <summary>
         /// Convert 
         /// </summary>
