@@ -97,7 +97,15 @@ namespace ImageDebugger.Core.ImageProcessing
                 foreach (var line in LineToDisplay)
                 {
                     HObject lineRegion;
-                    HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, ImageWidth, ImageHeight);
+                    try
+                    {
+                        HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, ImageWidth, ImageHeight);
+                    }
+                    catch (Exception e)
+                    {
+                        lineRegion = new HObject();
+                        lineRegion.GenEmptyObj();
+                    }
                     HOperatorSet.ConcatObj(lineRegions, lineRegion, out lineRegions);
                 }
                 lineRegions.DispObj(windowHandle);

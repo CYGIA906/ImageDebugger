@@ -84,8 +84,8 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Enums\DrawerContentType3D.cs" />
-    <Compile Include="Hdevs\I40GetBaseRectsAndRealTImeModel.cs" />
     <Compile Include="Enums\MeasurementPage2D.cs" />
+    <Compile Include="Hdevs\I40GetBaseRectsAndRealTImeModel.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
     <Compile Include="Helpers\AutoSerializableHelper.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
@@ -100,11 +100,12 @@
     <Compile Include="ImageProcessing\FindLineManager.cs" />
     <Compile Include="ImageProcessing\IMeasurementProcedure.cs" />
     <Compile Include="ImageProcessing\Line.cs" />
-    <Compile Include="ImageProcessing\LineScan\I40LineScanMeasurement.cs" />
     <Compile Include="ImageProcessing\LineScan\ILineScanMeasurementProcedure.cs" />
     <Compile Include="ImageProcessing\LineScan\ImageProcessingResults3D.cs" />
     <Compile Include="ImageProcessing\LineScan\PointLocator.cs" />
     <Compile Include="ImageProcessing\LineScan\PointMarker.cs" />
+    <Compile Include="ImageProcessing\LineScan\Procedure\I40LineScanMeasurement.cs" />
+    <Compile Include="ImageProcessing\LineScan\Procedure\MainProcedure.cs" />
     <Compile Include="ImageProcessing\MathUtils.cs" />
     <Compile Include="ImageProcessing\Point.cs" />
     <Compile Include="ImageProcessing\TopView\I94TopViewMeasure.cs" />

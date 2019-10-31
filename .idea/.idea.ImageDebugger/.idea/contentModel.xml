@@ -43,11 +43,14 @@
           <e p="IMeasurementProcedure.cs" t="Include" />
           <e p="Line.cs" t="Include" />
           <e p="LineScan" t="Include">
-            <e p="I40LineScanMeasurement.cs" t="Include" />
             <e p="ILineScanMeasurementProcedure.cs" t="Include" />
             <e p="ImageProcessingResults3D.cs" t="Include" />
             <e p="PointLocator.cs" t="Include" />
             <e p="PointMarker.cs" t="Include" />
+            <e p="Procedure" t="Include">
+              <e p="I40LineScanMeasurement.cs" t="Include" />
+              <e p="MainProcedure.cs" t="Include" />
+            </e>
           </e>
           <e p="MathUtils.cs" t="Include" />
           <e p="Point.cs" t="Include" />

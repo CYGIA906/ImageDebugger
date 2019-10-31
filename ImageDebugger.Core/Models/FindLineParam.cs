@@ -89,7 +89,7 @@ namespace ImageDebugger.Core.Models
                 NumSubRects = NumSubRects,
                 ErrorThreshold = ErrorThreshold,
                 Probability = Probability,
-                MaxTrials = MaxTrials
+                MaxTrials = MaxTrials,
             };
         }
     }

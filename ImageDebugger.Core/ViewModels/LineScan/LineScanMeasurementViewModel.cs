@@ -8,6 +8,7 @@ using ImageDebugger.Core.Commands;
 using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.Helpers;
 using ImageDebugger.Core.ImageProcessing.LineScan;
+using ImageDebugger.Core.ImageProcessing.LineScan.Procedure;
 using ImageDebugger.Core.ViewModels.Application;
 using ImageDebugger.Core.ViewModels.Base;
 using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
