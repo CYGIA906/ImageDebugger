@@ -6,7 +6,11 @@ namespace ImageDebugger.Core.ViewModels.LineScan.Thickness
     {
         public string Name { get; set; }
 
-        public string CsvName => "Thickness " + Name; 
+        public string CsvName
+        {
+            get { return "Thickness " + Name; }
+        }
+
         public double Value { get; set; }
     }
 }

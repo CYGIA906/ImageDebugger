@@ -6,7 +6,11 @@ namespace ImageDebugger.Core.ViewModels.LineScan.Flatness
     {
         public string Name { get; set; }
 
-        public string CsvName => "Flatness " + Name;
+        public string CsvName
+        {
+            get { return "Flatness " + Name; }
+        }
+
         public double Value { get; set; }
     }
 }

@@ -465,7 +465,7 @@ namespace ImageDebugger.Core.ViewModels.Base
                  if (ImageProcessStartAsync != null) await ImageProcessStartAsync?.Invoke(obj);
              }
 
-             protected virtual void OnContinuousModeFinished()
+             private void OnContinuousModeFinished()
              {
                  ContinuousModeFinished?.Invoke();
              }

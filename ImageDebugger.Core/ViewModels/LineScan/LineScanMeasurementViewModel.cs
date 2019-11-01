@@ -79,7 +79,10 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             get { return Path.Combine(ApplicationViewModel.SolutionDirectory + "/Configs/3D/", LineScanMeasurementProcedure.Name); }
         }
 
-        private static string CsvDir => Directory.GetCurrentDirectory() + "/CSV";
+        private static string CsvDir
+        {
+            get { return Directory.GetCurrentDirectory() + "/CSV"; }
+        }
 
         /// <summary>
         /// Serialize measurement results
@@ -96,7 +99,10 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             get { return Path.Combine(ConfigurationBaseDir, "Points"); }
         }
 
-        protected override int NumImagesInOneGoRequired => LineScanMeasurementProcedure.NumImageRequireInSingleRun;
+        protected override int NumImagesInOneGoRequired
+        {
+            get { return LineScanMeasurementProcedure.NumImageRequireInSingleRun; }
+        }
 
         public LineScanMeasurementViewModel()
         {
@@ -113,6 +119,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             ShowThicknessViewCommand = new RelayCommand(ShowThicknessView);
             
             CsvSerializer = new CsvSerializer(CsvDir);
+            ContinuousModeFinished += CsvSerializer.SummariseCsv;
         }
 
         private async Task OnImageProcessStartAsync(List<HImage> images)

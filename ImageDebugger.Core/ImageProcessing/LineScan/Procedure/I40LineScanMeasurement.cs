@@ -20,8 +20,10 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
         private HTuple _shapeModelHandleRight;
 
-        public string ShapeModelPath =>
-            ApplicationViewModel.SolutionDirectory + "/Configs/3D/I40/ShapeModels/ModelRight";
+        public string ShapeModelPath
+        {
+            get { return ApplicationViewModel.SolutionDirectory + "/Configs/3D/I40/ShapeModels/ModelRight"; }
+        }
 
         public I40LineScanMeasurement()
         {
