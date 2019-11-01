@@ -17,7 +17,7 @@ namespace ImageDebugger.Core.ViewModels.Base
     /// Base class for measurement view models
     /// that provides basic image playback functionality
     /// </summary>
-    public class MeasurementPlayerViewModelBase : RecyclableMegaList<string>
+    public abstract class MeasurementPlayerViewModelBase : RecyclableMegaList<string>
     {
            /// <summary>
         /// Display current gray value and image x, y coordinates
@@ -297,7 +297,7 @@ namespace ImageDebugger.Core.ViewModels.Base
         /// <summary>
         /// How many images are required for a click of run button
         /// </summary>
-        protected virtual int NumImagesInOneGoRequired { get; set; }
+        protected abstract int NumImagesInOneGoRequired { get;  }
 
         /// <summary>
         /// Make a temporary list for storing image paths before assigning to

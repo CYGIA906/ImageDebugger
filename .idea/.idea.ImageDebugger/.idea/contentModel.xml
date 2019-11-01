@@ -99,9 +99,18 @@
           </e>
           <e p="ImageInfoViewModel.cs" t="Include" />
           <e p="LineScan" t="Include">
+            <e p="Flatness" t="Include">
+              <e p="FlatnessItemViewModel.cs" t="Include" />
+            </e>
             <e p="LineScanMeasurementViewModel.cs" t="Include" />
+            <e p="Parallelism" t="Include">
+              <e p="ParallelismItemViewModel.cs" t="Include" />
+            </e>
             <e p="PointSetting" t="Include">
               <e p="PointSettingViewModel.cs" t="Include" />
+            </e>
+            <e p="Thickness" t="Include">
+              <e p="ThicknessItemViewModel.cs" t="Include" />
             </e>
           </e>
         </e>
@@ -181,17 +190,21 @@
         <e p="Views" t="Include">
           <e p="Drawer" t="Include">
             <e p="DrawerContent" t="Include">
-              <e p="FlatnessView.xaml" t="Include" />
-              <e p="FlatnessView.xaml.cs" t="Include" />
-              <e p="ParallelismView.xaml" t="Include" />
-              <e p="ParallelismView.xaml.cs" t="Include" />
+              <e p="Flatness" t="Include">
+                <e p="FlatnessListView.xaml" t="Include" />
+                <e p="FlatnessListView.xaml.cs" t="Include" />
+              </e>
               <e p="PointSettingView.xaml" t="Include" />
               <e p="PointSettingView.xaml.cs" t="Include" />
-              <e p="ThicknessView.xaml" t="Include" />
-              <e p="ThicknessView.xaml.cs" t="Include" />
+              <e p="Thickness" t="Include">
+                <e p="ThicknessListView.xaml" t="Include" />
+                <e p="ThicknessView.xaml.cs" t="Include" />
+              </e>
             </e>
             <e p="DrawerHostView.xaml" t="Include" />
             <e p="DrawerHostView.xaml.cs" t="Include" />
+            <e p="ParallelismView.xaml" t="Include" />
+            <e p="ParallelismView.xaml.cs" t="Include" />
           </e>
           <e p="LineScanMeasurement" t="Include">
             <e p="LineScanMeasurementView.xaml" t="Include" />
@@ -201,6 +214,25 @@
           <e p="MainWindow.xaml.cs" t="Include" />
         </e>
       </e>
+    </e>
+    <e p="C:\Users\afterbunny\Documents\WeChat Files\Pluck4U\FileStorage\CYGMeasure2DAlg\cyg2d\Debug" t="ExcludeRecursive" />
+    <e p="C:\Users\afterbunny\Documents\WeChat Files\Pluck4U\FileStorage\File\2019-11\cyInspector" t="IncludeRecursive">
+      <e p="cyInspector.csproj" t="IncludeRecursive" />
+      <e p="cyOXYCircle.cs" t="Include" />
+      <e p="cyOXYCoordinate.cs" t="Include" />
+      <e p="cyOXYLine.cs" t="Include" />
+      <e p="cyPointBaseClass.cs" t="Include" />
+      <e p="cySearchParam.cs" t="Include" />
+      <e p="cySearchPoint.cs" t="Include" />
+      <e p="cyUCSMeasure.cs" t="Include" />
+      <e p="MatImageTraslatePoint.cs" t="Include" />
+      <e p="MetorAlg.cs" t="Include" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Plane3D.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="AssemblyInfo.cs" t="Include" />
+      </e>
+      <e p="RealCoordinate2Image.cs" t="Include" />
     </e>
   </component>
 </project>

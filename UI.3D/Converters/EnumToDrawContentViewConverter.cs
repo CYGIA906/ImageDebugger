@@ -6,7 +6,10 @@ using System.Linq;
 using System.Windows.Controls;
 using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.WPFBase;
+using UI._3D.Views.Drawer;
 using UI._3D.Views.Drawer.DrawerContent;
+using UI._3D.Views.Drawer.DrawerContent.Flatness;
+using UI._3D.Views.Drawer.DrawerContent.Thickness;
 
 namespace UI._3D.Converters
 {
@@ -18,8 +21,8 @@ namespace UI._3D.Converters
 
             var viewType = (DrawerContentType3D) value;
             var outputType = viewType == DrawerContentType3D.PointSettings ? typeof(PointSettingView) :
-                viewType == DrawerContentType3D.Flatness ? typeof(FlatnessView) :
-                viewType == DrawerContentType3D.Parallelism ? typeof(ParallelismView) : typeof(ThicknessView);
+                viewType == DrawerContentType3D.Flatness ? typeof(FlatnessListView) :
+                viewType == DrawerContentType3D.Parallelism ? typeof(ParallelismView) : typeof(ThicknessListView);
             UserControl output;
             try
             {

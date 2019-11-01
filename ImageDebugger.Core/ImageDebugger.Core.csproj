@@ -130,8 +130,11 @@
     <Compile Include="ViewModels\CameraMeasurement\CameraMeasurementHostViewModel.cs" />
     <Compile Include="ViewModels\CameraMeasurement\CameraMeasurementViewModel.cs" />
     <Compile Include="ViewModels\ImageInfoViewModel.cs" />
+    <Compile Include="ViewModels\LineScan\Flatness\FlatnessItemViewModel.cs" />
     <Compile Include="ViewModels\LineScan\LineScanMeasurementViewModel.cs" />
+    <Compile Include="ViewModels\LineScan\Parallelism\ParallelismItemViewModel.cs" />
     <Compile Include="ViewModels\LineScan\PointSetting\PointSettingViewModel.cs" />
+    <Compile Include="ViewModels\LineScan\Thickness\ThicknessItemViewModel.cs" />
     <Compile Include="WPFBase\AttachedPropertyOwnerBase.cs" />
     <Compile Include="WPFBase\ValueConverterBase.cs" />
   </ItemGroup>
@@ -142,6 +145,12 @@
     <Content Include="..\UI.2D\FodyWeavers.xml">
       <Link>FodyWeavers.xml</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Documents\WeChat Files\Pluck4U\FileStorage\File\2019-11\cyInspector\cyInspector.csproj">
+      <Project>{4e285c2b-98b0-401a-9ae3-31c94ceb223a}</Project>
+      <Name>cyInspector</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.4.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.4.0\build\Accord.targets')" />

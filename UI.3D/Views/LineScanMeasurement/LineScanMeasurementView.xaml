@@ -87,7 +87,7 @@
         </Grid>
 
 
-        <Grid DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top" Name="ContentArea">
             <!-- Current image name -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="7*"/>
@@ -142,8 +142,8 @@
                                        VerticalAlignment="Top"
                                        BorderThickness="2"
                                        BorderBrush="{DynamicResource MaterialDesignDivider}">
-                <Grid Width="{Binding ActualWidth, ElementName=HalconWindow}"
-                      Height="{Binding ActualHeight, ElementName=HalconWindow}">
+                <Grid Width="{Binding ActualWidth, ElementName=ContentArea}"
+                      Height="{Binding ActualHeight, ElementName=ContentArea}">
                     <Viewbox Height="80" Width="80" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}" Background="Transparent" Foreground="{DynamicResource SecondaryAccentBrush}" Style="{StaticResource MaterialDesignFlatButton}"
                                 CommandParameter="{x:Static Dock.Right}">

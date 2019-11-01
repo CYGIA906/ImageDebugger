@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDebugger.Core", "Image
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.3D", "UI.3D\UI.3D.csproj", "{5984B4DA-7925-427C-BDCB-398796CAE31A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cyInspector", "..\..\..\..\Documents\WeChat Files\Pluck4U\FileStorage\File\2019-11\cyInspector\cyInspector.csproj", "{4E285C2B-98B0-401A-9AE3-31C94CEB223A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5984B4DA-7925-427C-BDCB-398796CAE31A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5984B4DA-7925-427C-BDCB-398796CAE31A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5984B4DA-7925-427C-BDCB-398796CAE31A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E285C2B-98B0-401A-9AE3-31C94CEB223A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E285C2B-98B0-401A-9AE3-31C94CEB223A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E285C2B-98B0-401A-9AE3-31C94CEB223A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E285C2B-98B0-401A-9AE3-31C94CEB223A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

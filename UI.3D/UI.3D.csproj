@@ -77,20 +77,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\EnumToDrawContentViewConverter.cs" />
-    <Compile Include="Views\Drawer\DrawerContent\FlatnessView.xaml.cs">
-      <DependentUpon>FlatnessView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Drawer\DrawerContent\ParallelismView.xaml.cs">
-      <DependentUpon>ParallelismView.xaml</DependentUpon>
+    <Compile Include="Views\Drawer\DrawerContent\Flatness\FlatnessListView.xaml.cs">
+      <DependentUpon>FlatnessListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Drawer\DrawerContent\PointSettingView.xaml.cs">
       <DependentUpon>PointSettingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Drawer\DrawerContent\ThicknessView.xaml.cs">
-      <DependentUpon>ThicknessView.xaml</DependentUpon>
+    <Compile Include="Views\Drawer\DrawerContent\Thickness\ThicknessView.xaml.cs">
+      <DependentUpon>ThicknessListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Drawer\DrawerHostView.xaml.cs">
       <DependentUpon>DrawerHostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Drawer\ParallelismView.xaml.cs">
+      <DependentUpon>ParallelismView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LineScanMeasurement\LineScanMeasurementView.xaml.cs">
       <DependentUpon>LineScanMeasurementView.xaml</DependentUpon>
@@ -119,6 +119,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Documents\WeChat Files\Pluck4U\FileStorage\File\2019-11\cyInspector\cyInspector.csproj">
+      <Project>{4e285c2b-98b0-401a-9ae3-31c94ceb223a}</Project>
+      <Name>cyInspector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageDebugger.Core\ImageDebugger.Core.csproj">
       <Project>{43275736-8146-432f-9ba0-fdcd1edcda8a}</Project>
       <Name>ImageDebugger.Core</Name>
@@ -129,11 +133,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\Drawer\DrawerContent\FlatnessView.xaml" />
-    <Page Include="Views\Drawer\DrawerContent\ParallelismView.xaml" />
+    <Page Include="Views\Drawer\DrawerContent\Flatness\FlatnessListView.xaml" />
     <Page Include="Views\Drawer\DrawerContent\PointSettingView.xaml" />
-    <Page Include="Views\Drawer\DrawerContent\ThicknessView.xaml" />
+    <Page Include="Views\Drawer\DrawerContent\Thickness\ThicknessListView.xaml" />
     <Page Include="Views\Drawer\DrawerHostView.xaml" />
+    <Page Include="Views\Drawer\ParallelismView.xaml" />
     <Page Include="Views\LineScanMeasurement\LineScanMeasurementView.xaml" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
