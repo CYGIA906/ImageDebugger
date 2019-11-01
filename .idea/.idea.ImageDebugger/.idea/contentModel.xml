@@ -59,7 +59,7 @@
             <e p="TopViewHardCodeValues.cs" t="Include" />
           </e>
           <e p="Utilts" t="Include">
-            <e p="FaiItemCsvSerializer.cs" t="Include" />
+            <e p="CsvSerializer.cs" t="Include" />
             <e p="FaiItemsExtension.cs" t="Include" />
             <e p="HalconHelper.cs" t="Include" />
           </e>
@@ -102,6 +102,7 @@
             <e p="Flatness" t="Include">
               <e p="FlatnessItemViewModel.cs" t="Include" />
             </e>
+            <e p="ICsvColumnElement.cs" t="Include" />
             <e p="LineScanMeasurementViewModel.cs" t="Include" />
             <e p="Parallelism" t="Include">
               <e p="ParallelismItemViewModel.cs" t="Include" />

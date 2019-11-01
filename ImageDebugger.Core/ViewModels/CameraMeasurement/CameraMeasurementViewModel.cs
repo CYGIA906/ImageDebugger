@@ -54,7 +54,7 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
             set
             {
                 _measurementUnit = value;
-                CsvSerializer = new FaiItemCsvSerializer(CsvDir);
+                CsvSerializer = new CsvSerializer(CsvDir);
                 // Init fai items
                 FaiItems = LoadFaiItemsFromDisk().ToList();
 
@@ -88,7 +88,7 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
 
             foreach (var item in FaiItems)
             {
-                item.Value = results[item.Name];
+                item.ValueUnbiased = results[item.Name];
             }
             
             FaiItems.StartAutoSerializing();
@@ -107,7 +107,7 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
         /// <summary>
         /// The serializer that manages all the serialization logic for serializing fai items
         /// </summary>
-        public FaiItemCsvSerializer CsvSerializer { get; set; }
+        public CsvSerializer CsvSerializer { get; set; }
 
 
         /// <summary>

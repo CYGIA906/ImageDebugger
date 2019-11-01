@@ -110,7 +110,7 @@
     <Compile Include="ImageProcessing\Point.cs" />
     <Compile Include="ImageProcessing\TopView\I94TopViewMeasure.cs" />
     <Compile Include="ImageProcessing\TopView\TopViewHardCodeValues.cs" />
-    <Compile Include="ImageProcessing\Utilts\FaiItemCsvSerializer.cs" />
+    <Compile Include="ImageProcessing\Utilts\CsvSerializer.cs" />
     <Compile Include="ImageProcessing\Utilts\FaiItemsExtension.cs" />
     <Compile Include="ImageProcessing\Utilts\HalconHelper.cs" />
     <Compile Include="IoC\Interface\IImageProvider.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="ViewModels\CameraMeasurement\CameraMeasurementViewModel.cs" />
     <Compile Include="ViewModels\ImageInfoViewModel.cs" />
     <Compile Include="ViewModels\LineScan\Flatness\FlatnessItemViewModel.cs" />
+    <Compile Include="ViewModels\LineScan\ICsvColumnElement.cs" />
     <Compile Include="ViewModels\LineScan\LineScanMeasurementViewModel.cs" />
     <Compile Include="ViewModels\LineScan\Parallelism\ParallelismItemViewModel.cs" />
     <Compile Include="ViewModels\LineScan\PointSetting\PointSettingViewModel.cs" />

@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ImageDebugger.Core.Models;
+using ImageDebugger.Core.ViewModels.LineScan;
 
 namespace ImageDebugger.Core.ImageProcessing.Utilts
 {
-    public class FaiItemCsvSerializer
+    public class CsvSerializer
     {
         public List<string> Header { get; set; }
         public string OutputDir { get; set; }
 
-        public FaiItemCsvSerializer(string outputDir)
+        public CsvSerializer(string outputDir)
         {
             OutputDir = outputDir;
         }
 
-        public void Serialize(IEnumerable<FaiItem> items, string imageName)
+        public void Serialize(IEnumerable<ICsvColumnElement> items, string imageName, bool shouldSerialize = true)
         {
-            var itemsSorted = items.OrderBy(item => item.Name);
-            if (Header == null) InitHeader(itemsSorted.Select(item => item.Name));
+            if (!shouldSerialize) return;
+            var itemsSorted = items.OrderBy(item => item.CsvName);
+            if (Header == null) InitHeader(itemsSorted.Select(item => item.CsvName));
 
-            var line = itemsSorted.Select(item => item.ValueBiased.ToString("f4")).ToList();
+            var line = itemsSorted.Select(item => item.Value.ToString("f4")).ToList();
             line.Insert(0, imageName);
             var csvLine = string.Join(",", line);
 

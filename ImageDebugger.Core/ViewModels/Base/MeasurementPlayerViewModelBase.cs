@@ -60,6 +60,11 @@ namespace ImageDebugger.Core.ViewModels.Base
            /// </summary>
         public HImage InfoImage { get; set; }
 
+
+           /// <summary>
+           /// This will fire when the continuous mode is about to finished
+           /// </summary>
+           public event Action ContinuousModeFinished;
         /// <summary>
         /// Specifies whether image processing is continuously running
         /// </summary>
@@ -424,6 +429,7 @@ namespace ImageDebugger.Core.ViewModels.Base
 
                             await TimedProcessAsync(ImageInputs);
                         }
+                        OnContinuousModeFinished();
                     })
                     ;
 
@@ -457,6 +463,11 @@ namespace ImageDebugger.Core.ViewModels.Base
              private async Task OnImageProcessStartAsync(List<HImage> obj)
              {
                  if (ImageProcessStartAsync != null) await ImageProcessStartAsync?.Invoke(obj);
+             }
+
+             protected virtual void OnContinuousModeFinished()
+             {
+                 ContinuousModeFinished?.Invoke();
              }
     }
 }

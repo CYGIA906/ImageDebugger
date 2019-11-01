@@ -1,13 +1,15 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 using ImageDebugger.Core.ViewModels.Base;
+using ImageDebugger.Core.ViewModels.LineScan;
 using PropertyChanged;
 
 namespace ImageDebugger.Core.Models
 {
-    public class FaiItem : AutoSerializableBase<FaiItem>
+    public class FaiItem : AutoSerializableBase<FaiItem>, ICsvColumnElement
     {
-       
+
+        public string CsvName => Name;
 
         /// <summary>
         /// Max boundary of the fai item
@@ -22,14 +24,15 @@ namespace ImageDebugger.Core.Models
         /// <summary>
         /// Measured value
         /// </summary>
-        public double Value;
+        public double ValueUnbiased;
 
         /// <summary>
         /// Measured value plus bias
         /// </summary>
-         public double ValueBiased
+         public double Value    
         {
-            get { return Value + Bias; }
+            get { return ValueUnbiased + Bias; }
+            set => throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -43,7 +46,7 @@ namespace ImageDebugger.Core.Models
         /// </summary>
         public bool Passed
         {
-            get { return ValueBiased > MinBoundary && ValueBiased < MaxBoundary; }
+            get { return Value > MinBoundary && Value < MaxBoundary; }
         }
         
 

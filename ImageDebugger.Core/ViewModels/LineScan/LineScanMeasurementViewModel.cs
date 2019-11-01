@@ -12,6 +12,7 @@ using ImageDebugger.Core.Enums;
 using ImageDebugger.Core.Helpers;
 using ImageDebugger.Core.ImageProcessing.LineScan;
 using ImageDebugger.Core.ImageProcessing.LineScan.Procedure;
+using ImageDebugger.Core.ImageProcessing.Utilts;
 using ImageDebugger.Core.ViewModels.Application;
 using ImageDebugger.Core.ViewModels.Base;
 using ImageDebugger.Core.ViewModels.LineScan.Flatness;
@@ -73,11 +74,18 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         /// <summary>
         /// Root directory for serialization
         /// </summary>
-        private string SerializationBaseDir
+        private string ConfigurationBaseDir
         {
             get { return Path.Combine(ApplicationViewModel.SolutionDirectory + "/Configs/3D/", LineScanMeasurementProcedure.Name); }
         }
 
+        private static string CsvDir => Directory.GetCurrentDirectory() + "/CSV";
+
+        /// <summary>
+        /// Serialize measurement results
+        /// </summary>
+        private CsvSerializer CsvSerializer { get; }
+        
         /// <summary>
         /// The content to show in the drawer that sits on the right
         /// </summary>
@@ -85,7 +93,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
 
         private string PointSettingSerializationDir
         {
-            get { return Path.Combine(SerializationBaseDir, "Points"); }
+            get { return Path.Combine(ConfigurationBaseDir, "Points"); }
         }
 
         protected override int NumImagesInOneGoRequired => LineScanMeasurementProcedure.NumImageRequireInSingleRun;
@@ -103,6 +111,8 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             ShowFlatnessViewCommand = new RelayCommand(ShowFlatnessView);
             ShowParallelismViewCommand = new RelayCommand(ShowParallelismView);
             ShowThicknessViewCommand = new RelayCommand(ShowThicknessView);
+            
+            CsvSerializer = new CsvSerializer(CsvDir);
         }
 
         private async Task OnImageProcessStartAsync(List<HImage> images)
@@ -117,10 +127,18 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             WindowHandleBottomRight.DispColor(result.Images[2]);
             result.Display(WindowHandle);
             
+            // Calculate results
             UpdatePointSettings(result.PointMarkers);
             ConstructPlanes(PointSettingViewModels);
             CalcFlatness();
             CalcThickness();
+            
+            // Serialize
+            var csvSerializables = new List<ICsvColumnElement>();
+            csvSerializables.AddRange(PointSettingViewModels);
+            csvSerializables.AddRange(FlatnessViewModels);
+            csvSerializables.AddRange(ThicknessViewModels);
+            CsvSerializer.Serialize(csvSerializables, CurrentImageName, IsContinuouslyRunning);
         }
 
         private void CalcThickness()
