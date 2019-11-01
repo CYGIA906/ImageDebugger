@@ -215,5 +215,10 @@ namespace ImageDebugger.Core.ImageProcessing
             
             return new Line(x1, y1, x2, y2, display);
         }
+
+        public Line InvertDirection()
+        {
+            return new Line(XEnd, YEnd, XStart, YStart);
+        }
     }
 }  

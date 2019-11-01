@@ -22,9 +22,6 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             _halconScripts.I40GetBaseRectsAndCreateNewModel(rightImage, _shapeModelHandleRight, out realTimeModelHandle, out rowV,
                 out colV, out radianV, out len1V, out len2V, out rowH, out colH, out radianH, out len1H, out len2H,
                 out rowRightModel, out colRightModel, out radianRightModel);
-            
-            var heightImage = ToKeyenceHeightImage(rightImage);
-
 
             var findLineFeedingH = _findLineParamH.ToFindLineFeeding();
             findLineFeedingH.Row = rowH;
@@ -56,7 +53,6 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             lineVRight  = lineVRight.SortLeftRight();
             
             var alignPointRight = lineHRight.Intersect(lineVRight);
-            var rotationRight = MathUtils.ToRadian(lineVRight.Angle);
 
             var xAxis = lineHRight.Translate(-1.0 / _horizontalCoeff * 6.788);
             xAxis.IsVisible = true;
@@ -124,7 +120,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
            var rightImageHeight = ToKeyenceHeightImage(rightImage);
 
 
-           var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
+           var pointLocator = new PointLocator(xAxis.InvertDirection(), yAxis, _verticalCoeff, _horizontalCoeff);
             var pointMarkers = pointLocator.LocatePoints(pointSettings, new List<HImage>()
             {
                 bottomImageHeight, leftImageHeight, rightImageHeight
