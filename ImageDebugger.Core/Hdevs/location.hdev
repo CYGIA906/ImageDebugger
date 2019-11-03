@@ -5,18 +5,21 @@
 <body>
 <l>list_image_files ('C:/Users/afterbunny/Desktop/1102/150/3', 'default', [], ImageFilesRight)</l>
 <l>list_image_files ('C:/Users/afterbunny/Desktop/1102/150/2', 'default', [], ImageFilesLeft)</l>
+<l>list_image_files ('C:/Users/afterbunny/Desktop/1102/150/1', 'default', [], ImageFilesBottom)</l>
+<c></c>
 <c></c>
 <c></c>
 <c></c>
 <l>for Index := 1 to |ImageFilesRight| - 1 by 1</l>
+<l>    read_image(ImageRight, ImageFilesRight[Index])</l>
 <l>    read_image(ImageLeft, ImageFilesLeft[Index])</l>
-<l>read_image(ImageRight, ImageFilesRight[Index])</l>
-<c></c>
-<l>I40AlignLeftRightAndGetBaseLines (ImageRight, ImageLeft, ImageLeftAligned, MultiChannelImage, RowBeginB, ColBeginB, RowEndB, ColEndB, RowBeginC, ColBeginC, RowEndC, ColEndC)</l>
-<l>GenLineRegion (lineRegion, ColBeginB, RowBeginB, ColEndB, RowEndB, 1600, 800)</l>
-<l>GenLineRegion (lineRegionC, ColBeginC, RowBeginC, ColEndC, RowEndC, 1600, 800)</l>
+<l>    read_image (ImageB, ImageFilesBottom[Index])</l>
+<c>    </c>
+<l>    I40AlignAllAndGetBaseLines (ImageRight, ImageLeft, ImageB, ImageLeftAligned, ImageBottomAligned, MultiChannelImageLR, MultiChannelImageBR, RowBeginB, ColBeginB, RowEndB, ColEndB, RowBeginC, ColBeginC, RowEndC, ColEndC)</l>
+<c>    </c>
 <l>    stop ()</l>
 <l>endfor</l>
+<c></c>
 <c></c>
 </body>
 <docu id="main">
@@ -5756,15 +5759,18 @@ Note that relative angle is in normal representation, but absolute angle is in h
 </parameters>
 </docu>
 </procedure>
-<procedure name="I40AlignLeftRightAndGetBaseLines">
+<procedure name="I40AlignAllAndGetBaseLines">
 <interface>
 <io>
 <par name="ImageRight" base_type="iconic" dimension="0"/>
 <par name="ImageLeft" base_type="iconic" dimension="0"/>
+<par name="ImageBottom" base_type="iconic" dimension="0"/>
 </io>
 <oo>
 <par name="ImageLeftAligned" base_type="iconic" dimension="0"/>
-<par name="MultiChannelImage" base_type="iconic" dimension="0"/>
+<par name="ImageBottomAligned" base_type="iconic" dimension="0"/>
+<par name="MultiChannelImageLR" base_type="iconic" dimension="0"/>
+<par name="MultiChannelImageBR" base_type="iconic" dimension="0"/>
 </oo>
 <oc>
 <par name="RowBeginB" base_type="ctrl" dimension="0"/>
@@ -5788,10 +5794,7 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <l>affine_trans_image(ImageMirror, ImageLeftAligned, HomMat2D, 'constant', 'false')</l>
 <c></c>
 <c>* Visualize alignment quality</c>
-<l>scale_image_max (ImageLeftAligned, ImageScaleMax)</l>
-<l>scale_image_max (ImageRight, ImageScaleMax1)</l>
-<l>gen_image_const (Image, 'byte', Width, Height)</l>
-<l>compose3 (Image, ImageScaleMax, ImageScaleMax1, MultiChannelImage)</l>
+<l>GenAlignVisualImage (ImageLeftAligned, ImageRight, MultiChannelImageLR)</l>
 <c></c>
 <c>* Find base line in the right view</c>
 <l>gen_rectangle2 (RectangleB1, 216.252, 432.153, rad(0), 5.68206, 22.1838)</l>
@@ -5855,23 +5858,69 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <l>    line_orientation (RowBeginC, ColBeginC, RowEndC, ColEndC, PhiC)</l>
 <c>    </c>
 <c></c>
+<c>    * align right and bottom</c>
+<l>     mirror_image (ImageBottom, ImageBMirror, 'column')</l>
+<l>    scale_image_max (ImageBMirror, ImageBScaleMax)</l>
+<l>    scale_image_max (ImageRight, ImageRScaleMax)</l>
+<c>    </c>
+<l>    gen_rectangle1 (ROI_0, 149.739, 505.08, 269.037, 1444.67)</l>
+<l>    reduce_domain (ImageRScaleMax, ROI_0, ImageReduced)</l>
+<l>    create_shape_model (ImageReduced, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<c>    </c>
+<l>    find_shape_model (ImageRScaleMax,ModelID, -0.39, 0.79, 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowRight, ColumnRight, Angle, Score)</l>
+<l>    find_shape_model (ImageBScaleMax,ModelID, -0.39, 0.79, 0.2, 1, 0.5, 'least_squares', 0, 0.9, RowB, ColumnB, Angle, Score)</l>
+<c>    </c>
+<l>    vector_angle_to_rigid (RowB, ColumnB, 0, RowRight, ColumnRight, 0, HomMat2D)</l>
+<l>    affine_trans_image (ImageBScaleMax, ImageBottomAligned, HomMat2D, 'constant', 'false')</l>
+<c>    </c>
+<c>    </c>
+<l>    GenAlignVisualImage (ImageRScaleMax, ImageBottomAligned,MultiChannelImageBR)</l>
 <c></c>
 <l>return ()</l>
 </body>
-<docu id="I40AlignLeftRightAndGetBaseLines">
+<docu id="I40AlignAllAndGetBaseLines">
 <parameters>
 <parameter id="ColBeginB"/>
 <parameter id="ColBeginC"/>
 <parameter id="ColEndB"/>
 <parameter id="ColEndC"/>
+<parameter id="ImageBottom"/>
+<parameter id="ImageBottomAligned"/>
 <parameter id="ImageLeft"/>
 <parameter id="ImageLeftAligned"/>
 <parameter id="ImageRight"/>
-<parameter id="MultiChannelImage"/>
+<parameter id="MultiChannelImageBR"/>
+<parameter id="MultiChannelImageLR"/>
 <parameter id="RowBeginB"/>
 <parameter id="RowBeginC"/>
 <parameter id="RowEndB"/>
 <parameter id="RowEndC"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="GenAlignVisualImage">
+<interface>
+<io>
+<par name="ImageLeftAligned" base_type="iconic" dimension="0"/>
+<par name="ImageRight" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="MultiChannelImage" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>get_image_size (ImageRight, Width, Height)</l>
+<l>scale_image_max (ImageLeftAligned, ImageScaleMax)</l>
+<l>scale_image_max (ImageRight, ImageScaleMax1)</l>
+<l>gen_image_const (Image, 'byte', Width, Height)</l>
+<l>compose3 (Image, ImageScaleMax, ImageScaleMax1, MultiChannelImage)</l>
+<l>return ()</l>
+</body>
+<docu id="GenAlignVisualImage">
+<parameters>
+<parameter id="ImageLeftAligned"/>
+<parameter id="ImageRight"/>
+<parameter id="MultiChannelImage"/>
 </parameters>
 </docu>
 </procedure>
