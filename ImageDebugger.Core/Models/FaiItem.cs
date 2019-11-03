@@ -9,7 +9,10 @@ namespace ImageDebugger.Core.Models
     public class FaiItem : AutoSerializableBase<FaiItem>, ICsvColumnElement
     {
 
-        public string CsvName => Name;
+        public string CsvName
+        {
+            get { return Name; }
+        }
 
         /// <summary>
         /// Max boundary of the fai item
@@ -29,10 +32,10 @@ namespace ImageDebugger.Core.Models
         /// <summary>
         /// Measured value plus bias
         /// </summary>
-         public double Value    
+         public double Value
         {
             get { return ValueUnbiased + Bias; }
-            set => throw new System.NotImplementedException();
+            set { throw new System.NotImplementedException(); }
         }
 
         /// <summary>

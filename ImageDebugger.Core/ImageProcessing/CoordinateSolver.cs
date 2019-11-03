@@ -93,6 +93,8 @@ namespace ImageDebugger.Core.ImageProcessing
             HalconScripts.PointRelativeToAbs(x, y, _changeOfBase, out xAbs, out yAbs);
             return new Point(xAbs.D, yAbs.D);
         }
+        
+        
 
         public FindLineLocation FindLineLocationRelativeToAbsolute(FindLineLocation relativeLocation)
         {

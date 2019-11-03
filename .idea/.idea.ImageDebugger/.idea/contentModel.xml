@@ -7,7 +7,26 @@
     <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.pdb" t="Include" />
     <e p="C:\Users\afterbunny\.Rider2019.2\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\afterbunny\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.-1259227406.00" t="ExcludeRecursive" />
+    <e p="C:\Users\afterbunny\Desktop\Transfer\CYGMeasure2DAlg\cyg2d\Debug" t="ExcludeRecursive" />
     <e p="C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger" t="IncludeFlat">
+      <e p="cyInspector" t="IncludeRecursive">
+        <e p="cyInspector.csproj" t="IncludeRecursive" />
+        <e p="cyOXYCircle.cs" t="Include" />
+        <e p="cyOXYCoordinate.cs" t="Include" />
+        <e p="cyOXYLine.cs" t="Include" />
+        <e p="cyPointBaseClass.cs" t="Include" />
+        <e p="cySearchParam.cs" t="Include" />
+        <e p="cySearchPoint.cs" t="Include" />
+        <e p="cyUCSMeasure.cs" t="Include" />
+        <e p="MatImageTraslatePoint.cs" t="Include" />
+        <e p="MetorAlg.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Plane3D.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="RealCoordinate2Image.cs" t="Include" />
+      </e>
       <e p="ImageDebugger.Core" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Commands" t="Include">
@@ -215,25 +234,6 @@
           <e p="MainWindow.xaml.cs" t="Include" />
         </e>
       </e>
-    </e>
-    <e p="C:\Users\afterbunny\Documents\WeChat Files\Pluck4U\FileStorage\CYGMeasure2DAlg\cyg2d\Debug" t="ExcludeRecursive" />
-    <e p="C:\Users\afterbunny\Documents\WeChat Files\Pluck4U\FileStorage\File\2019-11\cyInspector" t="IncludeRecursive">
-      <e p="cyInspector.csproj" t="IncludeRecursive" />
-      <e p="cyOXYCircle.cs" t="Include" />
-      <e p="cyOXYCoordinate.cs" t="Include" />
-      <e p="cyOXYLine.cs" t="Include" />
-      <e p="cyPointBaseClass.cs" t="Include" />
-      <e p="cySearchParam.cs" t="Include" />
-      <e p="cySearchPoint.cs" t="Include" />
-      <e p="cyUCSMeasure.cs" t="Include" />
-      <e p="MatImageTraslatePoint.cs" t="Include" />
-      <e p="MetorAlg.cs" t="Include" />
-      <e p="obj" t="ExcludeRecursive" />
-      <e p="Plane3D.cs" t="Include" />
-      <e p="Properties" t="Include">
-        <e p="AssemblyInfo.cs" t="Include" />
-      </e>
-      <e p="RealCoordinate2Image.cs" t="Include" />
     </e>
   </component>
 </project>
