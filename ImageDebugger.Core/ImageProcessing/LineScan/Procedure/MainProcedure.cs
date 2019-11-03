@@ -2,6 +2,8 @@
 using System.Windows.Media;
 using HalconDotNet;
 using ImageDebugger.Core.ImageProcessing.Utilts;
+using ImageDebugger.Core.Models;
+using ImageDebugger.Core.ViewModels.LineScan;
 using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
 using MaterialDesignThemes.Wpf;
 
@@ -18,7 +20,6 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             HTuple imageWidth, imageHeight;
             rightImage.GetImageSize(out imageWidth, out imageHeight);
 
-            #region Right View    
 
             HObject leftImageAligned, bottomImageAligned, _;
             HTuple rowBeginB, colBeginB, rowEndB, colEndB, rowBeginC, colBeginC, rowEndC, colEndC;
@@ -37,8 +38,18 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             var yAxis = lineC.Translate(-1.0 / _verticalCoeff * 19.605);
             yAxis.IsVisible = true;
 
-            #endregion
-
+            // Record debugging data
+            var recordings = new List<ICsvColumnElement>();
+            recordings.Add(new AngleItem()
+            {
+                Name = "BC",
+                Value = lineB.AngleWithLine(lineC)
+            });
+            recordings.Add(new AngleItem()
+            {
+                Name = "C",
+                Value = lineC.AngleWithLine(new Line(1,0,2,0))
+            });
 
 
 
@@ -63,7 +74,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
                 {
                     imageRHeight, visualBR, visualLR
                 },
-                PointMarkers = pointMarkers
+                PointMarkers = pointMarkers,
+                RecordingElements = recordings
             };
             
 

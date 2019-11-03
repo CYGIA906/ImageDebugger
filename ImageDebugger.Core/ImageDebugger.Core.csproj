@@ -115,6 +115,7 @@
     <Compile Include="ImageProcessing\Utilts\HalconHelper.cs" />
     <Compile Include="IoC\Interface\IImageProvider.cs" />
     <Compile Include="IoC\IoC.cs" />
+    <Compile Include="Models\AngleItem.cs" />
     <Compile Include="Models\CountAwareQueue.cs" />
     <Compile Include="Models\FaiItem.cs" />
     <Compile Include="Models\FindLineLocation.cs" />

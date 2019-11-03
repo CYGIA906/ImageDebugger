@@ -90,6 +90,7 @@
           <e p="IoC.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
+          <e p="AngleItem.cs" t="Include" />
           <e p="CountAwareQueue.cs" t="Include" />
           <e p="FaiItem.cs" t="Include" />
           <e p="FindLineLocation.cs" t="Include" />

@@ -185,6 +185,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             csvSerializables.AddRange(PointSettingViewModels);
             csvSerializables.AddRange(FlatnessViewModels);
             csvSerializables.AddRange(ThicknessViewModels);
+            csvSerializables.AddRange(result.RecordingElements);
             CsvSerializer.Serialize(csvSerializables, CurrentImageName, IsContinuouslyRunning);
         }
 

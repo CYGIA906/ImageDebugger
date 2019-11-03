@@ -5664,7 +5664,7 @@ Note that relative angle is in normal representation, but absolute angle is in h
 </parameters>
 </docu>
 </procedure>
-<procedure name="I40LeftScannerAlign">
+<procedure name="I40RightScannerAlign">
 <interface>
 <io>
 <par name="ImageRight" base_type="iconic" dimension="0"/>
@@ -5682,16 +5682,23 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <body>
 <c></c>
 <c></c>
-<l>find_shape_model (ImageRight,ShapeModelHandel, -0.39, 0.79, 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowMdel, ColumnModel, Angle, Score)</l>
+<l>find_shape_model (ImageRight,ShapeModelHandel, -0.39, 0.79, 0.3, 1, 0.5, 'least_squares', 0, 0.9, RowMdel, ColumnModel, Angle, Score)</l>
 <c></c>
 <c>* 获取中央水平线</c>
-<l>rowHLine := RowMdel + 130</l>
+<l>rowHLine := RowMdel + 140</l>
 <l>colHline := ColumnModel</l>
 <l>gen_rectangle2 (ROI_HLine, rowHLine, colHline, rad(90), 20.8478, 366.834)</l>
-<l>ScaleToByte (ImageRight, ROI_HLine, ByteImage)</l>
-<l>threshold (ByteImage, Region1, 100, 255)</l>
-<l>fill_up (Region1, RegionFillUp)</l>
-<l>gen_contour_region_xld (RegionFillUp, Contours, 'border')</l>
+<l>min_max_gray (ROI_HLine, ImageRight, 0, Min, Max, Range)</l>
+<l>reduce_domain (ImageRight, ROI_HLine, ImageReduced1)</l>
+<c></c>
+<l>binary_threshold (ImageReduced1, Region3, 'max_separability', 'light', UsedThreshold)</l>
+<c>*如果只是将无效区域分离了, 那就先将无效区域除去再二值化</c>
+<l>if(UsedThreshold &lt; 1)</l>
+<l>    ScaleToByte (ImageRight, Region3, ByteImage)</l>
+<l>    threshold (ByteImage, Region3, 100, 255)</l>
+<l>endif</l>
+<c></c>
+<l>gen_contour_region_xld (Region3, Contours, 'border')</l>
 <l>segment_contours_xld (Contours, ContoursSplit, 'lines', 5, 4, 2)</l>
 <l>select_contours_xld (ContoursSplit, SelectedContours, 'contour_length', 200, 9999, -0.5, 0.5)</l>
 <l>sort_contours_xld (SelectedContours, SortedContours, 'upper_left', 'true', 'row')</l>
@@ -5715,7 +5722,7 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <c></c>
 <l>return ()</l>
 </body>
-<docu id="I40LeftScannerAlign">
+<docu id="I40RightScannerAlign">
 <parameters>
 <parameter id="ColCenter"/>
 <parameter id="ColEnd"/>
@@ -5758,9 +5765,9 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <l>mirror_image (ImageLeft, ImageMirror, 'column')</l>
 <c></c>
 <l>I40LeftScannerAlign (ImageMirror, ShapeModelHandel, RowCenter, ColCenter, RowEnd, ColEnd)</l>
-<l>I40LeftScannerAlign (ImageRight, ShapeModelHandel, RowFixture, ColFixture, RowEndFixture, ColEndFixture)</l>
+<l>I40RightScannerAlign (ImageRight, ShapeModelHandel, RowFixture, ColFixture, RowEndFixture, ColEndFixture)</l>
 <c></c>
-<l>* I40RightScannerAlign (ImageRight, ShapeModelHandel, RowFixture, ColFixture)</l>
+<c>* I40RightScannerAlign (ImageRight, ShapeModelHandel, RowFixture, ColFixture)</c>
 <c></c>
 <l>vector_angle_to_rigid (RowCenter, ColCenter, 0, RowFixture, ColFixture, 0, HomMat2D)</l>
 <l>affine_trans_image(ImageMirror, ImageLeftAligned, HomMat2D, 'constant', 'false')</l>
@@ -5826,7 +5833,7 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <l>gen_contour_region_xld (RegionBorderC, ContourCs, 'border')</l>
 <l>segment_contours_xld (ContourCs, ContourCsSplit, 'lines', 5, 1, 1)</l>
 <l>select_contours_xld (ContourCsSplit, SelectedContourCs, 'contour_length', 30, 2000, -0.5, 0.5)</l>
-<l>union_collinear_contours_ext_xld (SelectedContourCs, UnionContourCs, 200, 1, 1, 0.1, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
+<l>union_collinear_contours_ext_xld (SelectedContourCs, UnionContourCs, 200, 1, 4, 0.1, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
 <l>sort_contours_xld (UnionContourCs, SortedContourCs, 'character', 'true', 'row')</l>
 <l>select_obj (SortedContourCs, ObjectSelectedC, [3,4])</l>
 <l>union_collinear_contours_xld (ObjectSelectedC, UnionContours1, 1000, 20, 20, 0.5, 'attr_keep')</l>
@@ -5852,7 +5859,7 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <l>affine_trans_image (ImageBScaleMax, ImageBottomAligned, HomMat2D, 'constant', 'false')</l>
 <c></c>
 <c>* Visualize alignment quality</c>
-<l>Visualize := 1</l>
+<l>Visualize := 0</l>
 <l>if(Visualize)</l>
 <l>    GenAlignVisualImage (ImageLeftAligned, ImageRight, MultiChannelImageLR)</l>
 <l>    GenAlignVisualImage (ImageRScaleMax, ImageBottomAligned,MultiChannelImageBR)</l>
@@ -5941,6 +5948,68 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <parameter id="Contours"/>
 <parameter id="Percent"/>
 <parameter id="Value"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="I40LeftScannerAlign">
+<interface>
+<io>
+<par name="ImageRight" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="ShapeModelHandel" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="RowCenter" base_type="ctrl" dimension="0"/>
+<par name="ColCenter" base_type="ctrl" dimension="0"/>
+<par name="RowEnd" base_type="ctrl" dimension="0"/>
+<par name="ColEnd" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+<c></c>
+<l>find_shape_model (ImageRight,ShapeModelHandel, -0.39, 0.79, 0.2, 1, 0.5, 'least_squares', 0, 0.9, RowMdel, ColumnModel, Angle, Score)</l>
+<c></c>
+<c>* 获取中央水平线</c>
+<l>rowHLine := RowMdel + 140</l>
+<l>colHline := ColumnModel</l>
+<l>gen_rectangle2 (ROI_HLine, rowHLine, colHline, rad(90), 20.8478, 366.834)</l>
+<l>ScaleToByte (ImageRight, ROI_HLine, ByteImage)</l>
+<l>threshold (ByteImage, Region1, 100, 255)</l>
+<l>fill_up (Region1, RegionFillUp)</l>
+<l>gen_contour_region_xld (RegionFillUp, Contours, 'border')</l>
+<l>segment_contours_xld (Contours, ContoursSplit, 'lines', 5, 4, 2)</l>
+<l>select_contours_xld (ContoursSplit, SelectedContours, 'contour_length', 200, 9999, -0.5, 0.5)</l>
+<l>sort_contours_xld (SelectedContours, SortedContours, 'upper_left', 'true', 'row')</l>
+<l>select_obj (SortedContours, ObjectSelected, 1)</l>
+<l>fit_line_contour_xld (ObjectSelected, 'tukey', -1, 0, 5, 2, RowBegin, ColBegin, RowEnd, ColEnd, Nr, Nc, Dist)</l>
+<c></c>
+<c>* 以中央水平线为粗基准构建上下ROI</c>
+<l>gen_rectangle2 (ROI_0, rowHLine - 150, colHline, rad(-90), 56.3662, 480.108)</l>
+<l>gen_rectangle2 (ROI_1, rowHLine + 150, colHline, rad(-90), 56.3662, 363.272)</l>
+<c></c>
+<l>union2 (ROI_0, ROI_1, RegionUnion)</l>
+<l>reduce_domain (ImageRight, RegionUnion, ImageReduced)</l>
+<c></c>
+<l>threshold (ImageReduced, Region, 0, 2)</l>
+<c></c>
+<l>area_center (Region, Area, Row, Column)</l>
+<l>get_perpendicular_line_that_passes (ColBegin, RowBegin, ColEnd, RowEnd, Column, Row, lineXPerpendicular, lineYPerpendicular)</l>
+<l>intersection_lines (Row, Column, lineYPerpendicular, lineXPerpendicular, RowBegin, ColBegin, RowEnd, ColEnd, RowCenter, ColCenter, IsOverlapping)</l>
+<c></c>
+<c></c>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="I40LeftScannerAlign">
+<parameters>
+<parameter id="ColCenter"/>
+<parameter id="ColEnd"/>
+<parameter id="ImageRight"/>
+<parameter id="RowCenter"/>
+<parameter id="RowEnd"/>
+<parameter id="ShapeModelHandel"/>
 </parameters>
 </docu>
 </procedure>

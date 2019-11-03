@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Accord.MachineLearning;
 using HalconDotNet;
 using ImageDebugger.Core.ImageProcessing.Utilts;
+using ImageDebugger.Core.ViewModels.LineScan;
 
 namespace ImageDebugger.Core.ImageProcessing.LineScan
 {
@@ -19,6 +20,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         public HObject CrossedUsed { get; set; }
         
         public List<HImage> Images { get; set; }
+
+        public List<ICsvColumnElement> RecordingElements { get; set; }
 
 
         public void AddLineRegion(HObject lineRegion)
