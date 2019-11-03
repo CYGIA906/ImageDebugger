@@ -20,12 +20,13 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
 
         public void Serialize(IEnumerable<ICsvColumnElement> items, string imageName, bool shouldSerialize = true)
         {
-            
-            
-            var itemsSorted = items.OrderBy(item => item.CsvName);
-            if (Header == null) InitHeader(itemsSorted.Select(item => item.CsvName));
+            if(!shouldSerialize) return;
 
-            var line = itemsSorted.Select(item => item.Value.ToString("f4")).ToList();
+
+            var csvColumnElements = items.ToList();
+            if (Header == null) InitHeader(csvColumnElements.Select(item => item.CsvName));
+
+            var line = csvColumnElements.Select(item => item.Value.ToString("f4")).ToList();
             line.Insert(0, imageName);
             var csvLine = string.Join(",", line);
 
@@ -65,6 +66,8 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
         /// </summary>
         public void SummariseCsv()
         {
+            if (!File.Exists(_csvPath)) return;
+            
             var lines = File.ReadAllLines(_csvPath);
             var summaries = GetCsvSummary(lines);
             
