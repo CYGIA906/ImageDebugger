@@ -31,9 +31,15 @@
                     <Viewbox>
                         <materialDesign:Badged Badge="{Binding Count}">
                             <Button Command="{Binding SelectImageDirCommand}" ToolTip="Open a image directory">
-                                <materialDesign:PackIcon Kind="FolderOpenOutline" />
+                                <materialDesign:PackIcon Kind="FolderImage" />
                             </Button>
                         </materialDesign:Badged>
+                    </Viewbox>
+                    
+                    <Viewbox Margin="5 2">
+                            <Button Command="{Binding OpenCsvDirCommand}" ToolTip="Open csv directory">
+                                <materialDesign:PackIcon Kind="FolderMydrive" />
+                            </Button>
                     </Viewbox>
 
                     <Separator />

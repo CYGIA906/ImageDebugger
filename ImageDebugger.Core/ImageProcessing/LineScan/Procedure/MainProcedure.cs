@@ -23,7 +23,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             HObject leftImageAligned, bottomImageAligned, _;
             HTuple rowBeginB, colBeginB, rowEndB, colEndB, rowBeginC, colBeginC, rowEndC, colEndC;
             _halconScripts.I40AlignAllAndGetBaseLines(rightImage, leftImage, bottomImage, out leftImageAligned,
-                out bottomImageAligned, out _, out _, out rowBeginB, out colBeginB, 
+                out bottomImageAligned, out _, out _, _shapeModelHandleRight,out rowBeginB, out colBeginB, 
                 out rowEndB, out colEndB, out rowBeginC, out colBeginC, out rowEndC, out colEndC);
             
 

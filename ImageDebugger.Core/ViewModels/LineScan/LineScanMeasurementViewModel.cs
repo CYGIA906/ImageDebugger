@@ -150,9 +150,15 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             ShowFlatnessViewCommand = new RelayCommand(ShowFlatnessView);
             ShowParallelismViewCommand = new RelayCommand(ShowParallelismView);
             ShowThicknessViewCommand = new RelayCommand(ShowThicknessView);
+            OpenCsvDirCommand = new RelayCommand(OpenCsvDir);
             
             CsvSerializer = new CsvSerializer(CsvDir);
             ContinuousModeFinished += CsvSerializer.SummariseCsv;
+        }
+
+        private void OpenCsvDir()
+        {
+            if(Directory.Exists(CsvDir)) Process.Start(CsvDir);
         }
 
         private async Task OnImageProcessStartAsync(List<HImage> images)
@@ -296,9 +302,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         public ICommand ShowFlatnessViewCommand { get; private set; }
         public ICommand ShowParallelismViewCommand { get; private set; }
         public ICommand ShowThicknessViewCommand { get; private set; }
-        
-        
-        
-        
+
+        public ICommand OpenCsvDirCommand { get; private set; }
     }
 }

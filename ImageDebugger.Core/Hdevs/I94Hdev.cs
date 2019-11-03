@@ -93,7 +93,7 @@ public partial class HDevelopExport
       if ((int)((new HTuple(hv_vecCol.TupleGreaterEqual(0))).TupleAnd(new HTuple(hv_vecRow.TupleGreaterEqual(
           0)))) != 0)
       {
-        //ï¿½ï¿½ï¿½ï¿½
+        //ÓÒÏÂ
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -104,7 +104,7 @@ public partial class HDevelopExport
       else if ((int)((new HTuple(hv_vecCol.TupleGreaterEqual(0))).TupleAnd(
           new HTuple(hv_vecRow.TupleLess(0)))) != 0)
       {
-        //ï¿½ï¿½ï¿½ï¿½
+        //ÓÒÉÏ
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -115,7 +115,7 @@ public partial class HDevelopExport
       else if ((int)((new HTuple(hv_vecCol.TupleLess(0))).TupleAnd(new HTuple(hv_vecRow.TupleGreaterEqual(
           0)))) != 0)
       {
-        //ï¿½ï¿½ï¿½ï¿½
+        //×óÏÂ
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -125,7 +125,7 @@ public partial class HDevelopExport
       }
       else
       {
-        //ï¿½ï¿½ï¿½ï¿½
+        //×óÉÏ
         hv_radianOut.Dispose();
         using (HDevDisposeHelper dh = new HDevDisposeHelper())
         {
@@ -4709,8 +4709,8 @@ public partial class HDevelopExport
           hv_vecXNew);
       }
       //
-      //Ô­ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ + ï¿½ä·¨ï¿½ßµï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½Ç¶ï¿½ radianNew = radian + rad(45)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-      //ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶È´ï¿½ï¿½ï¿½135, ï¿½ï¿½radianNew < 0
+      //Ô­µ¥Î»ÏòÁ¿ + Æä·¨Ïßµ¥Î»ÏòÁ¿¶¼»áµÃµ½Ò»¸ö½Ç¶È radianNew = radian + rad(45)µÄÏòÁ¿
+      //ÈôÔ­ÏòÁ¿½Ç¶È´óÓÚ135, ÔòradianNew < 0
       if ((int)(new HTuple(hv_radian.TupleGreater(2.35619))) != 0)
       {
         if ((int)(new HTuple(hv_radianNew.TupleGreater(0))) != 0)
@@ -4969,10 +4969,11 @@ public partial class HDevelopExport
 
   public void I40AlignAllAndGetBaseLines (HObject ho_ImageRight, HObject ho_ImageLeft, 
       HObject ho_ImageBottom, out HObject ho_ImageLeftAligned, out HObject ho_ImageBottomAligned, 
-      out HObject ho_MultiChannelImageLR, out HObject ho_MultiChannelImageBR, out HTuple hv_RowBeginB, 
-      out HTuple hv_ColBeginB, out HTuple hv_RowEndB, out HTuple hv_ColEndB, out HTuple hv_RowBeginC, 
-      out HTuple hv_ColBeginC, out HTuple hv_RowEndC, out HTuple hv_ColEndC)
+      out HObject ho_MultiChannelImageLR, out HObject ho_MultiChannelImageBR, HTuple hv_ShapeModelHandel, 
+      out HTuple hv_RowBeginB, out HTuple hv_ColBeginB, out HTuple hv_RowEndB, out HTuple hv_ColEndB, 
+      out HTuple hv_RowBeginC, out HTuple hv_ColBeginC, out HTuple hv_RowEndC, out HTuple hv_ColEndC)
   {
+
 
 
 
@@ -4982,12 +4983,12 @@ public partial class HDevelopExport
     // Local iconic variables 
 
     HObject ho_ImageMirror, ho_RectangleB1, ho_RectangleB2;
-    HObject ho_ROIB, ho_ImageReducedB, ho_ImageScaled, ho_ImageScaled1;
-    HObject ho_ImageConverted1, ho_RegionB, ho_RegionOpeningB;
-    HObject ho_RegionBorderB, ho_ContourBs, ho_ContourBsSplit;
-    HObject ho_SelectedContourBs, ho_UnionContourBs, ho_SortedContourBs;
-    HObject ho_ObjectSelectedB, ho_UnionContourB, ho_ContourB;
-    HObject ho_RectangleC1, ho_RectangleC2, ho_ROIC, ho_ImageReducedC;
+    HObject ho_ROIB, ho_ImageReducedB, ho_RegionFilter, ho_ImageScaled;
+    HObject ho_RegionB, ho_RegionOpeningB, ho_RegionBorderB;
+    HObject ho_ContourBs, ho_ContourBsSplit, ho_SelectedContourBs;
+    HObject ho_UnionContourBs, ho_SortedContourBs, ho_ObjectSelectedB;
+    HObject ho_lineRegionB, ho_RectangleC2, ho_RectangleC1;
+    HObject ho_ROIC, ho_ImageReducedC, ho_ImageScaled1, ho_ImageConverted1;
     HObject ho_RegionC, ho_RegionOpeningC, ho_RegionBorderC;
     HObject ho_ContourCs, ho_ContourCsSplit, ho_SelectedContourCs;
     HObject ho_UnionContourCs, ho_SortedContourCs, ho_ObjectSelectedC;
@@ -4999,17 +5000,19 @@ public partial class HDevelopExport
 
     HTuple hv_Width = new HTuple(), hv_Height = new HTuple();
     HTuple hv_RowCenter = new HTuple(), hv_ColCenter = new HTuple();
-    HTuple hv_RowCenter1 = new HTuple(), hv_ColCenter1 = new HTuple();
-    HTuple hv_HomMat2D = new HTuple(), hv_Min = new HTuple();
-    HTuple hv_Max = new HTuple(), hv_Range = new HTuple();
-    HTuple hv_scale = new HTuple(), hv_NrB = new HTuple();
-    HTuple hv_NcB = new HTuple(), hv_DistB = new HTuple();
-    HTuple hv_PhiB = new HTuple(), hv_NrC = new HTuple(), hv_NcC = new HTuple();
-    HTuple hv_DistC = new HTuple(), hv_PhiC = new HTuple();
-    HTuple hv_ModelID = new HTuple(), hv_RowRight = new HTuple();
-    HTuple hv_ColumnRight = new HTuple(), hv_Angle = new HTuple();
-    HTuple hv_Score = new HTuple(), hv_RowB = new HTuple();
-    HTuple hv_ColumnB = new HTuple(), hv_Visualize = new HTuple();
+    HTuple hv_RowEnd = new HTuple(), hv_ColEnd = new HTuple();
+    HTuple hv_RowFixture = new HTuple(), hv_ColFixture = new HTuple();
+    HTuple hv_RowEndFixture = new HTuple(), hv_ColEndFixture = new HTuple();
+    HTuple hv_HomMat2D = new HTuple(), hv_RowRectangleB1 = new HTuple();
+    HTuple hv_Min = new HTuple(), hv_Max = new HTuple(), hv_Range = new HTuple();
+    HTuple hv_UsedThreshold = new HTuple(), hv_X = new HTuple();
+    HTuple hv_Y = new HTuple(), hv_scale = new HTuple(), hv_NrC = new HTuple();
+    HTuple hv_NcC = new HTuple(), hv_DistC = new HTuple();
+    HTuple hv_PhiC = new HTuple(), hv_ModelID = new HTuple();
+    HTuple hv_RowRight = new HTuple(), hv_ColumnRight = new HTuple();
+    HTuple hv_Angle = new HTuple(), hv_Score = new HTuple();
+    HTuple hv_RowB = new HTuple(), hv_ColumnB = new HTuple();
+    HTuple hv_Visualize = new HTuple();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_ImageLeftAligned);
     HOperatorSet.GenEmptyObj(out ho_ImageBottomAligned);
@@ -5020,9 +5023,8 @@ public partial class HDevelopExport
     HOperatorSet.GenEmptyObj(out ho_RectangleB2);
     HOperatorSet.GenEmptyObj(out ho_ROIB);
     HOperatorSet.GenEmptyObj(out ho_ImageReducedB);
+    HOperatorSet.GenEmptyObj(out ho_RegionFilter);
     HOperatorSet.GenEmptyObj(out ho_ImageScaled);
-    HOperatorSet.GenEmptyObj(out ho_ImageScaled1);
-    HOperatorSet.GenEmptyObj(out ho_ImageConverted1);
     HOperatorSet.GenEmptyObj(out ho_RegionB);
     HOperatorSet.GenEmptyObj(out ho_RegionOpeningB);
     HOperatorSet.GenEmptyObj(out ho_RegionBorderB);
@@ -5032,12 +5034,13 @@ public partial class HDevelopExport
     HOperatorSet.GenEmptyObj(out ho_UnionContourBs);
     HOperatorSet.GenEmptyObj(out ho_SortedContourBs);
     HOperatorSet.GenEmptyObj(out ho_ObjectSelectedB);
-    HOperatorSet.GenEmptyObj(out ho_UnionContourB);
-    HOperatorSet.GenEmptyObj(out ho_ContourB);
-    HOperatorSet.GenEmptyObj(out ho_RectangleC1);
+    HOperatorSet.GenEmptyObj(out ho_lineRegionB);
     HOperatorSet.GenEmptyObj(out ho_RectangleC2);
+    HOperatorSet.GenEmptyObj(out ho_RectangleC1);
     HOperatorSet.GenEmptyObj(out ho_ROIC);
     HOperatorSet.GenEmptyObj(out ho_ImageReducedC);
+    HOperatorSet.GenEmptyObj(out ho_ImageScaled1);
+    HOperatorSet.GenEmptyObj(out ho_ImageConverted1);
     HOperatorSet.GenEmptyObj(out ho_RegionC);
     HOperatorSet.GenEmptyObj(out ho_RegionOpeningC);
     HOperatorSet.GenEmptyObj(out ho_RegionBorderC);
@@ -5069,14 +5072,18 @@ public partial class HDevelopExport
       ho_ImageMirror.Dispose();
       HOperatorSet.MirrorImage(ho_ImageLeft, out ho_ImageMirror, "column");
 
-      hv_RowCenter.Dispose();hv_ColCenter.Dispose();
-      I40LeftScannerAlign(ho_ImageMirror, out hv_RowCenter, out hv_ColCenter);
-      hv_RowCenter1.Dispose();hv_ColCenter1.Dispose();
-      I40RightScannerAlign(ho_ImageRight, out hv_RowCenter1, out hv_ColCenter1);
+      hv_RowCenter.Dispose();hv_ColCenter.Dispose();hv_RowEnd.Dispose();hv_ColEnd.Dispose();
+      I40LeftScannerAlign(ho_ImageMirror, hv_ShapeModelHandel, out hv_RowCenter, 
+          out hv_ColCenter, out hv_RowEnd, out hv_ColEnd);
+      hv_RowFixture.Dispose();hv_ColFixture.Dispose();hv_RowEndFixture.Dispose();hv_ColEndFixture.Dispose();
+      I40LeftScannerAlign(ho_ImageRight, hv_ShapeModelHandel, out hv_RowFixture, 
+          out hv_ColFixture, out hv_RowEndFixture, out hv_ColEndFixture);
+
+      //* I40RightScannerAlign (ImageRight, ShapeModelHandel, RowFixture, ColFixture)
 
       hv_HomMat2D.Dispose();
-      HOperatorSet.VectorAngleToRigid(hv_RowCenter, hv_ColCenter, 0, hv_RowCenter1, 
-          hv_ColCenter1, 0, out hv_HomMat2D);
+      HOperatorSet.VectorAngleToRigid(hv_RowCenter, hv_ColCenter, 0, hv_RowFixture, 
+          hv_ColFixture, 0, out hv_HomMat2D);
       ho_ImageLeftAligned.Dispose();
       HOperatorSet.AffineTransImage(ho_ImageMirror, out ho_ImageLeftAligned, hv_HomMat2D, 
           "constant", "false");
@@ -5084,42 +5091,47 @@ public partial class HDevelopExport
 
 
       //Find base line in the right view
+      //µÚÒ»Ìõ±ß
+      hv_RowRectangleB1.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_RowRectangleB1 = hv_RowFixture-135;
+      }
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       ho_RectangleB1.Dispose();
-      HOperatorSet.GenRectangle2(out ho_RectangleB1, 216.252, 432.153, (new HTuple(0)).TupleRad()
-          , 5.68206, 22.1838);
+      HOperatorSet.GenRectangle2(out ho_RectangleB1, hv_RowRectangleB1, hv_ColFixture-545, 
+          (new HTuple(0)).TupleRad(), 5.68206, 22.1838);
       }
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       ho_RectangleB2.Dispose();
-      HOperatorSet.GenRectangle2(out ho_RectangleB2, 300.057, 434.045, (new HTuple(0)).TupleRad()
-          , 5.68206, 22.4712);
+      HOperatorSet.GenRectangle2(out ho_RectangleB2, 300.057, hv_ColFixture-545, 
+          (new HTuple(0)).TupleRad(), 5.68206, 22.4712);
       }
 
       ho_ROIB.Dispose();
       HOperatorSet.Union2(ho_RectangleB1, ho_RectangleB2, out ho_ROIB);
       ho_ImageReducedB.Dispose();
       HOperatorSet.ReduceDomain(ho_ImageRight, ho_ROIB, out ho_ImageReducedB);
+      ho_RegionFilter.Dispose();
+      HOperatorSet.Threshold(ho_ImageReducedB, out ho_RegionFilter, 1, 99999);
+      ho_ImageReducedB.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageRight, ho_RegionFilter, out ho_ImageReducedB
+          );
       hv_Min.Dispose();hv_Max.Dispose();hv_Range.Dispose();
-      HOperatorSet.MinMaxGray(ho_ROIB, ho_ImageReducedB, 0, out hv_Min, out hv_Max, 
+      HOperatorSet.MinMaxGray(ho_RegionFilter, ho_ImageReducedB, 0, out hv_Min, out hv_Max, 
           out hv_Range);
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       ho_ImageScaled.Dispose();
       HOperatorSet.ScaleImage(ho_ImageReducedB, out ho_ImageScaled, 1, -hv_Min);
       }
-      hv_scale.Dispose();
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
-      {
-      hv_scale = 255.0/hv_Range;
-      }
-      ho_ImageScaled1.Dispose();
-      HOperatorSet.ScaleImage(ho_ImageScaled, out ho_ImageScaled1, hv_scale, 0);
-      ho_ImageConverted1.Dispose();
-      HOperatorSet.ConvertImageType(ho_ImageScaled1, out ho_ImageConverted1, "byte");
-      ho_RegionB.Dispose();
-      HOperatorSet.Threshold(ho_ImageConverted1, out ho_RegionB, 200, 255);
+      ho_RegionB.Dispose();hv_UsedThreshold.Dispose();
+      HOperatorSet.BinaryThreshold(ho_ImageScaled, out ho_RegionB, "max_separability", 
+          "light", out hv_UsedThreshold);
+
+
 
 
       ho_RegionOpeningB.Dispose();
@@ -5153,31 +5165,39 @@ public partial class HDevelopExport
       ho_ObjectSelectedB.Dispose();
       HOperatorSet.SelectObj(ho_SortedContourBs, out ho_ObjectSelectedB, (new HTuple(1)).TupleConcat(
           2));
-      ho_UnionContourB.Dispose();
-      HOperatorSet.UnionCollinearContoursXld(ho_ObjectSelectedB, out ho_UnionContourB, 
-          400, 15, 15, 0.5, "attr_keep");
-      hv_RowBeginB.Dispose();hv_ColBeginB.Dispose();hv_RowEndB.Dispose();hv_ColEndB.Dispose();hv_NrB.Dispose();hv_NcB.Dispose();hv_DistB.Dispose();
-      HOperatorSet.FitLineContourXld(ho_UnionContourB, "tukey", -1, 0, 5, 2, out hv_RowBeginB, 
-          out hv_ColBeginB, out hv_RowEndB, out hv_ColEndB, out hv_NrB, out hv_NcB, 
-          out hv_DistB);
+      //È¡20%¿¿ÓÒµÄÒ»µã
+      hv_X.Dispose();
+      SelectContoursXValue(ho_ObjectSelectedB, 0.2, out hv_X);
+      hv_Y.Dispose();
+      hv_Y = new HTuple(hv_RowRectangleB1);
+      hv_ColEndB.Dispose();hv_RowEndB.Dispose();
+      get_perpendicular_line_that_passes(hv_ColFixture, hv_RowFixture, hv_ColEndFixture, 
+          hv_RowEndFixture, hv_X, hv_Y, out hv_ColEndB, out hv_RowEndB);
+      hv_ColBeginB.Dispose();
+      hv_ColBeginB = new HTuple(hv_X);
+      hv_RowBeginB.Dispose();
+      hv_RowBeginB = new HTuple(hv_Y);
+
+      ho_lineRegionB.Dispose();
+      GenLineRegion(out ho_lineRegionB, hv_ColBeginB, hv_RowBeginB, hv_ColEndB, hv_RowEndB, 
+          hv_Width, hv_Height);
+
+
+      //Éú³ÉµÚ¶þÌõÏß
+
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      ho_ContourB.Dispose();
-      HOperatorSet.GenContourPolygonXld(out ho_ContourB, hv_RowBeginB.TupleConcat(
-          hv_RowEndB), hv_ColBeginB.TupleConcat(hv_ColEndB));
-      }
-      //ï¿½ï¿½Â¼Bï¿½ßµÄ½Ç¶ï¿½
-      hv_PhiB.Dispose();
-      HOperatorSet.LineOrientation(hv_RowBeginB, hv_ColBeginB, hv_RowEndB, hv_ColEndB, 
-          out hv_PhiB);
-
-
-      //ï¿½ï¿½ï¿½ÉµÚ¶ï¿½ï¿½ï¿½ï¿½ï¿½
-
-      ho_RectangleC1.Dispose();
-      HOperatorSet.GenRectangle1(out ho_RectangleC1, 597.205, 595.988, 615.555, 726.208);
       ho_RectangleC2.Dispose();
-      HOperatorSet.GenRectangle1(out ho_RectangleC2, 598.705, 1213.43, 614.451, 1343.65);
+      HOperatorSet.GenRectangle2(out ho_RectangleC2, hv_RowFixture+257, hv_ColFixture+315, 
+          (new HTuple(-90)).TupleRad(), 11.045, 77.7974);
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_RectangleC1.Dispose();
+      HOperatorSet.GenRectangle2(out ho_RectangleC1, hv_RowFixture+257, hv_ColFixture-315, 
+          (new HTuple(-90)).TupleRad(), 11.045, 77.7974);
+      }
+
 
       ho_ROIC.Dispose();
       HOperatorSet.Union2(ho_RectangleC1, ho_RectangleC2, out ho_ROIC);
@@ -5239,7 +5259,7 @@ public partial class HDevelopExport
       HOperatorSet.GenContourPolygonXld(out ho_ContourC, hv_RowBeginC.TupleConcat(
           hv_RowEndC), hv_ColBeginC.TupleConcat(hv_ColEndC));
       }
-      //ï¿½ï¿½Â¼Cï¿½ßµÄ½Ç¶ï¿½
+      //¼ÇÂ¼CÏßµÄ½Ç¶È
       hv_PhiC.Dispose();
       HOperatorSet.LineOrientation(hv_RowBeginC, hv_ColBeginC, hv_RowEndC, hv_ColEndC, 
           out hv_PhiC);
@@ -5288,17 +5308,20 @@ public partial class HDevelopExport
         ho_MultiChannelImageBR.Dispose();
         GenAlignVisualImage(ho_ImageRScaleMax, ho_ImageBottomAligned, out ho_MultiChannelImageBR
             );
-
+        HOperatorSet.DispObj(ho_ImageRight, hv_ExpDefaultWinHandle);
+        HOperatorSet.DispObj(ho_lineRegionB, hv_ExpDefaultWinHandle);
+        HOperatorSet.DispObj(ho_ContourC, hv_ExpDefaultWinHandle);
       }
+
+
 
       ho_ImageMirror.Dispose();
       ho_RectangleB1.Dispose();
       ho_RectangleB2.Dispose();
       ho_ROIB.Dispose();
       ho_ImageReducedB.Dispose();
+      ho_RegionFilter.Dispose();
       ho_ImageScaled.Dispose();
-      ho_ImageScaled1.Dispose();
-      ho_ImageConverted1.Dispose();
       ho_RegionB.Dispose();
       ho_RegionOpeningB.Dispose();
       ho_RegionBorderB.Dispose();
@@ -5308,12 +5331,13 @@ public partial class HDevelopExport
       ho_UnionContourBs.Dispose();
       ho_SortedContourBs.Dispose();
       ho_ObjectSelectedB.Dispose();
-      ho_UnionContourB.Dispose();
-      ho_ContourB.Dispose();
-      ho_RectangleC1.Dispose();
+      ho_lineRegionB.Dispose();
       ho_RectangleC2.Dispose();
+      ho_RectangleC1.Dispose();
       ho_ROIC.Dispose();
       ho_ImageReducedC.Dispose();
+      ho_ImageScaled1.Dispose();
+      ho_ImageConverted1.Dispose();
       ho_RegionC.Dispose();
       ho_RegionOpeningC.Dispose();
       ho_RegionBorderC.Dispose();
@@ -5335,17 +5359,21 @@ public partial class HDevelopExport
       hv_Height.Dispose();
       hv_RowCenter.Dispose();
       hv_ColCenter.Dispose();
-      hv_RowCenter1.Dispose();
-      hv_ColCenter1.Dispose();
+      hv_RowEnd.Dispose();
+      hv_ColEnd.Dispose();
+      hv_RowFixture.Dispose();
+      hv_ColFixture.Dispose();
+      hv_RowEndFixture.Dispose();
+      hv_ColEndFixture.Dispose();
       hv_HomMat2D.Dispose();
+      hv_RowRectangleB1.Dispose();
       hv_Min.Dispose();
       hv_Max.Dispose();
       hv_Range.Dispose();
+      hv_UsedThreshold.Dispose();
+      hv_X.Dispose();
+      hv_Y.Dispose();
       hv_scale.Dispose();
-      hv_NrB.Dispose();
-      hv_NcB.Dispose();
-      hv_DistB.Dispose();
-      hv_PhiB.Dispose();
       hv_NrC.Dispose();
       hv_NcC.Dispose();
       hv_DistC.Dispose();
@@ -5368,9 +5396,8 @@ public partial class HDevelopExport
       ho_RectangleB2.Dispose();
       ho_ROIB.Dispose();
       ho_ImageReducedB.Dispose();
+      ho_RegionFilter.Dispose();
       ho_ImageScaled.Dispose();
-      ho_ImageScaled1.Dispose();
-      ho_ImageConverted1.Dispose();
       ho_RegionB.Dispose();
       ho_RegionOpeningB.Dispose();
       ho_RegionBorderB.Dispose();
@@ -5380,12 +5407,13 @@ public partial class HDevelopExport
       ho_UnionContourBs.Dispose();
       ho_SortedContourBs.Dispose();
       ho_ObjectSelectedB.Dispose();
-      ho_UnionContourB.Dispose();
-      ho_ContourB.Dispose();
-      ho_RectangleC1.Dispose();
+      ho_lineRegionB.Dispose();
       ho_RectangleC2.Dispose();
+      ho_RectangleC1.Dispose();
       ho_ROIC.Dispose();
       ho_ImageReducedC.Dispose();
+      ho_ImageScaled1.Dispose();
+      ho_ImageConverted1.Dispose();
       ho_RegionC.Dispose();
       ho_RegionOpeningC.Dispose();
       ho_RegionBorderC.Dispose();
@@ -5407,17 +5435,21 @@ public partial class HDevelopExport
       hv_Height.Dispose();
       hv_RowCenter.Dispose();
       hv_ColCenter.Dispose();
-      hv_RowCenter1.Dispose();
-      hv_ColCenter1.Dispose();
+      hv_RowEnd.Dispose();
+      hv_ColEnd.Dispose();
+      hv_RowFixture.Dispose();
+      hv_ColFixture.Dispose();
+      hv_RowEndFixture.Dispose();
+      hv_ColEndFixture.Dispose();
       hv_HomMat2D.Dispose();
+      hv_RowRectangleB1.Dispose();
       hv_Min.Dispose();
       hv_Max.Dispose();
       hv_Range.Dispose();
+      hv_UsedThreshold.Dispose();
+      hv_X.Dispose();
+      hv_Y.Dispose();
       hv_scale.Dispose();
-      hv_NrB.Dispose();
-      hv_NcB.Dispose();
-      hv_DistB.Dispose();
-      hv_PhiB.Dispose();
       hv_NrC.Dispose();
       hv_NcC.Dispose();
       hv_DistC.Dispose();
@@ -5435,9 +5467,10 @@ public partial class HDevelopExport
     }
   }
 
-  public void I40LeftScannerAlign (HObject ho_ImageRight, out HTuple hv_RowCenter, 
-      out HTuple hv_ColCenter)
+  public void I40LeftScannerAlign (HObject ho_ImageRight, HTuple hv_ShapeModelHandel, 
+      out HTuple hv_RowCenter, out HTuple hv_ColCenter, out HTuple hv_RowEnd, out HTuple hv_ColEnd)
   {
+
 
 
 
@@ -5451,9 +5484,10 @@ public partial class HDevelopExport
 
     // Local control variables 
 
+    HTuple hv_RowMdel = new HTuple(), hv_ColumnModel = new HTuple();
+    HTuple hv_Angle = new HTuple(), hv_Score = new HTuple();
     HTuple hv_rowHLine = new HTuple(), hv_colHline = new HTuple();
     HTuple hv_RowBegin = new HTuple(), hv_ColBegin = new HTuple();
-    HTuple hv_RowEnd = new HTuple(), hv_ColEnd = new HTuple();
     HTuple hv_Nr = new HTuple(), hv_Nc = new HTuple(), hv_Dist = new HTuple();
     HTuple hv_Area = new HTuple(), hv_Row = new HTuple(), hv_Column = new HTuple();
     HTuple hv_lineXPerpendicular = new HTuple(), hv_lineYPerpendicular = new HTuple();
@@ -5475,14 +5509,25 @@ public partial class HDevelopExport
     HOperatorSet.GenEmptyObj(out ho_Region);
     hv_RowCenter = new HTuple();
     hv_ColCenter = new HTuple();
+    hv_RowEnd = new HTuple();
+    hv_ColEnd = new HTuple();
     try
     {
 
-      //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ë®Æ½ï¿½ï¿½
+
+      hv_RowMdel.Dispose();hv_ColumnModel.Dispose();hv_Angle.Dispose();hv_Score.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageRight, hv_ShapeModelHandel, -0.39, 0.79, 
+          0.5, 1, 0.5, "least_squares", 0, 0.9, out hv_RowMdel, out hv_ColumnModel, 
+          out hv_Angle, out hv_Score);
+
+      //»ñÈ¡ÖÐÑëË®Æ½Ïß
       hv_rowHLine.Dispose();
-      hv_rowHLine = 359;
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_rowHLine = hv_RowMdel+130;
+      }
       hv_colHline.Dispose();
-      hv_colHline = 917;
+      hv_colHline = new HTuple(hv_ColumnModel);
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       ho_ROI_HLine.Dispose();
@@ -5502,7 +5547,7 @@ public partial class HDevelopExport
           5, 4, 2);
       ho_SelectedContours.Dispose();
       HOperatorSet.SelectContoursXld(ho_ContoursSplit, out ho_SelectedContours, "contour_length", 
-          50, 9999, -0.5, 0.5);
+          200, 9999, -0.5, 0.5);
       ho_SortedContours.Dispose();
       HOperatorSet.SortContoursXld(ho_SelectedContours, out ho_SortedContours, "upper_left", 
           "true", "row");
@@ -5512,17 +5557,17 @@ public partial class HDevelopExport
       HOperatorSet.FitLineContourXld(ho_ObjectSelected, "tukey", -1, 0, 5, 2, out hv_RowBegin, 
           out hv_ColBegin, out hv_RowEnd, out hv_ColEnd, out hv_Nr, out hv_Nc, out hv_Dist);
 
-      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë®Æ½ï¿½ï¿½Îªï¿½Ö»ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ROI
+      //ÒÔÖÐÑëË®Æ½ÏßÎª´Ö»ù×¼¹¹½¨ÉÏÏÂROI
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       ho_ROI_0.Dispose();
-      HOperatorSet.GenRectangle2(out ho_ROI_0, hv_rowHLine-150, 920.477, (new HTuple(-90)).TupleRad()
+      HOperatorSet.GenRectangle2(out ho_ROI_0, hv_rowHLine-150, hv_colHline, (new HTuple(-90)).TupleRad()
           , 56.3662, 480.108);
       }
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
       ho_ROI_1.Dispose();
-      HOperatorSet.GenRectangle2(out ho_ROI_1, hv_rowHLine+150, 920.709, (new HTuple(-90)).TupleRad()
+      HOperatorSet.GenRectangle2(out ho_ROI_1, hv_rowHLine+150, hv_colHline, (new HTuple(-90)).TupleRad()
           , 56.3662, 363.272);
       }
 
@@ -5562,12 +5607,14 @@ public partial class HDevelopExport
       ho_ImageReduced.Dispose();
       ho_Region.Dispose();
 
+      hv_RowMdel.Dispose();
+      hv_ColumnModel.Dispose();
+      hv_Angle.Dispose();
+      hv_Score.Dispose();
       hv_rowHLine.Dispose();
       hv_colHline.Dispose();
       hv_RowBegin.Dispose();
       hv_ColBegin.Dispose();
-      hv_RowEnd.Dispose();
-      hv_ColEnd.Dispose();
       hv_Nr.Dispose();
       hv_Nc.Dispose();
       hv_Dist.Dispose();
@@ -5597,175 +5644,17 @@ public partial class HDevelopExport
       ho_ImageReduced.Dispose();
       ho_Region.Dispose();
 
+      hv_RowMdel.Dispose();
+      hv_ColumnModel.Dispose();
+      hv_Angle.Dispose();
+      hv_Score.Dispose();
       hv_rowHLine.Dispose();
       hv_colHline.Dispose();
       hv_RowBegin.Dispose();
       hv_ColBegin.Dispose();
-      hv_RowEnd.Dispose();
-      hv_ColEnd.Dispose();
       hv_Nr.Dispose();
       hv_Nc.Dispose();
       hv_Dist.Dispose();
-      hv_Area.Dispose();
-      hv_Row.Dispose();
-      hv_Column.Dispose();
-      hv_lineXPerpendicular.Dispose();
-      hv_lineYPerpendicular.Dispose();
-      hv_IsOverlapping.Dispose();
-
-      throw HDevExpDefaultException;
-    }
-  }
-
-  public void I40RightScannerAlign (HObject ho_ImageRight, out HTuple hv_RowCenter, 
-      out HTuple hv_ColCenter)
-  {
-
-
-
-    // Local iconic variables 
-
-    HObject ho_ROI_HLine, ho_ByteImage, ho_Border;
-    HObject ho_ROI_0, ho_ROI_1, ho_RegionUnion, ho_ImageReduced;
-    HObject ho_Region;
-
-    // Local control variables 
-
-    HTuple hv_rowHLine = new HTuple(), hv_colHline = new HTuple();
-    HTuple hv_RowBegin = new HTuple(), hv_ColBegin = new HTuple();
-    HTuple hv_RowEnd = new HTuple(), hv_ColEnd = new HTuple();
-    HTuple hv_Nr = new HTuple(), hv_Nc = new HTuple(), hv_Dist = new HTuple();
-    HTuple hv_Area1 = new HTuple(), hv_RowHLine = new HTuple();
-    HTuple hv_ColHLine = new HTuple(), hv_PointOrder = new HTuple();
-    HTuple hv_Area = new HTuple(), hv_Row = new HTuple(), hv_Column = new HTuple();
-    HTuple hv_lineXPerpendicular = new HTuple(), hv_lineYPerpendicular = new HTuple();
-    HTuple hv_IsOverlapping = new HTuple();
-    // Initialize local and output iconic variables 
-    HOperatorSet.GenEmptyObj(out ho_ROI_HLine);
-    HOperatorSet.GenEmptyObj(out ho_ByteImage);
-    HOperatorSet.GenEmptyObj(out ho_Border);
-    HOperatorSet.GenEmptyObj(out ho_ROI_0);
-    HOperatorSet.GenEmptyObj(out ho_ROI_1);
-    HOperatorSet.GenEmptyObj(out ho_RegionUnion);
-    HOperatorSet.GenEmptyObj(out ho_ImageReduced);
-    HOperatorSet.GenEmptyObj(out ho_Region);
-    hv_RowCenter = new HTuple();
-    hv_ColCenter = new HTuple();
-    try
-    {
-
-      //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ë®Æ½ï¿½ï¿½
-      hv_rowHLine.Dispose();
-      hv_rowHLine = 353.5;
-      hv_colHline.Dispose();
-      hv_colHline = 980;
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
-      {
-      ho_ROI_HLine.Dispose();
-      HOperatorSet.GenRectangle2(out ho_ROI_HLine, hv_rowHLine, hv_colHline, (new HTuple(90)).TupleRad()
-          , 20.8478, 366.834);
-      }
-      ho_ByteImage.Dispose();
-      ScaleToByte(ho_ImageRight, ho_ROI_HLine, out ho_ByteImage);
-      ho_Border.Dispose();
-      HOperatorSet.ThresholdSubPix(ho_ByteImage, out ho_Border, 100);
-      hv_RowBegin.Dispose();hv_ColBegin.Dispose();hv_RowEnd.Dispose();hv_ColEnd.Dispose();hv_Nr.Dispose();hv_Nc.Dispose();hv_Dist.Dispose();
-      HOperatorSet.FitLineContourXld(ho_Border, "tukey", -1, 0, 5, 2, out hv_RowBegin, 
-          out hv_ColBegin, out hv_RowEnd, out hv_ColEnd, out hv_Nr, out hv_Nc, out hv_Dist);
-      hv_Area1.Dispose();hv_RowHLine.Dispose();hv_ColHLine.Dispose();hv_PointOrder.Dispose();
-      HOperatorSet.AreaCenterXld(ho_Border, out hv_Area1, out hv_RowHLine, out hv_ColHLine, 
-          out hv_PointOrder);
-
-      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë®Æ½ï¿½ï¿½Îªï¿½Ö»ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ROI
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
-      {
-      ho_ROI_0.Dispose();
-      HOperatorSet.GenRectangle2(out ho_ROI_0, hv_rowHLine-150, 970.477, (new HTuple(-90)).TupleRad()
-          , 56.3662, 445.108);
-      }
-      using (HDevDisposeHelper dh = new HDevDisposeHelper())
-      {
-      ho_ROI_1.Dispose();
-      HOperatorSet.GenRectangle2(out ho_ROI_1, hv_rowHLine+150, 976.709, (new HTuple(-90)).TupleRad()
-          , 56.3662, 363.272);
-      }
-
-      ho_RegionUnion.Dispose();
-      HOperatorSet.Union2(ho_ROI_0, ho_ROI_1, out ho_RegionUnion);
-      ho_ImageReduced.Dispose();
-      HOperatorSet.ReduceDomain(ho_ImageRight, ho_RegionUnion, out ho_ImageReduced
-          );
-
-      ho_Region.Dispose();
-      HOperatorSet.Threshold(ho_ImageReduced, out ho_Region, 0, 2);
-
-      hv_Area.Dispose();hv_Row.Dispose();hv_Column.Dispose();
-      HOperatorSet.AreaCenter(ho_Region, out hv_Area, out hv_Row, out hv_Column);
-      hv_lineXPerpendicular.Dispose();hv_lineYPerpendicular.Dispose();
-      get_perpendicular_line_that_passes(hv_ColBegin, hv_RowBegin, hv_ColEnd, hv_RowEnd, 
-          hv_Column, hv_Row, out hv_lineXPerpendicular, out hv_lineYPerpendicular);
-      hv_RowCenter.Dispose();hv_ColCenter.Dispose();hv_IsOverlapping.Dispose();
-      HOperatorSet.IntersectionLines(hv_Row, hv_Column, hv_lineYPerpendicular, hv_lineXPerpendicular, 
-          hv_RowBegin, hv_ColBegin, hv_RowEnd, hv_ColEnd, out hv_RowCenter, out hv_ColCenter, 
-          out hv_IsOverlapping);
-
-
-
-      ho_ROI_HLine.Dispose();
-      ho_ByteImage.Dispose();
-      ho_Border.Dispose();
-      ho_ROI_0.Dispose();
-      ho_ROI_1.Dispose();
-      ho_RegionUnion.Dispose();
-      ho_ImageReduced.Dispose();
-      ho_Region.Dispose();
-
-      hv_rowHLine.Dispose();
-      hv_colHline.Dispose();
-      hv_RowBegin.Dispose();
-      hv_ColBegin.Dispose();
-      hv_RowEnd.Dispose();
-      hv_ColEnd.Dispose();
-      hv_Nr.Dispose();
-      hv_Nc.Dispose();
-      hv_Dist.Dispose();
-      hv_Area1.Dispose();
-      hv_RowHLine.Dispose();
-      hv_ColHLine.Dispose();
-      hv_PointOrder.Dispose();
-      hv_Area.Dispose();
-      hv_Row.Dispose();
-      hv_Column.Dispose();
-      hv_lineXPerpendicular.Dispose();
-      hv_lineYPerpendicular.Dispose();
-      hv_IsOverlapping.Dispose();
-
-      return;
-    }
-    catch (HalconException HDevExpDefaultException)
-    {
-      ho_ROI_HLine.Dispose();
-      ho_ByteImage.Dispose();
-      ho_Border.Dispose();
-      ho_ROI_0.Dispose();
-      ho_ROI_1.Dispose();
-      ho_RegionUnion.Dispose();
-      ho_ImageReduced.Dispose();
-      ho_Region.Dispose();
-
-      hv_rowHLine.Dispose();
-      hv_colHline.Dispose();
-      hv_RowBegin.Dispose();
-      hv_ColBegin.Dispose();
-      hv_RowEnd.Dispose();
-      hv_ColEnd.Dispose();
-      hv_Nr.Dispose();
-      hv_Nc.Dispose();
-      hv_Dist.Dispose();
-      hv_Area1.Dispose();
-      hv_RowHLine.Dispose();
-      hv_ColHLine.Dispose();
-      hv_PointOrder.Dispose();
       hv_Area.Dispose();
       hv_Row.Dispose();
       hv_Column.Dispose();
@@ -9389,7 +9278,7 @@ public partial class HDevelopExport
 
 
       //****************************FAI20********************************
-      //ï¿½ï¿½Ô²ï¿½ï¿½
+      //¶¨Ô²ÐÄ
       hv_FAI20_P2_LineStartX.Dispose();hv_FAI20_P2_LineStartY.Dispose();hv_FAI20_P2_LineEndX.Dispose();hv_FAI20_P2_LineEndY.Dispose();
       TranslateLineInWorldCoordinateAndConvertBack(hv_lineX1TopBase, hv_lineY1TopBase, 
           hv_lineX2TopBase, hv_lineY2TopBase, hv_FAI20_LEN_Y, hv_MapToWorld, hv_MapToImage, 
@@ -13661,7 +13550,7 @@ public partial class HDevelopExport
 
 
       //****************************FAI20********************************
-      //ï¿½ï¿½Ô²ï¿½ï¿½
+      //¶¨Ô²ÐÄ
       //TranslateLineInWorldCoordinateAndConvertBack (lineX1TopBase, lineY1TopBase, lineX2TopBase, lineY2TopBase, FAI20_LEN_Y, MapToWorld, MapToImage, 'false', FAI20_P2_LineStartX, FAI20_P2_LineStartY, FAI20_P2_LineEndX, FAI20_P2_LineEndY)
       hv_FAI20V_P1_LineStartX.Dispose();hv_FAI20V_P1_LineStartY.Dispose();hv_FAI20V_P1_LineEndX.Dispose();hv_FAI20V_P1_LineEndY.Dispose();
       TranslateLineInWorldCoordinateAndConvertBack(hv_lineX1RightBase, hv_lineY1RightBase, 
@@ -16064,6 +15953,65 @@ public partial class HDevelopExport
     }
   }
 
+  public void SelectContoursXValue (HObject ho_Contours, HTuple hv_Percent, out HTuple hv_Value)
+  {
+
+
+
+
+    // Local iconic variables 
+
+    // Local control variables 
+
+    HTuple hv_Xs = new HTuple(), hv_Ys = new HTuple();
+    HTuple hv_Sorted = new HTuple(), hv_selectedIndex = new HTuple();
+    HTuple hv_Int = new HTuple();
+    // Initialize local and output iconic variables 
+    hv_Value = new HTuple();
+    try
+    {
+      hv_Xs.Dispose();hv_Ys.Dispose();
+      GetContoursPoints(ho_Contours, out hv_Xs, out hv_Ys);
+      hv_Sorted.Dispose();
+      HOperatorSet.TupleSort(hv_Xs, out hv_Sorted);
+      hv_selectedIndex.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_selectedIndex = hv_Percent*(new HTuple(hv_Xs.TupleLength()
+          ));
+      }
+      hv_Int.Dispose();
+      HOperatorSet.TupleInt(hv_selectedIndex, out hv_Int);
+
+      hv_Value.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_Value = hv_Sorted.TupleSelect(
+          hv_Int);
+      }
+
+
+      hv_Xs.Dispose();
+      hv_Ys.Dispose();
+      hv_Sorted.Dispose();
+      hv_selectedIndex.Dispose();
+      hv_Int.Dispose();
+
+      return;
+    }
+    catch (HalconException HDevExpDefaultException)
+    {
+
+      hv_Xs.Dispose();
+      hv_Ys.Dispose();
+      hv_Sorted.Dispose();
+      hv_selectedIndex.Dispose();
+      hv_Int.Dispose();
+
+      throw HDevExpDefaultException;
+    }
+  }
+
   public void SortLineLeftRight (HTuple hv_X1, HTuple hv_Y1, HTuple hv_X2, HTuple hv_Y2, 
       out HTuple hv_XLeft, out HTuple hv_YLeft, out HTuple hv_XRight, out HTuple hv_YRight)
   {
@@ -17379,7 +17327,6 @@ public partial class HDevelopExport
     }
   }
 
-  // Main procedure 
   
 }
 

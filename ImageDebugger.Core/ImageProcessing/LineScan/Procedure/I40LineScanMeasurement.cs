@@ -76,7 +76,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
         private readonly double _horizontalCoeff = 0.01248;
 
-        private readonly double _verticalCoeff = 0.0497;
+        private readonly double _verticalCoeff = 0.050268;
 
         private HTuple GenMapToWorld()
         {
