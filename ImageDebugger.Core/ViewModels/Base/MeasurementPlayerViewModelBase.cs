@@ -53,13 +53,24 @@ namespace ImageDebugger.Core.ViewModels.Base
 
            [DoNotNotify]
            public List<HImage> ImageInputs { get; set; }
-           
+
            /// <summary>
            /// Image that is used at the background for
            /// providing X,Y and grayvalue information
            /// </summary>
-        public HImage InfoImage { get; set; }
+           public HImage InfoImage  {
+               get
+               {
+                   if (InfoImageList == null || InfoImageList.Count == 0)
+                   {
+                       return null;
+                   }
 
+                   return InfoImageList[IndexToShow];
+               }
+           }
+
+           public List<HImage> InfoImageList { get; set; }
 
            /// <summary>
            /// This will fire when the continuous mode is about to finished
@@ -79,7 +90,7 @@ namespace ImageDebugger.Core.ViewModels.Base
         /// <summary>
         /// The index within the input batch of images to show
         /// </summary>
-        public int IndexToShow { get; set; } = 0;
+        public abstract int IndexToShow { get; set; }
 
         /// <summary>
         /// X coordinate of the displayed image info view

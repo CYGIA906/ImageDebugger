@@ -19,6 +19,7 @@ using ImageDebugger.Core.ViewModels.LineScan.Flatness;
 using ImageDebugger.Core.ViewModels.LineScan.Parallelism;
 using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
 using ImageDebugger.Core.ViewModels.LineScan.Thickness;
+using PropertyChanged;
 
 namespace ImageDebugger.Core.ViewModels.LineScan
 {
@@ -131,6 +132,10 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         {
             get { return Path.Combine(ConfigurationBaseDir, "Points"); }
         }
+        
+        public override int IndexToShow { get; set; }
+
+    
 
         protected override int NumImagesInOneGoRequired
         {
@@ -165,11 +170,11 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         {
             var result = await Task.Run(() => LineScanMeasurementProcedure.Process(ImageInputs, PointSettingViewModels, RunStatusMessageQueue));
 
-            var imageDisplay = result.Images[0];
-            InfoImage = imageDisplay;
+            InfoImageList = result.Images.Take(3).ToList();
+            
 
-            BackView = result.Images[1];
-            FrontView = result.Images[2];
+            BackView = result.Images[3];
+            FrontView = result.Images[4];
             Result = result;
             if (CurrentViewIsBackView) ToggleBackView();
             else ToggleFrontView();

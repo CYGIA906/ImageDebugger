@@ -56,7 +56,11 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             var imageB = bottomImageAligned.HobjectToHimage();
             var imageL = leftImageAligned.HobjectToHimage();
             var imageR = rightImage;
+            
+            var imageBHeight = imageB.ToKeyenceHeightImage();
+            var imageLHeight = imageL.ToKeyenceHeightImage();
             var imageRHeight = imageR.ToKeyenceHeightImage();
+            
             var visualBR = VisualizeAlignment(rightImage, imageB);
             var visualLR = VisualizeAlignment(rightImage, imageL);
 
@@ -64,7 +68,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             var pointLocator = new PointLocator(xAxis.InvertDirection(), yAxis, _verticalCoeff, _horizontalCoeff);
             var pointMarkers = pointLocator.LocatePoints(pointSettings, new List<HImage>()
             {
-                imageB.ToKeyenceHeightImage(), imageL.ToKeyenceHeightImage(), imageRHeight
+                imageBHeight, imageLHeight, imageRHeight
             });
 
 
@@ -72,7 +76,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             {
                 Images = new List<HImage>()
                 {
-                    imageRHeight, visualBR, visualLR
+                     imageBHeight, imageLHeight, imageRHeight, visualBR, visualLR
                 },
                 PointMarkers = pointMarkers,
                 RecordingElements = recordings

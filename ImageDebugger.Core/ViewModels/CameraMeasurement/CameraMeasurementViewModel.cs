@@ -118,6 +118,8 @@ namespace ImageDebugger.Core.ViewModels.CameraMeasurement
             ImageProcessStartAsync += ProcessAsync;
         }
 
+        public override int IndexToShow { get; set; } = 0;
+
         protected override int NumImagesInOneGoRequired
         {
             get { return MeasurementUnit.NumImagesInOneGoRequired; }
