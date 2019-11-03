@@ -24,12 +24,18 @@ namespace ImageDebugger.Core.ViewModels.LineScan
 {
     public class LineScanMeasurementViewModel : MeasurementPlayerViewModelBase
     {
+        private bool _currentViewIsBackView;
         private ILineScanMeasurementProcedure LineScanMeasurementProcedure { get; set; } = new  I40LineScanMeasurement();
 
         /// <summary>
         /// Point settings
         /// </summary>
         public List<PointSettingViewModel> PointSettingViewModels { get; set; }
+
+        public string ProcedureName
+        {
+            get { return LineScanMeasurementProcedure.Name; }
+        }
 
         private Dictionary<string, Plane3D> Planes { get; set; } = new Dictionary<string, Plane3D>();
  
@@ -42,6 +48,33 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         public List<ParallelismItemViewModel> ParallelismItemViewModels { get; set; }
         
         public List<ThicknessItemViewModel> ThicknessViewModels { get; set; }
+
+
+        /// <summary>
+        /// Specifies whether the currently showing image is back-view or front-view
+        /// </summary>
+        public bool CurrentViewIsBackView
+        {
+            get { return _currentViewIsBackView; }
+            set
+            {
+                _currentViewIsBackView = value;
+                if (_currentViewIsBackView) ToggleBackView();
+                else ToggleFrontView();
+            }
+        }
+
+        private void ToggleFrontView()
+        {
+            WindowHandle.DispColor(FrontView);
+            Result.Display(WindowHandle);
+        }
+
+        private void ToggleBackView()
+        {
+            WindowHandle.DispColor(BackView);
+            Result.Display(WindowHandle);
+        }
 
 
         private Dictionary<string, string> ThicknessPointPlaneMatches { get; set; } = new Dictionary<string, string>()
@@ -128,11 +161,12 @@ namespace ImageDebugger.Core.ViewModels.LineScan
 
             var imageDisplay = result.Images[0];
             InfoImage = imageDisplay;
-            
-            WindowHandle.DispColor(result.Images[2]);
-            WindowHandleLeftRight.DispColor(result.Images[1]);
-//            WindowHandleBottomRight.DispColor( result.Images[2]);
-            result.Display(WindowHandle);
+
+            BackView = result.Images[1];
+            FrontView = result.Images[2];
+            Result = result;
+            if (CurrentViewIsBackView) ToggleBackView();
+            else ToggleFrontView();
             
             // Calculate results
             UpdatePointSettings(result.PointMarkers);
@@ -147,6 +181,12 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             csvSerializables.AddRange(ThicknessViewModels);
             CsvSerializer.Serialize(csvSerializables, CurrentImageName, IsContinuouslyRunning);
         }
+
+        private ImageProcessingResults3D Result { get; set; }
+
+        private HImage FrontView { get; set; }
+
+        private HImage BackView { get; set; }
 
         private void CalcThickness()
         {

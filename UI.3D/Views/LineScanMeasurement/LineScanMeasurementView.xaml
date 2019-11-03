@@ -89,18 +89,29 @@
 
         <Grid DockPanel.Dock="Top" Name="ContentArea">
             <!-- Current image name -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="7*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-            <materialDesign:ColorZone TextElement.Foreground="AliceBlue"
-                                      TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}"
-                                      CornerRadius="15" Margin="80 50" VerticalAlignment="Top"
-                                      HorizontalAlignment="Right"
-                                      Panel.ZIndex="2">
-                <TextBlock Text="{Binding CurrentImageName}" />
-            </materialDesign:ColorZone>
+            <StackPanel Margin="80 50" VerticalAlignment="Top" Panel.ZIndex="2"
+                        HorizontalAlignment="Right">
+                <materialDesign:ColorZone TextElement.Foreground="AliceBlue"
+                                          TextElement.FontSize="30" Background="{DynamicResource PrimaryHueDarkBrush}"
+                                          CornerRadius="15" Margin="6"
+                                          >
+                    <TextBlock Text="{Binding CurrentImageName}" />
+                </materialDesign:ColorZone>
+                <ToggleButton
+                    Style="{StaticResource MaterialDesignActionAccentToggleButton}"
+                    IsChecked="{Binding CurrentViewIsBackView}"
+                    ToolTip="Toggle front and back view">
+                    <ToggleButton.Content>
+                        <materialDesign:PackIcon Kind="FlipToBack"/>
+                    </ToggleButton.Content>
+                    
+                    
+                    <materialDesign:ToggleButtonAssist.OnContent>
+                        <materialDesign:PackIcon
+                            Kind="FlipToFront" />
+                    </materialDesign:ToggleButtonAssist.OnContent>
+                </ToggleButton>
+            </StackPanel>
 
             <!-- Halcon window -->
             <halconDotNet:HSmartWindowControlWPF Grid.Column="0" Name="HalconWindow" Panel.ZIndex="1">
@@ -113,21 +124,12 @@
 
             </halconDotNet:HSmartWindowControlWPF>
             <!-- Image info view popup -->
-            <Popup Grid.Column="0" IsOpen="{Binding ShouldImageInfoDisplay}" Placement="Relative" HorizontalOffset="{Binding MouseX}"
+            <Popup Grid.Column="0" IsOpen="{Binding ShouldImageInfoDisplay}" Placement="Relative"
+                   HorizontalOffset="{Binding MouseX}"
                    VerticalOffset="{Binding MouseY}" PlacementTarget="{Binding ElementName=HalconWindow}">
                 <views:ImageInfoView DataContext="{Binding GrayValueInfo}" />
             </Popup>
 
-            <Separator Grid.Column="1"/>
-            <!-- Alignment window -->
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <halconDotNet:HSmartWindowControlWPF Grid.Row="0" Name="AlignmentWindowLeftRight"  Panel.ZIndex="1" />
-                <halconDotNet:HSmartWindowControlWPF Grid.Row="1" Name="AlignmentWindowBottomRight"  Panel.ZIndex="1" />
-            </Grid>
 
             <!-- Snack bar -->
             <materialDesign:Snackbar Grid.Column="0" Name="SnackBar" MessageQueue="{Binding RunStatusMessageQueue}"
@@ -137,7 +139,7 @@
 
 
             <!-- Drawer -->
-            <materialDesign:DrawerHost Grid.Column="0" Grid.ColumnSpan="3" Panel.ZIndex="9" Background="White"
+            <materialDesign:DrawerHost Panel.ZIndex="9" Background="White"
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Top"
                                        BorderThickness="2"
@@ -145,10 +147,11 @@
                 <Grid Width="{Binding ActualWidth, ElementName=ContentArea}"
                       Height="{Binding ActualHeight, ElementName=ContentArea}">
                     <Viewbox Height="80" Width="80" HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}" Background="Transparent" Foreground="{DynamicResource SecondaryAccentBrush}" Style="{StaticResource MaterialDesignFlatButton}"
+                        <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                                Background="Transparent" Foreground="{DynamicResource SecondaryAccentBrush}"
+                                Style="{StaticResource MaterialDesignFlatButton}"
                                 CommandParameter="{x:Static Dock.Right}">
-                            <materialDesign:PackIcon Kind="ChevronDoubleLeft"
-                                                     />
+                            <materialDesign:PackIcon Kind="ChevronDoubleLeft" />
                         </Button>
                     </Viewbox>
 
@@ -161,7 +164,8 @@
 
 
             <!--status area-->
-            <GroupBox Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Header="{Binding ProcedureName}"
+            <GroupBox Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                      Header="{Binding ProcedureName}"
                       Panel.ZIndex="3"
                       FontSize="16">
                 <StackPanel Orientation="Horizontal" Background="AliceBlue" MinWidth="150">
