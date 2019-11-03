@@ -2078,20 +2078,30 @@ public partial class HDevelopExport
 
     HTuple hv_xAssume = new HTuple(), hv_yAssume = new HTuple();
     HTuple hv_distAssume = new HTuple();
+    HTuple   hv_inputVectorY_COPY_INP_TMP = new HTuple(hv_inputVectorY);
+
     // Initialize local and output iconic variables 
     hv_outputVectorX = new HTuple();
     hv_outputVectorY = new HTuple();
     try
     {
       //Should be deprecated
-
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      {
+      HTuple 
+        ExpTmpLocalVar_inputVectorY = hv_inputVectorY_COPY_INP_TMP+0.000001;
+      hv_inputVectorY_COPY_INP_TMP.Dispose();
+      hv_inputVectorY_COPY_INP_TMP = ExpTmpLocalVar_inputVectorY;
+      }
+      }
       //assume that a perticular vector perpendiclar to me is (xAssume, yAssume), let xAssume = 1
       hv_xAssume.Dispose();
       hv_xAssume = 1;
       hv_yAssume.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
       {
-      hv_yAssume = -(hv_inputVectorX/hv_inputVectorY);
+      hv_yAssume = -(hv_inputVectorX/hv_inputVectorY_COPY_INP_TMP);
       }
       hv_distAssume.Dispose();
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -2113,6 +2123,7 @@ public partial class HDevelopExport
       }
 
 
+      hv_inputVectorY_COPY_INP_TMP.Dispose();
       hv_xAssume.Dispose();
       hv_yAssume.Dispose();
       hv_distAssume.Dispose();
@@ -2122,6 +2133,7 @@ public partial class HDevelopExport
     catch (HalconException HDevExpDefaultException)
     {
 
+      hv_inputVectorY_COPY_INP_TMP.Dispose();
       hv_xAssume.Dispose();
       hv_yAssume.Dispose();
       hv_distAssume.Dispose();
@@ -4997,7 +5009,7 @@ public partial class HDevelopExport
     HTuple hv_ModelID = new HTuple(), hv_RowRight = new HTuple();
     HTuple hv_ColumnRight = new HTuple(), hv_Angle = new HTuple();
     HTuple hv_Score = new HTuple(), hv_RowB = new HTuple();
-    HTuple hv_ColumnB = new HTuple();
+    HTuple hv_ColumnB = new HTuple(), hv_Visualize = new HTuple();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_ImageLeftAligned);
     HOperatorSet.GenEmptyObj(out ho_ImageBottomAligned);
@@ -5069,10 +5081,7 @@ public partial class HDevelopExport
       HOperatorSet.AffineTransImage(ho_ImageMirror, out ho_ImageLeftAligned, hv_HomMat2D, 
           "constant", "false");
 
-      //Visualize alignment quality
-      ho_MultiChannelImageLR.Dispose();
-      GenAlignVisualImage(ho_ImageLeftAligned, ho_ImageRight, out ho_MultiChannelImageLR
-          );
+
 
       //Find base line in the right view
       using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -5268,10 +5277,19 @@ public partial class HDevelopExport
       HOperatorSet.AffineTransImage(ho_ImageBScaleMax, out ho_ImageBottomAligned, 
           hv_HomMat2D, "constant", "false");
 
+      //Visualize alignment quality
+      hv_Visualize.Dispose();
+      hv_Visualize = 0;
+      if ((int)(hv_Visualize) != 0)
+      {
+        ho_MultiChannelImageLR.Dispose();
+        GenAlignVisualImage(ho_ImageLeftAligned, ho_ImageRight, out ho_MultiChannelImageLR
+            );
+        ho_MultiChannelImageBR.Dispose();
+        GenAlignVisualImage(ho_ImageRScaleMax, ho_ImageBottomAligned, out ho_MultiChannelImageBR
+            );
 
-      ho_MultiChannelImageBR.Dispose();
-      GenAlignVisualImage(ho_ImageRScaleMax, ho_ImageBottomAligned, out ho_MultiChannelImageBR
-          );
+      }
 
       ho_ImageMirror.Dispose();
       ho_RectangleB1.Dispose();
@@ -5339,6 +5357,7 @@ public partial class HDevelopExport
       hv_Score.Dispose();
       hv_RowB.Dispose();
       hv_ColumnB.Dispose();
+      hv_Visualize.Dispose();
 
       return;
     }
@@ -5410,6 +5429,7 @@ public partial class HDevelopExport
       hv_Score.Dispose();
       hv_RowB.Dispose();
       hv_ColumnB.Dispose();
+      hv_Visualize.Dispose();
 
       throw HDevExpDefaultException;
     }
@@ -17359,6 +17379,7 @@ public partial class HDevelopExport
     }
   }
 
+  // Main procedure 
   
 }
 

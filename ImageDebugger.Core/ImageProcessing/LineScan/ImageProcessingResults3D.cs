@@ -42,7 +42,6 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         private void DisplayPointMarkers(HWindow windowHandle)
         {
             if (PointMarkers == null || PointMarkers.Count == 0) return; 
-            windowHandle.SetColor("blue");
             HObject crosses = new HObject();
             var offset = 5;
             foreach (var pointMarker in PointMarkers)
@@ -66,9 +65,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             windowHandle.SetColor("magenta");
             LineRegions?.DispObj(windowHandle);
             
+       
             windowHandle.SetColor("green");
-            Line.DisplayGraphics(windowHandle);
-            windowHandle.SetColor("firebrick");
             CrossedUsed?.DispObj(windowHandle);
             
             windowHandle.SetDraw("margin");
@@ -80,7 +78,10 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             Edges?.DispObj(windowHandle);
             windowHandle.SetLineWidth(1);
             
-            windowHandle.SetColor("blue");
+            windowHandle.SetColor("red");
+            Line.DisplayGraphics(windowHandle);
+
+            windowHandle.SetColor("firebrick");
             DisplayPointMarkers(windowHandle);
         }
         

@@ -88,7 +88,6 @@ namespace ImageDebugger.Core.ImageProcessing
 
         public static void DisplayGraphics(HWindow windowHandle)
         {
-            windowHandle.SetColor(LineColor);
             HObject lineRegions = new HObject();
             lineRegions.GenEmptyObj();
 

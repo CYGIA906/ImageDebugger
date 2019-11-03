@@ -126,12 +126,12 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         {
             var result = await Task.Run(() => LineScanMeasurementProcedure.Process(ImageInputs, PointSettingViewModels, RunStatusMessageQueue));
 
-            InfoImage = result.Images[0];
+            var imageDisplay = result.Images[0];
+            InfoImage = imageDisplay;
             
-            
-            WindowHandle.DispImage(result.Images[0]);
+            WindowHandle.DispColor(result.Images[2]);
             WindowHandleLeftRight.DispColor(result.Images[1]);
-            WindowHandleBottomRight.DispColor(result.Images[2]);
+//            WindowHandleBottomRight.DispColor( result.Images[2]);
             result.Display(WindowHandle);
             
             // Calculate results

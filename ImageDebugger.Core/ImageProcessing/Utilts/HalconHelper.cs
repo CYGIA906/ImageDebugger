@@ -17,6 +17,23 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
     {
         private static HDevelopExport HalconScripts = new HDevelopExport();
         
+        /// <summary>
+        /// Convert 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public static HImage ToKeyenceHeightImage(this HImage image)
+        {
+            image = image.ConvertImageType("real");
+            image = image.ScaleImage(1.0, -32768.0);
+            return image.ScaleImage(1.6 * 0.001, 0);
+        }
+        
+        /// <summary>
+        /// Concat all <see cref="HObject"/> passed in
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <returns></returns>
         public static HObject ConcatAll(params HObject[] objects)
         {
             var notNull = objects.Where(o => o != null && o.IsInitialized()).ToList();

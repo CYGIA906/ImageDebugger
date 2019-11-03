@@ -3,9 +3,9 @@
 <procedure name="main">
 <interface/>
 <body>
-<l>list_image_files ('C:/Users/afterbunny/Desktop/1102/150/3', 'default', [], ImageFilesRight)</l>
-<l>list_image_files ('C:/Users/afterbunny/Desktop/1102/150/2', 'default', [], ImageFilesLeft)</l>
-<l>list_image_files ('C:/Users/afterbunny/Desktop/1102/150/1', 'default', [], ImageFilesBottom)</l>
+<l>list_image_files ('C:/Users/afterbunny/Desktop/Projects/LineScan/Data/1102/150/3', 'default', [], ImageFilesRight)</l>
+<l>list_image_files ('C:/Users/afterbunny/Desktop/Projects/LineScan/Data/1102/150/2', 'default', [], ImageFilesLeft)</l>
+<l>list_image_files ('C:/Users/afterbunny/Desktop/Projects/LineScan/Data/1102/150/1', 'default', [], ImageFilesBottom)</l>
 <c></c>
 <c></c>
 <c></c>
@@ -414,7 +414,7 @@
 </interface>
 <body>
 <c>*Should be deprecated</c>
-<c></c>
+<l>inputVectorY := inputVectorY + 0.000001</l>
 <c>* assume that a perticular vector perpendiclar to me is (xAssume, yAssume), let xAssume = 1</c>
 <l>xAssume := 1</l>
 <l>yAssume := -(inputVectorX/inputVectorY)</l>
@@ -5793,88 +5793,92 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <l>vector_angle_to_rigid (RowCenter, ColCenter, 0, RowCenter1, ColCenter1, 0, HomMat2D)</l>
 <l>affine_trans_image(ImageMirror, ImageLeftAligned, HomMat2D, 'constant', 'false')</l>
 <c></c>
-<c>* Visualize alignment quality</c>
-<l>GenAlignVisualImage (ImageLeftAligned, ImageRight, MultiChannelImageLR)</l>
+<c></c>
 <c></c>
 <c>* Find base line in the right view</c>
 <l>gen_rectangle2 (RectangleB1, 216.252, 432.153, rad(0), 5.68206, 22.1838)</l>
 <l>gen_rectangle2 (RectangleB2, 300.057, 434.045, rad(0), 5.68206, 22.4712)</l>
 <c></c>
-<l>    union2 (RectangleB1, RectangleB2, ROIB)</l>
-<l>    reduce_domain (ImageRight, ROIB, ImageReducedB)</l>
-<l>    min_max_gray (ROIB, ImageReducedB, 0, Min, Max, Range)</l>
-<l>    scale_image (ImageReducedB, ImageScaled, 1, -Min)</l>
-<l>    scale := 255.0 / Range</l>
-<l>    scale_image (ImageScaled, ImageScaled1, scale, 0)</l>
-<l>    convert_image_type (ImageScaled1, ImageConverted1, 'byte')</l>
-<l>    threshold (ImageConverted1, RegionB, 200, 255)</l>
-<c>    </c>
-<c> </c>
-<l>    opening_circle (RegionB, RegionOpeningB, 2)</l>
-<l>    boundary (RegionOpeningB, RegionBorderB, 'inner')</l>
-<l>    gen_contour_region_xld (RegionBorderB, ContourBs, 'border')</l>
-<l>    segment_contours_xld (ContourBs, ContourBsSplit, 'lines', 5, 2, 1)</l>
-<l>    select_contours_xld (ContourBsSplit, SelectedContourBs, 'contour_length', 5, 2000, -0.5, 0.5)</l>
-<l>    select_contours_xld (SelectedContourBs, SelectedContourBs, 'direction', 1.2, 2, -0.5, 0.5)</l>
-<l>    union_collinear_contours_ext_xld (SelectedContourBs, UnionContourBs, 10, 10, 10, 0.6, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
-<l>    select_contours_xld (UnionContourBs, SelectedContourBs, 'contour_length', 10, 2000, -0.5, 0.5)</l>
-<l>    sort_contours_xld (SelectedContourBs, SortedContourBs, 'character', 'true', 'column')    </l>
-<l>    select_obj (SortedContourBs, ObjectSelectedB, [1,2])</l>
-<l>    union_collinear_contours_xld (ObjectSelectedB, UnionContourB, 400, 15, 15, 0.5, 'attr_keep')</l>
-<l>    fit_line_contour_xld (UnionContourB, 'tukey', -1, 0, 5, 2, RowBeginB, ColBeginB, RowEndB, ColEndB, NrB, NcB, DistB)</l>
-<l>    gen_contour_polygon_xld (ContourB, [RowBeginB,RowEndB], [ColBeginB,ColEndB])</l>
-<c>    *记录B线的角度</c>
-<l>    line_orientation (RowBeginB, ColBeginB, RowEndB, ColEndB, PhiB)</l>
+<l>union2 (RectangleB1, RectangleB2, ROIB)</l>
+<l>reduce_domain (ImageRight, ROIB, ImageReducedB)</l>
+<l>min_max_gray (ROIB, ImageReducedB, 0, Min, Max, Range)</l>
+<l>scale_image (ImageReducedB, ImageScaled, 1, -Min)</l>
+<l>scale := 255.0 / Range</l>
+<l>scale_image (ImageScaled, ImageScaled1, scale, 0)</l>
+<l>convert_image_type (ImageScaled1, ImageConverted1, 'byte')</l>
+<l>threshold (ImageConverted1, RegionB, 200, 255)</l>
 <c></c>
-<c>    </c>
-<c>    *生成第二条线</c>
+<c></c>
+<l>opening_circle (RegionB, RegionOpeningB, 2)</l>
+<l>boundary (RegionOpeningB, RegionBorderB, 'inner')</l>
+<l>gen_contour_region_xld (RegionBorderB, ContourBs, 'border')</l>
+<l>segment_contours_xld (ContourBs, ContourBsSplit, 'lines', 5, 2, 1)</l>
+<l>select_contours_xld (ContourBsSplit, SelectedContourBs, 'contour_length', 5, 2000, -0.5, 0.5)</l>
+<l>select_contours_xld (SelectedContourBs, SelectedContourBs, 'direction', 1.2, 2, -0.5, 0.5)</l>
+<l>union_collinear_contours_ext_xld (SelectedContourBs, UnionContourBs, 10, 10, 10, 0.6, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
+<l>select_contours_xld (UnionContourBs, SelectedContourBs, 'contour_length', 10, 2000, -0.5, 0.5)</l>
+<l>sort_contours_xld (SelectedContourBs, SortedContourBs, 'character', 'true', 'column')    </l>
+<l>select_obj (SortedContourBs, ObjectSelectedB, [1,2])</l>
+<l>union_collinear_contours_xld (ObjectSelectedB, UnionContourB, 400, 15, 15, 0.5, 'attr_keep')</l>
+<l>fit_line_contour_xld (UnionContourB, 'tukey', -1, 0, 5, 2, RowBeginB, ColBeginB, RowEndB, ColEndB, NrB, NcB, DistB)</l>
+<l>gen_contour_polygon_xld (ContourB, [RowBeginB,RowEndB], [ColBeginB,ColEndB])</l>
+<c>*记录B线的角度</c>
+<l>line_orientation (RowBeginB, ColBeginB, RowEndB, ColEndB, PhiB)</l>
+<c></c>
+<c></c>
+<c>*生成第二条线</c>
 <c></c>
 <l>gen_rectangle1 (RectangleC1, 597.205, 595.988, 615.555, 726.208)</l>
 <l>gen_rectangle1 (RectangleC2, 598.705, 1213.43, 614.451, 1343.65)</l>
 <c></c>
-<l>    union2 (RectangleC1, RectangleC2, ROIC)</l>
-<l>    reduce_domain (ImageRight, ROIC, ImageReducedC)</l>
-<l>    min_max_gray (ROIC, ImageRight, 0, Min, Max, Range)</l>
-<l>    scale_image (ImageReducedC, ImageScaled, 1, -Min)</l>
-<l>    scale := 255.0 / Range</l>
-<l>    scale_image (ImageScaled, ImageScaled1, scale, 0)</l>
-<l>    convert_image_type (ImageScaled1, ImageConverted1, 'byte')</l>
-<c>    </c>
-<l>    threshold (ImageConverted1, RegionC, 100, 255)</l>
+<l>union2 (RectangleC1, RectangleC2, ROIC)</l>
+<l>reduce_domain (ImageRight, ROIC, ImageReducedC)</l>
+<l>min_max_gray (ROIC, ImageRight, 0, Min, Max, Range)</l>
+<l>scale_image (ImageReducedC, ImageScaled, 1, -Min)</l>
+<l>scale := 255.0 / Range</l>
+<l>scale_image (ImageScaled, ImageScaled1, scale, 0)</l>
+<l>convert_image_type (ImageScaled1, ImageConverted1, 'byte')</l>
+<c></c>
+<l>threshold (ImageConverted1, RegionC, 100, 255)</l>
 <c></c>
 <c></c>
-<l>    opening_circle (RegionC, RegionOpeningC, 1)</l>
-<l>    boundary (RegionOpeningC, RegionBorderC, 'inner')   </l>
-<l>    gen_contour_region_xld (RegionBorderC, ContourCs, 'border')</l>
-<l>    segment_contours_xld (ContourCs, ContourCsSplit, 'lines', 5, 1, 1)</l>
-<l>    select_contours_xld (ContourCsSplit, SelectedContourCs, 'contour_length', 30, 2000, -0.5, 0.5)</l>
-<l>    union_collinear_contours_ext_xld (SelectedContourCs, UnionContourCs, 200, 1, 1, 0.1, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
-<l>    sort_contours_xld (UnionContourCs, SortedContourCs, 'character', 'true', 'row')</l>
-<l>    select_obj (SortedContourCs, ObjectSelectedC, [3,4])</l>
-<l>    union_collinear_contours_xld (ObjectSelectedC, UnionContours1, 1000, 20, 20, 0.5, 'attr_keep')</l>
-<l>    fit_line_contour_xld (UnionContours1, 'tukey', -1, 0, 5, 2, RowBeginC, ColBeginC, RowEndC, ColEndC, NrC, NcC, DistC)</l>
-<l>    gen_contour_polygon_xld (ContourC, [RowBeginC,RowEndC], [ColBeginC,ColEndC])</l>
-<c>        *记录C线的角度</c>
-<l>    line_orientation (RowBeginC, ColBeginC, RowEndC, ColEndC, PhiC)</l>
-<c>    </c>
+<l>opening_circle (RegionC, RegionOpeningC, 1)</l>
+<l>boundary (RegionOpeningC, RegionBorderC, 'inner')   </l>
+<l>gen_contour_region_xld (RegionBorderC, ContourCs, 'border')</l>
+<l>segment_contours_xld (ContourCs, ContourCsSplit, 'lines', 5, 1, 1)</l>
+<l>select_contours_xld (ContourCsSplit, SelectedContourCs, 'contour_length', 30, 2000, -0.5, 0.5)</l>
+<l>union_collinear_contours_ext_xld (SelectedContourCs, UnionContourCs, 200, 1, 1, 0.1, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
+<l>sort_contours_xld (UnionContourCs, SortedContourCs, 'character', 'true', 'row')</l>
+<l>select_obj (SortedContourCs, ObjectSelectedC, [3,4])</l>
+<l>union_collinear_contours_xld (ObjectSelectedC, UnionContours1, 1000, 20, 20, 0.5, 'attr_keep')</l>
+<l>fit_line_contour_xld (UnionContours1, 'tukey', -1, 0, 5, 2, RowBeginC, ColBeginC, RowEndC, ColEndC, NrC, NcC, DistC)</l>
+<l>gen_contour_polygon_xld (ContourC, [RowBeginC,RowEndC], [ColBeginC,ColEndC])</l>
+<c>*记录C线的角度</c>
+<l>line_orientation (RowBeginC, ColBeginC, RowEndC, ColEndC, PhiC)</l>
 <c></c>
-<c>    * align right and bottom</c>
-<l>     mirror_image (ImageBottom, ImageBMirror, 'column')</l>
-<l>    scale_image_max (ImageBMirror, ImageBScaleMax)</l>
-<l>    scale_image_max (ImageRight, ImageRScaleMax)</l>
-<c>    </c>
-<l>    gen_rectangle1 (ROI_0, 149.739, 505.08, 269.037, 1444.67)</l>
-<l>    reduce_domain (ImageRScaleMax, ROI_0, ImageReduced)</l>
-<l>    create_shape_model (ImageReduced, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
-<c>    </c>
-<l>    find_shape_model (ImageRScaleMax,ModelID, -0.39, 0.79, 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowRight, ColumnRight, Angle, Score)</l>
-<l>    find_shape_model (ImageBScaleMax,ModelID, -0.39, 0.79, 0.2, 1, 0.5, 'least_squares', 0, 0.9, RowB, ColumnB, Angle, Score)</l>
-<c>    </c>
-<l>    vector_angle_to_rigid (RowB, ColumnB, 0, RowRight, ColumnRight, 0, HomMat2D)</l>
-<l>    affine_trans_image (ImageBScaleMax, ImageBottomAligned, HomMat2D, 'constant', 'false')</l>
-<c>    </c>
-<c>    </c>
+<c></c>
+<c>* align right and bottom</c>
+<l>mirror_image (ImageBottom, ImageBMirror, 'column')</l>
+<l>scale_image_max (ImageBMirror, ImageBScaleMax)</l>
+<l>scale_image_max (ImageRight, ImageRScaleMax)</l>
+<c></c>
+<l>gen_rectangle1 (ROI_0, 149.739, 505.08, 269.037, 1444.67)</l>
+<l>reduce_domain (ImageRScaleMax, ROI_0, ImageReduced)</l>
+<l>create_shape_model (ImageReduced, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<c></c>
+<l>find_shape_model (ImageRScaleMax,ModelID, -0.39, 0.79, 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowRight, ColumnRight, Angle, Score)</l>
+<l>find_shape_model (ImageBScaleMax,ModelID, -0.39, 0.79, 0.2, 1, 0.5, 'least_squares', 0, 0.9, RowB, ColumnB, Angle, Score)</l>
+<c></c>
+<l>vector_angle_to_rigid (RowB, ColumnB, 0, RowRight, ColumnRight, 0, HomMat2D)</l>
+<l>affine_trans_image (ImageBScaleMax, ImageBottomAligned, HomMat2D, 'constant', 'false')</l>
+<c></c>
+<c>* Visualize alignment quality</c>
+<l>Visualize := 0</l>
+<l>if(Visualize)</l>
+<l>    GenAlignVisualImage (ImageLeftAligned, ImageRight, MultiChannelImageLR)</l>
 <l>    GenAlignVisualImage (ImageRScaleMax, ImageBottomAligned,MultiChannelImageBR)</l>
+<c>    </c>
+<l>endif</l>
 <c></c>
 <l>return ()</l>
 </body>

@@ -62,20 +62,17 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             CannyHigh = 200, CannyLow = 100, Threshold = 500, ErrorThreshold = 0.2, NewWidth = 2, NumSubRects = 30, Sigma1 = 4
         };
 
-       
-        
-        
-        /// <summary>
-        /// Convert 
-        /// </summary>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        private static HImage ToKeyenceHeightImage(HImage image)
+
+        private HImage VisualizeAlignment(HImage image1, HImage image2)
         {
-            image = image.ConvertImageType("real");
-            image = image.ScaleImage(1.0, -32768.0);
-            return image.ScaleImage(1.6 * 0.001, 0);
+            HTuple width, height;
+            image1.GetImageSize(out width, out height);
+            var emptyImage = new HImage();
+            emptyImage.GenImageConst("byte", width, height);
+            return emptyImage.Compose3(image1.ScaleImageMax().ScaleImage(0.5,0), image2.ScaleImageMax().ScaleImage(0.5, 0));
         }
+        
+ 
 
         private readonly double _horizontalCoeff = 0.01248;
 
