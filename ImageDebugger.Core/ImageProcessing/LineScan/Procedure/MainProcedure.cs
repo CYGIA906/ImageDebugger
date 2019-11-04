@@ -64,7 +64,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             var visualBR = VisualizeAlignment(rightImage, imageB);
             var visualLR = VisualizeAlignment(rightImage, imageL);
 
-
+            
             var pointLocator = new PointLocator(xAxis.InvertDirection(), yAxis, _verticalCoeff, _horizontalCoeff);
             var pointMarkers = pointLocator.LocatePoints(pointSettings, new List<HImage>()
             {

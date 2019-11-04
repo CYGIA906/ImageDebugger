@@ -19,7 +19,7 @@
 <l>    read_image (ImageB, ImageFilesBottom[Index])</l>
 <c>    </c>
 <l>    I40AlignAllAndGetBaseLines (ImageRight, ImageLeft, ImageB, ImageLeftAligned, ImageBottomAligned, MultiChannelImageLR, MultiChannelImageBR, ShapeModelHandel, RowBeginB, ColBeginB, RowEndB, ColEndB, RowBeginC, ColBeginC, RowEndC, ColEndC)</l>
-<c>    </c>
+<l>    stop ()</l>
 <l>endfor</l>
 <c></c>
 <c></c>
@@ -5802,13 +5802,14 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <l>sort_contours_xld (SelectedContourBs, SortedContourBs, 'character', 'true', 'column')    </l>
 <l>select_obj (SortedContourBs, ObjectSelectedB, [1,2])</l>
 <c>*取20%靠右的一点</c>
-<l>SelectContoursXValue(ObjectSelectedB, 0.2, X)</l>
+<l>SelectContoursXValue(ObjectSelectedB, 0.5, X)</l>
 <l>Y := RowRectangleB1</l>
 <l>get_perpendicular_line_that_passes (ColFixture, RowFixture, ColEndFixture, RowEndFixture, X, Y, ColEndB, RowEndB)</l>
 <l>ColBeginB := X</l>
 <l>RowBeginB := Y</l>
 <c></c>
 <l>GenLineRegion (lineRegionB, ColBeginB, RowBeginB, ColEndB, RowEndB, Width, Height)</l>
+<l>GenLineRegion (lineRegionBase, ColFixture, RowFixture, ColEndFixture, RowEndFixture, Width, Height)</l>
 <c></c>
 <c></c>
 <c>*生成第二条线</c>

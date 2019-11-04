@@ -42,9 +42,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
                 "17.2-1", "17.2-2",
                 "17.3-1", "17.3-2",
                 "17.4-1", "17.4-2",
-                "19-F1", "19-F2", "19-F3", "19-F4", "19-F5", "19-F6", "19-F7", "19-F8", "19-F9", "19-F10", "19-F11",
-                "19-F12", "19-F13", "19-F14",
-                "19-A1", "19-A2", "19-A3", "19-A4", "19-A5", "19-A6", "19-A7", "19-A8"
+                "18-E1", "18-E2", "18-E3", "18-E4", "18-E5", "18-E6", "18-E7", "18-E8", "18-E9", "18-E10", "18-E11", "18-E12", "18-E13", "18-E14", "18-E15", "18-E16",
+                "19-F1", "19-F2", "19-F3", "19-F4", "19-F5", "19-F6", "19-F7", "19-F8", "19-F9", "19-F10", "19-F11", "19-F12", "19-F13", "19-F14",
+                "19-A1", "19-A2", "19-A3", "19-A4", "19-A5", "19-A6", "19-A7", "19-A8",
+                "20.1-F", "20.2-F", "20.3-F", "20.4-F",  
+                "20.1-P", "20.2-P", "20.3-P", "20.4-P",
+                "22-P1", "22-P2", "22-P3", "22-P4"
             };
 
             return output;
@@ -76,7 +79,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
         private readonly double _horizontalCoeff = 0.01248;
 
-        private readonly double _verticalCoeff = 0.050268;
+        private readonly double _verticalCoeff = 0.049987;
 
         private HTuple GenMapToWorld()
         {

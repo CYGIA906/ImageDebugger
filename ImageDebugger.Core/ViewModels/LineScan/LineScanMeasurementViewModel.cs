@@ -90,19 +90,23 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             ["19-A8"] = "19-F",
         };
         
+        
         private List<string> ThicknessPointPointMatches { get; set; } = new List<string>()
         {
-            "17.1", "17.2", "17.3", "17.4"
+            "17.1", "17.2", "17.3", "17.4", "20.1", "20.2", "20.3", "20.4"
         };
-        
-        private List<string> FlatnessNames { get; set; } = new List<string>()
+        /// <summary>
+        /// Map from a point sets to a name of <see cref="FlatnessItemViewModel"/>
+        /// </summary>
+        private Dictionary<string, string> FlatnessNameMaps { get; set; } = new Dictionary<string, string>
         {
-            "16.3", "16.5"
+            ["16.3"] = "16.3", ["16.5"] = "16.5", ["19-F"] = "21"
         };
 
         private List<string> PlaneNames { get; set; } = new List<string>()
         {
-                "16.3", "16.5","19-F"
+                "16.3", "16.5","19-F", 
+                "19-A"
         };
         
         /// <summary>
@@ -182,8 +186,9 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             // Calculate results
             UpdatePointSettings(result.PointMarkers);
             ConstructPlanes(PointSettingViewModels);
-            CalcFlatness();
-            CalcThickness();
+            ParallelismItemViewModels = CalParallelism(PointSettingViewModels);
+            FlatnessViewModels = CalcFlatness();
+            ThicknessViewModels = CalcThickness();
             
             // Serialize
             var csvSerializables = new List<ICsvColumnElement>();
@@ -194,13 +199,46 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             CsvSerializer.Serialize(csvSerializables, CurrentImageName, IsContinuouslyRunning);
         }
 
+        private List<ParallelismItemViewModel> CalParallelism(List<PointSettingViewModel> pointSettingViewModels)
+        {
+            // Fai 16.1
+            var output = new List<ParallelismItemViewModel>();
+            
+            var pointsA = GrabPointsThatStartWith(pointSettingViewModels, "19-A");
+            var planeF = Planes["19-F"];
+            var settingViewModels = pointsA as PointSettingViewModel[] ?? pointsA.ToArray();
+            
+            var f16Dot1 = planeF.MeasureParallelism(planeF, settingViewModels.Select(ele => ele.X).ToArray(),
+                settingViewModels.Select(ele => ele.Y).ToArray(), settingViewModels.Select(ele => ele.Value).ToArray());
+            output.Add(new ParallelismItemViewModel()
+            {
+                Name = "16.1",
+                Value = f16Dot1
+            });
+            
+            // Fai 22
+            var points22p = GrabPointsThatStartWith(pointSettingViewModels, "22-P");
+            var planeA = Planes["19-A"];
+            var pointArray = points22p as PointSettingViewModel[] ?? points22p.ToArray();
+            
+            var f22 = planeF.MeasureParallelism(planeF, pointArray.Select(ele => ele.X).ToArray(),
+                pointArray.Select(ele => ele.Y).ToArray(), pointArray.Select(ele => ele.Value).ToArray());
+            output.Add(new ParallelismItemViewModel()
+            {
+                Name = "22",
+                Value = f22
+            });
+
+            return output;
+        }
+
         private ImageProcessingResults3D Result { get; set; }
 
         private HImage FrontView { get; set; }
 
         private HImage BackView { get; set; }
 
-        private void CalcThickness()
+        private List<ThicknessItemViewModel> CalcThickness()
         {
             var output = new List<ThicknessItemViewModel>();
             
@@ -229,29 +267,31 @@ namespace ImageDebugger.Core.ViewModels.LineScan
                     Value = plane.GetDistance(point.X, point.Y, point.Value)
                 });
             }
-            
-            ThicknessViewModels = output;
+
+            return output;
         }
+        
+
 
       
 
 
-        private void CalcFlatness()
+        private List<FlatnessItemViewModel> CalcFlatness()
         {
             var output = new List<FlatnessItemViewModel>();
-            foreach (var name in FlatnessNames)
+            foreach (var map in FlatnessNameMaps)
             {
-                var plane = Planes[name];
-                var planeData = GrabPlaneData(PointSettingViewModels, name);
+                var plane = Planes[map.Key];
+                var planeData = GrabPointsThatStartWith(PointSettingViewModels, map.Key);
                 output.Add(new FlatnessItemViewModel()
                 {
-                    Name = name,
+                    Name = map.Value,
                     Value = plane.MeasureFlatness(planeData.Select(d => d.X).ToArray(),
                         planeData.Select(d => d.Y).ToArray(), planeData.Select(d => d.Value).ToArray())
                 });
             }
 
-            FlatnessViewModels = output;
+            return output;
         }
 
 
@@ -259,14 +299,14 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         {
             foreach (var planeName in PlaneNames)
             {
-                IEnumerable<PointSettingViewModel> planeData = GrabPlaneData(pointSettings, planeName);
+                IEnumerable<PointSettingViewModel> planeData = GrabPointsThatStartWith(pointSettings, planeName);
                 Planes[planeName] = Plane3D.leastSquareAdaptFlatSurface(planeData.Select(d => d.X).ToArray(),
                     planeData.Select(d => d.Y).ToArray(), planeData.Select(d => d.Value).ToArray());
             }
         }
 
 
-        private IEnumerable<PointSettingViewModel> GrabPlaneData(List<PointSettingViewModel> pointSettings, string planeName)
+        private IEnumerable<PointSettingViewModel> GrabPointsThatStartWith(List<PointSettingViewModel> pointSettings, string planeName)
         {
             return pointSettings.Where(p => p.Name.StartsWith(planeName));
         }
