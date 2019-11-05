@@ -60,10 +60,17 @@
                                   CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                     <Separator />
 
+                    <!-- Decide which image to show image info -->
                     <ComboBox ToolTip="Select image index to show in the screen"
                               ItemsSource="{Binding ImageToShowSelectionList}" SelectedIndex="{Binding IndexToShow}"
                               MinWidth="30" />
-
+                    <!-- Toggle between real-world coordinate and image coordinate -->
+                    <CheckBox
+                        Style="{StaticResource MaterialDesignCheckBox}"
+                        IsChecked="{Binding UsingActualCoordinate}">
+                        Actual Coordinate
+                    </CheckBox>
+                    
                     <Separator />
                     <!-- Select image and run -->
                     <materialDesign:Chip Margin="5" FontSize="20"

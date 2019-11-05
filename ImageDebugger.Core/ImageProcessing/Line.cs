@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using HalconDotNet;
 using MathNet.Numerics.Random;
 
@@ -21,7 +22,7 @@ namespace ImageDebugger.Core.ImageProcessing
 
         public static int ImageHeight { get; set; } = 5120;
 
-        private static List<Line>  LineToDisplay { get; } = new List<Line>();
+        private static List<Line> LineToDisplay { get; } = new List<Line>();
 
         private static HDevelopExport HalconScripts = new HDevelopExport();
 
@@ -46,7 +47,8 @@ namespace ImageDebugger.Core.ImageProcessing
             IsDefaulConstructed = true;
         }
 
-        public Line(Point pt1, Point pt2, bool display = false) : this(pt1.ImageX, pt1.ImageY, pt2.ImageX, pt2.ImageY, display)
+        public Line(Point pt1, Point pt2, bool display = false) : this(pt1.ImageX, pt1.ImageY, pt2.ImageX, pt2.ImageY,
+            display)
         {
         }
 
@@ -98,17 +100,20 @@ namespace ImageDebugger.Core.ImageProcessing
                     HObject lineRegion;
                     try
                     {
-                        HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd, ImageWidth, ImageHeight);
+                        HalconScripts.GenLineRegion(out lineRegion, line.XStart, line.YStart, line.XEnd, line.YEnd,
+                            ImageWidth, ImageHeight);
                     }
                     catch (Exception e)
                     {
                         lineRegion = new HObject();
                         lineRegion.GenEmptyObj();
                     }
+
                     HOperatorSet.ConcatObj(lineRegions, lineRegion, out lineRegions);
                 }
+
                 lineRegions.DispObj(windowHandle);
-            
+
                 ClearLineGraphics();
             }
         }
@@ -123,7 +128,8 @@ namespace ImageDebugger.Core.ImageProcessing
         public Point Intersect(Line line)
         {
             HTuple x, y, _;
-            HOperatorSet.IntersectionLines(line.YStart, line.XStart, line.YEnd, line.XEnd, YStart, XStart, YEnd, XEnd, out y, out x, out _);
+            HOperatorSet.IntersectionLines(line.YStart, line.XStart, line.YEnd, line.XEnd, YStart, XStart, YEnd, XEnd,
+                out y, out x, out _);
             return new Point(x.D, y.D);
         }
 
@@ -161,7 +167,7 @@ namespace ImageDebugger.Core.ImageProcessing
             {
                 lock (LineToDisplay)
                 {
-                    if(value)
+                    if (value)
                     {
                         if (LineToDisplay.Contains(this)) return;
                         LineToDisplay.Add(this);
@@ -187,8 +193,9 @@ namespace ImageDebugger.Core.ImageProcessing
         public Line PerpendicularLineThatPasses(Point point)
         {
             HTuple intersectX, intersectY;
-            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.ImageX, point.ImageY, out intersectX, out intersectY);
-            
+            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.ImageX, point.ImageY,
+                out intersectX, out intersectY);
+
             return new Line(point.ImageX, point.ImageY, intersectX.D, intersectY.D);
         }
 
@@ -200,7 +207,8 @@ namespace ImageDebugger.Core.ImageProcessing
         public Point ProjectPoint(Point point)
         {
             HTuple intersectX, intersectY;
-            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.ImageX, point.ImageY, out intersectX, out intersectY);
+            HalconScripts.get_perpendicular_line_that_passes(XStart, YStart, XEnd, YEnd, point.ImageX, point.ImageY,
+                out intersectX, out intersectY);
 
             return Intersect(new Line(intersectX, intersectY, point.ImageX, point.ImageY));
         }
@@ -211,7 +219,7 @@ namespace ImageDebugger.Core.ImageProcessing
             else SortLeftRight();
             HTuple x1, x2, y1, y2;
             HalconScripts.GetParallelLine(XStart, YStart, XEnd, YEnd, distance, out x1, out y1, out x2, out y2);
-            
+
             return new Line(x1, y1, x2, y2, display);
         }
 
@@ -219,5 +227,30 @@ namespace ImageDebugger.Core.ImageProcessing
         {
             return new Line(XEnd, YEnd, XStart, YStart);
         }
+
+        /// <summary>
+        /// Get unit vector pointing from start to end
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Point GetUnitVector() 
+        {
+            double xDiff = XEnd - XStart;
+            double yDiff = YEnd - YStart;
+            double sinVal = yDiff / Len;
+            double cosVal = xDiff / Len;
+            
+            return new Point(cosVal, sinVal);
+        }
+
+        public double Len
+        {
+            get
+            {
+                double xDiff = XEnd - XStart;
+                double yDiff = YEnd - YStart;
+                return Math.Sqrt(xDiff * xDiff + yDiff * yDiff);
+            }
+        }
     }
-}  
+}

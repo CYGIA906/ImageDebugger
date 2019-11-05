@@ -4,6 +4,7 @@ using Accord.MachineLearning;
 using HalconDotNet;
 using ImageDebugger.Core.ImageProcessing.Utilts;
 using ImageDebugger.Core.ViewModels.LineScan;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace ImageDebugger.Core.ImageProcessing.LineScan
 {
@@ -20,6 +21,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         public HObject CrossedUsed { get; set; }
         
         public List<HImage> Images { get; set; }
+
+        public Matrix<double> ChangeOfBaseInv { get; set; }
 
         public List<ICsvColumnElement> RecordingElements { get; set; }
 

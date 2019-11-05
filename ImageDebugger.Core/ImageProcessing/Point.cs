@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Accord.Math;
 using HalconDotNet;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace ImageDebugger.Core.ImageProcessing
 {
@@ -52,7 +54,7 @@ namespace ImageDebugger.Core.ImageProcessing
         {
             return new Point((pt1.ImageX + pt2.ImageX) / 2.0, (pt1.ImageY + pt2.ImageY)/2.0);
         }
-
+ 
         /// <summary>
         /// Compute direct point point distance
         /// </summary>
@@ -63,6 +65,20 @@ namespace ImageDebugger.Core.ImageProcessing
         {
             return Math.Sqrt((pt1.ImageX - pt2.ImageX) * (pt1.ImageX - pt2.ImageX) +
                              (pt1.ImageY - pt2.ImageY) * (pt1.ImageY - pt2.ImageY));
+        }
+
+        /// <summary>
+        /// Affine transform point
+        /// </summary>
+        /// <param name="matrix">3x3 homogeneous matrix</param>
+        /// <returns></returns>
+        public Point Affine(Matrix<double> matrix)
+        {
+            var vectorBuilder = Vector<double>.Build;
+            var vecIn = vectorBuilder.Dense(new[] {ImageX, ImageY, 1.0});
+            var vecOut = matrix.Multiply(vecIn);
+            
+            return new Point(vecOut.At(0), vecOut.At(1));
         }
     }
 }

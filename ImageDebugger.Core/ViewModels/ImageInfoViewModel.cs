@@ -7,18 +7,18 @@ namespace ImageDebugger.Core.ViewModels
         /// <summary>
         /// X coordinate of the cursor in image
         /// </summary>
-        public int X { get; set; }
+        public double X { get; set; }
 
         /// <summary>
         /// Y coordinate of the cursor in image
         /// </summary>
-        public int Y { get; set; }
+        public double Y { get; set; }
 
 
         /// <summary>
         /// Gray value of the image point
         /// </summary>
-        public string GrayValue { get; set; }
+        public double GrayValue { get; set; }
         
     }
 }

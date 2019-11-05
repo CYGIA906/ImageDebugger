@@ -44,11 +44,11 @@
                 </TextBlock>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2"
-                           VerticalAlignment="Center" Text="{Binding GrayValue}" />
+                           VerticalAlignment="Center" Text="{Binding GrayValue, StringFormat=N3}" />
                 <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2"
-                           VerticalAlignment="Center" Text="{Binding X}" />
+                           VerticalAlignment="Center" Text="{Binding X, StringFormat=N3}" />
                 <TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Margin="3 2"
-                           VerticalAlignment="Center" Text="{Binding Y}" />
+                           VerticalAlignment="Center" Text="{Binding Y, StringFormat=N3}" />
             </Grid>
 
 </UserControl>

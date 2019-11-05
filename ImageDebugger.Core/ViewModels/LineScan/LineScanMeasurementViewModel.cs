@@ -19,6 +19,7 @@ using ImageDebugger.Core.ViewModels.LineScan.Flatness;
 using ImageDebugger.Core.ViewModels.LineScan.Parallelism;
 using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
 using ImageDebugger.Core.ViewModels.LineScan.Thickness;
+using MathNet.Numerics.LinearAlgebra;
 using PropertyChanged;
 
 namespace ImageDebugger.Core.ViewModels.LineScan
@@ -32,6 +33,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         /// Point settings
         /// </summary>
         public List<PointSettingViewModel> PointSettingViewModels { get; set; }
+
 
         public string ProcedureName
         {
@@ -180,6 +182,8 @@ namespace ImageDebugger.Core.ViewModels.LineScan
             BackView = result.Images[3];
             FrontView = result.Images[4];
             Result = result;
+            ChangeOfBaseInv = result.ChangeOfBaseInv;
+            
             if (CurrentViewIsBackView) ToggleBackView();
             else ToggleFrontView();
             
@@ -304,7 +308,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan
                     planeData.Select(d => d.Y).ToArray(), planeData.Select(d => d.Value).ToArray());
             }
         }
-
+        
 
         private IEnumerable<PointSettingViewModel> GrabPointsThatStartWith(List<PointSettingViewModel> pointSettings, string planeName)
         {

@@ -33,7 +33,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
            var lineB = new Line(colBeginB, rowBeginB, colEndB, rowEndB, true).SortUpDown();
            var lineC  = new Line(colBeginC, rowBeginC, colEndC, rowEndC, true).SortLeftRight();
            
-            var xAxis = lineB.Translate(-1.0 / _horizontalCoeff * 6.788);
+            var xAxis = lineB.Translate(-1.0 / _horizontalCoeff * 6.788).InvertDirection();
             xAxis.IsVisible = true;
             var yAxis = lineC.Translate(-1.0 / _verticalCoeff * 19.605);
             yAxis.IsVisible = true;
@@ -65,11 +65,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             var visualLR = VisualizeAlignment(rightImage, imageL);
 
             
-            var pointLocator = new PointLocator(xAxis.InvertDirection(), yAxis, _verticalCoeff, _horizontalCoeff);
+            var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
             var pointMarkers = pointLocator.LocatePoints(pointSettings, new List<HImage>()
             {
                 imageBHeight, imageLHeight, imageRHeight
             });
+            
 
 
             var output = new ImageProcessingResults3D()
@@ -79,7 +80,9 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
                      imageBHeight, imageLHeight, imageRHeight, visualBR, visualLR
                 },
                 PointMarkers = pointMarkers,
-                RecordingElements = recordings
+                RecordingElements = recordings,
+                //TODO: fix this buzzard -1
+                ChangeOfBaseInv = MathUtils.GetChangeOfBaseInv(xAxis, yAxis, -1/_verticalCoeff, 1/_horizontalCoeff)
             };
             
 

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using HalconDotNet;
 using ImageDebugger.Core.Commands;
+using ImageDebugger.Core.ImageProcessing;
 using ImageDebugger.Core.IoC.Interface;
 using MaterialDesignThemes.Wpf;
+using MathNet.Numerics.LinearAlgebra;
 using PropertyChanged;
 
 namespace ImageDebugger.Core.ViewModels.Base
@@ -40,10 +42,13 @@ namespace ImageDebugger.Core.ViewModels.Base
                 ShouldImageInfoDisplay = false;
             }
 
+            var pointRealWorld = new Point(e.Column, e.Row).Affine(ChangeOfBaseInv);
             // output grayvalue info
             GrayValueInfo = new ImageInfoViewModel()
             {
-                X = imageX, Y = imageY, GrayValue =  grayvalue.ToString("f3")
+                X = UsingActualCoordinate? pointRealWorld.ImageX : e.Column, 
+                Y = UsingActualCoordinate? pointRealWorld.ImageY : e.Row, 
+                GrayValue =  grayvalue
             };
 
             // Set the pop-up position
@@ -69,6 +74,18 @@ namespace ImageDebugger.Core.ViewModels.Base
                    return InfoImageList[IndexToShow];
                }
            }
+
+           /// <summary>
+           /// For converting coordinates from image to world
+           /// </summary>
+           protected Matrix<double> ChangeOfBaseInv { get; set; } = Matrix<double>.Build.DenseOfArray(new double[,]
+           {
+               {1, 0, 0},
+               {0, 1, 0},
+               {0, 0, 1}
+           });
+
+           public bool UsingActualCoordinate { get; set; }
 
            public List<HImage> InfoImageList { get; set; }
 
