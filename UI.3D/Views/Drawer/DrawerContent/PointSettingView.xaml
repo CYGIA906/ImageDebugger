@@ -14,6 +14,7 @@
                 <DataGridTextColumn Header="X" Binding="{Binding Path=X}" />
                 <DataGridTextColumn Header="Y" Binding="{Binding Path=Y}" />
                 <DataGridTextColumn Header="Kernel Size" Binding="{Binding Path=KernelSize}" />
+                <DataGridTextColumn Header="Trim Percent" Binding="{Binding Path=TrimPercent}" />
                 <DataGridTextColumn Header="ZWeight" Binding="{Binding Path=ZWeight}" />
                 <DataGridTextColumn Header="ZBias" Binding="{Binding Path=ZBias}" />
                 <DataGridTextColumn Header="Image Index" Binding="{Binding Path=ImageIndex}" />

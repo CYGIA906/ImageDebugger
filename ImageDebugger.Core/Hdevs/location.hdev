@@ -12,7 +12,6 @@
 <c></c>
 <c></c>
 <c></c>
-<c></c>
 <l>for Index := 1 to |ImageFilesRight| - 1 by 1</l>
 <l>    read_image(ImageRight, ImageFilesRight[Index])</l>
 <l>    read_image(ImageLeft, ImageFilesLeft[Index])</l>
@@ -6011,6 +6010,59 @@ Note that relative angle is in normal representation, but absolute angle is in h
 <parameter id="RowCenter"/>
 <parameter id="RowEnd"/>
 <parameter id="ShapeModelHandel"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="FilterAndGetPointValue">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="KernelSize" base_type="ctrl" dimension="0"/>
+<par name="X" base_type="ctrl" dimension="0"/>
+<par name="Y" base_type="ctrl" dimension="0"/>
+<par name="TrimPercent" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="GrayValue" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>halfWidth := (KernelSize - 1) / 2</l>
+<c></c>
+<c>* determind the rectangle region to smooth</c>
+<l>gen_rectangle1 (Rectangle, Y - halfWidth, X - halfWidth, Y + halfWidth, X + halfWidth)</l>
+<l>get_region_points (Rectangle, Rows, Columns)</l>
+<l>get_grayval (Image, Rows, Columns, GrayvalOrgin)</l>
+<l>tuple_sort (GrayvalOrgin, Sorted)</l>
+<l>numPoints := |Sorted|</l>
+<l>tuple_int (numPoints * TrimPercent, low)</l>
+<l>tuple_int (numPoints * (1-TrimPercent), high)</l>
+<l>tuple_select_range (Sorted, low, high, Grayval)</l>
+<c></c>
+<l>tuple_median (Grayval, GrayValue)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="FilterAndGetPointValue">
+<parameters>
+<parameter id="GrayValue">
+<sem_type>real</sem_type>
+</parameter>
+<parameter id="Image"/>
+<parameter id="KernelSize">
+<sem_type>integer</sem_type>
+</parameter>
+<parameter id="TrimPercent">
+<sem_type>real</sem_type>
+</parameter>
+<parameter id="X">
+<sem_type>integer</sem_type>
+</parameter>
+<parameter id="Y">
+<sem_type>integer</sem_type>
+</parameter>
 </parameters>
 </docu>
 </procedure>

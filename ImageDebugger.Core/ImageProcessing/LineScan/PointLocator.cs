@@ -6,6 +6,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
 {
     public class PointLocator
     {
+        
+        private static HDevelopExport _halconScripts = new HDevelopExport();
         public List<PointMarker> LocatePoints(List<PointSettingViewModel> pointSettings, List<HImage> images)
         {
             var output = new List<PointMarker>();
@@ -28,9 +30,16 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             {
                 ImageX = intersection.ImageX,
                 ImageY = intersection.ImageY,
-                Height = image.GetGrayval(intersection.ImageY, intersection.ImageX),
+                Height = pointSetting.KernelSize < 2? (double)image.GetGrayval(intersection.ImageY, intersection.ImageX) : SmoothAndGetValueAtPoint(intersection.ImageX, intersection.ImageY, image, pointSetting.KernelSize, pointSetting.TrimPercent),
                 Name = pointSetting.Name
             };
+        }
+
+        private double SmoothAndGetValueAtPoint(double x, double y, HImage image, int kernelSize = 3, double trimPercent = 0.2)
+        {
+            HTuple grayValue;
+            _halconScripts.FilterAndGetPointValue(image, kernelSize, (int)x, (int)y, trimPercent, out grayValue);
+            return grayValue;
         }
 
         public PointLocator(Line xAxis, Line yAxis, double xCoeff, double yCoeff)
