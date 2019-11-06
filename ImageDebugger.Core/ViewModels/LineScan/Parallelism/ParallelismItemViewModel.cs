@@ -6,7 +6,11 @@ namespace ImageDebugger.Core.ViewModels.LineScan.Parallelism
     {
         public string Name { get; set; }
 
-        public string CsvName => "Parallelism_" + Name;
+        public string CsvName
+        {
+            get { return "Parallelism_" + Name; }
+        }
+
         public double Value { get; set; }
     }
 }

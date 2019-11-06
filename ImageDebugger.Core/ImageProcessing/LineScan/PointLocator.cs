@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using HalconDotNet;
 using ImageDebugger.Core.ViewModels.LineScan.PointSetting;
 
@@ -8,6 +10,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
     {
         
         private static HDevelopExport _halconScripts = new HDevelopExport();
+
         public List<PointMarker> LocatePoints(List<PointSettingViewModel> pointSettings, List<HImage> images)
         {
             var output = new List<PointMarker>();
@@ -26,11 +29,22 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             var lineY = XAxis.Translate(pointSetting.Y / YCoeff);
             var intersection = lineX.Intersect(lineY);
             var image = images[pointSetting.ImageIndex];
+            double grayValue = 0;
+            try
+            {
+                grayValue =  (double) image.GetGrayval((int)intersection.ImageY, (int)intersection.ImageX) / 1000;
+            }
+            catch (Exception e)
+            {
+                image.WriteImage("tiff", 0, "image.tif");
+                Debugger.Break();
+            }
             return new PointMarker()
             {
                 ImageX = intersection.ImageX,
                 ImageY = intersection.ImageY,
-                Height = pointSetting.KernelSize < 2? (double)image.GetGrayval(intersection.ImageY, intersection.ImageX) : SmoothAndGetValueAtPoint(intersection.ImageX, intersection.ImageY, image, pointSetting.KernelSize, pointSetting.TrimPercent),
+//                Height = pointSetting.KernelSize < 2? (double)image.GetGrayval(intersection.ImageY, intersection.ImageX) : SmoothAndGetValueAtPoint(intersection.ImageX, intersection.ImageY, image, pointSetting.KernelSize, pointSetting.TrimPercent),
+                Height = grayValue,
                 Name = pointSetting.Name
             };
         }
@@ -51,6 +65,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         }
 
         public Line XAxis { get; set; }
+
         public Line YAxis { get; set; }
         public double XCoeff { get; set; }
         public double YCoeff { get; set; }

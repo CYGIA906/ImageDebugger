@@ -77,16 +77,16 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
         
  
 
-        private readonly double _horizontalCoeff = 0.01248;
+        private readonly double _yCoeff = 0.01248;
 
-        private readonly double _verticalCoeff = 0.049987;
+        private readonly double _xCoeff = 0.0398;
 
         private HTuple GenMapToWorld()
         {
             var arr = new double[]
             {
-                _horizontalCoeff, 0, 0,
-                0, _verticalCoeff, 0,
+                _yCoeff, 0, 0,
+                0, _xCoeff, 0,
                 0, 0, 1
             };
             return new HTuple(arr);
@@ -96,8 +96,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
         {
             var arr = new double[]
             {
-                1.0/_horizontalCoeff, 0, 0,
-                0, 1.0/_verticalCoeff, 0,
+                1.0/_yCoeff, 0, 0,
+                0, 1.0/_xCoeff, 0,
                 0, 0, 1
             };
             return new HTuple(arr);

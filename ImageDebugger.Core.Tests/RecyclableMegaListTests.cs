@@ -315,12 +315,20 @@ namespace ImageDebugger.Core.Tests
             return actual.Zip(expected, (a, b) => a == b).All(ele => ele);
         }
 
-        private static List<int> FirstRow => new List<int>() {1, 2};
-        
-        private static List<int> SecondRow => new List<int>() {3, 4};
-        
-        private static List<int> LastRow => new List<int>() {5, 6};
-        
+        private static List<int> FirstRow
+        {
+            get { return new List<int>() {1, 2}; }
+        }
+
+        private static List<int> SecondRow
+        {
+            get { return new List<int>() {3, 4}; }
+        }
+
+        private static List<int> LastRow
+        {
+            get { return new List<int>() {5, 6}; }
+        }
 
         #endregion
     }

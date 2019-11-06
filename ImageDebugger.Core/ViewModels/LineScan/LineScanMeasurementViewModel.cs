@@ -272,14 +272,79 @@ namespace ImageDebugger.Core.ViewModels.LineScan
                 });
             }
 
+            // Cal fai18
+            ThicknessItemViewModel f18c = CalFai18C(PointSettingViewModels);
+            IEnumerable<ThicknessItemViewModel> f18m = CalFai18M(PointSettingViewModels);
+
+            output.Add(f18c);
+            output.AddRange(f18m);
+
             return output;
         }
+
+        private IEnumerable<ThicknessItemViewModel> CalFai18M(List<PointSettingViewModel> pointSettingViewModels)
+        {
+            List<List<string>> names2D = new List<List<string>>
+            {
+               new List<string>() {"18-E16", "18-E1", "18-E3"},
+                new List<string>(){"18-E4", "18-E6","18-E7",},
+                new List<string>(){"18-E8", "18-E9","18-E11",},
+                new List<string>(){"18-E12", "18-E14","18-E15",},
+            };
+
+            string[] outputNames = new[] {"18E-topRight", "18E-bottomRight", "18E-bottomLeft", "18E-topLeft"};
+
+            var plane = Planes["19-A"];
+            
+            var output = new List<ThicknessItemViewModel>();
+            
+            for (var index = 0; index < names2D.Count; index++)
+            {
+                var names = names2D[index];
+                double max = 0;
+                foreach (var name in names)
+                {
+                    var point = PointSettingViewModels.ByName(name);
+                    var height = Math.Abs(plane.GetDistance(point.X, point.Y, point.Value) - 2.612);
+                    if (height > max) max = height;
+                }
+
+                output.Add(new ThicknessItemViewModel()
+                {
+                    Name = outputNames[index],
+                    Value = max
+                });
+            }
+
+            return output;
+        }
+
+        private ThicknessItemViewModel CalFai18C(List<PointSettingViewModel> pointSettingViewModels)
+        {
+
+            var plane = Planes["19-A"];
+            var pointNames = new string[]
+            {
+                "18-E2", "18-E5", "18-E10", "18-E13"
+            };
+            double max = 0;
+            foreach (var name in pointNames)
+            {
+                var point = PointSettingViewModels.ByName(name);
+                var height = Math.Abs(plane.GetDistance(point.X, point.Y, point.Value) - 2.612);
+                if (height > max) max = height;
+            }
+            
+            
+            return new ThicknessItemViewModel()
+            {
+                Name = "18-C",
+                Value = max
+            };
+        }
+
+
         
-
-
-      
-
-
         private List<FlatnessItemViewModel> CalcFlatness()
         {
             var output = new List<FlatnessItemViewModel>();

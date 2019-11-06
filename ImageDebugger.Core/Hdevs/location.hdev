@@ -6066,4 +6066,346 @@ Note that relative angle is in normal representation, but absolute angle is in h
 </parameters>
 </docu>
 </procedure>
+<procedure name="DWQ_I40GetBaseLine">
+<interface>
+<io>
+<par name="ProfileImageTLW" base_type="iconic" dimension="0"/>
+<par name="ProfileImageTRW" base_type="iconic" dimension="0"/>
+<par name="ProfileImageBW" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ImageB" base_type="iconic" dimension="0"/>
+<par name="ImageLeftAligned" base_type="iconic" dimension="0"/>
+<par name="ImageRotateNewTRW" base_type="iconic" dimension="0"/>
+</oo>
+<oc>
+<par name="RowB" base_type="ctrl" dimension="0"/>
+<par name="ColB" base_type="ctrl" dimension="0"/>
+<par name="RowC" base_type="ctrl" dimension="0"/>
+<par name="ColC" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+<l>convert_image_type (ProfileImageTLW, ImageTLWConverted, 'int4')</l>
+<l>scale_image (ImageTLWConverted, ImageTLWScaled, 1, -32768)</l>
+<l>scale_image (ImageTLWScaled, ImageTLWScaled, 1.6, 0)</l>
+<l>* get_image_size (ImageTLWScaled, WidthPITLW, HeightPITLW)</l>
+<l>* gen_image_const (ImageNewTempTLW, 'int4', WidthPITLW, HeightPITLW)</l>
+<l>* for Index := 0 to HeightPITLW-1 by 1</l>
+<l>*     get_grayval (ImageTLWScaled, gen_tuple_const(WidthPITLW,Index), [0:WidthPITLW-1], grayValuePITLWBefore)</l>
+<l>*     grayValuePITLW := grayValuePITLWBefore[0:WidthPITLW-1]-([0:WidthPITLW-1]*kTL+bTL)</l>
+<l>*     set_grayval (ImageNewTempTLW, gen_tuple_const(WidthPITLW,Index), [0:WidthPITLW-1], grayValuePITLW)</l>
+<l>* endfor</l>
+<l>mirror_image (ImageTLWScaled, ImageNewTLWMirror, 'column')</l>
+<l>convert_image_type (ImageNewTLWMirror, ImageNewTLW, 'int2')</l>
+<c></c>
+<c></c>
+<l>convert_image_type (ProfileImageTRW, ImagePITRWConverted, 'int4')</l>
+<l>scale_image (ImagePITRWConverted, ImageTRWScaled, 1, -32768)</l>
+<l>scale_image (ImageTRWScaled, ImageTRWScaled, 1.6, 400)</l>
+<l>* get_image_size (ImageTRWScaled, WidthPITRW, HeightPITRW)</l>
+<l>* gen_image_const (ImageNewTempTRW, 'int4', WidthPITRW, HeightPITRW)</l>
+<l>* for Index := 0 to HeightPITRW-1 by 1</l>
+<l>*     get_grayval (ImageTRWScaled, gen_tuple_const(WidthPITRW,Index), [0:WidthPITRW-1], grayValuePITRWBefore)</l>
+<l>*     grayValuePITRW := grayValuePITRWBefore[0:WidthPITRW-1]-([0:WidthPITRW-1]*kTR+bTR)</l>
+<l>*     set_grayval (ImageNewTempTRW, gen_tuple_const(WidthPITRW,Index), [0:WidthPITRW-1], grayValuePITRW)</l>
+<l>* endfor</l>
+<l>convert_image_type (ImageTRWScaled, ImageNewTRWMirror, 'int2')</l>
+<l>mirror_image (ImageNewTRWMirror, ImageNewTRW, 'column')</l>
+<l>rotate_image (ImageNewTRW, ImageRotateNewTRW, 90, 'constant')</l>
+<c></c>
+<l>convert_image_type (ProfileImageBW, ImageBWConverted, 'int4')</l>
+<l>scale_image (ImageBWConverted, ImageBWScaled, 1, -32768)</l>
+<l>scale_image (ImageBWScaled, ImageBWScaled, 1.6, 0)</l>
+<l>* get_image_size (ImageBWScaled, WidthB, HeightB)</l>
+<l>* gen_image_const (ImageNewTempBW, 'int4', WidthB, HeightB)</l>
+<l>* for Index := 0 to HeightB-1 by 1</l>
+<l>*     get_grayval (ImageBWScaled, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValueBefore)</l>
+<l>*     grayValue := grayValueBefore[0:WidthB-1]-([0:WidthB-1]*kB+bB)</l>
+<l>*     set_grayval (ImageNewTempBW, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValue)</l>
+<l>* endfor</l>
+<l>mirror_image (ImageBWScaled, ImageNewBWMirror, 'column')</l>
+<l>convert_image_type (ImageNewBWMirror, ImageNewBW, 'int2')</l>
+<c></c>
+<c>* **********************合并上面两张图</c>
+<c></c>
+<l>* dev_update_on ()</l>
+<c>* 读取TL图，并转换成8位图</c>
+<l>mirror_image (ProfileImageTLW, ImageTLWMirror, 'column')</l>
+<l>convert_image_type (ImageTLWMirror, ImageTLWToByte, 'byte')</l>
+<c>* 读取TR图，镜像并转换成8位图</c>
+<l>mirror_image (ProfileImageTRW, ImageTRWMirror, 'column')</l>
+<l>convert_image_type (ImageTRWMirror, ImageTRWToByte, 'byte')</l>
+<c>* 创建模板</c>
+<c></c>
+<l>gen_rectangle1 (ROI_0, 160, 522.637, 280, 1419.89)</l>
+<l>reduce_domain (ImageTRWToByte, ROI_0, ImageReducedMS)</l>
+<l>inspect_shape_model (ImageReducedMS, ModelImages, ModelRegions, 4, 50)</l>
+<l>create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<c>* 找模板，找旋转中心</c>
+<l>find_shape_model (ImageTRWToByte, ModelID, -1, 1, 0.5, 1, 0.5, 'least_squares', 2, 0.9, RowTR, ColumnTR, AngleTR, ScoreTR)</l>
+<l>dev_display (ImageTRWToByte)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
+<l>find_shape_model (ImageTLWToByte, ModelID, -1, 1, 0.3, 1, 0.5, 'least_squares', 2, 0.9, RowTL, ColumnTL, AngleTL, ScoreTL)</l>
+<l>dev_display (ImageTLWToByte)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
+<c>* 旋转TL矫正镜像图片照片</c>
+<l>vector_angle_to_rigid (RowTL, ColumnTL, AngleTL, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
+<l>affine_trans_image (ImageNewTLW, ImageNewTLWAffineTrans, HomMat2D, 'constant', 'false')</l>
+<l>rotate_image (ImageNewTLWAffineTrans, ImageLeftAligned, 90, 'constant')</l>
+<c></c>
+<l>threshold (ImageNewTRW, Region1, -128000, -25500)</l>
+<l>connection (Region1, ConnectedRegions1)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, 'area', 'and', 99577.5, 200000)</l>
+<l>dilation_circle (SelectedRegions1, RegionDilation, 11)</l>
+<l>union1 (RegionDilation, RegionUnion)</l>
+<l>reduce_domain (ImageNewTLWAffineTrans, RegionUnion, ImageReduced1)</l>
+<l>paint_gray (ImageReduced1, ImageNewTRW, ImageMax)</l>
+<c>* 图片叠�</c>
+<l>* max_image (ImageNewTRW, ImageNewTLWAffineTrans, ImageMax)</l>
+<l>rotate_image (ImageMax, ImageUP, 90, 'constant')</l>
+<c>* 底面旋转到检测位置</c>
+<l>convert_image_type (ProfileImageBW, ImageBWConverted, 'byte')</l>
+<l>mirror_image (ImageBWConverted, ImageBWMirror, 'column')</l>
+<l>find_shape_model (ImageBWMirror, ModelID, -1, 1, 0.2, 1, 0.5, 'least_squares', 2, 0.9, RowB, ColumnB, AngleB, Score2)</l>
+<l>dev_display (ImageBWMirror)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowB, ColumnB, AngleB, 1, 1, 0)</l>
+<l>vector_angle_to_rigid (RowB, ColumnB, AngleB, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
+<l>affine_trans_image (ImageNewBW, ImageNewBWAffines, HomMat2D, 'constant', 'false')</l>
+<l>rotate_image (ImageNewBWAffines, ImageB, 90, 'constant')</l>
+<l>threshold (ImageB, Region, -1280, 255)</l>
+<c></c>
+<c>* ********************FAI16-1检测***************************</c>
+<c>* 创建模板</c>
+<c></c>
+<l>gen_rectangle1 (ROI_0, 160, 500, 280, 1425)</l>
+<l>reduce_domain (ImageTRWToByte, ROI_0, ImageReducedMS)</l>
+<l>inspect_shape_model (ImageReducedMS, ModelImages, ModelRegions, 4, 50)</l>
+<l>create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<c>* 找模板，找旋转中心</c>
+<l>find_shape_model (ImageTRWToByte, ModelID, -1, 1, 0.5, 1, 0.5, 'least_squares', 2, 0.9, RowTR, ColumnTR, AngleTR, ScoreTR)</l>
+<l>dev_display (ImageTRWToByte)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
+<l>find_shape_model (ImageTLWToByte, ModelID, -1, 1, 0.3, 1, 0.5, 'least_squares', 2, 0.9, RowTL, ColumnTL, AngleTL, ScoreTL)</l>
+<l>dev_display (ImageTLWToByte)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
+<c>* 旋转TL矫正镜像图片照片</c>
+<l>vector_angle_to_rigid (RowTL, ColumnTL, AngleTL, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
+<l>affine_trans_image (ImageNewTLW, ImageNewTLW, HomMat2D, 'constant', 'false')</l>
+<l>threshold (ImageNewTRW, Region1, -128000, -25500)</l>
+<l>fill_up_shape (Region1, RegionFillUp, 'area', 1, 100)</l>
+<l>opening_circle (RegionFillUp, RegionOpening1, 9)</l>
+<c></c>
+<l>connection (RegionOpening1, ConnectedRegions1)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, 'area', 'and', 99577.5, 200000)</l>
+<l>dilation_circle (SelectedRegions1, RegionDilation, 7)</l>
+<l>union1 (RegionDilation, RegionUnion)</l>
+<l>reduce_domain (ImageNewTLW, RegionUnion, ImageReduced1)</l>
+<l>paint_gray (ImageReduced1, ImageNewTRW, ImageMax)</l>
+<c>* 图片叠加取最大值</c>
+<l>rotate_image (ImageMax, ImageUP, 90, 'constant')</l>
+<c>* 底面旋转到检测位置</c>
+<l>convert_image_type (ProfileImageBW, ImageBWConverted, 'byte')</l>
+<l>mirror_image (ImageBWConverted, ImageBWMirror, 'column')</l>
+<l>find_shape_model (ImageBWMirror, ModelID, -1, 1, 0.2, 1, 0.5, 'least_squares', 2, 0.9, RowB, ColumnB, AngleB, Score2)</l>
+<l>dev_display (ImageBWMirror)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowB, ColumnB, AngleB, 1, 1, 0)</l>
+<l>vector_angle_to_rigid (RowB, ColumnB, AngleB, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
+<l>affine_trans_image (ImageNewBW, ImageNewBWAffines, HomMat2D, 'constant', 'false')</l>
+<l>rotate_image (ImageNewBWAffines, ImageB, 90, 'constant')</l>
+<l>threshold (ImageB, Region, -1280, 255)</l>
+<c></c>
+<c>* 找初级准线</c>
+<l>rotate_image (ImageTRWToByte, ImageTRWToByteRotate, 90, 'constant')</l>
+<l>gen_rectangle1 (ROI_0, 191.697, 152.539, 1108.33, 269.822)</l>
+<l>reduce_domain (ImageTRWToByteRotate, ROI_0, ImageReduced2)</l>
+<l>create_shape_model (ImageReduced2, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelIDL)</l>
+<l>find_shape_model (ImageTRWToByteRotate, ModelIDL, -0.5, 0.5, 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowL, ColumnL, AngleL, ScoreL)</l>
+<l>a := 1208-RowL+558</l>
+<l>b := 302-ColumnL+90.5</l>
+<c></c>
+<l>gen_rectangle1 (ROI_0, RowL-260, ColumnL+158.5, RowL+270, ColumnL+178.5)</l>
+<l>reduce_domain (ImageRotateNewTRW, ROI_0, ImageReduced)</l>
+<l>threshold (ImageReduced, RegionStd, -2050, 4095)</l>
+<l>opening_rectangle1 (RegionStd, RegionOpeningStd, 1, 3)</l>
+<c></c>
+<l>boundary (RegionOpeningStd, RegionBorderStd, 'inner')</l>
+<l>gen_contour_region_xld (RegionBorderStd, ContourStds, 'border')</l>
+<l>segment_contours_xld (ContourStds, ContourStdsSplit, 'lines', 5, 1, 1)</l>
+<l>select_contours_xld (ContourStdsSplit, SelectedContourStds, 'contour_length', 20, 2000, -0.5, 0.5)</l>
+<l>union_collinear_contours_ext_xld (SelectedContourStds, UnionContourStds, 200, 3, 3, 0.1, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
+<l>sort_contours_xld (UnionContourStds, SortedContourStds, 'character', 'true', 'row')</l>
+<l>select_obj (SortedContourStds, ObjectSelectedStd, 1)</l>
+<l>union_collinear_contours_xld (ObjectSelectedStd, UnionStdontoursStd1, 1000, 20, 20, 0.5, 'attr_keep')</l>
+<l>fit_line_contour_xld (UnionStdontoursStd1, 'drop', -1, 2, 5, 1, RowBeginStd, ColBeginStd, RowEndStd, ColEndStd, NrC, NcC, DistC)</l>
+<l>gen_contour_polygon_xld (ContourStd, [RowBeginStd,RowEndStd], [ColBeginStd,ColEndStd])</l>
+<c></c>
+<l>line_orientation (RowBeginStd, ColBeginStd, RowEndStd, ColEndStd, PhiStd)</l>
+<c></c>
+<c>* 生成基准垂线</c>
+<c></c>
+<l>RowM := (RowBeginStd+RowEndStd)/2</l>
+<l>ColM := (ColBeginStd+ColEndStd)/2</l>
+<c>* ********************生成垂线**************************垂线长度</c>
+<l>LineLength := 200</l>
+<c>* 起点</c>
+<l>RowStartV := RowM-cos(PhiStd)*LineLength</l>
+<l>ColStartV := ColM-sin(PhiStd)*LineLength</l>
+<c>* 终点</c>
+<l>RowEndV := RowM+cos(PhiStd)*LineLength</l>
+<l>ColEndV := ColM+sin(PhiStd)</l>
+<c>* LineLength</c>
+<l>line_orientation (RowStartV, RowStartV, RowEndV, ColEndV, PhiV)</l>
+<l>gen_contour_polygon_xld (ContourV, [RowStartV,RowEndV], [ColStartV,ColEndV])</l>
+<c></c>
+<c>* ********************FAI16-1检测***************************</c>
+<c>* 生成第一条线,左边起</c>
+<l>gen_rectangle1 (ROI_1, 195, 170, 1100, 250)</l>
+<l>reduce_domain (ImageTRWToByteRotate, ROI_1, ImageReducedMS1)</l>
+<l>inspect_shape_model (ImageReducedMS1, ModelImages, ModelRegions, 4, 50)</l>
+<l>create_shape_model (ImageReducedMS1, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<c>* 找模板，找旋转中心</c>
+<l>find_shape_model (ImageTRWToByteRotate, ModelID, -1, 1, 0.5, 1, 0.5, 'least_squares', 2, 0.9, RowTR, ColumnTR, AngleTR, ScoreTR)</l>
+<l>dev_display (ImageTRWToByteRotate)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
+<c></c>
+<l>* dev_get_window (WindowHandle1)</l>
+<l>* draw_rectangle1 (WindowHandle1, Row11, Column11, Row2, Column2)</l>
+<l>* gen_rectangle1 (RectangleB1, 1183, 112, 1203, 135)</l>
+<l>* gen_rectangle1 (RectangleB2, 1183, 312, 1203, 331)</l>
+<l>* union2 (RectangleB1, RectangleB2, ROIB)</l>
+<l>* reduce_domain (ImageRotateNewTRW, ROIB, ImageReducedB)</l>
+<l>* scale_image (ImageReducedB, ImageScaledReducedB, 5, 0)</l>
+<l>* threshold (ImageScaledReducedB, RegionB, -9000, 100000)</l>
+<l>* closing_rectangle1 (RegionB, RegionClosing, 5, 1)</l>
+<l>* opening_rectangle1 (RegionClosing, RegionOpening, 3, 1)</l>
+<c></c>
+<l>* connection (RegionOpening, ConnectedRegions)</l>
+<l>* select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 150, 99999)</l>
+<l>* boundary (SelectedRegions, RegionBorderB, 'inner')</l>
+<c></c>
+<l>* skeleton (RegionBorderB, Skeleton)</l>
+<l>* gen_contours_skeleton_xld (Skeleton, Contours, 5, 'generalize1')</l>
+<l>* segment_contours_xld (Contours, ContoursSplit, 'lines', 1, 1, 1)</l>
+<c></c>
+<l>* select_contours_xld (ContoursSplit, SelectedContours1, 'direction', -1, 1, -0.5, 0.5)</l>
+<l>* union_adjacent_contours_xld (SelectedContours1, UnionContours, 10, 1, 'attr_keep')</l>
+<l>* select_contours_xld (UnionContours, SelectedContours, 'contour_length', 5, 200, -0.5, 0.5)</l>
+<c></c>
+<l>* rowBs := []</l>
+<l>* colBs := []</l>
+<l>* sort_contours_xld (SelectedContours, SortedContours, 'character', 'true', 'row')</l>
+<l>* select_obj (SortedContours, ObjectSelected1, 3)</l>
+<l>* get_contour_xld (ObjectSelected1, Row1, Col1)</l>
+<l>* tuple_select_range (Row1, 2, |Row1|-2, Row1)</l>
+<l>* tuple_select_range (Col1, 2, |Col1|-2, Col1)</l>
+<l>* select_obj (SortedContours, ObjectSelected1, 4)</l>
+<l>* get_contour_xld (ObjectSelected1, Row2, Col2)</l>
+<l>* tuple_select_range (Row2, 2, |Row2|-2, Row2)</l>
+<l>* tuple_select_range (Col2, 2, |Col2|-2, Col2)</l>
+<l>* rowBs := [Row1,Row2]</l>
+<l>* colBs := [Col1,Col2]</l>
+<c></c>
+<c></c>
+<c>* 点到直线的距离</c>
+<l>* distance_pl (rowBs, colBs, RowStartV, RowStartV, RowEndV, ColEndV, DistanceB)</l>
+<l>* tuple_mean (DistanceB, MeanDistanceB)</l>
+<l>* tuple_sub (DistanceB, MeanDistanceB, DiffDistanceB)</l>
+<l>* tuple_abs (DiffDistanceB, DiffDistanceBAbs)</l>
+<l>* tuple_div (DiffDistanceBAbs, 0.5, DiffDistanceBAbsDiv)</l>
+<l>* for Index1 := 0 to |DiffDistanceBAbsDiv|-1 by 1</l>
+<l>*     if (DiffDistanceBAbsDiv[Index1]&lt;1)</l>
+<l>*         DiffDistanceBAbsDiv[Index1] := 0</l>
+<l>*     else</l>
+<l>*         DiffDistanceBAbsDiv[Index1] := 1</l>
+<l>*     endif</l>
+<l>* endfor</l>
+<l>* tuple_and (DiffDistanceBAbsDiv, 1, DiffDistanceBAbsDivAnd)</l>
+<l>* tuple_find (DiffDistanceBAbsDiv, 0, Indices)</l>
+<l>* tuple_remove (rowBs, Indices, ReducedrowBs)</l>
+<l>* tuple_remove (colBs, Indices, ReducedcolBs)</l>
+<c>* 创建直线B</c>
+<l>* gen_contour_polygon_xld (ContourB, rowBs, colBs)</l>
+<l>* fit_line_contour_xld (ContourB, 'drop', -1, 4, 5, 1, RowBeginB, ColBeginB, RowEndB, ColEndB, NrB, NcB, Dist)</l>
+<l>* gen_contour_polygon_xld (OrginLineB, [RowBeginB,RowEndB], [ColBeginB,ColEndB])</l>
+<c>* 记录B线的角度</c>
+<l>* line_orientation (RowBeginB, ColBeginB, RowEndB, ColEndB, RowB)</l>
+<l>* vector_angle_to_rigid ((RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, RowB, (RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, PhiStd-rad(90), HomMat2DB)</l>
+<l>* affine_trans_contour_xld (OrginLineB, LineB, HomMat2DB)</l>
+<l>* get_contour_xld (LineB, RowB, ColB)</l>
+<l>* orientation_xld (LineB, PhiBB)</l>
+<l>* fwrite_string (FileHandleB, PhiBB)</l>
+<l>* fnew_line (FileHandleB)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c>* 生成第一条线</c>
+<c></c>
+<l>gen_rectangle1 (ROI_B, RowL+535, ColumnL-101.5, RowL+558, ColumnL+90.5)</l>
+<c></c>
+<l>reduce_domain (ImageUP, ROI_B, ImageReducedB)</l>
+<l>threshold (ImageReducedB, RegionB, -2200, -1700)</l>
+<l>closing_rectangle1 (RegionB, RegionBlosing2, 35, 1)</l>
+<l>boundary (RegionBlosing2, RegionBorderB, 'inner')</l>
+<l>gen_contour_region_xld (RegionBorderB, ContourBs, 'border')</l>
+<l>segment_contours_xld (ContourBs, ContourBsSplit, 'lines', 5, 1, 1)</l>
+<l>select_contours_xld (ContourBsSplit, SelectedContourBs, 'contour_length', 30, 2000, -0.5, 0.5)</l>
+<l>union_collinear_contours_xld (SelectedContourBs, UnionContourBs, 100, 5, 5, 0.5, 'attr_keep')</l>
+<l>sort_contours_xld (UnionContourBs, SortedContourBs, 'character', 'true', 'row')</l>
+<l>select_obj (SortedContourBs, ObjectSelectedB, 2)</l>
+<l>union_collinear_contours_xld (ObjectSelectedB, UnionContours1, 1000, 20, 20, 0.5, 'attr_keep')</l>
+<l>fit_line_contour_xld (UnionContours1, 'drop', -1, 0, 5, 1, RowBeginB, ColBeginB, RowEndB, ColEndB, NrC, NcC, DistC)</l>
+<l>gen_contour_polygon_xld (OrginLineB, [RowBeginB,RowEndB], [ColBeginB,ColEndB])</l>
+<c>* 记录B线的角度</c>
+<l>line_orientation (RowBeginB, ColBeginB, RowEndB, ColEndB, RowB)</l>
+<c></c>
+<l>vector_angle_to_rigid ((RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, RowB, (RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, PhiStd-rad(90), HomMat2DB)</l>
+<l>affine_trans_contour_xld (OrginLineB, LineB, HomMat2DB)</l>
+<l>get_contour_xld (LineB, RowB, ColB)</l>
+<l>orientation_xld (LineB, PhiBB)</l>
+<c></c>
+<c>* 生成第二条线</c>
+<l>gen_rectangle1 (ROI_C, RowL-270, ColumnL+485, RowL+270, ColumnL+495)</l>
+<c></c>
+<l>reduce_domain (ImageUP, ROI_C, ImageReducedC)</l>
+<l>threshold (ImageReducedC, RegionC, -2200, -600)</l>
+<l>closing_rectangle1 (RegionC, RegionClosing2, 1, 5)</l>
+<l>boundary (RegionClosing2, RegionBorderC, 'inner')</l>
+<l>gen_contour_region_xld (RegionBorderC, ContourCs, 'border')</l>
+<l>segment_contours_xld (ContourCs, ContourCsSplit, 'lines', 5, 1, 1)</l>
+<l>select_contours_xld (ContourCsSplit, SelectedContourCs, 'contour_length', 20, 2000, -0.5, 0.5)</l>
+<l>union_collinear_contours_xld (SelectedContourCs, UnionContourCs, 100, 10, 10, 0.5, 'attr_keep')</l>
+<l>sort_contours_xld (UnionContourCs, SortedContourCs, 'character', 'true', 'row')</l>
+<l>select_obj (SortedContourCs, ObjectSelectedC, 2)</l>
+<l>union_collinear_contours_xld (ObjectSelectedC, UnionContours1, 1000, 20, 20, 0.5, 'attr_keep')</l>
+<l>fit_line_contour_xld (UnionContours1, 'drop', -1, 0, 5, 1, RowBeginC, ColBeginC, RowEndC, ColEndC, NrC, NcC, DistC)</l>
+<l>gen_contour_polygon_xld (OrginLineC, [RowBeginC,RowEndC], [ColBeginC,ColEndC])</l>
+<c>* 记录B线的角度</c>
+<l>line_orientation (RowBeginC, ColBeginC, RowEndC, ColEndC, PhiC)</l>
+<c></c>
+<l>vector_angle_to_rigid ((RowBeginC+RowEndC)/2, (ColBeginC+ColEndC)/2, PhiC, (RowBeginC+RowEndC)/2, (ColBeginC+ColEndC)/2, PhiStd, HomMat2DC)</l>
+<l>affine_trans_contour_xld (OrginLineC, LineC, HomMat2DC)</l>
+<l>get_contour_xld (LineC, RowC, ColC)</l>
+<l>orientation_xld (LineC, PhiCC)</l>
+<c></c>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="DWQ_I40GetBaseLine">
+<parameters>
+<parameter id="ColB"/>
+<parameter id="ColC"/>
+<parameter id="ImageB"/>
+<parameter id="ImageLeftAligned"/>
+<parameter id="ImageRotateNewTRW"/>
+<parameter id="ProfileImageBW"/>
+<parameter id="ProfileImageTLW"/>
+<parameter id="ProfileImageTRW"/>
+<parameter id="RowB"/>
+<parameter id="RowC"/>
+</parameters>
+</docu>
+</procedure>
 </hdevelop>

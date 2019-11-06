@@ -17,7 +17,8 @@ using HalconDotNet;
 public partial class HDevelopExport
 {
   public HTuple hv_ExpDefaultWinHandle;
-  
+
+
 
   // Procedures 
   // Local procedures 
@@ -958,6 +959,1016 @@ public partial class HDevelopExport
       hv_Y1World.Dispose();
       hv_X2World.Dispose();
       hv_Y2World.Dispose();
+
+      throw HDevExpDefaultException;
+    }
+  }
+
+  public void DWQ_I40GetBaseLine (HObject ho_ProfileImageTLW, HObject ho_ProfileImageTRW, 
+      HObject ho_ProfileImageBW, out HObject ho_ImageB, out HObject ho_ImageLeftAligned, 
+      out HObject ho_ImageRotateNewTRW, out HTuple hv_RowB, out HTuple hv_ColB, out HTuple hv_RowC, 
+      out HTuple hv_ColC)
+  {
+
+
+
+    // Stack for temporary objects 
+    HObject[] OTemp = new HObject[20];
+
+    // Local iconic variables 
+
+    HObject ho_ImageTLWConverted, ho_ImageTLWScaled;
+    HObject ho_ImageNewTLWMirror, ho_ImageNewTLW, ho_ImagePITRWConverted;
+    HObject ho_ImageTRWScaled, ho_ImageNewTRWMirror, ho_ImageNewTRW;
+    HObject ho_ImageBWConverted, ho_ImageBWScaled, ho_ImageNewBWMirror;
+    HObject ho_ImageNewBW, ho_ImageTLWMirror, ho_ImageTLWToByte;
+    HObject ho_ImageTRWMirror, ho_ImageTRWToByte, ho_ROI_0;
+    HObject ho_ImageReducedMS, ho_ModelImages, ho_ModelRegions;
+    HObject ho_ImageNewTLWAffineTrans, ho_Region1, ho_ConnectedRegions1;
+    HObject ho_SelectedRegions1, ho_RegionDilation, ho_RegionUnion;
+    HObject ho_ImageReduced1, ho_ImageMax, ho_ImageUP, ho_ImageBWMirror;
+    HObject ho_ImageNewBWAffines, ho_Region, ho_RegionFillUp;
+    HObject ho_RegionOpening1, ho_ImageTRWToByteRotate, ho_ImageReduced2;
+    HObject ho_ImageReduced, ho_RegionStd, ho_RegionOpeningStd;
+    HObject ho_RegionBorderStd, ho_ContourStds, ho_ContourStdsSplit;
+    HObject ho_SelectedContourStds, ho_UnionContourStds, ho_SortedContourStds;
+    HObject ho_ObjectSelectedStd, ho_UnionStdontoursStd1, ho_ContourStd;
+    HObject ho_ContourV, ho_ROI_1, ho_ImageReducedMS1, ho_ImageReducedB;
+    HObject ho_RegionB, ho_RegionBorderB, ho_OrginLineB, ho_LineB;
+    HObject ho_ROI_B, ho_RegionBlosing2, ho_ContourBs, ho_ContourBsSplit;
+    HObject ho_SelectedContourBs, ho_UnionContourBs, ho_SortedContourBs;
+    HObject ho_ObjectSelectedB, ho_UnionContours1, ho_ROI_C;
+    HObject ho_ImageReducedC, ho_RegionC, ho_RegionClosing2;
+    HObject ho_RegionBorderC, ho_ContourCs, ho_ContourCsSplit;
+    HObject ho_SelectedContourCs, ho_UnionContourCs, ho_SortedContourCs;
+    HObject ho_ObjectSelectedC, ho_OrginLineC, ho_LineC;
+
+    // Local control variables 
+
+    HTuple hv_ModelID = new HTuple(), hv_RowTR = new HTuple();
+    HTuple hv_ColumnTR = new HTuple(), hv_AngleTR = new HTuple();
+    HTuple hv_ScoreTR = new HTuple(), hv_RowTL = new HTuple();
+    HTuple hv_ColumnTL = new HTuple(), hv_AngleTL = new HTuple();
+    HTuple hv_ScoreTL = new HTuple(), hv_HomMat2D = new HTuple();
+    HTuple hv_ColumnB = new HTuple(), hv_AngleB = new HTuple();
+    HTuple hv_Score2 = new HTuple(), hv_ModelIDL = new HTuple();
+    HTuple hv_RowL = new HTuple(), hv_ColumnL = new HTuple();
+    HTuple hv_AngleL = new HTuple(), hv_ScoreL = new HTuple();
+    HTuple hv_a = new HTuple(), hv_b = new HTuple(), hv_RowBeginStd = new HTuple();
+    HTuple hv_ColBeginStd = new HTuple(), hv_RowEndStd = new HTuple();
+    HTuple hv_ColEndStd = new HTuple(), hv_NrC = new HTuple();
+    HTuple hv_NcC = new HTuple(), hv_DistC = new HTuple();
+    HTuple hv_PhiStd = new HTuple(), hv_RowM = new HTuple();
+    HTuple hv_ColM = new HTuple(), hv_LineLength = new HTuple();
+    HTuple hv_RowStartV = new HTuple(), hv_ColStartV = new HTuple();
+    HTuple hv_RowEndV = new HTuple(), hv_ColEndV = new HTuple();
+    HTuple hv_PhiV = new HTuple(), hv_RowBeginB = new HTuple();
+    HTuple hv_ColBeginB = new HTuple(), hv_RowEndB = new HTuple();
+    HTuple hv_ColEndB = new HTuple(), hv_HomMat2DB = new HTuple();
+    HTuple hv_PhiBB = new HTuple(), hv_RowBeginC = new HTuple();
+    HTuple hv_ColBeginC = new HTuple(), hv_RowEndC = new HTuple();
+    HTuple hv_ColEndC = new HTuple(), hv_PhiC = new HTuple();
+    HTuple hv_HomMat2DC = new HTuple(), hv_PhiCC = new HTuple();
+    // Initialize local and output iconic variables 
+    HOperatorSet.GenEmptyObj(out ho_ImageB);
+    HOperatorSet.GenEmptyObj(out ho_ImageLeftAligned);
+    HOperatorSet.GenEmptyObj(out ho_ImageRotateNewTRW);
+    HOperatorSet.GenEmptyObj(out ho_ImageTLWConverted);
+    HOperatorSet.GenEmptyObj(out ho_ImageTLWScaled);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewTLWMirror);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewTLW);
+    HOperatorSet.GenEmptyObj(out ho_ImagePITRWConverted);
+    HOperatorSet.GenEmptyObj(out ho_ImageTRWScaled);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewTRWMirror);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewTRW);
+    HOperatorSet.GenEmptyObj(out ho_ImageBWConverted);
+    HOperatorSet.GenEmptyObj(out ho_ImageBWScaled);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewBWMirror);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewBW);
+    HOperatorSet.GenEmptyObj(out ho_ImageTLWMirror);
+    HOperatorSet.GenEmptyObj(out ho_ImageTLWToByte);
+    HOperatorSet.GenEmptyObj(out ho_ImageTRWMirror);
+    HOperatorSet.GenEmptyObj(out ho_ImageTRWToByte);
+    HOperatorSet.GenEmptyObj(out ho_ROI_0);
+    HOperatorSet.GenEmptyObj(out ho_ImageReducedMS);
+    HOperatorSet.GenEmptyObj(out ho_ModelImages);
+    HOperatorSet.GenEmptyObj(out ho_ModelRegions);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewTLWAffineTrans);
+    HOperatorSet.GenEmptyObj(out ho_Region1);
+    HOperatorSet.GenEmptyObj(out ho_ConnectedRegions1);
+    HOperatorSet.GenEmptyObj(out ho_SelectedRegions1);
+    HOperatorSet.GenEmptyObj(out ho_RegionDilation);
+    HOperatorSet.GenEmptyObj(out ho_RegionUnion);
+    HOperatorSet.GenEmptyObj(out ho_ImageReduced1);
+    HOperatorSet.GenEmptyObj(out ho_ImageMax);
+    HOperatorSet.GenEmptyObj(out ho_ImageUP);
+    HOperatorSet.GenEmptyObj(out ho_ImageBWMirror);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewBWAffines);
+    HOperatorSet.GenEmptyObj(out ho_Region);
+    HOperatorSet.GenEmptyObj(out ho_RegionFillUp);
+    HOperatorSet.GenEmptyObj(out ho_RegionOpening1);
+    HOperatorSet.GenEmptyObj(out ho_ImageTRWToByteRotate);
+    HOperatorSet.GenEmptyObj(out ho_ImageReduced2);
+    HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+    HOperatorSet.GenEmptyObj(out ho_RegionStd);
+    HOperatorSet.GenEmptyObj(out ho_RegionOpeningStd);
+    HOperatorSet.GenEmptyObj(out ho_RegionBorderStd);
+    HOperatorSet.GenEmptyObj(out ho_ContourStds);
+    HOperatorSet.GenEmptyObj(out ho_ContourStdsSplit);
+    HOperatorSet.GenEmptyObj(out ho_SelectedContourStds);
+    HOperatorSet.GenEmptyObj(out ho_UnionContourStds);
+    HOperatorSet.GenEmptyObj(out ho_SortedContourStds);
+    HOperatorSet.GenEmptyObj(out ho_ObjectSelectedStd);
+    HOperatorSet.GenEmptyObj(out ho_UnionStdontoursStd1);
+    HOperatorSet.GenEmptyObj(out ho_ContourStd);
+    HOperatorSet.GenEmptyObj(out ho_ContourV);
+    HOperatorSet.GenEmptyObj(out ho_ROI_1);
+    HOperatorSet.GenEmptyObj(out ho_ImageReducedMS1);
+    HOperatorSet.GenEmptyObj(out ho_ImageReducedB);
+    HOperatorSet.GenEmptyObj(out ho_RegionB);
+    HOperatorSet.GenEmptyObj(out ho_RegionBorderB);
+    HOperatorSet.GenEmptyObj(out ho_OrginLineB);
+    HOperatorSet.GenEmptyObj(out ho_LineB);
+    HOperatorSet.GenEmptyObj(out ho_ROI_B);
+    HOperatorSet.GenEmptyObj(out ho_RegionBlosing2);
+    HOperatorSet.GenEmptyObj(out ho_ContourBs);
+    HOperatorSet.GenEmptyObj(out ho_ContourBsSplit);
+    HOperatorSet.GenEmptyObj(out ho_SelectedContourBs);
+    HOperatorSet.GenEmptyObj(out ho_UnionContourBs);
+    HOperatorSet.GenEmptyObj(out ho_SortedContourBs);
+    HOperatorSet.GenEmptyObj(out ho_ObjectSelectedB);
+    HOperatorSet.GenEmptyObj(out ho_UnionContours1);
+    HOperatorSet.GenEmptyObj(out ho_ROI_C);
+    HOperatorSet.GenEmptyObj(out ho_ImageReducedC);
+    HOperatorSet.GenEmptyObj(out ho_RegionC);
+    HOperatorSet.GenEmptyObj(out ho_RegionClosing2);
+    HOperatorSet.GenEmptyObj(out ho_RegionBorderC);
+    HOperatorSet.GenEmptyObj(out ho_ContourCs);
+    HOperatorSet.GenEmptyObj(out ho_ContourCsSplit);
+    HOperatorSet.GenEmptyObj(out ho_SelectedContourCs);
+    HOperatorSet.GenEmptyObj(out ho_UnionContourCs);
+    HOperatorSet.GenEmptyObj(out ho_SortedContourCs);
+    HOperatorSet.GenEmptyObj(out ho_ObjectSelectedC);
+    HOperatorSet.GenEmptyObj(out ho_OrginLineC);
+    HOperatorSet.GenEmptyObj(out ho_LineC);
+    hv_RowB = new HTuple();
+    hv_ColB = new HTuple();
+    hv_RowC = new HTuple();
+    hv_ColC = new HTuple();
+    try
+    {
+
+      ho_ImageTLWConverted.Dispose();
+      HOperatorSet.ConvertImageType(ho_ProfileImageTLW, out ho_ImageTLWConverted, 
+          "int4");
+      ho_ImageTLWScaled.Dispose();
+      HOperatorSet.ScaleImage(ho_ImageTLWConverted, out ho_ImageTLWScaled, 1, -32768);
+      {
+      HObject ExpTmpOutVar_0;
+      HOperatorSet.ScaleImage(ho_ImageTLWScaled, out ExpTmpOutVar_0, 1.6, 0);
+      ho_ImageTLWScaled.Dispose();
+      ho_ImageTLWScaled = ExpTmpOutVar_0;
+      }
+      //get_image_size (ImageTLWScaled, WidthPITLW, HeightPITLW)
+      //gen_image_const (ImageNewTempTLW, 'int4', WidthPITLW, HeightPITLW)
+      //for Index := 0 to HeightPITLW-1 by 1
+        //get_grayval (ImageTLWScaled, gen_tuple_const(WidthPITLW,Index), [0:WidthPITLW-1], grayValuePITLWBefore)
+        //grayValuePITLW := grayValuePITLWBefore[0:WidthPITLW-1]-([0:WidthPITLW-1]*kTL+bTL)
+        //set_grayval (ImageNewTempTLW, gen_tuple_const(WidthPITLW,Index), [0:WidthPITLW-1], grayValuePITLW)
+      //endfor
+      ho_ImageNewTLWMirror.Dispose();
+      HOperatorSet.MirrorImage(ho_ImageTLWScaled, out ho_ImageNewTLWMirror, "column");
+      ho_ImageNewTLW.Dispose();
+      HOperatorSet.ConvertImageType(ho_ImageNewTLWMirror, out ho_ImageNewTLW, "int2");
+
+
+      ho_ImagePITRWConverted.Dispose();
+      HOperatorSet.ConvertImageType(ho_ProfileImageTRW, out ho_ImagePITRWConverted, 
+          "int4");
+      ho_ImageTRWScaled.Dispose();
+      HOperatorSet.ScaleImage(ho_ImagePITRWConverted, out ho_ImageTRWScaled, 1, -32768);
+      {
+      HObject ExpTmpOutVar_0;
+      HOperatorSet.ScaleImage(ho_ImageTRWScaled, out ExpTmpOutVar_0, 1.6, 400);
+      ho_ImageTRWScaled.Dispose();
+      ho_ImageTRWScaled = ExpTmpOutVar_0;
+      }
+      //get_image_size (ImageTRWScaled, WidthPITRW, HeightPITRW)
+      //gen_image_const (ImageNewTempTRW, 'int4', WidthPITRW, HeightPITRW)
+      //for Index := 0 to HeightPITRW-1 by 1
+        //get_grayval (ImageTRWScaled, gen_tuple_const(WidthPITRW,Index), [0:WidthPITRW-1], grayValuePITRWBefore)
+        //grayValuePITRW := grayValuePITRWBefore[0:WidthPITRW-1]-([0:WidthPITRW-1]*kTR+bTR)
+        //set_grayval (ImageNewTempTRW, gen_tuple_const(WidthPITRW,Index), [0:WidthPITRW-1], grayValuePITRW)
+      //endfor
+      ho_ImageNewTRWMirror.Dispose();
+      HOperatorSet.ConvertImageType(ho_ImageTRWScaled, out ho_ImageNewTRWMirror, 
+          "int2");
+      ho_ImageNewTRW.Dispose();
+      HOperatorSet.MirrorImage(ho_ImageNewTRWMirror, out ho_ImageNewTRW, "column");
+      ho_ImageRotateNewTRW.Dispose();
+      HOperatorSet.RotateImage(ho_ImageNewTRW, out ho_ImageRotateNewTRW, 90, "constant");
+
+      ho_ImageBWConverted.Dispose();
+      HOperatorSet.ConvertImageType(ho_ProfileImageBW, out ho_ImageBWConverted, "int4");
+      ho_ImageBWScaled.Dispose();
+      HOperatorSet.ScaleImage(ho_ImageBWConverted, out ho_ImageBWScaled, 1, -32768);
+      {
+      HObject ExpTmpOutVar_0;
+      HOperatorSet.ScaleImage(ho_ImageBWScaled, out ExpTmpOutVar_0, 1.6, 0);
+      ho_ImageBWScaled.Dispose();
+      ho_ImageBWScaled = ExpTmpOutVar_0;
+      }
+      //get_image_size (ImageBWScaled, WidthB, HeightB)
+      //gen_image_const (ImageNewTempBW, 'int4', WidthB, HeightB)
+      //for Index := 0 to HeightB-1 by 1
+        //get_grayval (ImageBWScaled, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValueBefore)
+        //grayValue := grayValueBefore[0:WidthB-1]-([0:WidthB-1]*kB+bB)
+        //set_grayval (ImageNewTempBW, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValue)
+      //endfor
+      ho_ImageNewBWMirror.Dispose();
+      HOperatorSet.MirrorImage(ho_ImageBWScaled, out ho_ImageNewBWMirror, "column");
+      ho_ImageNewBW.Dispose();
+      HOperatorSet.ConvertImageType(ho_ImageNewBWMirror, out ho_ImageNewBW, "int2");
+
+      //**********************合并上面两张图
+
+      //dev_update_on ()
+      //读取TL图，并转换成8位图
+      ho_ImageTLWMirror.Dispose();
+      HOperatorSet.MirrorImage(ho_ProfileImageTLW, out ho_ImageTLWMirror, "column");
+      ho_ImageTLWToByte.Dispose();
+      HOperatorSet.ConvertImageType(ho_ImageTLWMirror, out ho_ImageTLWToByte, "byte");
+      //读取TR图，镜像并转换成8位图
+      ho_ImageTRWMirror.Dispose();
+      HOperatorSet.MirrorImage(ho_ProfileImageTRW, out ho_ImageTRWMirror, "column");
+      ho_ImageTRWToByte.Dispose();
+      HOperatorSet.ConvertImageType(ho_ImageTRWMirror, out ho_ImageTRWToByte, "byte");
+      //创建模板
+
+      ho_ROI_0.Dispose();
+      HOperatorSet.GenRectangle1(out ho_ROI_0, 160, 522.637, 280, 1419.89);
+      ho_ImageReducedMS.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageTRWToByte, ho_ROI_0, out ho_ImageReducedMS
+          );
+      ho_ModelImages.Dispose();ho_ModelRegions.Dispose();
+      HOperatorSet.InspectShapeModel(ho_ImageReducedMS, out ho_ModelImages, out ho_ModelRegions, 
+          4, 50);
+      hv_ModelID.Dispose();
+      HOperatorSet.CreateShapeModel(ho_ImageReducedMS, 4, -0.39, 0.79, "auto", "auto", 
+          "use_polarity", "auto", "auto", out hv_ModelID);
+      //找模板，找旋转中心
+      hv_RowTR.Dispose();hv_ColumnTR.Dispose();hv_AngleTR.Dispose();hv_ScoreTR.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageTRWToByte, hv_ModelID, -1, 1, 0.5, 1, 0.5, 
+          "least_squares", 2, 0.9, out hv_RowTR, out hv_ColumnTR, out hv_AngleTR, 
+          out hv_ScoreTR);
+  
+      hv_RowTL.Dispose();hv_ColumnTL.Dispose();hv_AngleTL.Dispose();hv_ScoreTL.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageTLWToByte, hv_ModelID, -1, 1, 0.3, 1, 0.5, 
+          "least_squares", 2, 0.9, out hv_RowTL, out hv_ColumnTL, out hv_AngleTL, 
+          out hv_ScoreTL);
+
+      //旋转TL矫正镜像图片照片
+      hv_HomMat2D.Dispose();
+      HOperatorSet.VectorAngleToRigid(hv_RowTL, hv_ColumnTL, hv_AngleTL, hv_RowTR, 
+          hv_ColumnTR, hv_AngleTR, out hv_HomMat2D);
+      ho_ImageNewTLWAffineTrans.Dispose();
+      HOperatorSet.AffineTransImage(ho_ImageNewTLW, out ho_ImageNewTLWAffineTrans, 
+          hv_HomMat2D, "constant", "false");
+      ho_ImageLeftAligned.Dispose();
+      HOperatorSet.RotateImage(ho_ImageNewTLWAffineTrans, out ho_ImageLeftAligned, 
+          90, "constant");
+
+      ho_Region1.Dispose();
+      HOperatorSet.Threshold(ho_ImageNewTRW, out ho_Region1, -128000, -25500);
+      ho_ConnectedRegions1.Dispose();
+      HOperatorSet.Connection(ho_Region1, out ho_ConnectedRegions1);
+      ho_SelectedRegions1.Dispose();
+      HOperatorSet.SelectShape(ho_ConnectedRegions1, out ho_SelectedRegions1, "area", 
+          "and", 99577.5, 200000);
+      ho_RegionDilation.Dispose();
+      HOperatorSet.DilationCircle(ho_SelectedRegions1, out ho_RegionDilation, 11);
+      ho_RegionUnion.Dispose();
+      HOperatorSet.Union1(ho_RegionDilation, out ho_RegionUnion);
+      ho_ImageReduced1.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageNewTLWAffineTrans, ho_RegionUnion, out ho_ImageReduced1
+          );
+      ho_ImageMax.Dispose();
+      HOperatorSet.PaintGray(ho_ImageReduced1, ho_ImageNewTRW, out ho_ImageMax);
+      //图片叠?
+      //max_image (ImageNewTRW, ImageNewTLWAffineTrans, ImageMax)
+      ho_ImageUP.Dispose();
+      HOperatorSet.RotateImage(ho_ImageMax, out ho_ImageUP, 90, "constant");
+      //底面旋转到检测位置
+      ho_ImageBWConverted.Dispose();
+      HOperatorSet.ConvertImageType(ho_ProfileImageBW, out ho_ImageBWConverted, "byte");
+      ho_ImageBWMirror.Dispose();
+      HOperatorSet.MirrorImage(ho_ImageBWConverted, out ho_ImageBWMirror, "column");
+      hv_RowB.Dispose();hv_ColumnB.Dispose();hv_AngleB.Dispose();hv_Score2.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageBWMirror, hv_ModelID, -1, 1, 0.2, 1, 0.5, 
+          "least_squares", 2, 0.9, out hv_RowB, out hv_ColumnB, out hv_AngleB, out hv_Score2);
+      
+      hv_HomMat2D.Dispose();
+      HOperatorSet.VectorAngleToRigid(hv_RowB, hv_ColumnB, hv_AngleB, hv_RowTR, hv_ColumnTR, 
+          hv_AngleTR, out hv_HomMat2D);
+      ho_ImageNewBWAffines.Dispose();
+      HOperatorSet.AffineTransImage(ho_ImageNewBW, out ho_ImageNewBWAffines, hv_HomMat2D, 
+          "constant", "false");
+      ho_ImageB.Dispose();
+      HOperatorSet.RotateImage(ho_ImageNewBWAffines, out ho_ImageB, 90, "constant");
+      ho_Region.Dispose();
+      HOperatorSet.Threshold(ho_ImageB, out ho_Region, -1280, 255);
+
+      //********************FAI16-1检测***************************
+      //创建模板
+
+      ho_ROI_0.Dispose();
+      HOperatorSet.GenRectangle1(out ho_ROI_0, 160, 500, 280, 1425);
+      ho_ImageReducedMS.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageTRWToByte, ho_ROI_0, out ho_ImageReducedMS
+          );
+      ho_ModelImages.Dispose();ho_ModelRegions.Dispose();
+      HOperatorSet.InspectShapeModel(ho_ImageReducedMS, out ho_ModelImages, out ho_ModelRegions, 
+          4, 50);
+      hv_ModelID.Dispose();
+      HOperatorSet.CreateShapeModel(ho_ImageReducedMS, 4, -0.39, 0.79, "auto", "auto", 
+          "use_polarity", "auto", "auto", out hv_ModelID);
+      //找模板，找旋转中心
+      hv_RowTR.Dispose();hv_ColumnTR.Dispose();hv_AngleTR.Dispose();hv_ScoreTR.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageTRWToByte, hv_ModelID, -1, 1, 0.5, 1, 0.5, 
+          "least_squares", 2, 0.9, out hv_RowTR, out hv_ColumnTR, out hv_AngleTR, 
+          out hv_ScoreTR);
+     
+      hv_RowTL.Dispose();hv_ColumnTL.Dispose();hv_AngleTL.Dispose();hv_ScoreTL.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageTLWToByte, hv_ModelID, -1, 1, 0.3, 1, 0.5, 
+          "least_squares", 2, 0.9, out hv_RowTL, out hv_ColumnTL, out hv_AngleTL, 
+          out hv_ScoreTL);
+  
+      //旋转TL矫正镜像图片照片
+      hv_HomMat2D.Dispose();
+      HOperatorSet.VectorAngleToRigid(hv_RowTL, hv_ColumnTL, hv_AngleTL, hv_RowTR, 
+          hv_ColumnTR, hv_AngleTR, out hv_HomMat2D);
+      {
+      HObject ExpTmpOutVar_0;
+      HOperatorSet.AffineTransImage(ho_ImageNewTLW, out ExpTmpOutVar_0, hv_HomMat2D, 
+          "constant", "false");
+      ho_ImageNewTLW.Dispose();
+      ho_ImageNewTLW = ExpTmpOutVar_0;
+      }
+      ho_Region1.Dispose();
+      HOperatorSet.Threshold(ho_ImageNewTRW, out ho_Region1, -128000, -25500);
+      ho_RegionFillUp.Dispose();
+      HOperatorSet.FillUpShape(ho_Region1, out ho_RegionFillUp, "area", 1, 100);
+      ho_RegionOpening1.Dispose();
+      HOperatorSet.OpeningCircle(ho_RegionFillUp, out ho_RegionOpening1, 9);
+
+      ho_ConnectedRegions1.Dispose();
+      HOperatorSet.Connection(ho_RegionOpening1, out ho_ConnectedRegions1);
+      ho_SelectedRegions1.Dispose();
+      HOperatorSet.SelectShape(ho_ConnectedRegions1, out ho_SelectedRegions1, "area", 
+          "and", 99577.5, 200000);
+      ho_RegionDilation.Dispose();
+      HOperatorSet.DilationCircle(ho_SelectedRegions1, out ho_RegionDilation, 7);
+      ho_RegionUnion.Dispose();
+      HOperatorSet.Union1(ho_RegionDilation, out ho_RegionUnion);
+      ho_ImageReduced1.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageNewTLW, ho_RegionUnion, out ho_ImageReduced1
+          );
+      ho_ImageMax.Dispose();
+      HOperatorSet.PaintGray(ho_ImageReduced1, ho_ImageNewTRW, out ho_ImageMax);
+      //图片叠加取最大值
+      ho_ImageUP.Dispose();
+      HOperatorSet.RotateImage(ho_ImageMax, out ho_ImageUP, 90, "constant");
+      //底面旋转到检测位置
+      ho_ImageBWConverted.Dispose();
+      HOperatorSet.ConvertImageType(ho_ProfileImageBW, out ho_ImageBWConverted, "byte");
+      ho_ImageBWMirror.Dispose();
+      HOperatorSet.MirrorImage(ho_ImageBWConverted, out ho_ImageBWMirror, "column");
+      hv_RowB.Dispose();hv_ColumnB.Dispose();hv_AngleB.Dispose();hv_Score2.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageBWMirror, hv_ModelID, -1, 1, 0.2, 1, 0.5, 
+          "least_squares", 2, 0.9, out hv_RowB, out hv_ColumnB, out hv_AngleB, out hv_Score2);
+
+      hv_HomMat2D.Dispose();
+      HOperatorSet.VectorAngleToRigid(hv_RowB, hv_ColumnB, hv_AngleB, hv_RowTR, hv_ColumnTR, 
+          hv_AngleTR, out hv_HomMat2D);
+      ho_ImageNewBWAffines.Dispose();
+      HOperatorSet.AffineTransImage(ho_ImageNewBW, out ho_ImageNewBWAffines, hv_HomMat2D, 
+          "constant", "false");
+      ho_ImageB.Dispose();
+      HOperatorSet.RotateImage(ho_ImageNewBWAffines, out ho_ImageB, 90, "constant");
+      ho_Region.Dispose();
+      HOperatorSet.Threshold(ho_ImageB, out ho_Region, -1280, 255);
+
+      //找初级准线
+      ho_ImageTRWToByteRotate.Dispose();
+      HOperatorSet.RotateImage(ho_ImageTRWToByte, out ho_ImageTRWToByteRotate, 90, 
+          "constant");
+      ho_ROI_0.Dispose();
+      HOperatorSet.GenRectangle1(out ho_ROI_0, 191.697, 152.539, 1108.33, 269.822);
+      ho_ImageReduced2.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageTRWToByteRotate, ho_ROI_0, out ho_ImageReduced2
+          );
+      hv_ModelIDL.Dispose();
+      HOperatorSet.CreateShapeModel(ho_ImageReduced2, "auto", -0.39, 0.79, "auto", 
+          "auto", "use_polarity", "auto", "auto", out hv_ModelIDL);
+      hv_RowL.Dispose();hv_ColumnL.Dispose();hv_AngleL.Dispose();hv_ScoreL.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageTRWToByteRotate, hv_ModelIDL, -0.5, 0.5, 
+          0.5, 1, 0.5, "least_squares", 0, 0.9, out hv_RowL, out hv_ColumnL, out hv_AngleL, 
+          out hv_ScoreL);
+      hv_a.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_a = (1208-hv_RowL)+558;
+      }
+      hv_b.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_b = (302-hv_ColumnL)+90.5;
+      }
+
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ROI_0.Dispose();
+      HOperatorSet.GenRectangle1(out ho_ROI_0, hv_RowL-260, hv_ColumnL+158.5, hv_RowL+270, 
+          hv_ColumnL+178.5);
+      }
+      ho_ImageReduced.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageRotateNewTRW, ho_ROI_0, out ho_ImageReduced
+          );
+      ho_RegionStd.Dispose();
+      HOperatorSet.Threshold(ho_ImageReduced, out ho_RegionStd, -2050, 4095);
+      ho_RegionOpeningStd.Dispose();
+      HOperatorSet.OpeningRectangle1(ho_RegionStd, out ho_RegionOpeningStd, 1, 3);
+
+      ho_RegionBorderStd.Dispose();
+      HOperatorSet.Boundary(ho_RegionOpeningStd, out ho_RegionBorderStd, "inner");
+      ho_ContourStds.Dispose();
+      HOperatorSet.GenContourRegionXld(ho_RegionBorderStd, out ho_ContourStds, "border");
+      ho_ContourStdsSplit.Dispose();
+      HOperatorSet.SegmentContoursXld(ho_ContourStds, out ho_ContourStdsSplit, "lines", 
+          5, 1, 1);
+      ho_SelectedContourStds.Dispose();
+      HOperatorSet.SelectContoursXld(ho_ContourStdsSplit, out ho_SelectedContourStds, 
+          "contour_length", 20, 2000, -0.5, 0.5);
+      ho_UnionContourStds.Dispose();
+      HOperatorSet.UnionCollinearContoursExtXld(ho_SelectedContourStds, out ho_UnionContourStds, 
+          200, 3, 3, 0.1, 0, -1, 1, 1, 1, 1, 1, 0, "attr_keep");
+      ho_SortedContourStds.Dispose();
+      HOperatorSet.SortContoursXld(ho_UnionContourStds, out ho_SortedContourStds, 
+          "character", "true", "row");
+      ho_ObjectSelectedStd.Dispose();
+      HOperatorSet.SelectObj(ho_SortedContourStds, out ho_ObjectSelectedStd, 1);
+      ho_UnionStdontoursStd1.Dispose();
+      HOperatorSet.UnionCollinearContoursXld(ho_ObjectSelectedStd, out ho_UnionStdontoursStd1, 
+          1000, 20, 20, 0.5, "attr_keep");
+      hv_RowBeginStd.Dispose();hv_ColBeginStd.Dispose();hv_RowEndStd.Dispose();hv_ColEndStd.Dispose();hv_NrC.Dispose();hv_NcC.Dispose();hv_DistC.Dispose();
+      HOperatorSet.FitLineContourXld(ho_UnionStdontoursStd1, "drop", -1, 2, 5, 1, 
+          out hv_RowBeginStd, out hv_ColBeginStd, out hv_RowEndStd, out hv_ColEndStd, 
+          out hv_NrC, out hv_NcC, out hv_DistC);
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ContourStd.Dispose();
+      HOperatorSet.GenContourPolygonXld(out ho_ContourStd, hv_RowBeginStd.TupleConcat(
+          hv_RowEndStd), hv_ColBeginStd.TupleConcat(hv_ColEndStd));
+      }
+
+      hv_PhiStd.Dispose();
+      HOperatorSet.LineOrientation(hv_RowBeginStd, hv_ColBeginStd, hv_RowEndStd, 
+          hv_ColEndStd, out hv_PhiStd);
+
+      //生成基准垂线
+
+      hv_RowM.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_RowM = (hv_RowBeginStd+hv_RowEndStd)/2;
+      }
+      hv_ColM.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_ColM = (hv_ColBeginStd+hv_ColEndStd)/2;
+      }
+      //********************生成垂线**************************垂线长度
+      hv_LineLength.Dispose();
+      hv_LineLength = 200;
+      //起点
+      hv_RowStartV.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_RowStartV = hv_RowM-((hv_PhiStd.TupleCos()
+          )*hv_LineLength);
+      }
+      hv_ColStartV.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_ColStartV = hv_ColM-((hv_PhiStd.TupleSin()
+          )*hv_LineLength);
+      }
+      //终点
+      hv_RowEndV.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_RowEndV = hv_RowM+((hv_PhiStd.TupleCos()
+          )*hv_LineLength);
+      }
+      hv_ColEndV.Dispose();
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_ColEndV = hv_ColM+(hv_PhiStd.TupleSin()
+          );
+      }
+      //LineLength
+      hv_PhiV.Dispose();
+      HOperatorSet.LineOrientation(hv_RowStartV, hv_RowStartV, hv_RowEndV, hv_ColEndV, 
+          out hv_PhiV);
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ContourV.Dispose();
+      HOperatorSet.GenContourPolygonXld(out ho_ContourV, hv_RowStartV.TupleConcat(
+          hv_RowEndV), hv_ColStartV.TupleConcat(hv_ColEndV));
+      }
+
+      //********************FAI16-1检测***************************
+      //生成第一条线,左边起
+      ho_ROI_1.Dispose();
+      HOperatorSet.GenRectangle1(out ho_ROI_1, 195, 170, 1100, 250);
+      ho_ImageReducedMS1.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageTRWToByteRotate, ho_ROI_1, out ho_ImageReducedMS1
+          );
+      ho_ModelImages.Dispose();ho_ModelRegions.Dispose();
+      HOperatorSet.InspectShapeModel(ho_ImageReducedMS1, out ho_ModelImages, out ho_ModelRegions, 
+          4, 50);
+      hv_ModelID.Dispose();
+      HOperatorSet.CreateShapeModel(ho_ImageReducedMS1, 4, -0.39, 0.79, "auto", "auto", 
+          "use_polarity", "auto", "auto", out hv_ModelID);
+      //找模板，找旋转中心
+      hv_RowTR.Dispose();hv_ColumnTR.Dispose();hv_AngleTR.Dispose();hv_ScoreTR.Dispose();
+      HOperatorSet.FindShapeModel(ho_ImageTRWToByteRotate, hv_ModelID, -1, 1, 0.5, 
+          1, 0.5, "least_squares", 2, 0.9, out hv_RowTR, out hv_ColumnTR, out hv_AngleTR, 
+          out hv_ScoreTR);
+
+
+      //dev_get_window (WindowHandle1)
+      //draw_rectangle1 (WindowHandle1, Row11, Column11, Row2, Column2)
+      //gen_rectangle1 (RectangleB1, 1183, 112, 1203, 135)
+      //gen_rectangle1 (RectangleB2, 1183, 312, 1203, 331)
+      //union2 (RectangleB1, RectangleB2, ROIB)
+      //reduce_domain (ImageRotateNewTRW, ROIB, ImageReducedB)
+      //scale_image (ImageReducedB, ImageScaledReducedB, 5, 0)
+      //threshold (ImageScaledReducedB, RegionB, -9000, 100000)
+      //closing_rectangle1 (RegionB, RegionClosing, 5, 1)
+      //opening_rectangle1 (RegionClosing, RegionOpening, 3, 1)
+
+      //connection (RegionOpening, ConnectedRegions)
+      //select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 150, 99999)
+      //boundary (SelectedRegions, RegionBorderB, 'inner')
+
+      //skeleton (RegionBorderB, Skeleton)
+      //gen_contours_skeleton_xld (Skeleton, Contours, 5, 'generalize1')
+      //segment_contours_xld (Contours, ContoursSplit, 'lines', 1, 1, 1)
+
+      //select_contours_xld (ContoursSplit, SelectedContours1, 'direction', -1, 1, -0.5, 0.5)
+      //union_adjacent_contours_xld (SelectedContours1, UnionContours, 10, 1, 'attr_keep')
+      //select_contours_xld (UnionContours, SelectedContours, 'contour_length', 5, 200, -0.5, 0.5)
+
+      //rowBs := []
+      //colBs := []
+      //sort_contours_xld (SelectedContours, SortedContours, 'character', 'true', 'row')
+      //select_obj (SortedContours, ObjectSelected1, 3)
+      //get_contour_xld (ObjectSelected1, Row1, Col1)
+      //tuple_select_range (Row1, 2, |Row1|-2, Row1)
+      //tuple_select_range (Col1, 2, |Col1|-2, Col1)
+      //select_obj (SortedContours, ObjectSelected1, 4)
+      //get_contour_xld (ObjectSelected1, Row2, Col2)
+      //tuple_select_range (Row2, 2, |Row2|-2, Row2)
+      //tuple_select_range (Col2, 2, |Col2|-2, Col2)
+      //rowBs := [Row1,Row2]
+      //colBs := [Col1,Col2]
+
+
+      //点到直线的距离
+      //distance_pl (rowBs, colBs, RowStartV, RowStartV, RowEndV, ColEndV, DistanceB)
+      //tuple_mean (DistanceB, MeanDistanceB)
+      //tuple_sub (DistanceB, MeanDistanceB, DiffDistanceB)
+      //tuple_abs (DiffDistanceB, DiffDistanceBAbs)
+      //tuple_div (DiffDistanceBAbs, 0.5, DiffDistanceBAbsDiv)
+      //for Index1 := 0 to |DiffDistanceBAbsDiv|-1 by 1
+        //if (DiffDistanceBAbsDiv[Index1]<1)
+          //DiffDistanceBAbsDiv[Index1] := 0
+        //else
+          //DiffDistanceBAbsDiv[Index1] := 1
+        //endif
+      //endfor
+      //tuple_and (DiffDistanceBAbsDiv, 1, DiffDistanceBAbsDivAnd)
+      //tuple_find (DiffDistanceBAbsDiv, 0, Indices)
+      //tuple_remove (rowBs, Indices, ReducedrowBs)
+      //tuple_remove (colBs, Indices, ReducedcolBs)
+      //创建直线B
+      //gen_contour_polygon_xld (ContourB, rowBs, colBs)
+      //fit_line_contour_xld (ContourB, 'drop', -1, 4, 5, 1, RowBeginB, ColBeginB, RowEndB, ColEndB, NrB, NcB, Dist)
+      //gen_contour_polygon_xld (OrginLineB, [RowBeginB,RowEndB], [ColBeginB,ColEndB])
+      //记录B线的角度
+      //line_orientation (RowBeginB, ColBeginB, RowEndB, ColEndB, RowB)
+      //vector_angle_to_rigid ((RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, RowB, (RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, PhiStd-rad(90), HomMat2DB)
+      //affine_trans_contour_xld (OrginLineB, LineB, HomMat2DB)
+      //get_contour_xld (LineB, RowB, ColB)
+      //orientation_xld (LineB, PhiBB)
+      //fwrite_string (FileHandleB, PhiBB)
+      //fnew_line (FileHandleB)
+
+
+
+
+      //生成第一条线
+
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ROI_B.Dispose();
+      HOperatorSet.GenRectangle1(out ho_ROI_B, hv_RowL+535, hv_ColumnL-101.5, hv_RowL+558, 
+          hv_ColumnL+90.5);
+      }
+
+      ho_ImageReducedB.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageUP, ho_ROI_B, out ho_ImageReducedB);
+      ho_RegionB.Dispose();
+      HOperatorSet.Threshold(ho_ImageReducedB, out ho_RegionB, -2200, -1700);
+      ho_RegionBlosing2.Dispose();
+      HOperatorSet.ClosingRectangle1(ho_RegionB, out ho_RegionBlosing2, 35, 1);
+      ho_RegionBorderB.Dispose();
+      HOperatorSet.Boundary(ho_RegionBlosing2, out ho_RegionBorderB, "inner");
+      ho_ContourBs.Dispose();
+      HOperatorSet.GenContourRegionXld(ho_RegionBorderB, out ho_ContourBs, "border");
+      ho_ContourBsSplit.Dispose();
+      HOperatorSet.SegmentContoursXld(ho_ContourBs, out ho_ContourBsSplit, "lines", 
+          5, 1, 1);
+      ho_SelectedContourBs.Dispose();
+      HOperatorSet.SelectContoursXld(ho_ContourBsSplit, out ho_SelectedContourBs, 
+          "contour_length", 30, 2000, -0.5, 0.5);
+      ho_UnionContourBs.Dispose();
+      HOperatorSet.UnionCollinearContoursXld(ho_SelectedContourBs, out ho_UnionContourBs, 
+          100, 5, 5, 0.5, "attr_keep");
+      ho_SortedContourBs.Dispose();
+      HOperatorSet.SortContoursXld(ho_UnionContourBs, out ho_SortedContourBs, "character", 
+          "true", "row");
+      ho_ObjectSelectedB.Dispose();
+      HOperatorSet.SelectObj(ho_SortedContourBs, out ho_ObjectSelectedB, 2);
+      ho_UnionContours1.Dispose();
+      HOperatorSet.UnionCollinearContoursXld(ho_ObjectSelectedB, out ho_UnionContours1, 
+          1000, 20, 20, 0.5, "attr_keep");
+      hv_RowBeginB.Dispose();hv_ColBeginB.Dispose();hv_RowEndB.Dispose();hv_ColEndB.Dispose();hv_NrC.Dispose();hv_NcC.Dispose();hv_DistC.Dispose();
+      HOperatorSet.FitLineContourXld(ho_UnionContours1, "drop", -1, 0, 5, 1, out hv_RowBeginB, 
+          out hv_ColBeginB, out hv_RowEndB, out hv_ColEndB, out hv_NrC, out hv_NcC, 
+          out hv_DistC);
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_OrginLineB.Dispose();
+      HOperatorSet.GenContourPolygonXld(out ho_OrginLineB, hv_RowBeginB.TupleConcat(
+          hv_RowEndB), hv_ColBeginB.TupleConcat(hv_ColEndB));
+      }
+      //记录B线的角度
+      hv_RowB.Dispose();
+      HOperatorSet.LineOrientation(hv_RowBeginB, hv_ColBeginB, hv_RowEndB, hv_ColEndB, 
+          out hv_RowB);
+
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_HomMat2DB.Dispose();
+      HOperatorSet.VectorAngleToRigid((hv_RowBeginB+hv_RowEndB)/2, (hv_ColBeginB+hv_ColEndB)/2, 
+          hv_RowB, (hv_RowBeginB+hv_RowEndB)/2, (hv_ColBeginB+hv_ColEndB)/2, hv_PhiStd-((new HTuple(90)).TupleRad()
+          ), out hv_HomMat2DB);
+      }
+      ho_LineB.Dispose();
+      HOperatorSet.AffineTransContourXld(ho_OrginLineB, out ho_LineB, hv_HomMat2DB);
+      hv_RowB.Dispose();hv_ColB.Dispose();
+      HOperatorSet.GetContourXld(ho_LineB, out hv_RowB, out hv_ColB);
+      hv_PhiBB.Dispose();
+      HOperatorSet.OrientationXld(ho_LineB, out hv_PhiBB);
+
+      //生成第二条线
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ROI_C.Dispose();
+      HOperatorSet.GenRectangle1(out ho_ROI_C, hv_RowL-270, hv_ColumnL+485, hv_RowL+270, 
+          hv_ColumnL+495);
+      }
+
+      ho_ImageReducedC.Dispose();
+      HOperatorSet.ReduceDomain(ho_ImageUP, ho_ROI_C, out ho_ImageReducedC);
+      ho_RegionC.Dispose();
+      HOperatorSet.Threshold(ho_ImageReducedC, out ho_RegionC, -2200, -600);
+      ho_RegionClosing2.Dispose();
+      HOperatorSet.ClosingRectangle1(ho_RegionC, out ho_RegionClosing2, 1, 5);
+      ho_RegionBorderC.Dispose();
+      HOperatorSet.Boundary(ho_RegionClosing2, out ho_RegionBorderC, "inner");
+      ho_ContourCs.Dispose();
+      HOperatorSet.GenContourRegionXld(ho_RegionBorderC, out ho_ContourCs, "border");
+      ho_ContourCsSplit.Dispose();
+      HOperatorSet.SegmentContoursXld(ho_ContourCs, out ho_ContourCsSplit, "lines", 
+          5, 1, 1);
+      ho_SelectedContourCs.Dispose();
+      HOperatorSet.SelectContoursXld(ho_ContourCsSplit, out ho_SelectedContourCs, 
+          "contour_length", 20, 2000, -0.5, 0.5);
+      ho_UnionContourCs.Dispose();
+      HOperatorSet.UnionCollinearContoursXld(ho_SelectedContourCs, out ho_UnionContourCs, 
+          100, 10, 10, 0.5, "attr_keep");
+      ho_SortedContourCs.Dispose();
+      HOperatorSet.SortContoursXld(ho_UnionContourCs, out ho_SortedContourCs, "character", 
+          "true", "row");
+      ho_ObjectSelectedC.Dispose();
+      HOperatorSet.SelectObj(ho_SortedContourCs, out ho_ObjectSelectedC, 2);
+      ho_UnionContours1.Dispose();
+      HOperatorSet.UnionCollinearContoursXld(ho_ObjectSelectedC, out ho_UnionContours1, 
+          1000, 20, 20, 0.5, "attr_keep");
+      hv_RowBeginC.Dispose();hv_ColBeginC.Dispose();hv_RowEndC.Dispose();hv_ColEndC.Dispose();hv_NrC.Dispose();hv_NcC.Dispose();hv_DistC.Dispose();
+      HOperatorSet.FitLineContourXld(ho_UnionContours1, "drop", -1, 0, 5, 1, out hv_RowBeginC, 
+          out hv_ColBeginC, out hv_RowEndC, out hv_ColEndC, out hv_NrC, out hv_NcC, 
+          out hv_DistC);
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_OrginLineC.Dispose();
+      HOperatorSet.GenContourPolygonXld(out ho_OrginLineC, hv_RowBeginC.TupleConcat(
+          hv_RowEndC), hv_ColBeginC.TupleConcat(hv_ColEndC));
+      }
+      //记录B线的角度
+      hv_PhiC.Dispose();
+      HOperatorSet.LineOrientation(hv_RowBeginC, hv_ColBeginC, hv_RowEndC, hv_ColEndC, 
+          out hv_PhiC);
+
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_HomMat2DC.Dispose();
+      HOperatorSet.VectorAngleToRigid((hv_RowBeginC+hv_RowEndC)/2, (hv_ColBeginC+hv_ColEndC)/2, 
+          hv_PhiC, (hv_RowBeginC+hv_RowEndC)/2, (hv_ColBeginC+hv_ColEndC)/2, hv_PhiStd, 
+          out hv_HomMat2DC);
+      }
+      ho_LineC.Dispose();
+      HOperatorSet.AffineTransContourXld(ho_OrginLineC, out ho_LineC, hv_HomMat2DC);
+      hv_RowC.Dispose();hv_ColC.Dispose();
+      HOperatorSet.GetContourXld(ho_LineC, out hv_RowC, out hv_ColC);
+      hv_PhiCC.Dispose();
+      HOperatorSet.OrientationXld(ho_LineC, out hv_PhiCC);
+
+
+      ho_ImageTLWConverted.Dispose();
+      ho_ImageTLWScaled.Dispose();
+      ho_ImageNewTLWMirror.Dispose();
+      ho_ImageNewTLW.Dispose();
+      ho_ImagePITRWConverted.Dispose();
+      ho_ImageTRWScaled.Dispose();
+      ho_ImageNewTRWMirror.Dispose();
+      ho_ImageNewTRW.Dispose();
+      ho_ImageBWConverted.Dispose();
+      ho_ImageBWScaled.Dispose();
+      ho_ImageNewBWMirror.Dispose();
+      ho_ImageNewBW.Dispose();
+      ho_ImageTLWMirror.Dispose();
+      ho_ImageTLWToByte.Dispose();
+      ho_ImageTRWMirror.Dispose();
+      ho_ImageTRWToByte.Dispose();
+      ho_ROI_0.Dispose();
+      ho_ImageReducedMS.Dispose();
+      ho_ModelImages.Dispose();
+      ho_ModelRegions.Dispose();
+      ho_ImageNewTLWAffineTrans.Dispose();
+      ho_Region1.Dispose();
+      ho_ConnectedRegions1.Dispose();
+      ho_SelectedRegions1.Dispose();
+      ho_RegionDilation.Dispose();
+      ho_RegionUnion.Dispose();
+      ho_ImageReduced1.Dispose();
+      ho_ImageMax.Dispose();
+      ho_ImageUP.Dispose();
+      ho_ImageBWMirror.Dispose();
+      ho_ImageNewBWAffines.Dispose();
+      ho_Region.Dispose();
+      ho_RegionFillUp.Dispose();
+      ho_RegionOpening1.Dispose();
+      ho_ImageTRWToByteRotate.Dispose();
+      ho_ImageReduced2.Dispose();
+      ho_ImageReduced.Dispose();
+      ho_RegionStd.Dispose();
+      ho_RegionOpeningStd.Dispose();
+      ho_RegionBorderStd.Dispose();
+      ho_ContourStds.Dispose();
+      ho_ContourStdsSplit.Dispose();
+      ho_SelectedContourStds.Dispose();
+      ho_UnionContourStds.Dispose();
+      ho_SortedContourStds.Dispose();
+      ho_ObjectSelectedStd.Dispose();
+      ho_UnionStdontoursStd1.Dispose();
+      ho_ContourStd.Dispose();
+      ho_ContourV.Dispose();
+      ho_ROI_1.Dispose();
+      ho_ImageReducedMS1.Dispose();
+      ho_ImageReducedB.Dispose();
+      ho_RegionB.Dispose();
+      ho_RegionBorderB.Dispose();
+      ho_OrginLineB.Dispose();
+      ho_LineB.Dispose();
+      ho_ROI_B.Dispose();
+      ho_RegionBlosing2.Dispose();
+      ho_ContourBs.Dispose();
+      ho_ContourBsSplit.Dispose();
+      ho_SelectedContourBs.Dispose();
+      ho_UnionContourBs.Dispose();
+      ho_SortedContourBs.Dispose();
+      ho_ObjectSelectedB.Dispose();
+      ho_UnionContours1.Dispose();
+      ho_ROI_C.Dispose();
+      ho_ImageReducedC.Dispose();
+      ho_RegionC.Dispose();
+      ho_RegionClosing2.Dispose();
+      ho_RegionBorderC.Dispose();
+      ho_ContourCs.Dispose();
+      ho_ContourCsSplit.Dispose();
+      ho_SelectedContourCs.Dispose();
+      ho_UnionContourCs.Dispose();
+      ho_SortedContourCs.Dispose();
+      ho_ObjectSelectedC.Dispose();
+      ho_OrginLineC.Dispose();
+      ho_LineC.Dispose();
+
+      hv_ModelID.Dispose();
+      hv_RowTR.Dispose();
+      hv_ColumnTR.Dispose();
+      hv_AngleTR.Dispose();
+      hv_ScoreTR.Dispose();
+      hv_RowTL.Dispose();
+      hv_ColumnTL.Dispose();
+      hv_AngleTL.Dispose();
+      hv_ScoreTL.Dispose();
+      hv_HomMat2D.Dispose();
+      hv_ColumnB.Dispose();
+      hv_AngleB.Dispose();
+      hv_Score2.Dispose();
+      hv_ModelIDL.Dispose();
+      hv_RowL.Dispose();
+      hv_ColumnL.Dispose();
+      hv_AngleL.Dispose();
+      hv_ScoreL.Dispose();
+      hv_a.Dispose();
+      hv_b.Dispose();
+      hv_RowBeginStd.Dispose();
+      hv_ColBeginStd.Dispose();
+      hv_RowEndStd.Dispose();
+      hv_ColEndStd.Dispose();
+      hv_NrC.Dispose();
+      hv_NcC.Dispose();
+      hv_DistC.Dispose();
+      hv_PhiStd.Dispose();
+      hv_RowM.Dispose();
+      hv_ColM.Dispose();
+      hv_LineLength.Dispose();
+      hv_RowStartV.Dispose();
+      hv_ColStartV.Dispose();
+      hv_RowEndV.Dispose();
+      hv_ColEndV.Dispose();
+      hv_PhiV.Dispose();
+      hv_RowBeginB.Dispose();
+      hv_ColBeginB.Dispose();
+      hv_RowEndB.Dispose();
+      hv_ColEndB.Dispose();
+      hv_HomMat2DB.Dispose();
+      hv_PhiBB.Dispose();
+      hv_RowBeginC.Dispose();
+      hv_ColBeginC.Dispose();
+      hv_RowEndC.Dispose();
+      hv_ColEndC.Dispose();
+      hv_PhiC.Dispose();
+      hv_HomMat2DC.Dispose();
+      hv_PhiCC.Dispose();
+
+      return;
+    }
+    catch (HalconException HDevExpDefaultException)
+    {
+      ho_ImageTLWConverted.Dispose();
+      ho_ImageTLWScaled.Dispose();
+      ho_ImageNewTLWMirror.Dispose();
+      ho_ImageNewTLW.Dispose();
+      ho_ImagePITRWConverted.Dispose();
+      ho_ImageTRWScaled.Dispose();
+      ho_ImageNewTRWMirror.Dispose();
+      ho_ImageNewTRW.Dispose();
+      ho_ImageBWConverted.Dispose();
+      ho_ImageBWScaled.Dispose();
+      ho_ImageNewBWMirror.Dispose();
+      ho_ImageNewBW.Dispose();
+      ho_ImageTLWMirror.Dispose();
+      ho_ImageTLWToByte.Dispose();
+      ho_ImageTRWMirror.Dispose();
+      ho_ImageTRWToByte.Dispose();
+      ho_ROI_0.Dispose();
+      ho_ImageReducedMS.Dispose();
+      ho_ModelImages.Dispose();
+      ho_ModelRegions.Dispose();
+      ho_ImageNewTLWAffineTrans.Dispose();
+      ho_Region1.Dispose();
+      ho_ConnectedRegions1.Dispose();
+      ho_SelectedRegions1.Dispose();
+      ho_RegionDilation.Dispose();
+      ho_RegionUnion.Dispose();
+      ho_ImageReduced1.Dispose();
+      ho_ImageMax.Dispose();
+      ho_ImageUP.Dispose();
+      ho_ImageBWMirror.Dispose();
+      ho_ImageNewBWAffines.Dispose();
+      ho_Region.Dispose();
+      ho_RegionFillUp.Dispose();
+      ho_RegionOpening1.Dispose();
+      ho_ImageTRWToByteRotate.Dispose();
+      ho_ImageReduced2.Dispose();
+      ho_ImageReduced.Dispose();
+      ho_RegionStd.Dispose();
+      ho_RegionOpeningStd.Dispose();
+      ho_RegionBorderStd.Dispose();
+      ho_ContourStds.Dispose();
+      ho_ContourStdsSplit.Dispose();
+      ho_SelectedContourStds.Dispose();
+      ho_UnionContourStds.Dispose();
+      ho_SortedContourStds.Dispose();
+      ho_ObjectSelectedStd.Dispose();
+      ho_UnionStdontoursStd1.Dispose();
+      ho_ContourStd.Dispose();
+      ho_ContourV.Dispose();
+      ho_ROI_1.Dispose();
+      ho_ImageReducedMS1.Dispose();
+      ho_ImageReducedB.Dispose();
+      ho_RegionB.Dispose();
+      ho_RegionBorderB.Dispose();
+      ho_OrginLineB.Dispose();
+      ho_LineB.Dispose();
+      ho_ROI_B.Dispose();
+      ho_RegionBlosing2.Dispose();
+      ho_ContourBs.Dispose();
+      ho_ContourBsSplit.Dispose();
+      ho_SelectedContourBs.Dispose();
+      ho_UnionContourBs.Dispose();
+      ho_SortedContourBs.Dispose();
+      ho_ObjectSelectedB.Dispose();
+      ho_UnionContours1.Dispose();
+      ho_ROI_C.Dispose();
+      ho_ImageReducedC.Dispose();
+      ho_RegionC.Dispose();
+      ho_RegionClosing2.Dispose();
+      ho_RegionBorderC.Dispose();
+      ho_ContourCs.Dispose();
+      ho_ContourCsSplit.Dispose();
+      ho_SelectedContourCs.Dispose();
+      ho_UnionContourCs.Dispose();
+      ho_SortedContourCs.Dispose();
+      ho_ObjectSelectedC.Dispose();
+      ho_OrginLineC.Dispose();
+      ho_LineC.Dispose();
+
+      hv_ModelID.Dispose();
+      hv_RowTR.Dispose();
+      hv_ColumnTR.Dispose();
+      hv_AngleTR.Dispose();
+      hv_ScoreTR.Dispose();
+      hv_RowTL.Dispose();
+      hv_ColumnTL.Dispose();
+      hv_AngleTL.Dispose();
+      hv_ScoreTL.Dispose();
+      hv_HomMat2D.Dispose();
+      hv_ColumnB.Dispose();
+      hv_AngleB.Dispose();
+      hv_Score2.Dispose();
+      hv_ModelIDL.Dispose();
+      hv_RowL.Dispose();
+      hv_ColumnL.Dispose();
+      hv_AngleL.Dispose();
+      hv_ScoreL.Dispose();
+      hv_a.Dispose();
+      hv_b.Dispose();
+      hv_RowBeginStd.Dispose();
+      hv_ColBeginStd.Dispose();
+      hv_RowEndStd.Dispose();
+      hv_ColEndStd.Dispose();
+      hv_NrC.Dispose();
+      hv_NcC.Dispose();
+      hv_DistC.Dispose();
+      hv_PhiStd.Dispose();
+      hv_RowM.Dispose();
+      hv_ColM.Dispose();
+      hv_LineLength.Dispose();
+      hv_RowStartV.Dispose();
+      hv_ColStartV.Dispose();
+      hv_RowEndV.Dispose();
+      hv_ColEndV.Dispose();
+      hv_PhiV.Dispose();
+      hv_RowBeginB.Dispose();
+      hv_ColBeginB.Dispose();
+      hv_RowEndB.Dispose();
+      hv_ColEndB.Dispose();
+      hv_HomMat2DB.Dispose();
+      hv_PhiBB.Dispose();
+      hv_RowBeginC.Dispose();
+      hv_ColBeginC.Dispose();
+      hv_RowEndC.Dispose();
+      hv_ColEndC.Dispose();
+      hv_PhiC.Dispose();
+      hv_HomMat2DC.Dispose();
+      hv_PhiCC.Dispose();
 
       throw HDevExpDefaultException;
     }
@@ -17649,6 +18660,5 @@ public partial class HDevelopExport
     }
   }
 
-  
 }
 

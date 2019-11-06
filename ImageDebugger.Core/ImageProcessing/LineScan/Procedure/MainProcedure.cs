@@ -21,21 +21,22 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             rightImage.GetImageSize(out imageWidth, out imageHeight);
 
 
-            HObject leftImageAligned, bottomImageAligned, _;
-            HTuple rowBeginB, colBeginB, rowEndB, colEndB, rowBeginC, colBeginC, rowEndC, colEndC;
-            _halconScripts.I40AlignAllAndGetBaseLines(rightImage, leftImage, bottomImage, out leftImageAligned,
-                out bottomImageAligned, out _, out _, _shapeModelHandleRight,out rowBeginB, out colBeginB, 
-                out rowEndB, out colEndB, out rowBeginC, out colBeginC, out rowEndC, out colEndC);
+            HObject leftImageAligned, bottomImageAligned, rightImageAligned;
+            HTuple rowB, colB, rowC, colC;
+
+
+            _halconScripts.DWQ_I40GetBaseLine(leftImage, rightImage, bottomImage, out bottomImageAligned,
+                out leftImageAligned, out rightImageAligned, out rowB, out colB, out rowC, out colC);
             
 
          
             // Translate base
-           var lineB = new Line(colBeginB, rowBeginB, colEndB, rowEndB, true).SortUpDown();
-           var lineC  = new Line(colBeginC, rowBeginC, colEndC, rowEndC, true).SortLeftRight();
+           var lineB = new Line(colB.DArr[0], rowB.DArr[0], colB.DArr[1], rowB.DArr[1], true).SortLeftRight();
+           var lineC  = new Line(colC.DArr[0], rowC.DArr[0], colC.DArr[1], rowC.DArr[1], true).SortUpDown().InvertDirection();
            
-            var xAxis = lineB.Translate(-1.0 / _horizontalCoeff * 6.788).InvertDirection();
+            var xAxis = lineB.Translate(1.0 / _yCoeff * -6.788);
             xAxis.IsVisible = true;
-            var yAxis = lineC.Translate(-1.0 / _verticalCoeff * 19.605);
+            var yAxis = lineC.Translate(1.0 / _xCoeff * -19.605);
             yAxis.IsVisible = true;
 
             // Record debugging data
@@ -55,20 +56,21 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
             var imageB = bottomImageAligned.HobjectToHimage();
             var imageL = leftImageAligned.HobjectToHimage();
-            var imageR = rightImage;
+            var imageR = rightImageAligned.HobjectToHimage();
             
-            var imageBHeight = imageB.ToKeyenceHeightImage();
-            var imageLHeight = imageL.ToKeyenceHeightImage();
-            var imageRHeight = imageR.ToKeyenceHeightImage();
+            imageB.GetImageSize(out imageWidth, out imageHeight);
+            imageL.GetImageSize(out imageWidth, out imageHeight);
+            imageR.GetImageSize(out imageWidth, out imageHeight);
+          
             
-            var visualBR = VisualizeAlignment(rightImage, imageB);
-            var visualLR = VisualizeAlignment(rightImage, imageL);
+            var visualBR = VisualizeAlignment(imageR, imageB);
+            var visualLR = VisualizeAlignment(imageR, imageL);
 
             
-            var pointLocator = new PointLocator(xAxis, yAxis, _verticalCoeff, _horizontalCoeff);
+            var pointLocator = new PointLocator(xAxis, yAxis, _xCoeff, -_yCoeff);
             var pointMarkers = pointLocator.LocatePoints(pointSettings, new List<HImage>()
             {
-                imageBHeight, imageLHeight, imageRHeight
+                imageB, imageL, imageR
             });
             
 
@@ -77,12 +79,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             {
                 Images = new List<HImage>()
                 {
-                     imageBHeight, imageLHeight, imageRHeight, visualBR, visualLR
+                     imageB, imageL, imageR, visualBR, visualLR
                 },
                 PointMarkers = pointMarkers,
                 RecordingElements = recordings,
                 //TODO: fix this buzzard -1
-                ChangeOfBaseInv = MathUtils.GetChangeOfBaseInv(xAxis, yAxis, -1/_verticalCoeff, 1/_horizontalCoeff)
+                ChangeOfBaseInv = MathUtils.GetChangeOfBaseInv(xAxis, yAxis, 1/_xCoeff, 1/_yCoeff)
             };
             
 
