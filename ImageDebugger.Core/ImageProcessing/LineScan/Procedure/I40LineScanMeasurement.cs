@@ -32,7 +32,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
         public string ShapeModelPath
         {
-            get { return ApplicationViewModel.SolutionDirectory + "/Configs/3D/I40/ShapeModels/model"; }
+            get { return ApplicationViewModel.SolutionDirectory + "/Configs/3D/I40/ShapeModels/model-2-4-14"; }
         }
 
         public I40LineScanMeasurement()
@@ -126,7 +126,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
         private readonly double _yCoeff = 0.0123;
 
-        private readonly double _xCoeff = 0.04;
+        private readonly double _xCoeff = 0.013988;
 
 
         private IEnumerable<PointSettingViewModel> GrabPointsThatStartWith(List<PointSettingViewModel> pointSettings,

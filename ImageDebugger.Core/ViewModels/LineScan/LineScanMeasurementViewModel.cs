@@ -150,9 +150,12 @@ namespace ImageDebugger.Core.ViewModels.LineScan
 
             InfoImageList = result.Images.Take(3).ToList();
 
-
+    
+            // Visualization
             BackView = result.Images[3];
             FrontView = result.Images[4];
+            
+            
             Result = result;
             ChangeOfBaseInv = result.ChangeOfBaseInv;
 
@@ -224,5 +227,6 @@ namespace ImageDebugger.Core.ViewModels.LineScan
         public ICommand ShowThicknessViewCommand { get; private set; }
 
         public ICommand OpenCsvDirCommand { get; private set; }
+
     }
 }

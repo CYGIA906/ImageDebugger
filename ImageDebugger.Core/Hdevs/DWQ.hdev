@@ -3,159 +3,219 @@
 <procedure name="main">
 <interface/>
 <body>
-<l>list_files ('C:/Users/afterbunny/Desktop/Projects/LineScan/Data/1106/Static1106/2', ['files','follow_links'], ImageFilesTL)</l>
+<l>* open_file ('C:/Users/25001885/Desktop/data.csv', 'output', FileHandleData)</l>
+<l>* open_file ('C:/Users/25001885/Desktop/grayvalue1.csv', 'output', FileHandleDataGrayValue1)</l>
+<l>* open_file ('C:/Users/25001885/Desktop/grayvalue2.csv', 'output', FileHandleDataGrayValue2)</l>
+<l>strPath:='C:/Users/afterbunny/Desktop/Projects/LineScan/Data/1107/1107/Static/'</l>
+<l>list_files (strPath+'2', ['files','follow_links'], ImageFilesTL)</l>
 <l>tuple_regexp_select (ImageFilesTL, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesTL)</l>
-<l>list_files ('C:/Users/afterbunny/Desktop/Projects/LineScan/Data/1106/Static1106/3', ['files','follow_links'], ImageFilesTR)</l>
+<l>list_files (strPath+'3', ['files','follow_links'], ImageFilesTR)</l>
 <l>tuple_regexp_select (ImageFilesTR, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesTR)</l>
-<l>list_files ('C:/Users/afterbunny/Desktop/Projects/LineScan/Data/1106/Static1106/1', ['files','follow_links'], ImageFilesB)</l>
+<l>list_files (strPath+'1', ['files','follow_links'], ImageFilesB)</l>
 <l>tuple_regexp_select (ImageFilesB, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesB)</l>
 <l>for IndexLoop :=0 to |ImageFilesB| - 1 by 1</l>
-<l>    dev_update_off()</l>
+<l>*     dev_update_off()</l>
 <l>    read_image (ProfileImageTLW, ImageFilesTL[IndexLoop])</l>
 <l>    read_image (ProfileImageTRW, ImageFilesTR[IndexLoop])</l>
 <l>    read_image (ProfileImageBW, ImageFilesB[IndexLoop])</l>
 <c>    * 创建模板,初定位</c>
-<l>    read_shape_model ('C:/Users/afterbunny/Desktop/Transfer/Xiaojin/ImageDebugger/Configs/3D/I40/ShapeModels/model', ModelID)</l>
-<l>    get_location (ProfileImageTLW, ProfileImageTRW, ProfileImageBW, ImageNewTLW, ImageNewTRW, ImageNewBW, fit_contour, ImageUP, ModelID, RowB, ColB, RowC, ColC)</l>
+<l>    read_shape_model ('C:/Users/afterbunny/Desktop/Transfer/Xiaojin/ImageDebugger/Configs/3D/I40/ShapeModels/model-2-4-14', ModelID)</l>
+<l>    get_location (ProfileImageTLW, ProfileImageTRW, ProfileImageBW, ImageNewTLW, ImageNewTRW, ImageNewBW, fit_contour, ImageUP, RegionB, ModelID, RowB, ColB, RowC, ColC)</l>
+<c>    </c>
+<l>    intersection_lines (RowC[0], ColC[0], RowC[1], ColC[1], RowB[0], ColB[0], RowB[1], ColB[1], RowBC, ColumnBC, IsOverlappingBC)</l>
+<l>    gen_region_points (RegionBC, RowBC, ColumnBC)</l>
+<c>    </c>
 <l>    scale_image(ImageUP, ImageUPShow, 0.001, 0)</l>
+<l>    scale_image_range(ImageUPShow, ImageUPShow, -5, 250)</l>
 <l>    intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 0, 1600, 0, Row1, Column1, IsOverlapping1)</l>
-<l>    intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 800, 1600, 800, Row2, Column2, IsOverlapping1) </l>
+<l>    intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 2400, 1600, 2400, Row2, Column2, IsOverlapping1) </l>
 <l>    gen_contour_polygon_xld (Contourb, [Row1,Row2], [Column1,Column2])</l>
-<l>    intersection_lines (0, 0, 0, 800, RowC[0], ColC[0], RowC[1], ColC[1], Row3, Column3, IsOverlapping1)</l>
+<l>    intersection_lines (0, 0, 0, 1600, RowC[0], ColC[0], RowC[1], ColC[1], Row3, Column3, IsOverlapping1)</l>
 <l>    intersection_lines (1600, 0, 1600, 800, RowC[0], ColC[0], RowC[1], ColC[1], Row4, Column4, IsOverlapping1)</l>
 <l>    gen_contour_polygon_xld (Contourc, [Row3,Row4], [Column3,Column4])</l>
-<l>*    dev_update_on()</l>
-<l>*    dev_display (ImageUPShow)</l>
+<l>*     dev_update_on()</l>
+<l>*    dev_display (ImageUP)</l>
 <l>*    dev_display (Contourc)</l>
 <l>*    dev_display (Contourb)</l>
-<l>    stop ()</l>
+<l>*    dev_set_color ('green')</l>
+<l>*    dev_display (RegionB)</l>
+<c>         </c>
 <l>endfor</l>
 </body>
 <docu id="main">
 <parameters/>
 </docu>
 </procedure>
-<procedure name="get_location">
+<procedure name="analyze_coordinate">
 <interface>
-<io>
-<par name="ProfileImageTLW" base_type="iconic" dimension="0"/>
-<par name="ProfileImageTRW" base_type="iconic" dimension="0"/>
-<par name="ProfileImageBW" base_type="iconic" dimension="0"/>
-</io>
-<oo>
-<par name="ImageNewTLW" base_type="iconic" dimension="0"/>
-<par name="ImageNewTRW" base_type="iconic" dimension="0"/>
-<par name="ImageNewBW" base_type="iconic" dimension="0"/>
-<par name="fit_contour" base_type="iconic" dimension="0"/>
-<par name="ImageUP" base_type="iconic" dimension="0"/>
-</oo>
 <ic>
-<par name="ModelID" base_type="ctrl" dimension="0"/>
+<par name="Input_x" base_type="ctrl" dimension="0"/>
+<par name="Input_y" base_type="ctrl" dimension="0"/>
+<par name="Phi" base_type="ctrl" dimension="0"/>
+<par name="Row" base_type="ctrl" dimension="0"/>
+<par name="Column" base_type="ctrl" dimension="0"/>
+<par name="sx" base_type="ctrl" dimension="0"/>
+<par name="sy" base_type="ctrl" dimension="0"/>
 </ic>
 <oc>
-<par name="RowB" base_type="ctrl" dimension="0"/>
-<par name="ColB" base_type="ctrl" dimension="0"/>
-<par name="RowC" base_type="ctrl" dimension="0"/>
-<par name="ColC" base_type="ctrl" dimension="0"/>
+<par name="Output_x" base_type="ctrl" dimension="0"/>
+<par name="Output_y" base_type="ctrl" dimension="0"/>
 </oc>
 </interface>
 <body>
-<c>* ****************矫正I40TL照片</c>
-<l> get_ImageTL (ProfileImageTLW, ImageNewTL, ImageTLWToByte)</l>
-<c>* 矫正I40TR照片</c>
-<l>get_ImageTR (ProfileImageTRW, ImageNewTRW, ImageTRWToByte)</l>
-<c>* ****************矫正I40B照片</c>
-<l>get_ImageB (ProfileImageBW, ImageNewB, ImageBWToByte)</l>
-<c>* **********************合并上面两张图</c>
-<c></c>
-<c>*针对每个工件正反面定位</c>
-<l>dev_display (ImageTRWToByte)</l>
-<l>find_shape_model (ImageTRWToByte, ModelID, -0.39, 0.79, 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowTLW, ColumnTLW, AngleTLW, ScoreTLW)</l>
-<l>gen_rectangle1 (ROI_0, RowTLW-485, ColumnTLW-80, RowTLW+480, ColumnTLW+80)</l>
-<l>reduce_domain (ImageTRWToByte, ROI_0, ImageReducedMS)</l>
-<l>inspect_shape_model (ImageReducedMS, ModelImages, ModelRegions, 4, 50)</l>
-<l>create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelIDMS)</l>
-<c>* 找模板，找旋转中心</c>
-<l>find_shape_model (ImageTRWToByte, ModelIDMS, -1, 1, 0.5, 1, 0.5, 'least_squares', 2, 0.9, RowTR, ColumnTR, AngleTR, ScoreTR)</l>
-<l>* dev_display (ImageTRWToByte)</l>
-<l>* dev_display_shape_matching_results (ModelID, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
-<l>find_shape_model (ImageTLWToByte, ModelIDMS, -1, 1, 0.3, 1, 0.5, 'least_squares', 2, 0.9, RowTL, ColumnTL, AngleTL, ScoreTL)</l>
-<l>* dev_display (ImageTLWToByte)</l>
-<l>* dev_display_shape_matching_results (ModelID, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
-<c>* 旋转TL矫正镜像图片照片</c>
-<l>vector_angle_to_rigid (RowTL, ColumnTL, AngleTL,RowTR, ColumnTR, AngleTR,  HomMat2D)</l>
-<l>affine_trans_image (ImageNewTL, ImageNewTLW, HomMat2D, 'constant', 'false')</l>
-<l>get_ImageUP (ImageNewTRW, ImageNewTLW, ImageUP)</l>
-<c>* 底面旋转到检测位置</c>
-<l>find_shape_model (ImageBWToByte, ModelID, -1, 1, 0.2, 1, 0.5, 'least_squares', 2, 0.9, RowB, ColB, AngleB, Score2)</l>
-<l>* dev_display (ImageRotateB)</l>
-<l>* dev_display_shape_matching_results (ModelID, 'red', RowB, ColB, AngleB, 1, 1, 0)</l>
-<l>vector_angle_to_rigid (RowB, ColB, AngleB, RowTL, ColumnTL, AngleTL, HomMat2D)</l>
-<l>affine_trans_image (ImageNewB, ImageNewBW, HomMat2D, 'constant', 'false')</l>
-<c></c>
-<c>* 创建模板</c>
-<l>* gen_rectangle1 (ROI_0, 237.934, 181.275, 1140.4, 306.398)</l>
-<l>* reduce_domain (ImageTLWToByte, ROI_0, ImageReducedMS)</l>
-<l>* inspect_shape_model (ImageReducedMS, ModelImages, ModelRegions, 4, 50)</l>
-<l>* create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelIDL)</l>
-<c>* 找模板，找旋转中心</c>
-<l>* find_shape_model (ImageTLWToByte, ModelIDMS, -1, 1, 0.5, 1, 0.3, 'least_squares', 2, 0.9, RowL, ColumnL, AngleL, ScoreTL)</l>
-<l>* dev_display (ImageTLWToByte)</l>
-<l>* dev_display_shape_matching_results (ModelID, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
-<c>*获取定位线</c>
-<l>get_located_line (ImageNewTRW, RowTR, ColumnTR, PhiStd)</l>
-<c>* 生成基准垂线</c>
-<l>* RowM := (RowBeginStd+RowEndStd)/2</l>
-<l>* ColM := (ColBeginStd+ColEndStd)/2</l>
-<c>* ********************生成垂线**************************垂线长度</c>
-<l>* LineLength := 200</l>
-<c>* 起点</c>
-<l>* RowStartV := RowM-cos(PhiStd)*LineLength</l>
-<l>* ColStartV := ColM-sin(PhiStd)*LineLength</l>
-<c>* 终点</c>
-<l>* RowEndV := RowM+cos(PhiStd)*LineLength</l>
-<l>* ColEndV := ColM+sin(PhiStd)</l>
-<c>* LineLength</c>
-<l>* line_orientation (RowStartV, RowStartV, RowEndV, ColEndV, PhiV)</l>
-<l>* gen_contour_polygon_xld (ContourV, [RowStartV,RowEndV], [ColStartV,ColEndV])</l>
-<c></c>
-<c>* 生成B条线</c>
-<l>gen_B_line (ImageNewTRW, OrginLineB, RowTR, ColumnTR, RowBeginB, ColBeginB, RowEndB, ColEndB)</l>
-<c>* 校准B线</c>
-<l>line_orientation (RowBeginB, ColBeginB, RowEndB, ColEndB, RowB)</l>
-<l>vector_angle_to_rigid ((RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, RowB, (RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, PhiStd-rad(90), HomMat2DB)</l>
-<l>affine_trans_contour_xld (OrginLineB, LineB, HomMat2DB)</l>
-<l>get_contour_xld (LineB, RowB, ColB)</l>
-<l>orientation_xld (LineB, PhiBB)</l>
-<c>* 生成C条线</c>
-<l>get_C_line (ImageNewTRW, OrginLineC, RowTR, ColumnTR, RowBeginC, ColBeginC, RowEndC, ColEndC)</l>
-<c>* 校准C线</c>
-<l>line_orientation (RowBeginC, ColBeginC, RowEndC, ColEndC, PhiC)</l>
-<l>vector_angle_to_rigid ((RowBeginC+RowEndC)/2, (ColBeginC+ColEndC)/2, PhiC, (RowBeginC+RowEndC)/2, (ColBeginC+ColEndC)/2, PhiStd, HomMat2DC)</l>
-<l>affine_trans_contour_xld (OrginLineC, LineC, HomMat2DC)</l>
-<l>get_contour_xld (LineC, RowC, ColC)</l>
-<l>orientation_xld (LineC, PhiCC)</l>
-<l>gen_empty_obj (fit_contour)</l>
-<l>* concat_obj (fit_contour, ObjectSelectedC, fit_contour)</l>
-<l>* concat_obj (fit_contour, ObjectSelectedB, fit_contour)</l>
-<l>* concat_obj (fit_contour, ObjectSelectedStd, fit_contour)</l>
+<l>tuple_abs (Input_x*1000, x)</l>
+<l>tuple_abs (Input_y*1000, y)</l>
+<c>* x轴像素当量即colum方向</c>
+<l>a := sx</l>
+<c>* y轴像素当量即Row方向</c>
+<l>b := sy</l>
+<l>if (Phi&gt;=0)</l>
+<c>    * C平移延x轴移动距离</c>
+<l>    deta_y := (y*cos(Phi)-x*sin(Phi))/b</l>
+<c>    * C平移延y轴移动距离</c>
+<l>    deta_x := (y*sin(Phi)-x*tan(Phi)*sin(Phi)+x/cos(Phi))/a</l>
+<l>endif</l>
+<l>if (Phi&lt;0)</l>
+<c>    * C,B平移延y轴移动像素距离</c>
+<l>    deta_y := (y/cos(Phi)+x*sin(Phi)-y*sin(Phi)*tan(Phi))/b</l>
+<c>    * C,B平移延x轴移动像素距离</c>
+<l>    deta_x := (x*cos(Phi)-y*sin(Phi))/a</l>
+<l>endif</l>
+<c>* 8个点的像素坐标，2位y方向补偿</c>
+<l>Output_x := Column-deta_x+1</l>
+<l>Output_y := Row-deta_y-4</l>
 <l>return ()</l>
 </body>
-<docu id="get_location">
+<docu id="analyze_coordinate">
 <parameters>
-<parameter id="ColB"/>
-<parameter id="ColC"/>
-<parameter id="ImageNewBW"/>
-<parameter id="ImageNewTLW"/>
-<parameter id="ImageNewTRW"/>
-<parameter id="ImageUP"/>
-<parameter id="ModelID"/>
+<parameter id="Column"/>
+<parameter id="Input_x">
+<sem_type>any</sem_type>
+</parameter>
+<parameter id="Input_y">
+<sem_type>any</sem_type>
+</parameter>
+<parameter id="Output_x">
+<sem_type>any</sem_type>
+</parameter>
+<parameter id="Output_y">
+<sem_type>any</sem_type>
+</parameter>
+<parameter id="Phi"/>
+<parameter id="Row"/>
+<parameter id="sx"/>
+<parameter id="sy"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="analyze_flatness">
+<interface>
+<ic>
+<par name="xs" base_type="ctrl" dimension="0"/>
+<par name="ys" base_type="ctrl" dimension="0"/>
+<par name="zs" base_type="ctrl" dimension="0"/>
+<par name="x" base_type="ctrl" dimension="0"/>
+<par name="y" base_type="ctrl" dimension="0"/>
+<par name="z" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="flatness" base_type="ctrl" dimension="0"/>
+<par name="distance" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* 平整度测量</c>
+<c>* 3D坐标</c>
+<l>X := xs</l>
+<l>Y := ys</l>
+<l>Z := zs</l>
+<c>* 3D坐标转化为3D模型</c>
+<l>gen_object_model_3d_from_points (X, Y, Z, ObjectModel3D)</l>
+<c>* 3D模型拟合成平面</c>
+<l>ParFitting := ['primitive_type','fitting_algorithm','output_xyz_mapping']</l>
+<l>ValFitting := ['plane','least_squares','true']</l>
+<c>* Apply the fitting</c>
+<l>fit_primitives_object_model_3d (ObjectModel3D, ParFitting, ValFitting, ObjectModel3DOutID)</l>
+<c>* 获取拟合参数（法向量，平面中心一点）</c>
+<l>get_object_model_3d_params (ObjectModel3DOutID, 'primitive_parameter', primitive_parameter)</l>
+<l>get_object_model_3d_params (ObjectModel3DOutID, 'center', center)</l>
+<c>* 计算平面方程(a,b,c,d)</c>
+<l>a := primitive_parameter[0]</l>
+<l>b := primitive_parameter[1]</l>
+<l>c := primitive_parameter[2]</l>
+<l>d := -1*center[0]*a-center[1]*b-center[2]*primitive_parameter[2]</l>
+<c>* 平面度计算</c>
+<l>minD := 9999</l>
+<l>maxD := -9999</l>
+<l>for i := 0 to |X|-1 by 1</l>
+<l>    D := a*X[i]+b*Y[i]+c*Z[i]+d</l>
+<l>    if (minD&gt;D)</l>
+<l>        minD := D</l>
+<l>    endif</l>
+<l>    if (maxD&lt;D)</l>
+<l>        maxD := D</l>
+<l>    endif</l>
+<l>endfor</l>
+<l>flatness := (maxD-minD)/1000</l>
+<c>* 点到平面距离</c>
+<l>X1 := x</l>
+<l>Y1 := y</l>
+<l>Z1 := z</l>
+<l>d1 := a*a+b*b+c*c</l>
+<l>tuple_abs (a*X1+b*Y1+c*Z1+d, d2)</l>
+<c></c>
+<l>distance := d2/d1/1000</l>
+<l>return ()</l>
+</body>
+<docu id="analyze_flatness">
+<parameters>
+<parameter id="distance"/>
+<parameter id="flatness"/>
+<parameter id="x"/>
+<parameter id="xs"/>
+<parameter id="y"/>
+<parameter id="ys"/>
+<parameter id="z"/>
+<parameter id="zs"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_ImageB">
+<interface>
+<io>
+<par name="ProfileImageBW" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ImageNewB" base_type="iconic" dimension="0"/>
+<par name="ImageBWToByte" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>convert_image_type (ProfileImageBW, ImageBWConverted, 'int4')</l>
+<l>scale_image (ImageBWConverted, ImageBWScaled, 1, -32768)</l>
+<l>scale_image (ImageBWScaled, ImageBWScaled, 1.6, 0)</l>
+<l>* get_image_size (ImageBWScaled, WidthB, HeightB)</l>
+<l>* gen_image_const (ImageNewTempBW, 'int4', WidthB, HeightB)</l>
+<l>* for Index := 0 to HeightB-1 by 1</l>
+<l>*     get_grayval (ImageBWScaled, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValueBefore)</l>
+<l>*     grayValue := grayValueBefore[0:WidthB-1]-([0:WidthB-1]*kB+bB)</l>
+<l>*     set_grayval (ImageNewTempBW, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValue)</l>
+<l>* endfor</l>
+<l>mirror_image (ImageBWScaled, ImageNewBWMirror, 'column')</l>
+<l>convert_image_type (ImageNewBWMirror, ImageNewBWConvert, 'int2')</l>
+<l>rotate_image (ImageNewBWConvert, ImageNewB, 90, 'constant')</l>
+<c></c>
+<l>convert_image_type (ProfileImageBW, ImageBWConverted, 'byte')</l>
+<l>mirror_image (ImageBWConverted, ImageBWMirror, 'column')</l>
+<l>rotate_image (ImageBWMirror, ImageBWToByte, 90, 'constant')</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="get_ImageB">
+<parameters>
+<parameter id="ImageBWToByte"/>
+<parameter id="ImageNewB"/>
 <parameter id="ProfileImageBW"/>
-<parameter id="ProfileImageTLW"/>
-<parameter id="ProfileImageTRW"/>
-<parameter id="RowB"/>
-<parameter id="RowC"/>
-<parameter id="fit_contour"/>
 </parameters>
 </docu>
 </procedure>
@@ -199,6 +259,50 @@
 </parameters>
 </docu>
 </procedure>
+<procedure name="get_located_line">
+<interface>
+<io>
+<par name="ImageNewTRW" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="RowL" base_type="ctrl" dimension="0"/>
+<par name="ColumnL" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="PhiStd" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>gen_rectangle1 (ROI_0, RowL-260, ColumnL+495, RowL+270, ColumnL+530)</l>
+<l>reduce_domain (ImageNewTRW, ROI_0, ImageReduced)</l>
+<l>threshold (ImageReduced, RegionStd, -2050, 4095)</l>
+<l>closing_rectangle1 (RegionStd, RegionClosing, 1, 15)</l>
+<c></c>
+<l>opening_rectangle1 (RegionClosing, RegionOpeningStd, 1, 10)</l>
+<c></c>
+<l>boundary (RegionOpeningStd, RegionBorderStd, 'inner')</l>
+<l>gen_contour_region_xld (RegionBorderStd, ContourStds, 'border')</l>
+<l>segment_contours_xld (ContourStds, ContourStdsSplit, 'lines', 5, 1, 1)</l>
+<l>select_contours_xld (ContourStdsSplit, SelectedContourStds, 'contour_length', 20, 2000, -0.5, 0.5)</l>
+<l>union_collinear_contours_ext_xld (SelectedContourStds, UnionContourStds, 200, 7, 7, 0.5, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
+<l>select_contours_xld (UnionContourStds, SelectedContourStds, 'contour_length', 80, 2000, -0.5, 0.5)</l>
+<l>sort_contours_xld (SelectedContourStds, SortedContourStds, 'character', 'true', 'row')</l>
+<l>select_obj (SortedContourStds, ObjectSelectedStd, 1)</l>
+<l>fit_line_contour_xld (ObjectSelectedStd, 'drop', 200, 2, 5, 1, RowBeginStd, ColBeginStd, RowEndStd, ColEndStd, NrC, NcC, DistC)</l>
+<l>gen_contour_polygon_xld (ContourStd, [RowBeginStd,RowEndStd], [ColBeginStd,ColEndStd])</l>
+<c></c>
+<l>line_orientation (RowBeginStd, ColBeginStd, RowEndStd, ColEndStd, PhiStd)</l>
+<l>return ()</l>
+</body>
+<docu id="get_located_line">
+<parameters>
+<parameter id="ColumnL"/>
+<parameter id="ImageNewTRW"/>
+<parameter id="PhiStd"/>
+<parameter id="RowL"/>
+</parameters>
+</docu>
+</procedure>
 <procedure name="get_ImageTR">
 <interface>
 <io>
@@ -237,118 +341,6 @@
 </parameters>
 </docu>
 </procedure>
-<procedure name="get_ImageB">
-<interface>
-<io>
-<par name="ProfileImageBW" base_type="iconic" dimension="0"/>
-</io>
-<oo>
-<par name="ImageNewB" base_type="iconic" dimension="0"/>
-<par name="ImageBWToByte" base_type="iconic" dimension="0"/>
-</oo>
-</interface>
-<body>
-<l>convert_image_type (ProfileImageBW, ImageBWConverted, 'int4')</l>
-<l>scale_image (ImageBWConverted, ImageBWScaled, 1, -32768)</l>
-<l>scale_image (ImageBWScaled, ImageBWScaled, 1.6, 0)</l>
-<l>* get_image_size (ImageBWScaled, WidthB, HeightB)</l>
-<l>* gen_image_const (ImageNewTempBW, 'int4', WidthB, HeightB)</l>
-<l>* for Index := 0 to HeightB-1 by 1</l>
-<l>*     get_grayval (ImageBWScaled, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValueBefore)</l>
-<l>*     grayValue := grayValueBefore[0:WidthB-1]-([0:WidthB-1]*kB+bB)</l>
-<l>*     set_grayval (ImageNewTempBW, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValue)</l>
-<l>* endfor</l>
-<l>mirror_image (ImageBWScaled, ImageNewBWMirror, 'column')</l>
-<l>convert_image_type (ImageNewBWMirror, ImageNewBWConvert, 'int2')</l>
-<l>rotate_image (ImageNewBWConvert, ImageNewB, 90, 'constant')</l>
-<c></c>
-<l>convert_image_type (ProfileImageBW, ImageBWConverted, 'byte')</l>
-<l>mirror_image (ImageBWConverted, ImageBWMirror, 'column')</l>
-<l>rotate_image (ImageBWMirror, ImageBWToByte, 90, 'constant')</l>
-<c></c>
-<l>return ()</l>
-</body>
-<docu id="get_ImageB">
-<parameters>
-<parameter id="ImageBWToByte"/>
-<parameter id="ImageNewB"/>
-<parameter id="ProfileImageBW"/>
-</parameters>
-</docu>
-</procedure>
-<procedure name="get_ImageUP">
-<interface>
-<io>
-<par name="ImageNewTRW" base_type="iconic" dimension="0"/>
-<par name="NewImageNewTLW" base_type="iconic" dimension="0"/>
-</io>
-<oo>
-<par name="ImageUP" base_type="iconic" dimension="0"/>
-</oo>
-</interface>
-<body>
-<l>threshold (ImageNewTRW, Region, -128000, -25500)</l>
-<l>connection (Region, ConnectedRegions)</l>
-<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 99577.5, 2000000)</l>
-<l>opening_circle (SelectedRegions, RegionOpening, 9)</l>
-<l>dilation_circle (RegionOpening, RegionDilation, 5)</l>
-<l>union1 (RegionDilation, RegionUnion)</l>
-<l>reduce_domain (NewImageNewTLW, RegionUnion, ImageReduced)</l>
-<l>paint_gray (ImageReduced, ImageNewTRW, ImageUP)</l>
-<l>return ()</l>
-</body>
-<docu id="get_ImageUP">
-<parameters>
-<parameter id="ImageNewTRW"/>
-<parameter id="ImageUP"/>
-<parameter id="NewImageNewTLW"/>
-</parameters>
-</docu>
-</procedure>
-<procedure name="get_located_line">
-<interface>
-<io>
-<par name="ImageNewTRW" base_type="iconic" dimension="0"/>
-</io>
-<ic>
-<par name="RowL" base_type="ctrl" dimension="0"/>
-<par name="ColumnL" base_type="ctrl" dimension="0"/>
-</ic>
-<oc>
-<par name="PhiStd" base_type="ctrl" dimension="0"/>
-</oc>
-</interface>
-<body>
-<l>gen_rectangle1 (ROI_0, RowL-260, ColumnL+165, RowL+270, ColumnL+185)</l>
-<l>reduce_domain (ImageNewTRW, ROI_0, ImageReduced)</l>
-<l>threshold (ImageReduced, RegionStd, -2050, 4095)</l>
-<l>closing_rectangle1 (RegionStd, RegionClosing, 1, 15)</l>
-<c></c>
-<l>opening_rectangle1 (RegionClosing, RegionOpeningStd, 1, 10)</l>
-<c></c>
-<l>boundary (RegionOpeningStd, RegionBorderStd, 'inner')</l>
-<l>gen_contour_region_xld (RegionBorderStd, ContourStds, 'border')</l>
-<l>segment_contours_xld (ContourStds, ContourStdsSplit, 'lines', 5, 1, 1)</l>
-<l>select_contours_xld (ContourStdsSplit, SelectedContourStds, 'contour_length', 20, 2000, -0.5, 0.5)</l>
-<l>union_collinear_contours_ext_xld (SelectedContourStds, UnionContourStds, 200, 7, 7, 0.5, 0, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
-<l>select_contours_xld (UnionContourStds, SelectedContourStds, 'contour_length', 30, 2000, -0.5, 0.5)</l>
-<l>sort_contours_xld (SelectedContourStds, SortedContourStds, 'character', 'true', 'row')</l>
-<l>select_obj (SortedContourStds, ObjectSelectedStd, 1)</l>
-<l>fit_line_contour_xld (ObjectSelectedStd, 'drop', 200, 2, 5, 1, RowBeginStd, ColBeginStd, RowEndStd, ColEndStd, NrC, NcC, DistC)</l>
-<l>gen_contour_polygon_xld (ContourStd, [RowBeginStd,RowEndStd], [ColBeginStd,ColEndStd])</l>
-<c></c>
-<l>line_orientation (RowBeginStd, ColBeginStd, RowEndStd, ColEndStd, PhiStd)</l>
-<l>return ()</l>
-</body>
-<docu id="get_located_line">
-<parameters>
-<parameter id="ColumnL"/>
-<parameter id="ImageNewTRW"/>
-<parameter id="PhiStd"/>
-<parameter id="RowL"/>
-</parameters>
-</docu>
-</procedure>
 <procedure name="gen_B_line">
 <interface>
 <io>
@@ -369,7 +361,7 @@
 </oc>
 </interface>
 <body>
-<l>gen_rectangle1 (ROI_B, RowL+540, ColumnL-101.5, RowL+563, ColumnL+90.5)</l>
+<l>gen_rectangle1 (ROI_B, RowL+520, ColumnL-230, RowL+550, ColumnL+290)</l>
 <l>reduce_domain (Image, ROI_B, ImageReducedB)</l>
 <l>threshold (ImageReducedB, RegionB, -2200, -1500)</l>
 <l>closing_rectangle1 (RegionB, RegionBlosing2, 35, 1)</l>
@@ -379,7 +371,7 @@
 <l>select_contours_xld (ContourBsSplit, SelectedContourBs, 'contour_length', 15, 2000, -0.5, 0.5)</l>
 <l>union_collinear_contours_xld (SelectedContourBs, UnionContourBs, 100, 5, 5, 0.5, 'attr_keep')</l>
 <l>select_contours_xld (UnionContourBs, SelectedContours, 'contour_length', 50, 2000, -0.5, 0.5)</l>
-<l>sort_contours_xld (SelectedContours, SortedContourBs, 'character', 'true', 'row')</l>
+<l>sort_contours_xld (SelectedContours, SortedContourBs, 'character', 'true', 'column')</l>
 <l>count_obj (SortedContourBs, Number)</l>
 <l>select_obj (SortedContourBs, ObjectSelectedB, Number)</l>
 <l>fit_line_contour_xld (ObjectSelectedB, 'drop', -1, 0, 5, 1, RowBeginB, ColBeginB, RowEndB, ColEndB, NrC, NcC, DistC)</l>
@@ -396,6 +388,35 @@
 <parameter id="RowBeginB"/>
 <parameter id="RowEndB"/>
 <parameter id="RowL"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_ImageUP">
+<interface>
+<io>
+<par name="ImageNewTRW" base_type="iconic" dimension="0"/>
+<par name="NewImageNewTLW" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ImageUP" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>threshold (ImageNewTRW, Region, -128000, -25500)</l>
+<l>connection (Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 99577.5, 2000000)</l>
+<l>opening_circle (SelectedRegions, RegionOpening, 9)</l>
+<l>dilation_circle (RegionOpening, RegionDilation, 3)</l>
+<l>union1 (RegionDilation, RegionUnion)</l>
+<l>reduce_domain (NewImageNewTLW, RegionUnion, ImageReduced)</l>
+<l>paint_gray (ImageReduced, ImageNewTRW, ImageUP)</l>
+<l>return ()</l>
+</body>
+<docu id="get_ImageUP">
+<parameters>
+<parameter id="ImageNewTRW"/>
+<parameter id="ImageUP"/>
+<parameter id="NewImageNewTLW"/>
 </parameters>
 </docu>
 </procedure>
@@ -419,8 +440,7 @@
 </oc>
 </interface>
 <body>
-<l>gen_rectangle1 (ROI_C, RowL-270, ColumnL+490, RowL+270, ColumnL+499)</l>
-<c></c>
+<l>gen_rectangle1 (ROI_C, RowL-270, ColumnL+1420, RowL+270, ColumnL+1445)</l>
 <l>reduce_domain (Image, ROI_C, ImageReducedC)</l>
 <l>threshold (ImageReducedC, RegionC, -2200, -600)</l>
 <l>closing_rectangle1 (RegionC, RegionClosing2, 1, 5)</l>
@@ -447,6 +467,233 @@
 <parameter id="RowBeginC"/>
 <parameter id="RowEndC"/>
 <parameter id="RowL"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="override_get_grayvalue">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="rows" base_type="ctrl" dimension="0"/>
+<par name="cols" base_type="ctrl" dimension="0"/>
+<par name="phi" base_type="ctrl" dimension="0"/>
+<par name="grids" base_type="ctrl" dimension="0"/>
+<par name="plane" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="grayvalues" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>grayvalues := []</l>
+<l>* open_file ('C:/Users/25001885/Desktop/ZValues.csv', 'output', FileHandle)</l>
+<l>for Index := 0 to |rows|-1 by 1</l>
+<l>    tempGrayvalues := []</l>
+<l>    gen_rectangle2 (Rectangle, rows[Index], cols[Index], phi, grids/3, grids/2)</l>
+<l>    get_region_points (Rectangle, Rows, Columns)</l>
+<l>    get_grayval (Image, Rows, Columns, GrayvalOrgin)</l>
+<l>    tuple_sort (GrayvalOrgin, Sorted)</l>
+<l>    if (|Sorted|&gt;=9)</l>
+<l>        tuple_select_range (Sorted, 4, |Sorted|-4, Grayval)</l>
+<l>    else</l>
+<l>        tuple_select_range (Sorted, 0, |Sorted|-1, Grayval)</l>
+<l>    endif</l>
+<l>    if (plane='A')</l>
+<l>        for Index1 := 0 to |Grayval|-1 by 1</l>
+<l>            if (Grayval[Index1]&gt;-1000 and Grayval[Index1]&lt;-400)</l>
+<l>                tempGrayvalues := [tempGrayvalues,Grayval[Index1]]</l>
+<l>            endif</l>
+<l>        endfor</l>
+<l>    elseif (plane='P')</l>
+<l>        for Index1 := 0 to |Grayval|-1 by 1</l>
+<l>            if (Grayval[Index1]&gt;-3850 and Grayval[Index1]&lt;-3200)</l>
+<l>                tempGrayvalues := [tempGrayvalues,Grayval[Index1]]</l>
+<l>            endif</l>
+<l>        endfor</l>
+<l>    elseif (plane='E')</l>
+<l>        tuple_min (Grayval, Min)</l>
+<l>        if (Min&gt;-3600)</l>
+<l>            tempGrayvalues := [tempGrayvalues,Grayval]</l>
+<l>        else</l>
+<l>            for Index1 := 0 to |Grayval|-1 by 1</l>
+<c></c>
+<l>                if (Grayval[Index1]&gt;-4100 and Grayval[Index1]&lt;=-3600)</l>
+<l>                    tempGrayvalues := [tempGrayvalues,Grayval[Index1]]</l>
+<l>                endif</l>
+<l>            endfor</l>
+<l>        endif</l>
+<l>    elseif (plane='F')</l>
+<l>        for Index1 := 0 to |Grayval|-1 by 1</l>
+<l>            if (Grayval[Index1]&gt;-3000and Grayval[Index1]&lt;2500)</l>
+<l>                tempGrayvalues := [tempGrayvalues,Grayval[Index1]]</l>
+<l>            endif</l>
+<l>        endfor</l>
+<l>    endif</l>
+<l>    tuple_sort (tempGrayvalues, SortedGrayval)</l>
+<l>    if (|SortedGrayval|&gt;=3 and |SortedGrayval|&lt;=5)</l>
+<l>        tuple_select (SortedGrayval, [1:|SortedGrayval|-1], SelectedGrayval)</l>
+<l>    elseif (|SortedGrayval|&gt;5)</l>
+<l>        tuple_select (SortedGrayval, [2:|SortedGrayval|-2], SelectedGrayval)</l>
+<l>    else</l>
+<l>        SelectedGrayval := SortedGrayval</l>
+<l>    endif</l>
+<l>    for Index2 := 0 to |SortedGrayval|-1 by 1</l>
+<l>*         fwrite_string (FileHandle, SortedGrayval[Index2]+',')</l>
+<l>    endfor</l>
+<l>*     fnew_line (FileHandle)</l>
+<l>    tuple_mean (SelectedGrayval, MeanGrayval)</l>
+<l>    grayvalues := [grayvalues,MeanGrayval]</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="override_get_grayvalue">
+<parameters>
+<parameter id="Image"/>
+<parameter id="cols"/>
+<parameter id="grayvalues"/>
+<parameter id="grids"/>
+<parameter id="phi"/>
+<parameter id="plane">
+<default_type>string</default_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="rows"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_location">
+<interface>
+<io>
+<par name="ProfileImageTLW" base_type="iconic" dimension="0"/>
+<par name="ProfileImageTRW" base_type="iconic" dimension="0"/>
+<par name="ProfileImageBW" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="ImageNewTLW" base_type="iconic" dimension="0"/>
+<par name="ImageNewTRW" base_type="iconic" dimension="0"/>
+<par name="ImageNewBW" base_type="iconic" dimension="0"/>
+<par name="fit_contour" base_type="iconic" dimension="0"/>
+<par name="ImageUP" base_type="iconic" dimension="0"/>
+<par name="RegionB" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="ModelID" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="RowB" base_type="ctrl" dimension="0"/>
+<par name="ColB" base_type="ctrl" dimension="0"/>
+<par name="RowC" base_type="ctrl" dimension="0"/>
+<par name="ColC" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c></c>
+<c>* 左侧和下侧图片要旋转才可以达到，加W结尾的才是最终输出图片</c>
+<c>* ****************矫正I40TL照片</c>
+<l>get_ImageTL (ProfileImageTLW, ImageNewTL, ImageTLWToByte)</l>
+<c>* 矫正I40TR照片</c>
+<l>get_ImageTR (ProfileImageTRW, ImageNewTRW, ImageTRWToByte)</l>
+<c>* ****************矫正I40B照片</c>
+<l>get_ImageB (ProfileImageBW, ImageNewB, ImageBWToByte)</l>
+<c>* **********************合并上面两张图</c>
+<l>* gen_rectangle1 (ROI_0, 195.762, 539.958, 1130.34, 924.691)</l>
+<l>* reduce_domain (ImageTRWToByte, ROI_0, ImageReduced)</l>
+<l>* create_shape_model (ImageReduced, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID1)</l>
+<l>* write_shape_model (ModelID1, 'G:/项目文件/1107/50shapemodel')</l>
+<c>* 针对每个工件正反面定位</c>
+<l>dev_display (ImageTRWToByte)</l>
+<l>find_shape_model (ImageTRWToByte, ModelID, -0.39, 0.79, 0.3, 1, 0.5, 'least_squares', 0, 0.9, RowTLW, ColumnTLW, AngleTLW, ScoreTLW)</l>
+<l>gen_rectangle1 (ROI_0, RowTLW-485, ColumnTLW-180, RowTLW+480, ColumnTLW+180)</l>
+<l>reduce_domain (ImageTRWToByte, ROI_0, ImageReducedMS)</l>
+<l>create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelIDMS)</l>
+<c>* 找模板，找旋转中心</c>
+<l>find_shape_model (ImageTRWToByte, ModelIDMS, -1, 1, 0.5, 1, 0.5, 'least_squares', 2, 0.9, RowTR, ColumnTR, AngleTR, ScoreTR)</l>
+<l>* dev_display (ImageTRWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelID, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
+<l>find_shape_model (ImageTLWToByte, ModelIDMS, -1, 1, 0.3, 1, 0.5, 'least_squares', 2, 0.9, RowTL, ColumnTL, AngleTL, ScoreTL)</l>
+<l>* dev_display (ImageTLWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelID, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
+<c>* 旋转TL矫正镜像图片照片</c>
+<l>vector_angle_to_rigid (RowTL, ColumnTL, AngleTL, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
+<l>affine_trans_image (ImageNewTL, ImageNewTLW, HomMat2D, 'constant', 'false')</l>
+<l>get_ImageUP (ImageNewTRW, ImageNewTLW, ImageUP)</l>
+<c>* 底面旋转到检测位置</c>
+<l>find_shape_model (ImageBWToByte, ModelID, -1, 1, 0.2, 1, 0.5, 'least_squares', 2, 0.9, RowB, ColB, AngleB, Score2)</l>
+<l>dev_display (ImageBWToByte)</l>
+<l>dev_display_shape_matching_results (ModelID, 'red', RowB, ColB, AngleB, 1, 1, 0)</l>
+<l>vector_angle_to_rigid (RowB, ColB, AngleB, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
+<l>affine_trans_image (ImageNewB, ImageNewBW, HomMat2D, 'constant', 'false')</l>
+<c></c>
+<c>* 创建模板</c>
+<l>* gen_rectangle1 (ROI_0, 237.934, 181.275, 1140.4, 306.398)</l>
+<l>* reduce_domain (ImageTLWToByte, ROI_0, ImageReducedMS)</l>
+<l>* inspect_shape_model (ImageReducedMS, ModelImages, ModelRegions, 4, 50)</l>
+<l>* create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelIDL)</l>
+<c>* 找模板，找旋转中心</c>
+<l>* find_shape_model (ImageTLWToByte, ModelIDMS, -1, 1, 0.5, 1, 0.3, 'least_squares', 2, 0.9, RowL, ColumnL, AngleL, ScoreTL)</l>
+<l>* dev_display (ImageTLWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelID, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
+<c>* 获取定位线</c>
+<l>get_located_line (ImageNewTRW, RowTR, ColumnTR, PhiStd)</l>
+<c>* 生成基准垂线</c>
+<l>* RowM := (RowBeginStd+RowEndStd)/2</l>
+<l>* ColM := (ColBeginStd+ColEndStd)/2</l>
+<c>* ********************生成垂线**************************垂线长度</c>
+<l>* LineLength := 200</l>
+<c>* 起点</c>
+<l>* RowStartV := RowM-cos(PhiStd)*LineLength</l>
+<l>* ColStartV := ColM-sin(PhiStd)*LineLength</l>
+<c>* 终点</c>
+<l>* RowEndV := RowM+cos(PhiStd)*LineLength</l>
+<l>* ColEndV := ColM+sin(PhiStd)</l>
+<c>* LineLength</c>
+<l>* line_orientation (RowStartV, RowStartV, RowEndV, ColEndV, PhiV)</l>
+<l>* gen_contour_polygon_xld (ContourV, [RowStartV,RowEndV], [ColStartV,ColEndV])</l>
+<c></c>
+<c>* 生成B条线</c>
+<l>gen_B_line (ImageNewTRW, OrginLineB, RowTR, ColumnTR, RowBeginB, ColBeginB, RowEndB, ColEndB)</l>
+<c>* 校准B线</c>
+<l>line_orientation (RowBeginB, ColBeginB, RowEndB, ColEndB, RowB)</l>
+<l>vector_angle_to_rigid ((RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, RowB, (RowBeginB+RowEndB)/2, (ColBeginB+ColEndB)/2, PhiStd-rad(90), HomMat2DB)</l>
+<l>affine_trans_contour_xld (OrginLineB, LineB, HomMat2DB)</l>
+<l>get_contour_xld (LineB, RowB, ColB)</l>
+<l>orientation_xld (LineB, PhiBB)</l>
+<c>* 生成C条线</c>
+<l>get_C_line (ImageNewTRW, OrginLineC, RowTR, ColumnTR, RowBeginC, ColBeginC, RowEndC, ColEndC)</l>
+<c>* 校准C线</c>
+<l>line_orientation (RowBeginC, ColBeginC, RowEndC, ColEndC, PhiC)</l>
+<l>vector_angle_to_rigid ((RowBeginC+RowEndC)/2, (ColBeginC+ColEndC)/2, PhiC, (RowBeginC+RowEndC)/2, (ColBeginC+ColEndC)/2, PhiStd, HomMat2DC)</l>
+<l>affine_trans_contour_xld (OrginLineC, LineC, HomMat2DC)</l>
+<l>get_contour_xld (LineC, RowC, ColC)</l>
+<l>orientation_xld (LineC, PhiCC)</l>
+<l>gen_empty_obj (fit_contour)</l>
+<c>* 显示B台阶面</c>
+<l>gen_rectangle1 (ROI_BR, RowTR+520, ColumnTR-230, RowTR+550, ColumnTR+290)</l>
+<l>reduce_domain (ImageUP, ROI_BR, ImageReduced)</l>
+<l>threshold (ImageReduced, RegionB, -2000, -1600)</l>
+<l>return ()</l>
+<c></c>
+</body>
+<docu id="get_location">
+<parameters>
+<parameter id="ColB"/>
+<parameter id="ColC"/>
+<parameter id="ImageNewBW"/>
+<parameter id="ImageNewTLW"/>
+<parameter id="ImageNewTRW"/>
+<parameter id="ImageUP"/>
+<parameter id="ModelID"/>
+<parameter id="ProfileImageBW"/>
+<parameter id="ProfileImageTLW"/>
+<parameter id="ProfileImageTRW"/>
+<parameter id="RegionB"/>
+<parameter id="RowB"/>
+<parameter id="RowC"/>
+<parameter id="fit_contour"/>
 </parameters>
 </docu>
 </procedure>

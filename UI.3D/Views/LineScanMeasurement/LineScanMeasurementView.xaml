@@ -136,7 +136,7 @@
                     <converters:EventToCommandBehavior Event="HMouseMove" Command="{Binding DisplayXYGrayCommand}"
                                                        PassArguments="True" />
                 </i:Interaction.Behaviors>
-
+                
             </halconDotNet:HSmartWindowControlWPF>
             <!-- Image info view popup -->
             <Popup Grid.Column="0" IsOpen="{Binding ShouldImageInfoDisplay}" Placement="Relative"

@@ -18,6 +18,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
         public List<PointMarker> PointMarkers { get; set; }
         public HObject Edges { get; set; }
 
+        
         public HObject CrossedUsed { get; set; }
         
         public List<HImage> Images { get; set; }
@@ -79,10 +80,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             windowHandle.SetColor("orange");
             FindLineRects?.DispObj(windowHandle);
             
-            windowHandle.SetColor("medium slate blue");
+            windowHandle.SetColor("green");
+            windowHandle.SetDraw("fill");
             windowHandle.SetLineWidth(3);
             Edges?.DispObj(windowHandle);
             windowHandle.SetLineWidth(1);
+            windowHandle.SetDraw("margin");
             
             windowHandle.SetColor("red");
             Line.DisplayGraphics(windowHandle);

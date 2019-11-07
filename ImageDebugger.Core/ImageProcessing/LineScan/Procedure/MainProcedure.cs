@@ -21,12 +21,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             rightImage.GetImageSize(out imageWidth, out imageHeight);
 
 
-            HObject leftImageAligned, bottomImageAligned, rightImageAligned, contours, imageComposed;
+            HObject leftImageAligned, bottomImageAligned, rightImageAligned, contours, imageComposed, regionB;
             HTuple rowB, colB, rowC, colC;
 
 
        
-            _halconScripts.get_location(leftImage, rightImage, bottomImage, out leftImageAligned, out rightImageAligned, out bottomImageAligned, out contours, out imageComposed, _shapeModelHandleRight, out rowB, out colB, out rowC, out colC);
+            _halconScripts.get_location(leftImage, rightImage, bottomImage, out leftImageAligned, out rightImageAligned, out bottomImageAligned, out contours, out imageComposed, out regionB, _shapeModelHandleRight, out rowB, out colB, out rowC, out colC);
             
 
          
@@ -83,8 +83,8 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
                 },
                 PointMarkers = pointMarkers,
                 RecordingElements = recordings,
-                //TODO: fix this buzzard -1
-                ChangeOfBaseInv = MathUtils.GetChangeOfBaseInv(xAxis, yAxis, 1/_xCoeff, 1/_yCoeff)
+                ChangeOfBaseInv = MathUtils.GetChangeOfBaseInv(xAxis, yAxis, 1/_xCoeff, 1/_yCoeff),
+                Edges = regionB
             };
             output.AddLineRegion(contours);
             

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using ImageDebugger.Core.IoC.Interface;
@@ -34,7 +35,7 @@ namespace UI._2D.DataAccess
 
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.SelectedPath = "C:\\Users\\afterbunny\\Desktop\\Projects\\LineScan\\Data\\1106\\Merged";
+                fbd.SelectedPath = "C:\\Users\\afterbunny\\Desktop\\Projects\\LineScan\\Data\\1107\\1107\\Merged\\Static";
                 DialogResult result = fbd.ShowDialog();
                 var selectedPath = fbd.SelectedPath;
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(selectedPath))
