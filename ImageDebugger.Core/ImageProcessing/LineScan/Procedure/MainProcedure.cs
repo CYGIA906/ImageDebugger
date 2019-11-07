@@ -21,12 +21,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
             rightImage.GetImageSize(out imageWidth, out imageHeight);
 
 
-            HObject leftImageAligned, bottomImageAligned, rightImageAligned;
+            HObject leftImageAligned, bottomImageAligned, rightImageAligned, contours, imageComposed;
             HTuple rowB, colB, rowC, colC;
 
 
-            _halconScripts.DWQ_I40GetBaseLine(leftImage, rightImage, bottomImage, out bottomImageAligned,
-                out leftImageAligned, out rightImageAligned, out rowB, out colB, out rowC, out colC);
+       
+            _halconScripts.get_location(leftImage, rightImage, bottomImage, out leftImageAligned, out rightImageAligned, out bottomImageAligned, out contours, out imageComposed, _shapeModelHandleRight, out rowB, out colB, out rowC, out colC);
             
 
          
@@ -86,6 +86,7 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
                 //TODO: fix this buzzard -1
                 ChangeOfBaseInv = MathUtils.GetChangeOfBaseInv(xAxis, yAxis, 1/_xCoeff, 1/_yCoeff)
             };
+            output.AddLineRegion(contours);
             
 
             return output;

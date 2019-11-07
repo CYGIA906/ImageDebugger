@@ -222,8 +222,11 @@ namespace ImageDebugger.Core.ViewModels.Base
                 ImageNames = GenImageNames();
                 ImageToShowSelectionList = GenImageToShowSelectionList(NumLists);
                 _imagePaths = value;
+                CurrentDirectory = Path.GetDirectoryName(_imagePaths[0]);
             }
         }
+
+        public string CurrentDirectory { get; set; }
 
         /// <summary>
         /// Generate a list of image index to show

@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<PointSettingViewModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="16.5-8" X="5.1" Y="-6.6" KernelSize="3" Value="0" ZWeight="1" ZBias="0" ImageIndex="2">
+<PointSettingViewModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="16.5-8" X="5.1" Y="-6.6" KernelSize="1" TrimPercent="0.2" ZWeight="1" ZBias="0" ImageIndex="2">
   <SerializationDirectory>C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger/Configs/3D/I40\Points</SerializationDirectory>
 </PointSettingViewModel>

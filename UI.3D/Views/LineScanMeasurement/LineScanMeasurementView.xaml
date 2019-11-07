@@ -93,6 +93,8 @@
                             </ComboBox>
                         </Viewbox>
                     </materialDesign:Chip>
+                    
+                    <TextBlock Text="{Binding CurrentDirectory}" HorizontalAlignment="Right"/>
                 </ToolBar>
             </ToolBarTray>
 

@@ -85,6 +85,7 @@
     <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Enums\DrawerContentType3D.cs" />
     <Compile Include="Enums\MeasurementPage2D.cs" />
+    <Compile Include="Hdevs\DWQ.cs" />
     <Compile Include="Hdevs\I40GetBaseRectsAndRealTImeModel.cs" />
     <Compile Include="Hdevs\I94Hdev.cs" />
     <Compile Include="Helpers\AutoSerializableHelper.cs" />

@@ -43,8 +43,9 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             {
                 ImageX = intersection.ImageX,
                 ImageY = intersection.ImageY,
-//                Height = pointSetting.KernelSize < 2? (double)image.GetGrayval(intersection.ImageY, intersection.ImageX) : SmoothAndGetValueAtPoint(intersection.ImageX, intersection.ImageY, image, pointSetting.KernelSize, pointSetting.TrimPercent),
-                Height = grayValue,
+                Height = pointSetting.KernelSize < 2? (double)image.GetGrayval(intersection.ImageY, intersection.ImageX)/1000.0
+                    : SmoothAndGetValueAtPoint(intersection.ImageX, intersection.ImageY, image, pointSetting.KernelSize, pointSetting.TrimPercent)/1000.0,
+//                Height = grayValue,
                 Name = pointSetting.Name
             };
         }

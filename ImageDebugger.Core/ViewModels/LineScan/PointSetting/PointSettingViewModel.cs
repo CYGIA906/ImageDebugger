@@ -7,7 +7,7 @@ namespace ImageDebugger.Core.ViewModels.LineScan.PointSetting
     {
         [XmlAttribute] public double X { get; set; }
         [XmlAttribute] public double Y { get; set; }
-        [XmlAttribute] public int KernelSize { get; set; } = 3;
+        [XmlAttribute] public int KernelSize { get; set; } = 1;
         [XmlAttribute] public double TrimPercent { get; set; } = 0.2;
 
         public string CsvName
