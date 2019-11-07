@@ -54,9 +54,9 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
 
 
 
-            var imageB = bottomImageAligned.HobjectToHimage();
-            var imageL = leftImageAligned.HobjectToHimage();
-            var imageR = rightImageAligned.HobjectToHimage();
+            var imageB = bottomImageAligned.HobjectToHimage().ConvertImageType("real").ScaleImage(0.001, 0);
+            var imageL = leftImageAligned.HobjectToHimage().ConvertImageType("real").ScaleImage(0.001, 0);
+            var imageR = rightImageAligned.HobjectToHimage().ConvertImageType("real").ScaleImage(0.001, 0);
             
             imageB.GetImageSize(out imageWidth, out imageHeight);
             imageL.GetImageSize(out imageWidth, out imageHeight);

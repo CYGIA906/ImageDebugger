@@ -29,23 +29,12 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan
             var lineY = XAxis.Translate(pointSetting.Y / YCoeff);
             var intersection = lineX.Intersect(lineY);
             var image = images[pointSetting.ImageIndex];
-            double grayValue = 0;
-            try
-            {
-                grayValue =  (double) image.GetGrayval((int)intersection.ImageY, (int)intersection.ImageX) / 1000;
-            }
-            catch (Exception e)
-            {
-                image.WriteImage("tiff", 0, "image.tif");
-                Debugger.Break();
-            }
             return new PointMarker()
             {
                 ImageX = intersection.ImageX,
                 ImageY = intersection.ImageY,
-                Height = pointSetting.KernelSize < 2? (double)image.GetGrayval(intersection.ImageY, intersection.ImageX)/1000.0
-                    : SmoothAndGetValueAtPoint(intersection.ImageX, intersection.ImageY, image, pointSetting.KernelSize, pointSetting.TrimPercent)/1000.0,
-//                Height = grayValue,
+                Height = pointSetting.KernelSize < 2? (double)image.GetGrayval(intersection.ImageY, intersection.ImageX)
+                    : SmoothAndGetValueAtPoint(intersection.ImageX, intersection.ImageY, image, pointSetting.KernelSize, pointSetting.TrimPercent),
                 Name = pointSetting.Name
             };
         }

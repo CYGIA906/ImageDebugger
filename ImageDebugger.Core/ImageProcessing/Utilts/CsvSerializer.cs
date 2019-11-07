@@ -75,11 +75,18 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
             var mins = string.Join(",",summaries.Item2);
             var averages = string.Join(",",summaries.Item3);
             var maxDiffs = string.Join(",",summaries.Item4);
+            var maxIndecies = string.Join(",",summaries.Item5);
+            var minIndecies = string.Join(",",summaries.Item6);
+            var ngIndicators = string.Join(",", summaries.Item7);
             // Reserve space for the time column
             maxs = "max," + maxs;
             mins = "min," + mins;
             averages = "average," + averages;
             maxDiffs = "max diff," + maxDiffs;
+            maxIndecies = "max index," + maxIndecies;
+            minIndecies = "min index," + minIndecies;
+            ngIndicators = "Result:," + ngIndicators;
+            
             
             
             using (var fs = new StreamWriter(_csvPath, append:true))
@@ -89,6 +96,9 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
                 fs.WriteLine(mins);
                 fs.WriteLine(averages);
                 fs.WriteLine(maxDiffs);
+                fs.WriteLine(maxIndecies);
+                fs.WriteLine(minIndecies);
+                if(RepeatibilityMode) fs.WriteLine(ngIndicators);
             }
             
             
@@ -96,13 +106,15 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
             _csvPath = UpdateSerializePath();
         }
 
+
+        public bool RepeatibilityMode { get; set; } = true;
         
         /// <summary>
         /// Summary an in-memory representation of csv file
         /// </summary>
         /// <param name="strs">Lines of comma-separated strings</param>
         /// <returns>Max, min, average and max-diff</returns>
-    static Tuple<List<double>, List<double>, List<double>, List<double>> GetCsvSummary(IEnumerable<string> strs)  
+    static Tuple<List<double>, List<double>, List<double>, List<double>, List<int>, List<int>, List<string>> GetCsvSummary(IEnumerable<string> strs)  
     {
         // Skip the header line
         strs = strs.Skip(1);
@@ -127,6 +139,9 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
         var mins = new List<double>();
         var averages = new List<double>();
         var maxDiffs = new List<double>();
+        var maxIndex = new List<int>();
+        var minIndex = new List<int>();
+        var NgInicators = new List<string>();
   
         // Perform aggregate calculations Average, Max, and  
         // Min on each column.              
@@ -137,21 +152,49 @@ namespace ImageDebugger.Core.ImageProcessing.Utilts
         // query by calling ToList.  
         for (int column = 0; column < columnCount; column++)  
         {  
-            var results2 = from row in results  
+            var columnValues = from row in results  
                            select row.ElementAt(column);  
-            double average = results2.Average();  
-            double max = results2.Max();  
-            double min = results2.Min();
+            double average = columnValues.Average();  
+            double max = columnValues.Max();  
+            double min = columnValues.Min();
             double maxDiff = max - min;
 
             maxs.Add(max);
             mins.Add(min);
             averages.Add(average);
             maxDiffs.Add(maxDiff);
-            
+            maxIndex.Add(IndexVeryClose(columnValues, max));
+            minIndex.Add(IndexVeryClose(columnValues, min));
+            var NgIndicator = maxDiff > NgThreshold ? "NG" : "";
+            NgInicators.Add(NgIndicator);
         }  
-        
-        return new Tuple<List<double>, List<double>, List<double>, List<double>>(maxs, mins, averages, maxDiffs);
-    }  
+        return new Tuple<List<double>, List<double>, List<double>, List<double>, List<int>, List<int>, List<string>>(maxs, mins, averages, maxDiffs, maxIndex, minIndex, NgInicators);
+    }
+
+        public static double NgThreshold { get; set; } = 0.01;
+
+
+        private static double _epslon = 0.00001;
+        private static bool DoubleVeryClose(double actual, double expected)
+        {
+            return Math.Abs(actual - expected) < _epslon;
+        }
+
+        /// <summary>
+        /// Return the index of the element that is very close to the target value
+        /// </summary>
+        /// <param name="values"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        private static int IndexVeryClose(IEnumerable<double> values, double target)
+        {
+            var list = values.ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (DoubleVeryClose(list[i], target)) return i;
+            }
+
+            return -1;
+        }
     }
 }

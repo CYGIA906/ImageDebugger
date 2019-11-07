@@ -92,7 +92,7 @@ public partial class HDevelopExport
     hv_Output_x.Dispose();
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
-    hv_Output_x = (hv_Column-hv_deta_x)+1;
+    hv_Output_x = (hv_Column-hv_deta_x)-4;
     }
     hv_Output_y.Dispose();
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
@@ -309,8 +309,8 @@ public partial class HDevelopExport
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
     ho_ROI_B.Dispose();
-    HOperatorSet.GenRectangle1(out ho_ROI_B, hv_RowL+520, hv_ColumnL-230, hv_RowL+550, 
-        hv_ColumnL+290);
+    HOperatorSet.GenRectangle1(out ho_ROI_B, hv_RowL+520, hv_ColumnL-800, hv_RowL+560, 
+        hv_ColumnL-100);
     }
     ho_ImageReducedB.Dispose();
     HOperatorSet.ReduceDomain(ho_Image, ho_ROI_B, out ho_ImageReducedB);
@@ -383,7 +383,8 @@ public partial class HDevelopExport
     // Local iconic variables 
 
     HObject ho_ROI_C, ho_ImageReducedC, ho_RegionC;
-    HObject ho_RegionClosing2, ho_RegionBorderC, ho_ContourCs;
+    HObject ho_RegionClosing2, ho_RegionOpening, ho_ConnectedRegions;
+    HObject ho_SelectedRegions, ho_RegionBorderC, ho_ContourCs;
     HObject ho_ContourCsSplit, ho_SelectedContourCs, ho_UnionContourCs;
     HObject ho_SortedContourCs, ho_ObjectSelectedC, ho_UnionContours1;
 
@@ -397,6 +398,9 @@ public partial class HDevelopExport
     HOperatorSet.GenEmptyObj(out ho_ImageReducedC);
     HOperatorSet.GenEmptyObj(out ho_RegionC);
     HOperatorSet.GenEmptyObj(out ho_RegionClosing2);
+    HOperatorSet.GenEmptyObj(out ho_RegionOpening);
+    HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
+    HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
     HOperatorSet.GenEmptyObj(out ho_RegionBorderC);
     HOperatorSet.GenEmptyObj(out ho_ContourCs);
     HOperatorSet.GenEmptyObj(out ho_ContourCsSplit);
@@ -412,8 +416,8 @@ public partial class HDevelopExport
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
     ho_ROI_C.Dispose();
-    HOperatorSet.GenRectangle1(out ho_ROI_C, hv_RowL-270, hv_ColumnL+1420, hv_RowL+270, 
-        hv_ColumnL+1445);
+    HOperatorSet.GenRectangle1(out ho_ROI_C, hv_RowL-270, hv_ColumnL+935, hv_RowL+270, 
+        hv_ColumnL+955);
     }
     ho_ImageReducedC.Dispose();
     HOperatorSet.ReduceDomain(ho_Image, ho_ROI_C, out ho_ImageReducedC);
@@ -421,8 +425,15 @@ public partial class HDevelopExport
     HOperatorSet.Threshold(ho_ImageReducedC, out ho_RegionC, -2200, -600);
     ho_RegionClosing2.Dispose();
     HOperatorSet.ClosingRectangle1(ho_RegionC, out ho_RegionClosing2, 1, 5);
+    ho_RegionOpening.Dispose();
+    HOperatorSet.OpeningRectangle1(ho_RegionClosing2, out ho_RegionOpening, 2, 10);
+    ho_ConnectedRegions.Dispose();
+    HOperatorSet.Connection(ho_RegionOpening, out ho_ConnectedRegions);
+    ho_SelectedRegions.Dispose();
+    HOperatorSet.SelectShapeStd(ho_ConnectedRegions, out ho_SelectedRegions, "max_area", 
+        70);
     ho_RegionBorderC.Dispose();
-    HOperatorSet.Boundary(ho_RegionClosing2, out ho_RegionBorderC, "inner");
+    HOperatorSet.Boundary(ho_SelectedRegions, out ho_RegionBorderC, "inner");
     ho_ContourCs.Dispose();
     HOperatorSet.GenContourRegionXld(ho_RegionBorderC, out ho_ContourCs, "border");
     ho_ContourCsSplit.Dispose();
@@ -459,6 +470,9 @@ public partial class HDevelopExport
     ho_ImageReducedC.Dispose();
     ho_RegionC.Dispose();
     ho_RegionClosing2.Dispose();
+    ho_RegionOpening.Dispose();
+    ho_ConnectedRegions.Dispose();
+    ho_SelectedRegions.Dispose();
     ho_RegionBorderC.Dispose();
     ho_ContourCs.Dispose();
     ho_ContourCsSplit.Dispose();
@@ -486,15 +500,13 @@ public partial class HDevelopExport
     // Local iconic variables 
 
     HObject ho_ImageBWConverted, ho_ImageBWScaled;
-    HObject ho_ImageNewBWMirror, ho_ImageNewBWConvert, ho_ImageBWMirror;
+    HObject ho_ImageNewBWConvert;
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_ImageNewB);
     HOperatorSet.GenEmptyObj(out ho_ImageBWToByte);
     HOperatorSet.GenEmptyObj(out ho_ImageBWConverted);
     HOperatorSet.GenEmptyObj(out ho_ImageBWScaled);
-    HOperatorSet.GenEmptyObj(out ho_ImageNewBWMirror);
     HOperatorSet.GenEmptyObj(out ho_ImageNewBWConvert);
-    HOperatorSet.GenEmptyObj(out ho_ImageBWMirror);
     ho_ImageBWConverted.Dispose();
     HOperatorSet.ConvertImageType(ho_ProfileImageBW, out ho_ImageBWConverted, "int4");
     ho_ImageBWScaled.Dispose();
@@ -512,26 +524,21 @@ public partial class HDevelopExport
       //grayValue := grayValueBefore[0:WidthB-1]-([0:WidthB-1]*kB+bB)
       //set_grayval (ImageNewTempBW, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValue)
     //endfor
-    ho_ImageNewBWMirror.Dispose();
-    HOperatorSet.MirrorImage(ho_ImageBWScaled, out ho_ImageNewBWMirror, "column");
+    //mirror_image (ImageBWScaled, ImageNewBWMirror, 'column')
     ho_ImageNewBWConvert.Dispose();
-    HOperatorSet.ConvertImageType(ho_ImageNewBWMirror, out ho_ImageNewBWConvert, 
-        "int2");
+    HOperatorSet.ConvertImageType(ho_ImageBWScaled, out ho_ImageNewBWConvert, "int2");
     ho_ImageNewB.Dispose();
     HOperatorSet.RotateImage(ho_ImageNewBWConvert, out ho_ImageNewB, 90, "constant");
 
     ho_ImageBWConverted.Dispose();
     HOperatorSet.ConvertImageType(ho_ProfileImageBW, out ho_ImageBWConverted, "byte");
-    ho_ImageBWMirror.Dispose();
-    HOperatorSet.MirrorImage(ho_ImageBWConverted, out ho_ImageBWMirror, "column");
+    //mirror_image (ProfileImageBW, ImageBWMirror, 'column')
     ho_ImageBWToByte.Dispose();
-    HOperatorSet.RotateImage(ho_ImageBWMirror, out ho_ImageBWToByte, 90, "constant");
+    HOperatorSet.RotateImage(ho_ImageBWConverted, out ho_ImageBWToByte, 90, "constant");
 
     ho_ImageBWConverted.Dispose();
     ho_ImageBWScaled.Dispose();
-    ho_ImageNewBWMirror.Dispose();
     ho_ImageNewBWConvert.Dispose();
-    ho_ImageBWMirror.Dispose();
 
 
     return;
@@ -761,8 +768,8 @@ public partial class HDevelopExport
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
     ho_ROI_0.Dispose();
-    HOperatorSet.GenRectangle1(out ho_ROI_0, hv_RowL-260, hv_ColumnL+495, hv_RowL+270, 
-        hv_ColumnL+530);
+    HOperatorSet.GenRectangle1(out ho_ROI_0, hv_RowL-260, hv_ColumnL+10, hv_RowL+270, 
+        hv_ColumnL+40);
     }
     ho_ImageReduced.Dispose();
     HOperatorSet.ReduceDomain(ho_ImageNewTRW, ho_ROI_0, out ho_ImageReduced);
@@ -773,7 +780,7 @@ public partial class HDevelopExport
 
     ho_RegionOpeningStd.Dispose();
     HOperatorSet.OpeningRectangle1(ho_RegionClosing, out ho_RegionOpeningStd, 1, 
-        10);
+        5);
 
     ho_RegionBorderStd.Dispose();
     HOperatorSet.Boundary(ho_RegionOpeningStd, out ho_RegionBorderStd, "inner");
@@ -797,9 +804,9 @@ public partial class HDevelopExport
     ho_ObjectSelectedStd.Dispose();
     HOperatorSet.SelectObj(ho_SortedContourStds, out ho_ObjectSelectedStd, 1);
     hv_RowBeginStd.Dispose();hv_ColBeginStd.Dispose();hv_RowEndStd.Dispose();hv_ColEndStd.Dispose();hv_NrC.Dispose();hv_NcC.Dispose();hv_DistC.Dispose();
-    HOperatorSet.FitLineContourXld(ho_ObjectSelectedStd, "drop", 200, 2, 5, 1, out hv_RowBeginStd, 
-        out hv_ColBeginStd, out hv_RowEndStd, out hv_ColEndStd, out hv_NrC, out hv_NcC, 
-        out hv_DistC);
+    HOperatorSet.FitLineContourXld(ho_ObjectSelectedStd, "drop", -1, 2, 10, 1, 
+        out hv_RowBeginStd, out hv_ColBeginStd, out hv_RowEndStd, out hv_ColEndStd, 
+        out hv_NrC, out hv_NcC, out hv_DistC);
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
     ho_ContourStd.Dispose();
@@ -849,8 +856,9 @@ public partial class HDevelopExport
 
     HObject ho_ImageNewTL, ho_ImageTLWToByte, ho_ImageTRWToByte;
     HObject ho_ImageNewB, ho_ImageBWToByte, ho_ROI_0, ho_ImageReduced;
-    HObject ho_ImageReducedMS, ho_OrginLineB, ho_LineB, ho_OrginLineC;
-    HObject ho_LineC, ho_ROI_BR;
+    HObject ho_ROI_1, ho_ROI_2, ho_ImageReducedMS, ho_ModelImages;
+    HObject ho_ModelRegions, ho_Region, ho_OrginLineB, ho_LineB;
+    HObject ho_OrginLineC, ho_LineC, ho_ROI_BR;
 
     // Local control variables 
 
@@ -864,11 +872,12 @@ public partial class HDevelopExport
     HTuple hv_AngleB = new HTuple(), hv_Score2 = new HTuple();
     HTuple hv_PhiStd = new HTuple(), hv_RowBeginB = new HTuple();
     HTuple hv_ColBeginB = new HTuple(), hv_RowEndB = new HTuple();
-    HTuple hv_ColEndB = new HTuple(), hv_HomMat2DB = new HTuple();
-    HTuple hv_PhiBB = new HTuple(), hv_RowBeginC = new HTuple();
-    HTuple hv_ColBeginC = new HTuple(), hv_RowEndC = new HTuple();
-    HTuple hv_ColEndC = new HTuple(), hv_PhiC = new HTuple();
-    HTuple hv_HomMat2DC = new HTuple(), hv_PhiCC = new HTuple();
+    HTuple hv_ColEndB = new HTuple(), hv_PhiB = new HTuple();
+    HTuple hv_HomMat2DB = new HTuple(), hv_PhiBB = new HTuple();
+    HTuple hv_RowBeginC = new HTuple(), hv_ColBeginC = new HTuple();
+    HTuple hv_RowEndC = new HTuple(), hv_ColEndC = new HTuple();
+    HTuple hv_PhiC = new HTuple(), hv_HomMat2DC = new HTuple();
+    HTuple hv_PhiCC = new HTuple();
     // Initialize local and output iconic variables 
     HOperatorSet.GenEmptyObj(out ho_ImageNewTLW);
     HOperatorSet.GenEmptyObj(out ho_ImageNewTRW);
@@ -883,7 +892,12 @@ public partial class HDevelopExport
     HOperatorSet.GenEmptyObj(out ho_ImageBWToByte);
     HOperatorSet.GenEmptyObj(out ho_ROI_0);
     HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+    HOperatorSet.GenEmptyObj(out ho_ROI_1);
+    HOperatorSet.GenEmptyObj(out ho_ROI_2);
     HOperatorSet.GenEmptyObj(out ho_ImageReducedMS);
+    HOperatorSet.GenEmptyObj(out ho_ModelImages);
+    HOperatorSet.GenEmptyObj(out ho_ModelRegions);
+    HOperatorSet.GenEmptyObj(out ho_Region);
     HOperatorSet.GenEmptyObj(out ho_OrginLineB);
     HOperatorSet.GenEmptyObj(out ho_LineB);
     HOperatorSet.GenEmptyObj(out ho_OrginLineC);
@@ -906,6 +920,9 @@ public partial class HDevelopExport
     get_ImageB(ho_ProfileImageBW, out ho_ImageNewB, out ho_ImageBWToByte);
     //**********************合并上面两张图
     //gen_rectangle1 (ROI_0, 195.762, 539.958, 1130.34, 924.691)
+    //gen_rectangle1 (ROI_0, 193.769, 606.164, 1109.66, 896.676)
+    //gen_rectangle1 (TMP_Region, 283.488, 1660.91, 1023.68, 1899.08)
+    //union2 (ROI_0, TMP_Region, ROI_0)
     //reduce_domain (ImageTRWToByte, ROI_0, ImageReduced)
     //create_shape_model (ImageReduced, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID1)
     //write_shape_model (ModelID1, 'G:/项目文件/1107/50shapemodel')
@@ -916,12 +933,23 @@ public partial class HDevelopExport
         out hv_ScoreTLW);
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
-    ho_ROI_0.Dispose();
-    HOperatorSet.GenRectangle1(out ho_ROI_0, hv_RowTLW-485, hv_ColumnTLW-180, hv_RowTLW+480, 
-        hv_ColumnTLW+180);
+    ho_ROI_1.Dispose();
+    HOperatorSet.GenRectangle1(out ho_ROI_1, hv_RowTLW-485, hv_ColumnTLW-570, hv_RowTLW+480, 
+        hv_ColumnTLW-230);
     }
+    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    {
+    ho_ROI_2.Dispose();
+    HOperatorSet.GenRectangle1(out ho_ROI_2, hv_RowTLW-380, hv_ColumnTLW+400, hv_RowTLW+390, 
+        hv_ColumnTLW+780);
+    }
+    ho_ROI_0.Dispose();
+    HOperatorSet.Union2(ho_ROI_1, ho_ROI_2, out ho_ROI_0);
     ho_ImageReducedMS.Dispose();
     HOperatorSet.ReduceDomain(ho_ImageTRWToByte, ho_ROI_0, out ho_ImageReducedMS);
+    ho_ModelImages.Dispose();ho_ModelRegions.Dispose();
+    HOperatorSet.InspectShapeModel(ho_ImageReducedMS, out ho_ModelImages, out ho_ModelRegions, 
+        4, 30);
     hv_ModelIDMS.Dispose();
     HOperatorSet.CreateShapeModel(ho_ImageReducedMS, 4, -0.39, 0.79, "auto", "auto", 
         "use_polarity", "auto", "auto", out hv_ModelIDMS);
@@ -929,13 +957,10 @@ public partial class HDevelopExport
     hv_RowTR.Dispose();hv_ColumnTR.Dispose();hv_AngleTR.Dispose();hv_ScoreTR.Dispose();
     HOperatorSet.FindShapeModel(ho_ImageTRWToByte, hv_ModelIDMS, -1, 1, 0.5, 1, 0.5, 
         "least_squares", 2, 0.9, out hv_RowTR, out hv_ColumnTR, out hv_AngleTR, out hv_ScoreTR);
-    //dev_display (ImageTRWToByte)
-    //dev_display_shape_matching_results (ModelID, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)
+  
     hv_RowTL.Dispose();hv_ColumnTL.Dispose();hv_AngleTL.Dispose();hv_ScoreTL.Dispose();
     HOperatorSet.FindShapeModel(ho_ImageTLWToByte, hv_ModelIDMS, -1, 1, 0.3, 1, 0.5, 
         "least_squares", 2, 0.9, out hv_RowTL, out hv_ColumnTL, out hv_AngleTL, out hv_ScoreTL);
-    //dev_display (ImageTLWToByte)
-    //dev_display_shape_matching_results (ModelID, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)
     //旋转TL矫正镜像图片照片
     hv_HomMat2D.Dispose();
     HOperatorSet.VectorAngleToRigid(hv_RowTL, hv_ColumnTL, hv_AngleTL, hv_RowTR, 
@@ -947,16 +972,17 @@ public partial class HDevelopExport
     get_ImageUP(ho_ImageNewTRW, ho_ImageNewTLW, out ho_ImageUP);
     //底面旋转到检测位置
     hv_RowB.Dispose();hv_ColB.Dispose();hv_AngleB.Dispose();hv_Score2.Dispose();
-    HOperatorSet.FindShapeModel(ho_ImageBWToByte, hv_ModelID, -1, 1, 0.2, 1, 0.5, 
+    HOperatorSet.FindShapeModel(ho_ImageBWToByte, hv_ModelIDMS, -1, 1, 0.2, 1, 0.3, 
         "least_squares", 2, 0.9, out hv_RowB, out hv_ColB, out hv_AngleB, out hv_Score2);
-
+  
     hv_HomMat2D.Dispose();
     HOperatorSet.VectorAngleToRigid(hv_RowB, hv_ColB, hv_AngleB, hv_RowTR, hv_ColumnTR, 
         hv_AngleTR, out hv_HomMat2D);
     ho_ImageNewBW.Dispose();
     HOperatorSet.AffineTransImage(ho_ImageNewB, out ho_ImageNewBW, hv_HomMat2D, "constant", 
         "false");
-
+    ho_Region.Dispose();
+    HOperatorSet.Threshold(ho_ImageNewBW, out ho_Region, -11128, 255);
     //创建模板
     //gen_rectangle1 (ROI_0, 237.934, 181.275, 1140.4, 306.398)
     //reduce_domain (ImageTLWToByte, ROI_0, ImageReducedMS)
@@ -989,15 +1015,14 @@ public partial class HDevelopExport
     gen_B_line(ho_ImageNewTRW, out ho_OrginLineB, hv_RowTR, hv_ColumnTR, out hv_RowBeginB, 
         out hv_ColBeginB, out hv_RowEndB, out hv_ColEndB);
     //校准B线
-    hv_RowB.Dispose();
+    hv_PhiB.Dispose();
     HOperatorSet.LineOrientation(hv_RowBeginB, hv_ColBeginB, hv_RowEndB, hv_ColEndB, 
-        out hv_RowB);
+        out hv_PhiB);
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
     hv_HomMat2DB.Dispose();
     HOperatorSet.VectorAngleToRigid((hv_RowBeginB+hv_RowEndB)/2, (hv_ColBeginB+hv_ColEndB)/2, 
-        hv_RowB, (hv_RowBeginB+hv_RowEndB)/2, (hv_ColBeginB+hv_ColEndB)/2, hv_PhiStd-((new HTuple(90)).TupleRad()
-        ), out hv_HomMat2DB);
+        hv_PhiB, (hv_RowBeginB+hv_RowEndB)/2, (hv_ColBeginB+hv_ColEndB)/2, 0, out hv_HomMat2DB);
     }
     ho_LineB.Dispose();
     HOperatorSet.AffineTransContourXld(ho_OrginLineB, out ho_LineB, hv_HomMat2DB);
@@ -1017,8 +1042,8 @@ public partial class HDevelopExport
     {
     hv_HomMat2DC.Dispose();
     HOperatorSet.VectorAngleToRigid((hv_RowBeginC+hv_RowEndC)/2, (hv_ColBeginC+hv_ColEndC)/2, 
-        hv_PhiC, (hv_RowBeginC+hv_RowEndC)/2, (hv_ColBeginC+hv_ColEndC)/2, hv_PhiStd, 
-        out hv_HomMat2DC);
+        hv_PhiC, (hv_RowBeginC+hv_RowEndC)/2, (hv_ColBeginC+hv_ColEndC)/2, (new HTuple(90)).TupleRad()
+        , out hv_HomMat2DC);
     }
     ho_LineC.Dispose();
     HOperatorSet.AffineTransContourXld(ho_OrginLineC, out ho_LineC, hv_HomMat2DC);
@@ -1032,8 +1057,8 @@ public partial class HDevelopExport
     using (HDevDisposeHelper dh = new HDevDisposeHelper())
     {
     ho_ROI_BR.Dispose();
-    HOperatorSet.GenRectangle1(out ho_ROI_BR, hv_RowTR+520, hv_ColumnTR-230, hv_RowTR+550, 
-        hv_ColumnTR+290);
+    HOperatorSet.GenRectangle1(out ho_ROI_BR, hv_RowTR+520, hv_ColumnTR-930, hv_RowTR+550, 
+        hv_ColumnTR-40);
     }
     ho_ImageReduced.Dispose();
     HOperatorSet.ReduceDomain(ho_ImageUP, ho_ROI_BR, out ho_ImageReduced);
@@ -1046,7 +1071,12 @@ public partial class HDevelopExport
     ho_ImageBWToByte.Dispose();
     ho_ROI_0.Dispose();
     ho_ImageReduced.Dispose();
+    ho_ROI_1.Dispose();
+    ho_ROI_2.Dispose();
     ho_ImageReducedMS.Dispose();
+    ho_ModelImages.Dispose();
+    ho_ModelRegions.Dispose();
+    ho_Region.Dispose();
     ho_OrginLineB.Dispose();
     ho_LineB.Dispose();
     ho_OrginLineC.Dispose();
@@ -1074,6 +1104,7 @@ public partial class HDevelopExport
     hv_ColBeginB.Dispose();
     hv_RowEndB.Dispose();
     hv_ColEndB.Dispose();
+    hv_PhiB.Dispose();
     hv_HomMat2DB.Dispose();
     hv_PhiBB.Dispose();
     hv_RowBeginC.Dispose();
@@ -1322,6 +1353,423 @@ public partial class HDevelopExport
     return;
   }
 
-  
+  // Main procedure 
+  private void action()
+  {
+
+
+    // Stack for temporary objects 
+    HObject[] OTemp = new HObject[20];
+
+    // Local iconic variables 
+
+    HObject ho_EmptyObject, ho_ProfileImageTLW=null;
+    HObject ho_ProfileImageTRW=null, ho_ProfileImageBW=null;
+    HObject ho_ImageNewTLW=null, ho_ImageNewTRW=null, ho_ImageNewBW=null;
+    HObject ho_fit_contour=null, ho_ImageUP=null, ho_RegionB=null;
+    HObject ho_RegionBC=null, ho_ImageUPShow=null, ho_Contourb=null;
+    HObject ho_Contourc=null, ho_Region=null;
+
+    // Local control variables 
+
+    HTuple hv_FileHandleData = new HTuple(), hv_FileHandleDataGrayValue1 = new HTuple();
+    HTuple hv_FileHandleDataGrayValue2 = new HTuple(), hv_strPath = new HTuple();
+    HTuple hv_ImageFilesTL = new HTuple(), hv_ImageFilesTR = new HTuple();
+    HTuple hv_ImageFilesB = new HTuple(), hv_IndexLoop = new HTuple();
+    HTuple hv_ModelID = new HTuple(), hv_RowB = new HTuple();
+    HTuple hv_ColB = new HTuple(), hv_RowC = new HTuple();
+    HTuple hv_ColC = new HTuple(), hv_RowBC = new HTuple();
+    HTuple hv_ColumnBC = new HTuple(), hv_IsOverlappingBC = new HTuple();
+    HTuple hv_Row1 = new HTuple(), hv_Column1 = new HTuple();
+    HTuple hv_IsOverlapping1 = new HTuple(), hv_Row2 = new HTuple();
+    HTuple hv_Column2 = new HTuple(), hv_Row3 = new HTuple();
+    HTuple hv_Column3 = new HTuple(), hv_Row4 = new HTuple();
+    HTuple hv_Column4 = new HTuple(), hv_Row = new HTuple();
+    HTuple hv_Column = new HTuple(), hv_IsOverlapping = new HTuple();
+    // Initialize local and output iconic variables 
+    HOperatorSet.GenEmptyObj(out ho_EmptyObject);
+    HOperatorSet.GenEmptyObj(out ho_ProfileImageTLW);
+    HOperatorSet.GenEmptyObj(out ho_ProfileImageTRW);
+    HOperatorSet.GenEmptyObj(out ho_ProfileImageBW);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewTLW);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewTRW);
+    HOperatorSet.GenEmptyObj(out ho_ImageNewBW);
+    HOperatorSet.GenEmptyObj(out ho_fit_contour);
+    HOperatorSet.GenEmptyObj(out ho_ImageUP);
+    HOperatorSet.GenEmptyObj(out ho_RegionB);
+    HOperatorSet.GenEmptyObj(out ho_RegionBC);
+    HOperatorSet.GenEmptyObj(out ho_ImageUPShow);
+    HOperatorSet.GenEmptyObj(out ho_Contourb);
+    HOperatorSet.GenEmptyObj(out ho_Contourc);
+    HOperatorSet.GenEmptyObj(out ho_Region);
+    hv_FileHandleData.Dispose();
+    HOperatorSet.OpenFile("C:/Users/25001885/Desktop/data.csv", "output", out hv_FileHandleData);
+    hv_FileHandleDataGrayValue1.Dispose();
+    HOperatorSet.OpenFile("C:/Users/25001885/Desktop/grayvalue1.csv", "output", out hv_FileHandleDataGrayValue1);
+    hv_FileHandleDataGrayValue2.Dispose();
+    HOperatorSet.OpenFile("C:/Users/25001885/Desktop/grayvalue2.csv", "output", out hv_FileHandleDataGrayValue2);
+    hv_strPath.Dispose();
+    hv_strPath = "G:/项目文件/1107/static/s6/";
+    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    {
+    hv_ImageFilesTL.Dispose();
+    HOperatorSet.ListFiles(hv_strPath+"2", (new HTuple("files")).TupleConcat("follow_links"), 
+        out hv_ImageFilesTL);
+    }
+    {
+    HTuple ExpTmpOutVar_0;
+    HOperatorSet.TupleRegexpSelect(hv_ImageFilesTL, (new HTuple("\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$")).TupleConcat(
+        "ignore_case"), out ExpTmpOutVar_0);
+    hv_ImageFilesTL.Dispose();
+    hv_ImageFilesTL = ExpTmpOutVar_0;
+    }
+    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    {
+    hv_ImageFilesTR.Dispose();
+    HOperatorSet.ListFiles(hv_strPath+"3", (new HTuple("files")).TupleConcat("follow_links"), 
+        out hv_ImageFilesTR);
+    }
+    {
+    HTuple ExpTmpOutVar_0;
+    HOperatorSet.TupleRegexpSelect(hv_ImageFilesTR, (new HTuple("\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$")).TupleConcat(
+        "ignore_case"), out ExpTmpOutVar_0);
+    hv_ImageFilesTR.Dispose();
+    hv_ImageFilesTR = ExpTmpOutVar_0;
+    }
+    using (HDevDisposeHelper dh = new HDevDisposeHelper())
+    {
+    hv_ImageFilesB.Dispose();
+    HOperatorSet.ListFiles(hv_strPath+"1", (new HTuple("files")).TupleConcat("follow_links"), 
+        out hv_ImageFilesB);
+    }
+    {
+    HTuple ExpTmpOutVar_0;
+    HOperatorSet.TupleRegexpSelect(hv_ImageFilesB, (new HTuple("\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$")).TupleConcat(
+        "ignore_case"), out ExpTmpOutVar_0);
+    hv_ImageFilesB.Dispose();
+    hv_ImageFilesB = ExpTmpOutVar_0;
+    }
+    ho_EmptyObject.Dispose();
+    HOperatorSet.GenEmptyObj(out ho_EmptyObject);
+    for (hv_IndexLoop=0; (int)hv_IndexLoop<=(int)((new HTuple(hv_ImageFilesB.TupleLength()
+        ))-1); hv_IndexLoop = (int)hv_IndexLoop + 1)
+    {
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ProfileImageTLW.Dispose();
+      HOperatorSet.ReadImage(out ho_ProfileImageTLW, hv_ImageFilesTL.TupleSelect(
+          hv_IndexLoop));
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ProfileImageTRW.Dispose();
+      HOperatorSet.ReadImage(out ho_ProfileImageTRW, hv_ImageFilesTR.TupleSelect(
+          hv_IndexLoop));
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_ProfileImageBW.Dispose();
+      HOperatorSet.ReadImage(out ho_ProfileImageBW, hv_ImageFilesB.TupleSelect(hv_IndexLoop));
+      }
+      //创建模板,初定位
+      hv_ModelID.Dispose();
+      HOperatorSet.ReadShapeModel("G:/项目文件/1107/50shapemodel", out hv_ModelID);
+      ho_ImageNewTLW.Dispose();ho_ImageNewTRW.Dispose();ho_ImageNewBW.Dispose();ho_fit_contour.Dispose();ho_ImageUP.Dispose();ho_RegionB.Dispose();hv_RowB.Dispose();hv_ColB.Dispose();hv_RowC.Dispose();hv_ColC.Dispose();
+      get_location(ho_ProfileImageTLW, ho_ProfileImageTRW, ho_ProfileImageBW, out ho_ImageNewTLW, 
+          out ho_ImageNewTRW, out ho_ImageNewBW, out ho_fit_contour, out ho_ImageUP, 
+          out ho_RegionB, hv_ModelID, out hv_RowB, out hv_ColB, out hv_RowC, out hv_ColC);
+
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_RowBC.Dispose();hv_ColumnBC.Dispose();hv_IsOverlappingBC.Dispose();
+      HOperatorSet.IntersectionLines(hv_RowC.TupleSelect(0), hv_ColC.TupleSelect(
+          0), hv_RowC.TupleSelect(1), hv_ColC.TupleSelect(1), hv_RowB.TupleSelect(
+          0), hv_ColB.TupleSelect(0), hv_RowB.TupleSelect(1), hv_ColB.TupleSelect(
+          1), out hv_RowBC, out hv_ColumnBC, out hv_IsOverlappingBC);
+      }
+      ho_RegionBC.Dispose();
+      HOperatorSet.GenRegionPoints(out ho_RegionBC, hv_RowBC, hv_ColumnBC);
+
+      ho_ImageUPShow.Dispose();
+      HOperatorSet.ScaleImage(ho_ImageUP, out ho_ImageUPShow, 0.001, 0);
+      {
+
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_Row1.Dispose();hv_Column1.Dispose();hv_IsOverlapping1.Dispose();
+      HOperatorSet.IntersectionLines(hv_RowB.TupleSelect(0), hv_ColB.TupleSelect(
+          0), hv_RowB.TupleSelect(1), hv_ColB.TupleSelect(1), 0, 0, 1600, 0, out hv_Row1, 
+          out hv_Column1, out hv_IsOverlapping1);
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_Row2.Dispose();hv_Column2.Dispose();hv_IsOverlapping1.Dispose();
+      HOperatorSet.IntersectionLines(hv_RowB.TupleSelect(0), hv_ColB.TupleSelect(
+          0), hv_RowB.TupleSelect(1), hv_ColB.TupleSelect(1), 0, 2400, 1600, 2400, 
+          out hv_Row2, out hv_Column2, out hv_IsOverlapping1);
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_Contourb.Dispose();
+      HOperatorSet.GenContourPolygonXld(out ho_Contourb, hv_Row1.TupleConcat(hv_Row2), 
+          hv_Column1.TupleConcat(hv_Column2));
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_Row3.Dispose();hv_Column3.Dispose();hv_IsOverlapping1.Dispose();
+      HOperatorSet.IntersectionLines(0, 0, 0, 1600, hv_RowC.TupleSelect(0), hv_ColC.TupleSelect(
+          0), hv_RowC.TupleSelect(1), hv_ColC.TupleSelect(1), out hv_Row3, out hv_Column3, 
+          out hv_IsOverlapping1);
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      hv_Row4.Dispose();hv_Column4.Dispose();hv_IsOverlapping1.Dispose();
+      HOperatorSet.IntersectionLines(1600, 0, 1600, 800, hv_RowC.TupleSelect(0), 
+          hv_ColC.TupleSelect(0), hv_RowC.TupleSelect(1), hv_ColC.TupleSelect(1), 
+          out hv_Row4, out hv_Column4, out hv_IsOverlapping1);
+      }
+      using (HDevDisposeHelper dh = new HDevDisposeHelper())
+      {
+      ho_Contourc.Dispose();
+      HOperatorSet.GenContourPolygonXld(out ho_Contourc, hv_Row3.TupleConcat(hv_Row4), 
+          hv_Column3.TupleConcat(hv_Column4));
+      }
+      hv_Row.Dispose();hv_Column.Dispose();hv_IsOverlapping.Dispose();
+      HOperatorSet.IntersectionLines(hv_Row3, hv_Column3, hv_Row4, hv_Column4, hv_Row1, 
+          hv_Column1, hv_Row2, hv_Column2, out hv_Row, out hv_Column, out hv_IsOverlapping);
+      ho_Region.Dispose();
+      HOperatorSet.GenRegionPoints(out ho_Region, hv_Row, hv_Column);
+      {
+      HObject ExpTmpOutVar_0;
+      HOperatorSet.ConcatObj(ho_EmptyObject, ho_Region, out ExpTmpOutVar_0);
+      ho_EmptyObject.Dispose();
+      ho_EmptyObject = ExpTmpOutVar_0;
+      }
+      //dev_update_on ()
+      //dev_display (ImageNewTRW)
+      //dev_display (Contourc)
+      //dev_display (Contourb)
+      //dev_set_color ('green')
+      //dev_display (RegionB)
+      //dev_display (EmptyObject)
+      //定义像素当量
+      //sy := 12.35
+      //sx := 14
+      //PhiB := 0
+      //********************FAI16-1检测***************************
+      //x16_1A := 19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]
+      //y16_1A := 6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]
+      //x16_1F := 19.605-[18.170,18.170,10.390,10.390,6.120,6.120,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]
+      //y16_1F := 6.788+[-3.890,3.890,3.890,-3.890,-0.980,0.980,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]
+      //*     analyze_coordinate (x16_1A, y16_1A, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)
+      //*     analyze_coordinate (x16_1F, y16_1F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)
+      //*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)
+
+      //gen_cross_contour_xld (Cross1, Output_yA, Output_xA, 6, 60)
+      //*     override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4, 'F', grayvaluesF)
+
+      //gen_cross_contour_xld (Cross2, Output_yF, Output_xF, 6, 60)
+      //analyze_flatness (Output_yF, Output_xF, 5000+grayvaluesF, Output_yA, Output_xA, grayvaluesA, flatness, distance)
+      //平行度测量
+      //parallam16 := max(distance)-min(distance)
+      //记录16——1结果
+      //*     fwrite_string (FileHandleData, parallam16+',')
+
+      //********************FAI16-2检测***************************
+      //x16_2 := 19.605-[-6.900,-6.970,-6.900,-6.970,-6.900,-6.970,-6.900,-6.970]
+      //y16_2 := 6.788+[-4.900,-4.300,-3.800,-3.200,3.200,3.800,4.300,4.900]
+      //*     analyze_coordinate (x16_2, y16_2, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)
+      //*     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 8, 'A', grayvalues)
+      //*     gen_region_points (Region3, Output_y, Output_x)
+      //*     gen_cross_contour_xld (Cross3, Output_y, Output_x, 6, 0.785398)
+      //*     analyze_flatness (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)
+      //记录16——2结果
+      //fwrite_string (FileHandleData, flatness+',')
+
+      //********************FAI16-3检测***************************
+      //x16_3 := 19.605-[-5.100,-4.500,-3.800,-3.200,3.200,3.800,4.500,5.100]
+      //y16_3 := 6.788+[6.550,6.6000,6.550,6.6000,6.550,6.6000,6.550,6.6000]
+      //    analyze_coordinate (x16_3, y16_3, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)
+      //    override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 4, , plane3, grayvalues)
+      //*     gen_cross_contour_xld (Cross5, Output_y, Output_x, 6, 0.785398)
+      //    analyze_flatness_COPY_1 (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)
+      //********************FAI16-4检测***************************
+      //8个点到B.C直线的距离
+      //x16_4 := 19.605-[6.900,6.970,6.900,6.970,6.900,6.970,6.900,6.970]
+      //y16_4 := 6.788+[-4.900,-4.300,-3.800,-3.200,3.200,3.800,4.300,4.900]
+      //    analyze_coordinate (x16_4, y16_4, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)
+      //    override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 5, , plane4, grayvalues)
+      //*     gen_cross_contour_xld (Cross6,Output_y, Output_x, 6, 0.785398)
+      //    analyze_flatness_COPY_1 (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)
+
+      //********************FAI16-5检测***************************
+      //8个点到B.C直线的距离
+      //x16_5 := 19.605-[-5.100,-4.500,-3.800,-3.200,3.200,3.800,4.500,5.100]
+      //y16_5 := 6.788+[-6.550,-6.6000,-6.550,-6.6000,-6.550,-6.6000,-6.550,-6.6000]
+      //    analyze_coordinate (x16_5, y16_5, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)
+      //    override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 5, , plane5, grayvalues)
+      //*     gen_cross_contour_xld (Cross7, Output_y, Output_x, 6, 0.785398)
+      //    analyze_flatness_COPY_1 (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)
+
+      //********************FAI18C检测***************************
+      //x18CA := 19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]
+      //y18CA := 6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]
+      //x18CE := 19.605-[5.220,5.220,-5.220,-5.220]
+      //y18CE := 6.788+[1.520,-1.520,-1.520,1.520]
+      //*     analyze_coordinate (x18CA, y18CA, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)
+      //*     analyze_coordinate (x18CE, y18CE, PhiB, RowBC, ColumnBC, sx, sy, Output_xE, Output_yE)
+      //*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)
+      //fwrite_string (FileHandleDataGrayValue1, grayvaluesA[0]+','+grayvaluesA[1]+','+grayvaluesA[2]+','+grayvaluesA[3]+','+grayvaluesA[4]+','+grayvaluesA[5]+','+grayvaluesA[6]+','+grayvaluesA[7])
+      //fnew_line (FileHandleDataGrayValue1)
+      //gen_cross_contour_xld (Cross, Output_yA, Output_xA, 6, 0.785398)
+      //*     override_get_grayvalue (ImageUP, Output_yE, Output_xE, PhiB, 4, 'E', grayvaluesE)
+      //fwrite_string (FileHandleDataGrayValue2, grayvaluesE[0]+','+grayvaluesE[1]+','+grayvaluesE[2]+','+grayvaluesE[3]+','+grayvaluesF[4]+','+grayvaluesF[5]+','+grayvaluesF[6]+','+grayvaluesF[7])
+      //fnew_line (FileHandleDataGrayValue2)
+      //gen_region_points (Region3, Output_yE, Output_xE)
+      //gen_cross_contour_xld (Cross4, Output_yE, Output_xE, 6, 0.785398)
+      //analyze_flatness (Output_yA, Output_xA, grayvaluesA, Output_yE, Output_xE, grayvaluesE, flatness, distance)
+      //轮廓度计算
+      //pos1 := 2*max(abs(2.612-distance))
+      //记录18C结果
+      //*     fwrite_string (FileHandleData, pos1+',')
+
+      //********************FAI18M检测***************************
+      //x18MA := 19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]
+      //y18MA := 6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]
+      //x18ME := 19.605-[4.770,6.120,6.120,4.770,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]
+      //y18ME := 6.788+[4.480,0.980,-0.980,-4.480,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]
+      //*     analyze_coordinate (x18MA, y18MA, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)
+      //*     analyze_coordinate (x18ME, y18ME, PhiB, RowBC, ColumnBC, sx, sy, Output_xE, Output_yE)
+      //*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)
+      //gen_cross_contour_xld (Cross3, Output_yA, Output_xA, 6, 0.785398)
+      //*     override_get_grayvalue (ImageUP, Output_yE, Output_xE, PhiB, 4, 'E', grayvaluesE)
+      //*     gen_cross_contour_xld (Cross5, Output_yE, Output_xE, 6, 0.785398)
+      //*     analyze_flatness (Output_yA, Output_xA, grayvaluesA, Output_yE, Output_xE, grayvaluesE, flatness, distance)
+      //计算轮廓度
+      //selectRows := []
+      //selectCols := []
+      //tuple1 := [abs(2.612-distance[0]),abs(2.612-distance[1]),abs(2.612-distance[11])]
+      //*     pos21:=2*max(tuple1)
+
+      //tuple2 := [abs(2.612-distance[2]),abs(2.612-distance[3]),abs(2.612-distance[4])]
+      //*     pos22:=2*max(tuple2)
+
+      //tuple3 := [abs(2.612-distance[5]),abs(2.612-distance[6]),abs(2.612-distance[7])]
+      //*     pos23:=2*max(tuple3)
+
+      //tuple4 := [abs(2.612-distance[8]),abs(2.612-distance[9]),abs(2.612-distance[10])]
+      //*     pos24:=2*max(tuple4)
+
+      //记录18CM结果
+      //*     fwrite_string (FileHandleData, pos21+','+pos22+','+pos23+','+pos24+',')    
+
+      //********************FAI20检测***************************
+      //x20F := 19.605-[18.170,18.170,10.390,10.390]
+      //y20F := 6.788+[-3.890,3.890,3.890,-3.890]
+      //x20P := 19.605-[18.170,18.170,10.390,10.390]
+      //y20P := 6.788+[-3.890,3.890,3.890,-3.890]
+      //*     analyze_coordinate (x20F, y20F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)
+      //*     analyze_coordinate (x20P, y20P, PhiB, RowBC, ColumnBC, sx, sy, Output_xP, Output_yP)
+      //*     override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4, 'F', grayvaluesF)
+      //gen_cross_contour_xld (Cross6, Output_yF, Output_xF, 6, 0.785398)
+      //*     override_get_grayvalue (ImageUP, Output_yP, Output_xP, PhiB, 4, 'P', grayvaluesP)
+      //gen_cross_contour_xld (Cross7, Output_yP, Output_xP, 6, 0.785398)
+      //计算四点对应的距离,5000是标定板厚度
+      //distance20 := ((5000+grayvaluesP)+grayvaluesF)/1000
+      //记录20结果
+      //*     fwrite_string (FileHandleData, distance20[0]+','+distance20[1]+','+distance20[2]+','+distance20[3]+',')
+
+      //********************FAI21检测***************************
+      //x21F := 19.605-[18.170,18.170,10.390,10.390,6.120,6.120,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]
+      //y21F := 6.788+[-3.890,3.890,3.890,-3.890,-0.980,0.980,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]
+      //*     analyze_coordinate (x21F, y21F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)
+      //*     override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4,  'F', grayvaluesF)
+      //*     gen_cross_contour_xld (Cross8, Output_yF, Output_xF, 6, 0.785398)
+      //计算平整度flatness
+      //*     analyze_flatness (Output_yF, Output_xF, grayvaluesF, [], [], [], flatness, distance)
+      //记录21结果
+      //fwrite_string (FileHandleData, flatness+',')
+
+      //********************FAI22检测***************************
+      //x22A := 19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]
+      //y22A := 6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]
+      //x22P := 19.605-[18.170,18.170,10.390,10.390]
+      //y22P := 6.788+[3.890,-3.890,-3.890,3.890]
+      //*     analyze_coordinate (x22A, y22A, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)
+      //*     analyze_coordinate (x22P, y22P, PhiB, RowBC, ColumnBC, sx, sy, Output_xP, Output_yP)
+      //*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)
+      //*     gen_cross_contour_xld (Cross9, Output_yA, Output_xA, 6, 0.785398)
+      //*     override_get_grayvalue (ImageUP, Output_yP, Output_xP, PhiB, 4, 'P', grayvaluesP)
+      //*     gen_region_points (Region3, Output_yP, Output_xP)
+      //*     gen_cross_contour_xld (Cross10, Output_yP, Output_xP, 6, 0.785398)
+      //*     analyze_flatness (Output_yA, Output_xA, grayvaluesA, Output_yP, Output_xP, grayvaluesP, flatness, distance)
+      //平行度测量
+      //*     parallam22:=max(distance)-min(distance)
+      //记录22结果
+      //*     fwrite_string (FileHandleData, parallam22)
+      //fnew_line (FileHandleData)
+
+    }
+    ho_EmptyObject.Dispose();
+    ho_ProfileImageTLW.Dispose();
+    ho_ProfileImageTRW.Dispose();
+    ho_ProfileImageBW.Dispose();
+    ho_ImageNewTLW.Dispose();
+    ho_ImageNewTRW.Dispose();
+    ho_ImageNewBW.Dispose();
+    ho_fit_contour.Dispose();
+    ho_ImageUP.Dispose();
+    ho_RegionB.Dispose();
+    ho_RegionBC.Dispose();
+    ho_ImageUPShow.Dispose();
+    ho_Contourb.Dispose();
+    ho_Contourc.Dispose();
+    ho_Region.Dispose();
+
+    hv_FileHandleData.Dispose();
+    hv_FileHandleDataGrayValue1.Dispose();
+    hv_FileHandleDataGrayValue2.Dispose();
+    hv_strPath.Dispose();
+    hv_ImageFilesTL.Dispose();
+    hv_ImageFilesTR.Dispose();
+    hv_ImageFilesB.Dispose();
+    hv_IndexLoop.Dispose();
+    hv_ModelID.Dispose();
+    hv_RowB.Dispose();
+    hv_ColB.Dispose();
+    hv_RowC.Dispose();
+    hv_ColC.Dispose();
+    hv_RowBC.Dispose();
+    hv_ColumnBC.Dispose();
+    hv_IsOverlappingBC.Dispose();
+    hv_Row1.Dispose();
+    hv_Column1.Dispose();
+    hv_IsOverlapping1.Dispose();
+    hv_Row2.Dispose();
+    hv_Column2.Dispose();
+    hv_Row3.Dispose();
+    hv_Column3.Dispose();
+    hv_Row4.Dispose();
+    hv_Column4.Dispose();
+    hv_Row.Dispose();
+    hv_Column.Dispose();
+    hv_IsOverlapping.Dispose();
+
+  }
+
+  public void InitHalcon()
+  {
+    // Default settings used in HDevelop
+    HOperatorSet.SetSystem("width", 512);
+    HOperatorSet.SetSystem("height", 512);
+  }
+
+  public void RunHalcon(HTuple Window)
+  {
+    hv_ExpDefaultWinHandle = Window;
+    action();
+  }
+
 }
 

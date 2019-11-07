@@ -46,7 +46,9 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
         {
             var output = new List<string>()
             {
+                "16.2-1", "16.2-2", "16.2-3", "16.2-4", "16.2-5", "16.2-6", "16.2-7", "16.2-8",
                 "16.3-1", "16.3-2", "16.3-3", "16.3-4", "16.3-5", "16.3-6", "16.3-7", "16.3-8",
+                "16.4-1", "16.4-2", "16.4-3", "16.4-4", "16.4-5", "16.4-6", "16.4-7", "16.4-8",
                 "16.5-1", "16.5-2", "16.5-3", "16.5-4", "16.5-5", "16.5-6", "16.5-7", "16.5-8",
                 "17.1-1", "17.1-2",
                 "17.2-1", "17.2-2",
@@ -88,12 +90,13 @@ namespace ImageDebugger.Core.ImageProcessing.LineScan.Procedure
         /// </summary>
         private Dictionary<string, string> FlatnessNameMaps { get; set; } = new Dictionary<string, string>
         {
-            ["16.3"] = "16.3", ["16.5"] = "16.5", ["19-F"] = "21"
+            ["16.2"]="16.2", ["16.3"] = "16.3",   ["16.4"] = "16.4",["16.5"] = "16.5", ["19-F"] = "21"
         };
 
         private List<string> PlaneNames { get; set; } = new List<string>()
         {
-            "16.3", "16.5", "19-F",
+            "16.2", "16.3", "16.4", "16.5", 
+            "19-F",
             "19-A"
         };
 

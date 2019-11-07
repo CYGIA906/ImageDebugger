@@ -7,12 +7,12 @@ namespace ImageDebugger.Core.ViewModels
         /// <summary>
         /// X coordinate of the cursor in image
         /// </summary>
-        public double X { get; set; }
+        public string X { get; set; }
 
         /// <summary>
         /// Y coordinate of the cursor in image
         /// </summary>
-        public double Y { get; set; }
+        public string Y { get; set; }
 
 
         /// <summary>

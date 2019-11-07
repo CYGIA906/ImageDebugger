@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,8 +47,8 @@ namespace ImageDebugger.Core.ViewModels.Base
             // output grayvalue info
             GrayValueInfo = new ImageInfoViewModel()
             {
-                X = UsingActualCoordinate? pointRealWorld.ImageX : e.Column, 
-                Y = UsingActualCoordinate? pointRealWorld.ImageY : e.Row, 
+                X = UsingActualCoordinate? pointRealWorld.ImageX.ToString("f3") : ((int)e.Column).ToString(), 
+                Y = UsingActualCoordinate? pointRealWorld.ImageY.ToString("f3") : ((int)e.Row).ToString(), 
                 GrayValue =  grayvalue
             };
 
