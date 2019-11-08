@@ -35,7 +35,7 @@ namespace UI._2D.DataAccess
 
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.SelectedPath = "C:\\Users\\afterbunny\\Desktop\\Projects\\LineScan\\Data\\1107\\1107\\Merged\\Static";
+                fbd.SelectedPath = "G:\\项目文件\\1107\\dynamic\\新建文件夹";
                 DialogResult result = fbd.ShowDialog();
                 var selectedPath = fbd.SelectedPath;
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(selectedPath))

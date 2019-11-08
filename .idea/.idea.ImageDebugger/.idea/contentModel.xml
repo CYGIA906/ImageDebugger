@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\nunit.engine.api.dll" t="Include" />
-    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\nunit.engine.dll" t="Include" />
-    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.dll" t="Include" />
-    <e p="C:\Users\afterbunny\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.pdb" t="Include" />
-    <e p="C:\Users\afterbunny\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\afterbunny\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.-1259227406.00" t="ExcludeRecursive" />
-    <e p="C:\Users\afterbunny\Desktop\Transfer\CYGMeasure2DAlg\cyg2d\Debug" t="ExcludeRecursive" />
-    <e p="C:\Users\afterbunny\Desktop\Transfer\Xiaojin\ImageDebugger" t="IncludeFlat">
+    <e p="C:\Users\25001885\.nuget\packages\nunit3testadapter\3.13.0\build\net35\nunit.engine.api.dll" t="Include" />
+    <e p="C:\Users\25001885\.nuget\packages\nunit3testadapter\3.13.0\build\net35\nunit.engine.dll" t="Include" />
+    <e p="C:\Users\25001885\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.dll" t="Include" />
+    <e p="C:\Users\25001885\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="C:\Users\25001885\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\25001885\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ImageDebugger.1725808660.00" t="ExcludeRecursive" />
+    <e p="C:\Users\25001885\CYGMeasure2DAlg\cyg2d\Debug" t="ExcludeRecursive" />
+    <e p="C:\Users\25001885\Desktop\ImageDebugger" t="IncludeFlat">
       <e p="cyInspector" t="IncludeRecursive">
         <e p="cyInspector.csproj" t="IncludeRecursive" />
         <e p="cyOXYCircle.cs" t="Include" />
