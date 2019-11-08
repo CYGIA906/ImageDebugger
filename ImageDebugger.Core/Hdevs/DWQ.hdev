@@ -15,7 +15,7 @@
 <l>tuple_regexp_select (ImageFilesB, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesB)</l>
 <l>gen_empty_obj (EmptyObject)</l>
 <l>for IndexLoop :=0 to |ImageFilesB| - 1 by 1</l>
-<l>    dev_update_off()</l>
+<l>*     dev_update_off()</l>
 <l>    read_image (ProfileImageTLW, ImageFilesTL[IndexLoop])</l>
 <l>    read_image (ProfileImageTRW, ImageFilesTR[IndexLoop])</l>
 <l>    read_image (ProfileImageBW, ImageFilesB[IndexLoop])</l>
@@ -26,8 +26,8 @@
 <l>    intersection_lines (RowC[0], ColC[0], RowC[1], ColC[1], RowB[0], ColB[0], RowB[1], ColB[1], RowBC, ColumnBC, IsOverlappingBC)</l>
 <l>    gen_region_points (RegionBC, RowBC, ColumnBC)</l>
 <c>    </c>
-<l>    scale_image(ImageUP, ImageUPShow, 0.001, 0)</l>
-<l>    scale_image_range(ImageUPShow, ImageUPShow, -5, 250)</l>
+<l>*     scale_image(ImageUP, ImageUPShow, 0.001, 0)</l>
+<l>*     scale_image_range(ImageUPShow, ImageUPShow, -5, 250)</l>
 <l>    intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 0, 1600, 0, Row1, Column1, IsOverlapping1)</l>
 <l>    intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 2400, 1600, 2400, Row2, Column2, IsOverlapping1) </l>
 <l>    gen_contour_polygon_xld (Contourb, [Row1,Row2], [Column1,Column2])</l>
@@ -250,7 +250,7 @@
 <l>* create_shape_model (ImageReduced, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID1)</l>
 <l>* write_shape_model (ModelID1, 'G:/项目文件/1107/50shapemodel')</l>
 <c>*针对每个工件正反面定位</c>
-<l>dev_display (ImageTRWToByte)</l>
+<l>* dev_display (ImageTRWToByte)</l>
 <l>find_shape_model (ImageTRWToByte, ModelID, -0.39, 0.79, 0.2, 1, 0.5, 'least_squares', 0, 0.9, RowTLW, ColumnTLW, AngleTLW, ScoreTLW)</l>
 <l>gen_rectangle1 (ROI_1, RowTLW-485, ColumnTLW-570, RowTLW+480, ColumnTLW-230)</l>
 <l>gen_rectangle1 (ROI_2, RowTLW-380, ColumnTLW+400, RowTLW+390, ColumnTLW+780)</l>
@@ -260,19 +260,19 @@
 <l>create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelIDMS)</l>
 <c>* 找模板，找旋转中心</c>
 <l>find_shape_model (ImageTRWToByte, ModelIDMS, -1, 1, 0.5, 1, 0.5, 'least_squares', 2, 0.9, RowTR, ColumnTR, AngleTR, ScoreTR)</l>
-<l>dev_display (ImageTRWToByte)</l>
-<l>dev_display_shape_matching_results (ModelIDMS, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
+<l>* dev_display (ImageTRWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelIDMS, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
 <l>find_shape_model (ImageTLWToByte, ModelIDMS, -1, 1, 0.3, 1, 0.5, 'least_squares', 2, 0.9, RowTL, ColumnTL, AngleTL, ScoreTL)</l>
-<l>dev_display (ImageTLWToByte)</l>
-<l>dev_display_shape_matching_results (ModelIDMS, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
+<l>* dev_display (ImageTLWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelIDMS, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
 <c>* 旋转TL矫正镜像图片照片</c>
 <l>vector_angle_to_rigid (RowTL, ColumnTL, AngleTL,RowTR, ColumnTR, AngleTR,  HomMat2D)</l>
 <l>affine_trans_image (ImageNewTL, ImageNewTLW, HomMat2D, 'constant', 'false')</l>
 <l>get_ImageUP (ImageNewTRW, ImageNewTLW, ImageUP)</l>
 <c>* 底面旋转到检测位置</c>
 <l>find_shape_model (ImageBWToByte, ModelIDMS, -1, 1, 0.2, 1, 0.3, 'least_squares', 2, 0.9, RowB, ColB, AngleB, Score2)</l>
-<l>dev_display (ImageBWToByte)</l>
-<l>dev_display_shape_matching_results (ModelIDMS, 'red', RowB, ColB, AngleB, 1, 1, 0)</l>
+<l>* dev_display (ImageBWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelIDMS, 'red', RowB, ColB, AngleB, 1, 1, 0)</l>
 <l>vector_angle_to_rigid (RowB, ColB, AngleB, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
 <l>affine_trans_image (ImageNewB, ImageNewBW, HomMat2D, 'constant', 'false')</l>
 <l>threshold (ImageNewBW, Region, -11128, 255)</l>
@@ -320,7 +320,7 @@
 <l>orientation_xld (LineC, PhiCC)</l>
 <l>gen_empty_obj (fit_contour)</l>
 <c>*显示B台阶面</c>
-<l>gen_rectangle1 (ROI_BR, RowTR+520, ColumnTR-230, RowTR+550, ColumnTR+290)</l>
+<l>gen_rectangle1 (ROI_BR, RowTR+520, ColumnTR-930, RowTR+550, ColumnTR-40)</l>
 <l>reduce_domain (ImageUP, ROI_BR, ImageReduced)</l>
 <l>threshold (ImageReduced, RegionB, -2000, -1600)</l>
 <l>return ()</l>
