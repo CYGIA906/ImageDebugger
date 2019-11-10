@@ -3,218 +3,243 @@
 <procedure name="main">
 <interface/>
 <body>
-<l>* get_system_time (MSecond, Second, Minute, Hour, Day, YDay, Month, Year)</l>
-<l>* open_file ('C:/Users/25001885/Desktop/数据/'+Month+Day+Hour+Minute+Second+'.csv', 'output', FileHandleData)</l>
-<l>* open_file ('C:/Users/25001885/Desktop/grayvalue1.csv', 'output', FileHandleDataGrayValue1)</l>
-<l>* open_file ('C:/Users/25001885/Desktop/grayvalue2.csv', 'output', FileHandleDataGrayValue2)</l>
-<l>* strPath:='G:/项目文件/1108/1107wen/dynamic/d1/'</l>
-<l>* list_files (strPath+'2', ['files','follow_links'], ImageFilesTL)</l>
-<l>* tuple_regexp_select (ImageFilesTL, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesTL)</l>
-<l>* list_files (strPath+'3', ['files','follow_links'], ImageFilesTR)</l>
-<l>* tuple_regexp_select (ImageFilesTR, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesTR)</l>
-<l>* list_files (strPath+'1', ['files','follow_links'], ImageFilesB)</l>
-<l>* tuple_regexp_select (ImageFilesB, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesB)</l>
-<l>* gen_empty_obj (EmptyObject)</l>
-<l>* for IndexLoop :=0 to 8 by 1</l>
-<l>*     dev_update_off()</l>
-<l>*     read_image (ProfileImageTLW, ImageFilesTL[IndexLoop])</l>
-<l>*     read_image (ProfileImageTRW, ImageFilesTR[IndexLoop])</l>
-<l>*     read_image (ProfileImageBW, ImageFilesB[IndexLoop])</l>
+<l>get_system_time (MSecond, Second, Minute, Hour, Day, YDay, Month, Year)</l>
+<l>open_file ('C:/Users/25001885/Desktop/数据/'+Month+Day+Hour+Minute+Second+'.csv', 'output', FileHandleData)</l>
+<l>open_file ('C:/Users/25001885/Desktop/grayvalue1.csv', 'output', FileHandleDataGrayValue1)</l>
+<l>open_file ('C:/Users/25001885/Desktop/grayvalue2.csv', 'output', FileHandleDataGrayValue2)</l>
+<l>strPath:='G:/项目文件/1108/1107wen/dynamic/d8/'</l>
+<l>list_files (strPath+'2', ['files','follow_links'], ImageFilesTL)</l>
+<l>tuple_regexp_select (ImageFilesTL, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesTL)</l>
+<l>list_files (strPath+'3', ['files','follow_links'], ImageFilesTR)</l>
+<l>tuple_regexp_select (ImageFilesTR, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesTR)</l>
+<l>list_files (strPath+'1', ['files','follow_links'], ImageFilesB)</l>
+<l>tuple_regexp_select (ImageFilesB, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesB)</l>
+<l>list_files (strPath+'3', ['files','follow_links'], ImageFilesG)</l>
+<l>tuple_regexp_select (ImageFilesG, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima|hobj)$','ignore_case'], ImageFilesG)</l>
+<l>gen_empty_obj (EmptyObject)</l>
+<l>for IndexLoop :=0 to |ImageFilesB|-1 by 1</l>
+<l>    dev_update_off()</l>
+<l>    read_image (ProfileImageTLW, ImageFilesTL[IndexLoop])</l>
+<l>    read_image (ProfileImageTRW, ImageFilesTR[IndexLoop])</l>
+<l>    read_image (ProfileImageBW, ImageFilesB[IndexLoop])</l>
+<l>    read_image (GrayImage, ImageFilesG[IndexLoop])</l>
 <c>    * 创建模板,初定位</c>
-<l>*     read_shape_model ('G:/项目文件/1107/50shapemodel', ModelID)</l>
-<l>*     get_location (ProfileImageTLW, ProfileImageTRW, ProfileImageBW, ImageNewTLW, ImageNewTRW, ImageNewBW, fit_contour, ImageUP, RegionB, ModelID, RowB, ColB, RowC, ColC)</l>
+<l>    read_shape_model ('G:/项目文件/1107/50shapemodel', ModelID)</l>
+<l>    get_location (ProfileImageTLW, ProfileImageTRW, ProfileImageBW, GrayImage, ImageNewTLW, ImageNewTRW, ImageNewBW, fit_contour, ImageUP, RegionB, ModelID, RowB, ColB, RowC, ColC)</l>
 <c>    </c>
-<l>*     intersection_lines (RowC[0], ColC[0], RowC[1], ColC[1], RowB[0], ColB[0], RowB[1], ColB[1], RowBC, ColumnBC, IsOverlappingBC)</l>
-<l>*     gen_region_points (RegionBC, RowBC, ColumnBC)</l>
+<l>    intersection_lines (RowC[0], ColC[0], RowC[1], ColC[1], RowB[0], ColB[0], RowB[1], ColB[1], RowBC, ColumnBC, IsOverlappingBC)</l>
+<l>    gen_region_points (RegionBC, RowBC, ColumnBC)</l>
 <c>    </c>
-<l>*     scale_image(ImageUP, ImageUPShow, 0.001, 0)</l>
-<l>*     scale_image_range(ImageUPShow, ImageUPShow, -5, 250)</l>
-<l>*     intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 0, 1600, 0, Row1, Column1, IsOverlapping1)</l>
-<l>*     intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 2400, 1600, 2400, Row2, Column2, IsOverlapping1) </l>
-<l>*     gen_contour_polygon_xld (Contourb, [Row1,Row2], [Column1,Column2])</l>
-<l>*     intersection_lines (0, 0, 0, 1600, RowC[0], ColC[0], RowC[1], ColC[1], Row3, Column3, IsOverlapping1)</l>
-<l>*     intersection_lines (1600, 0, 1600, 800, RowC[0], ColC[0], RowC[1], ColC[1], Row4, Column4, IsOverlapping1)</l>
-<l>*     gen_contour_polygon_xld (Contourc, [Row3,Row4], [Column3,Column4])</l>
-<l>*     intersection_lines (Row3, Column3, Row4, Column4, Row1, Column1, Row2, Column2, Row, Column, IsOverlapping)</l>
-<l>*     gen_region_points (Region, Row, Column)</l>
-<l>*     concat_obj (EmptyObject, Region, EmptyObject)</l>
-<l>*     dev_update_on()</l>
-<l>*    dev_display (ImageNewTRW)</l>
-<l>*    dev_display (Contourc)</l>
-<l>*    dev_display (Contourb)</l>
-<l>*    dev_set_color ('green')</l>
-<l>*    dev_display (RegionB)</l>
-<l>*    dev_display(EmptyObject)</l>
-<l>*    dev_set_color ('red')</l>
+<l>    scale_image(ImageUP, ImageUPShow, 0.001, 0)</l>
+<l>    scale_image_range(ImageUPShow, ImageUPShow, -5, 250)</l>
+<l>    intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 0, 1600, 0, Row1, Column1, IsOverlapping1)</l>
+<l>    intersection_lines (RowB[0], ColB[0], RowB[1], ColB[1], 0, 2400, 1600, 2400, Row2, Column2, IsOverlapping1) </l>
+<l>    gen_contour_polygon_xld (Contourb, [Row1,Row2], [Column1,Column2])</l>
+<l>    intersection_lines (0, 0, 0, 1600, RowC[0], ColC[0], RowC[1], ColC[1], Row3, Column3, IsOverlapping1)</l>
+<l>    intersection_lines (1600, 0, 1600, 800, RowC[0], ColC[0], RowC[1], ColC[1], Row4, Column4, IsOverlapping1)</l>
+<l>    gen_contour_polygon_xld (Contourc, [Row3,Row4], [Column3,Column4])</l>
+<l>    intersection_lines (Row3, Column3, Row4, Column4, Row1, Column1, Row2, Column2, Row, Column, IsOverlapping)</l>
+<l>    gen_region_points (Region, Row, Column)</l>
+<l>    concat_obj (EmptyObject, Region, EmptyObject)</l>
+<l>    dev_update_on()</l>
+<l>   dev_display (ImageNewTRW)</l>
+<l>   dev_display (Contourc)</l>
+<l>   dev_display (Contourb)</l>
+<l>   dev_set_color ('green')</l>
+<l>   dev_display (RegionB)</l>
+<l>   dev_display(EmptyObject)</l>
+<l>   dev_set_color ('red')</l>
 <c>     *定义像素当量</c>
-<l>*     sy:=12.35</l>
-<l>*     sx:=14</l>
-<l>*     PhiB:=0</l>
+<l>    sy:=12.35</l>
+<l>    sx:=14.03</l>
+<l>    PhiB:=0</l>
 <c>    *********************FAI16-1检测***************************</c>
-<l>*     x16_1A:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
-<l>*     y16_1A:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
-<l>*     x16_1F:=19.605-[18.170,18.170,10.390+0.3,10.390+0.3,6.120,6.120,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]</l>
-<l>*     y16_1F:=6.788+[-3.890,3.890,3.890,-3.890,-0.980,0.980,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]</l>
-<l>*     analyze_coordinate (x16_1A, y16_1A, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
-<l>*     analyze_coordinate (x16_1F, y16_1F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 4, 'A', grayvaluesA)</l>
-<c>        </c>
-<l>*     fwrite_string(FileHandleDataGrayValue1,grayvaluesA[0]+','+grayvaluesA[1]+','+grayvaluesA[2]+','+grayvaluesA[3]+','+grayvaluesA[4]+','+grayvaluesA[5]+','+grayvaluesA[6]+','+grayvaluesA[7] )</l>
-<l>*     fnew_line (FileHandleDataGrayValue1)</l>
-<c>    </c>
-<l>*     gen_cross_contour_xld (Cross1, Output_yA, Output_xA, 6, 60)</l>
-<l>*     override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4, 'F', grayvaluesF)</l>
-<c>        </c>
-<l>*     fwrite_string(FileHandleDataGrayValue2,grayvaluesF[0]+','+grayvaluesF[1]+','+grayvaluesF[2]+','+grayvaluesF[3]+','+grayvaluesF[4]+','+grayvaluesF[5]+','+grayvaluesF[6]+','+grayvaluesF[7]+','+grayvaluesF[8]+','+grayvaluesF[9]+','+grayvaluesF[10]+','+grayvaluesF[11]+','+grayvaluesF[12]+','+grayvaluesF[13] )</l>
-<l>*     fnew_line (FileHandleDataGrayValue2)</l>
-<c>    </c>
-<l>*     gen_cross_contour_xld (Cross2,Output_yF, Output_xF, 6, 60)</l>
-<l>*     analyze_flatness (Output_yF, Output_xF, -5000-grayvaluesF, Output_yA, Output_xA, grayvaluesA, flatness, distance)</l>
+<l>    x16_1A:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
+<l>    y16_1A:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
+<l>    x16_1F:=19.605-[18.170,18.170,10.390,10.390,6.120,6.120,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]</l>
+<l>    y16_1F:=6.788+[-3.890,3.890,3.890,-3.890,-0.980,0.980,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]</l>
+<l>    analyze_coordinate (x16_1A, y16_1A, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
+<l>    analyze_coordinate (x16_1F, y16_1F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 4, 'A', grayvaluesA)          </l>
+<l>    gen_cross_contour_xld (Cross1, Output_yA, Output_xA, 6, 60)</l>
+<l>    override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4, 'F', grayvaluesF)        </l>
+<l>    gen_cross_contour_xld (Cross2,Output_yF, Output_xF, 6, 60)</l>
+<l>    x1A:=x16_1A*1000</l>
+<l>    Y1A:=y16_1A*1000</l>
+<l>    x1F:=x16_1F*1000</l>
+<l>    Y1F:=y16_1F*1000</l>
+<l>    analyze_flatness (Y1F, x1F, -5000+grayvaluesF,  Y1A,x1A, grayvaluesA, flatness, distance)</l>
 <c>    *平行度测量</c>
-<l>*     parallam16:=max(distance)-min(distance)</l>
+<l>    parallam16:=max(distance)-min(distance)</l>
 <c>    *记录16——1结果</c>
-<l>*     fwrite_string (FileHandleData, parallam16+',')</l>
+<l>    fwrite_string (FileHandleData, parallam16+',')</l>
 <c>    </c>
 <c>    *********************FAI16-2检测***************************</c>
-<l>*     x16_2:=19.605-[-6.900,-6.970,-6.900,-6.970,-6.900,-6.970,-6.900,-6.970]</l>
-<l>*     y16_2:=6.788+[-4.900,-4.300,-3.800,-3.200,3.200,3.800,4.300,4.900]</l>
-<l>*     analyze_coordinate (x16_2, y16_2, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 4, 'A', grayvalues)</l>
-<l>*     gen_region_points (Region3, Output_y, Output_x)</l>
-<l>*     gen_cross_contour_xld (Cross3, Output_y, Output_x, 6, 0.785398)</l>
-<l>*     analyze_flatness (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)</l>
+<l>    x16_2:=19.605-[-6.900,-6.970,-6.900,-6.970,-6.900,-6.970,-6.900,-6.970]</l>
+<l>    y16_2:=6.788+[-4.900,-4.300,-3.800,-3.200,3.200,3.800,4.300,4.900]</l>
+<l>    analyze_coordinate (x16_2, y16_2, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</l>
+<l>    override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 4, 'A', grayvalues)</l>
+<l>    gen_region_points (Region3, Output_y, Output_x)</l>
+<l>    gen_cross_contour_xld (Cross3, Output_y, Output_x, 6, 0.785398)</l>
+<l>    x2A:=x16_2*1000</l>
+<l>    Y2A:=y16_2*1000</l>
+<l>    analyze_flatness (Y2A, x2A, grayvalues, [], [], [], flatness, distance)</l>
 <c>    *记录16——2结果</c>
-<l>*     fwrite_string (FileHandleData, flatness+',')</l>
+<l>    fwrite_string (FileHandleData, flatness+',')</l>
 <c>    </c>
 <c>    *********************FAI16-3检测***************************</c>
-<l>*     x16_3:=19.605-[-5.100,-4.500,-3.800,-3.200,3.200,3.800,4.500,5.100]</l>
-<l>*     y16_3:=6.788+[6.550,6.6000,6.550,6.6000,6.550,6.6000,6.550,6.6000]</l>
-<c>*     analyze_coordinate (x16_3, y16_3, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</c>
-<c>*     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 4, , plane3, grayvalues)</c>
-<l>*     gen_cross_contour_xld (Cross5, Output_y, Output_x, 6, 0.785398)</l>
-<c>*     analyze_flatness_COPY_1 (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)</c>
+<l>    x16_3:=19.605-[-5.100,-4.500,-3.800,-3.200,3.200,3.800,4.500,5.100]</l>
+<l>    y16_3:=6.788+[6.550,6.6000,6.550,6.6000,6.550,6.6000,6.550,6.6000]</l>
+<l>     analyze_coordinate (x16_3, y16_3, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</l>
+<l>     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 4, 'A', grayvalues)</l>
+<l>    gen_cross_contour_xld (Cross5, Output_y, Output_x, 6, 0.785398)</l>
+<l>   x3A:=x16_3*1000</l>
+<l>    Y3A:=y16_3*1000</l>
+<l>    analyze_flatness (Y3A, x3A, grayvalues, [], [], [], flatness, distance)</l>
+<l>     fwrite_string (FileHandleData, flatness+',')</l>
 <c>    *********************FAI16-4检测***************************</c>
+<c>    </c>
 <c>    *8个点到B.C直线的距离</c>
-<l>*     x16_4:=19.605-[6.900,6.970,6.900,6.970,6.900,6.970,6.900,6.970]</l>
-<l>*     y16_4:=6.788+[-4.900,-4.300,-3.800,-3.200,3.200,3.800,4.300,4.900]</l>
-<c>*     analyze_coordinate (x16_4, y16_4, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</c>
-<c>*     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 5, , plane4, grayvalues)</c>
-<l>*     gen_cross_contour_xld (Cross6,Output_y, Output_x, 6, 0.785398)</l>
-<c>*     analyze_flatness_COPY_1 (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)</c>
-<c>    </c>
-<c>    *********************FAI16-5检测***************************</c>
+<l>    x16_4:=19.605-[6.900,6.970,6.900,6.970,6.900,6.970,6.900,6.970]</l>
+<l>    y16_4:=6.788+[-4.900,-4.300,-3.800,-3.200,3.200,3.800,4.300,4.900]</l>
+<l>     analyze_coordinate (x16_4, y16_4, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</l>
+<l>     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 4, 'A', grayvalues)</l>
+<l>    gen_cross_contour_xld (Cross6,Output_y, Output_x, 6, 0.785398)</l>
+<l>    x4A:=x16_4*1000</l>
+<l>    Y4A:=y16_4*1000</l>
+<l>    analyze_flatness (Y4A, x4A, grayvalues, [], [], [], flatness, distance)</l>
+<l>    fwrite_string (FileHandleData, flatness+',')</l>
+<c>    *********************FAI16-5检测***************************   </c>
 <c>    *8个点到B.C直线的距离</c>
-<l>*     x16_5:=19.605-[-5.100,-4.500,-3.800,-3.200,3.200,3.800,4.500,5.100]</l>
-<l>*     y16_5:=6.788+[-6.550,-6.6000,-6.550,-6.6000,-6.550,-6.6000,-6.550,-6.6000]</l>
-<c>*     analyze_coordinate (x16_5, y16_5, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</c>
-<c>*     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 5, , plane5, grayvalues)</c>
-<l>*     gen_cross_contour_xld (Cross7, Output_y, Output_x, 6, 0.785398)</l>
-<c>*     analyze_flatness_COPY_1 (Output_y, Output_x, grayvalues, [], [], [], flatness, distance)</c>
-<c>    </c>
-<c>    *********************FAI18C检测***************************</c>
-<l>*     x18CA:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
-<l>*     y18CA:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
-<l>*     x18CE:=19.605-[5.220,5.220,-5.220+0.3,-5.220+0.3]</l>
-<l>*     y18CE:=6.788+[1.520,-1.520,-1.520,1.520]</l>
-<l>*     analyze_coordinate (x18CA, y18CA, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
-<l>*     analyze_coordinate (x18CE, y18CE, PhiB, RowBC, ColumnBC, sx, sy, Output_xE, Output_yE)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)</l>
-<c>    </c>
-<l>*     gen_cross_contour_xld (Cross, Output_yA, Output_xA, 6, 0.785398)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_yE, Output_xE, PhiB, 4, 'E', grayvaluesE)</l>
-<c>    </c>
-<l>*     gen_region_points (Region3, Output_yE, Output_xE)</l>
-<l>*     gen_cross_contour_xld (Cross4, Output_yE, Output_xE, 6, 0.785398)</l>
-<l>*     analyze_flatness (Output_yA, Output_xA, grayvaluesA, Output_yE, Output_xE, grayvaluesE, flatness, distance)</l>
+<l>    x16_5:=19.605-[-5.100,-4.500,-3.800,-3.200,3.200,3.800,4.500,5.100]</l>
+<l>    y16_5:=6.788+[-6.550,-6.6000,-6.550,-6.6000,-6.550,-6.6000,-6.550,-6.6000]</l>
+<l>     analyze_coordinate (x16_5, y16_5, PhiB, RowBC, ColumnBC, sx, sy, Output_x, Output_y)</l>
+<l>     override_get_grayvalue (ImageUP, Output_y, Output_x, PhiB, 4, 'A', grayvalues)</l>
+<l>     gen_cross_contour_xld (Cross7, Output_y, Output_x, 6, 0.785398)</l>
+<l>     x5A:=x16_5*1000</l>
+<l>    Y5A:=y16_5*1000</l>
+<l>    analyze_flatness (Y5A, x5A, grayvalues, [], [], [], flatness, distance)</l>
+<l>     fwrite_string (FileHandleData, flatness+',')</l>
+<c>     </c>
+<c>    *********************FAI18C检测***************************+','+grayvaluesE[4]+','+grayvaluesE[5]+','+grayvaluesE[6]+','+grayvaluesE[7]+','+grayvaluesE[8]+','+grayvaluesE[9]+','+grayvaluesE[10]+','+grayvaluesE[11]</c>
+<l>    x18CA:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
+<l>    y18CA:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
+<l>    x18CE:=19.605-[5.220,5.220,-5.220,-5.220]</l>
+<l>    y18CE:=6.788+[1.520,-1.520,-1.520,1.520]</l>
+<l>    analyze_coordinate (x18CA, y18CA, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
+<l>    analyze_coordinate (x18CE, y18CE, PhiB, RowBC, ColumnBC, sx, sy, Output_xE, Output_yE)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 4, 'A', grayvaluesA)</l>
+<l>    fwrite_string(FileHandleDataGrayValue1,grayvaluesA[0]+','+grayvaluesA[1]+','+grayvaluesA[2]+','+grayvaluesA[3]+','+grayvaluesA[4]+','+grayvaluesA[5]+','+grayvaluesA[6]+','+grayvaluesA[7] )</l>
+<l>    fnew_line (FileHandleDataGrayValue1)  </l>
+<l>    gen_cross_contour_xld (Cross, Output_yA, Output_xA, 6, 0.785398)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yE, Output_xE, PhiB, 4, 'E', grayvaluesE)</l>
+<l>    fwrite_string(FileHandleDataGrayValue2,grayvaluesE[0]+','+grayvaluesE[1]+','+grayvaluesE[2]+','+grayvaluesE[3] )</l>
+<l>    fnew_line (FileHandleDataGrayValue2)  </l>
+<l>    gen_region_points (Region3, Output_yE, Output_xE)</l>
+<l>    gen_cross_contour_xld (Cross4, Output_yE, Output_xE, 6, 0.785398)</l>
+<l>    x1CA:=x18CA*1000</l>
+<l>    Y1CA:=y18CA*1000</l>
+<l>    x1CE:=x18CE*1000</l>
+<l>    Y1CE:=y18CE*1000</l>
+<l>    analyze_flatness (Y1CA, x1CA, grayvaluesA, Y1CE, x1CE, grayvaluesE, flatness, distance)</l>
 <c>    *轮廓度计算</c>
-<l>*     pos1:=2*max(abs(2.612-distance))</l>
+<l>    pos1:=2*max(abs(2.612-distance))</l>
 <c>    *记录18C结果</c>
-<l>*     fwrite_string (FileHandleData, pos1+',')</l>
+<l>    fwrite_string (FileHandleData, pos1+',')</l>
 <c>    </c>
 <c>    *********************FAI18M检测***************************</c>
-<l>*     x18MA:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
-<l>*     y18MA:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
-<l>*     x18ME:=19.605-[4.770,6.120,6.120,4.770,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]</l>
-<l>*     y18ME:=6.788+[4.480,0.980,-0.980,-4.480,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]</l>
-<l>*     analyze_coordinate (x18MA, y18MA, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
-<l>*     analyze_coordinate (x18ME, y18ME, PhiB, RowBC, ColumnBC, sx, sy, Output_xE, Output_yE)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)</l>
-<l>*     gen_cross_contour_xld (Cross3, Output_yA, Output_xA, 6, 0.785398)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_yE, Output_xE, PhiB, 4, 'E', grayvaluesE)</l>
-<l>*     gen_cross_contour_xld (Cross5, Output_yE, Output_xE, 6, 0.785398)</l>
-<l>*     analyze_flatness (Output_yA, Output_xA, grayvaluesA, Output_yE, Output_xE, grayvaluesE, flatness, distance)</l>
+<l>    x18MA:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
+<l>    y18MA:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
+<l>    x18ME:=19.605-[4.770,6.120,6.120,4.770,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]</l>
+<l>    y18ME:=6.788+[4.480,0.980,-0.980,-4.480,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]</l>
+<l>    analyze_coordinate (x18MA, y18MA, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
+<l>    analyze_coordinate (x18ME, y18ME, PhiB, RowBC, ColumnBC, sx, sy, Output_xE, Output_yE)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)</l>
+<l>    gen_cross_contour_xld (Cross3, Output_yA, Output_xA, 6, 0.785398)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yE, Output_xE, PhiB, 4, 'E', grayvaluesE)</l>
+<l>    gen_cross_contour_xld (Cross5, Output_yE, Output_xE, 6, 0.785398)</l>
+<l>    x1MA:=x18MA*1000</l>
+<l>    Y1MA:=y18MA*1000</l>
+<l>    x1ME:=x18ME*1000</l>
+<l>    Y1ME:=y18ME*1000</l>
+<l>    analyze_flatness (Y1MA, x1MA, grayvaluesA, Y1ME, x1ME, grayvaluesE, flatness, distance)</l>
 <c>    *计算轮廓度</c>
-<l>*     selectRows:=[]</l>
-<l>*     selectCols:=[]</l>
-<l>*     tuple1:=[abs(2.612-distance[0]),abs(2.612-distance[1]),abs(2.612-distance[11])]</l>
-<l>*     pos21:=2*max(tuple1)</l>
+<l>    selectRows:=[]</l>
+<l>    selectCols:=[]</l>
+<l>    tuple1:=[abs(2.612-distance[0]),abs(2.612-distance[1]),abs(2.612-distance[11])]</l>
+<l>    pos21:=2*max(tuple1)</l>
 <c>    </c>
-<l>*     tuple2:=[abs(2.612-distance[2]),abs(2.612-distance[3]),abs(2.612-distance[4])]</l>
-<l>*     pos22:=2*max(tuple2)</l>
+<l>    tuple2:=[abs(2.612-distance[2]),abs(2.612-distance[3]),abs(2.612-distance[4])]</l>
+<l>    pos22:=2*max(tuple2)</l>
 <c>    </c>
-<l>*     tuple3:=[abs(2.612-distance[5]),abs(2.612-distance[6]),abs(2.612-distance[7])]</l>
-<l>*     pos23:=2*max(tuple3)</l>
+<l>    tuple3:=[abs(2.612-distance[5]),abs(2.612-distance[6]),abs(2.612-distance[7])]</l>
+<l>    pos23:=2*max(tuple3)</l>
 <c>      </c>
-<l>*     tuple4:=[abs(2.612-distance[8]),abs(2.612-distance[9]),abs(2.612-distance[10])]</l>
-<l>*     pos24:=2*max(tuple4)</l>
+<l>    tuple4:=[abs(2.612-distance[8]),abs(2.612-distance[9]),abs(2.612-distance[10])]</l>
+<l>    pos24:=2*max(tuple4)</l>
 <c></c>
 <c>    *记录18CM结果</c>
-<l>*     fwrite_string (FileHandleData, pos21+','+pos22+','+pos23+','+pos24+',')    </l>
+<l>    fwrite_string (FileHandleData, pos21+','+pos22+','+pos23+','+pos24+',')    </l>
 <c>    </c>
 <c>    *********************FAI20检测***************************</c>
-<l>*     x20F:=19.605-[18.170,18.170,10.390+0.3,10.390+0.3]</l>
-<l>*     y20F:=6.788+[-3.890,3.890,3.890,-3.890]</l>
-<l>*     x20P:=19.605-[18.170,18.170,10.390+0.3,10.390+0.3]</l>
-<l>*     y20P:=6.788+[-3.890,3.890,3.890,-3.890]</l>
-<l>*     analyze_coordinate (x20F, y20F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)</l>
-<l>*     analyze_coordinate (x20P, y20P, PhiB, RowBC, ColumnBC, sx, sy, Output_xP, Output_yP)</l>
-<l>*     override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4, 'F', grayvaluesF)</l>
-<l>*     gen_cross_contour_xld (Cross6, Output_yF, Output_xF, 6, 0.785398)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_yP, Output_xP, PhiB, 4, 'P', grayvaluesP)</l>
-<l>*     gen_cross_contour_xld (Cross7, Output_yP, Output_xP, 6, 0.785398)</l>
+<l>    x20F:=19.605-[18.170,18.170,10.390,10.390]</l>
+<l>    y20F:=6.788+[-3.890,3.890,3.890,-3.890]</l>
+<l>    x20P:=19.605-[18.170,18.170,10.390,10.390]</l>
+<l>    y20P:=6.788+[-3.890,3.890,3.890,-3.890]</l>
+<l>    analyze_coordinate (x20F, y20F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)</l>
+<l>    analyze_coordinate (x20P, y20P, PhiB, RowBC, ColumnBC, sx, sy, Output_xP, Output_yP)</l>
+<l>    override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4, 'F', grayvaluesF)</l>
+<l>    gen_cross_contour_xld (Cross6, Output_yF, Output_xF, 6, 0.785398)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yP, Output_xP, PhiB, 4, 'P', grayvaluesP)</l>
+<l>    gen_cross_contour_xld (Cross7, Output_yP, Output_xP, 6, 0.785398)</l>
 <c>    *计算四点对应的距离,5000是标定板厚度</c>
 <c></c>
-<l>*     distance20:=((5000+grayvaluesP)+grayvaluesF)/1000</l>
+<l>    distance20:=((5000+grayvaluesP)-grayvaluesF)/1000</l>
 <c>    *记录20结果</c>
-<l>*     fwrite_string (FileHandleData, distance20[0]+','+distance20[1]+','+distance20[2]+','+distance20[3]+',')</l>
+<l>    fwrite_string (FileHandleData, distance20[0]+','+distance20[1]+','+distance20[2]+','+distance20[3]+',')</l>
 <c>    </c>
 <c>    *********************FAI21检测***************************</c>
-<l>*     x21F:=19.605-[18.170,18.170,10.390+0.3,10.390+0.3,6.120,6.120,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]</l>
-<l>*     y21F:=6.788+[-3.890,3.890,3.890,-3.890,-0.980,0.980,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]</l>
-<l>*     analyze_coordinate (x21F, y21F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)</l>
-<l>*     override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4,  'F', grayvaluesF)</l>
-<l>*     gen_cross_contour_xld (Cross8, Output_yF, Output_xF, 6, 0.785398)</l>
+<l>    x21F:=19.605-[18.170,18.170,10.390,10.390,6.120,6.120,2.440,-2.440,-4.770,-6.120,-6.120,-4.770,-2.440,2.440]</l>
+<l>    y21F:=6.788+[-3.890,3.890,3.890,-3.890,-0.980,0.980,-5.510,-5.510,-4.480,-0.980,0.980,4.480,5.510,5.510]</l>
+<l>    analyze_coordinate (x21F, y21F, PhiB, RowBC, ColumnBC, sx, sy, Output_xF, Output_yF)</l>
+<l>    override_get_grayvalue (ImageNewBW, Output_yF, Output_xF, PhiB, 4,  'F', grayvaluesF)</l>
+<l>    gen_cross_contour_xld (Cross8, Output_yF, Output_xF, 6, 0.785398)</l>
 <c>    *计算平整度flatness</c>
-<l>*     analyze_flatness (Output_yF, Output_xF, grayvaluesF, [], [], [], flatness, distance)</l>
+<l>    x1F:=x21F*1000</l>
+<l>    Y1F:=y21F*1000</l>
+<l>    analyze_flatness (Y1F, x1F, grayvaluesF, [], [], [], flatness, distance)</l>
 <c>    *记录21结果</c>
-<l>*     fwrite_string (FileHandleData, flatness+',')</l>
+<l>    fwrite_string (FileHandleData, flatness+',')</l>
 <c>    </c>
 <c>    *********************FAI22检测***************************</c>
-<l>*     x22A:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
-<l>*     y22A:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
+<l>    x22A:=19.605-[7.120,7.120,4.540,-4.540,-6.940,-6.940,-4.540,4.540]</l>
+<l>    y22A:=6.788+[4.340,-4.340,-6.570,-6.570,-4.050,4.050,6.570,6.570]</l>
 <c>    *由于跨边界  修改点位 以下为原始点位</c>
 <l>*     x22P:=19.605-[18.170,18.170,10.390,10.390]</l>
 <l>*     y22P:=6.788+[3.890,-3.890,-3.890,3.890]</l>
 <c>    </c>
-<l>*     x22P:=19.605-[18.170,18.170,10.390+0.2,10.390+0.2]</l>
-<l>*     y22P:=6.788+[3.890,-3.890,-3.890,3.890]</l>
-<l>*     analyze_coordinate (x22A, y22A, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
-<l>*     analyze_coordinate (x22P, y22P, PhiB, RowBC, ColumnBC, sx, sy, Output_xP, Output_yP)</l>
-<l>*     override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)</l>
-<l>*     gen_cross_contour_xld (Cross9, Output_yA, Output_xA, 6, 0.785398)</l>
-<c></c>
-<l>*     override_get_grayvalue (ImageUP, Output_yP, Output_xP, PhiB, 4, 'P', grayvaluesP)</l>
-<l>*     gen_region_points (Region3, Output_yP, Output_xP)</l>
-<c></c>
-<l>*     gen_cross_contour_xld (Cross10, Output_yP, Output_xP, 6, 0.785398)</l>
-<l>*     analyze_flatness (Output_yA, Output_xA, grayvaluesA, Output_yP, Output_xP, grayvaluesP, flatness, distance)</l>
+<l>    x22P:=19.605-[18.170,18.170,10.390,10.390]</l>
+<l>    y22P:=6.788+[3.890,-3.890,-3.890,3.890]</l>
+<l>    analyze_coordinate (x22A, y22A, PhiB, RowBC, ColumnBC, sx, sy, Output_xA, Output_yA)</l>
+<l>    analyze_coordinate (x22P, y22P, PhiB, RowBC, ColumnBC, sx, sy, Output_xP, Output_yP)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yA, Output_xA, PhiB, 8, 'A', grayvaluesA)</l>
+<l>    gen_cross_contour_xld (Cross9, Output_yA, Output_xA, 6, 0.785398)</l>
+<l>    override_get_grayvalue (ImageUP, Output_yP, Output_xP, PhiB, 4, 'P', grayvaluesP)</l>
+<l>    gen_region_points (Region3, Output_yP, Output_xP)</l>
+<l>    gen_cross_contour_xld (Cross10, Output_yP, Output_xP, 6, 0.785398)</l>
+<l>    x1A:=x22A*1000</l>
+<l>    Y1A:=y22A*1000</l>
+<l>    x1P:=x22P*1000</l>
+<l>    Y1P:=y22P*1000</l>
+<l>    analyze_flatness (Y1A, x1A, grayvaluesA, Y1P, x1P, grayvaluesP, flatness, distance)</l>
 <c>    *平行度测量</c>
-<l>*     parallam22:=max(distance)-min(distance)</l>
+<l>    parallam22:=max(distance)-min(distance)</l>
 <c>    *记录22结果</c>
-<l>*     fwrite_string (FileHandleData, parallam22)</l>
-<l>*     fnew_line (FileHandleData)</l>
+<l>    fwrite_string (FileHandleData, parallam22)</l>
+<l>    fnew_line (FileHandleData)</l>
+<l>         *threshold (ImageNewBW, Region1, 128, 2550)</l>
 <c>         </c>
-<l>* endfor</l>
+<l>endfor</l>
 </body>
 <docu id="main">
 <parameters/>
@@ -226,6 +251,7 @@
 <par name="ProfileImageTLW" base_type="iconic" dimension="0"/>
 <par name="ProfileImageTRW" base_type="iconic" dimension="0"/>
 <par name="ProfileImageBW" base_type="iconic" dimension="0"/>
+<par name="GrayImage" base_type="iconic" dimension="0"/>
 </io>
 <oo>
 <par name="ImageNewTLW" base_type="iconic" dimension="0"/>
@@ -248,12 +274,14 @@
 <body>
 <c></c>
 <c>*左侧和下侧图片要旋转才可以达到，加W结尾的才是最终输出图片</c>
-<c>* ****************矫正I40TL照片</c>
+<c>* ****************获取计算的亮度图I40TL照片</c>
 <l>get_ImageTL (ProfileImageTLW, ImageNewTL, ImageTLWToByte)</l>
-<c>* 矫正I40TR照片</c>
+<c>******************获取计算的亮度图I40TR照片</c>
 <l>get_ImageTR (ProfileImageTRW, ImageNewTRW, ImageTRWToByte)</l>
-<c>* ****************矫正I40B照片</c>
+<c>* ****************获取计算的亮度图I40B照片</c>
 <l>get_ImageB (ProfileImageBW, ImageNewB, ImageBWToByte)</l>
+<c>******************获取计算的亮度图</c>
+<l>get_Grayimage (GrayImage, GrayImageNew, GrayImageNewToByte)</l>
 <c>* **********************合并上面两张图</c>
 <l>*gen_rectangle1 (ROI_0, 195.762, 539.958, 1130.34, 924.691)</l>
 <l>* gen_rectangle1 (ROI_0, 193.769, 606.164, 1109.66, 896.676)</l>
@@ -273,19 +301,20 @@
 <l>create_shape_model (ImageReducedMS, 4, -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelIDMS)</l>
 <c>* 找模板，找旋转中心</c>
 <l>find_shape_model (ImageTRWToByte, ModelIDMS, -1, 1, 0.5, 1, 0.5, 'least_squares', 2, 0.9, RowTR, ColumnTR, AngleTR, ScoreTR)</l>
-<l>dev_display (ImageTRWToByte)</l>
-<l>dev_display_shape_matching_results (ModelIDMS, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
+<l>* dev_display (ImageTRWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelIDMS, 'red', RowTR, ColumnTR, AngleTR, 1, 1, 0)</l>
 <l>find_shape_model (ImageTLWToByte, ModelIDMS, -1, 1, 0.3, 1, 0.5, 'least_squares', 2, 0.9, RowTL, ColumnTL, AngleTL, ScoreTL)</l>
-<l>dev_display (ImageTLWToByte)</l>
-<l>dev_display_shape_matching_results (ModelIDMS, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
+<l>* dev_display (ImageTLWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelIDMS, 'red', RowTL, ColumnTL, AngleTL, 1, 1, 0)</l>
 <c>* 旋转TL矫正镜像图片照片</c>
 <l>vector_angle_to_rigid (RowTL, ColumnTL, AngleTL,RowTR, ColumnTR, AngleTR,  HomMat2D)</l>
 <l>affine_trans_image (ImageNewTL, ImageNewTLW, HomMat2D, 'constant', 'false')</l>
 <l>get_ImageUP (ImageNewTRW, ImageNewTLW, ImageUP)</l>
+<c></c>
 <c>* 底面旋转到检测位置</c>
 <l>find_shape_model (ImageBWToByte, ModelIDMS, -1, 1, 0.2, 1, 0.3, 'least_squares', 2, 0.9, RowB, ColB, AngleB, Score2)</l>
-<l>dev_display (ImageBWToByte)</l>
-<l>dev_display_shape_matching_results (ModelIDMS, 'red', RowB, ColB, AngleB, 1, 1, 0)</l>
+<l>* dev_display (ImageBWToByte)</l>
+<l>* dev_display_shape_matching_results (ModelIDMS, 'red', RowB, ColB, AngleB, 1, 1, 0)</l>
 <l>vector_angle_to_rigid (RowB, ColB, AngleB, RowTR, ColumnTR, AngleTR, HomMat2D)</l>
 <l>affine_trans_image (ImageNewB, ImageNewBW, HomMat2D, 'constant', 'false')</l>
 <l>threshold (ImageNewBW, Region, -11128, 255)</l>
@@ -333,9 +362,9 @@
 <l>orientation_xld (LineC, PhiCC)</l>
 <l>gen_empty_obj (fit_contour)</l>
 <c>*显示B台阶面</c>
-<l>gen_rectangle1 (ROI_BR, RowTR+520, ColumnTR-930, RowTR+550, ColumnTR-40)</l>
+<l>gen_rectangle1 (ROI_BR, RowTR+520, ColumnTR-930, RowTR+560, ColumnTR-40)</l>
 <l>reduce_domain (ImageUP, ROI_BR, ImageReduced)</l>
-<l>threshold (ImageReduced, RegionB, -2000, -1600)</l>
+<l>threshold (ImageReduced, RegionB, -2200, -1800)</l>
 <l>return ()</l>
 <c></c>
 </body>
@@ -343,6 +372,7 @@
 <parameters>
 <parameter id="ColB"/>
 <parameter id="ColC"/>
+<parameter id="GrayImage"/>
 <parameter id="ImageNewBW"/>
 <parameter id="ImageNewTLW"/>
 <parameter id="ImageNewTRW"/>
@@ -457,13 +487,13 @@
 <l>*     grayValue := grayValueBefore[0:WidthB-1]-([0:WidthB-1]*kB+bB)</l>
 <l>*     set_grayval (ImageNewTempBW, gen_tuple_const(WidthB,Index), [0:WidthB-1], grayValue)</l>
 <l>* endfor</l>
-<l>* mirror_image (ImageBWScaled, ImageNewBWMirror, 'column')</l>
-<l>convert_image_type (ImageBWScaled, ImageNewBWConvert, 'int2')</l>
+<l>mirror_image (ImageBWScaled, ImageNewBWMirror, 'column')</l>
+<l>convert_image_type (ImageNewBWMirror, ImageNewBWConvert, 'int2')</l>
 <l>rotate_image (ImageNewBWConvert, ImageNewB, 90, 'constant')</l>
 <c></c>
 <l>convert_image_type (ProfileImageBW, ImageBWConverted, 'byte')</l>
-<l>*mirror_image (ProfileImageBW, ImageBWMirror, 'column')</l>
-<l>rotate_image (ImageBWConverted, ImageBWToByte, 90, 'constant')</l>
+<l>mirror_image (ImageBWConverted, ImageBWMirror, 'column')</l>
+<l>rotate_image (ImageBWMirror, ImageBWToByte, 90, 'constant')</l>
 <c></c>
 <l>return ()</l>
 </body>
@@ -620,21 +650,21 @@
 <body>
 <l>gen_rectangle1 (ROI_C, RowL-270, ColumnL+925, RowL+270, ColumnL+955)</l>
 <l>reduce_domain (Image, ROI_C, ImageReducedC)</l>
-<l>threshold (ImageReducedC, RegionC, -2200, -600)</l>
+<l>threshold (ImageReducedC, RegionC, -2000, 700)</l>
 <l>closing_rectangle1 (RegionC, RegionClosing2, 1, 5)</l>
-<l>opening_rectangle1 (RegionClosing2, RegionOpening, 2, 10)</l>
+<l>opening_rectangle1 (RegionClosing2, RegionOpening, 2, 20)</l>
 <l>connection (RegionOpening, ConnectedRegions)</l>
 <l>select_shape_std (ConnectedRegions, SelectedRegions, 'max_area', 70)</l>
 <l>boundary (SelectedRegions, RegionBorderC, 'inner')</l>
 <l>gen_contour_region_xld (RegionBorderC, ContourCs, 'border')</l>
 <l>segment_contours_xld (ContourCs, ContourCsSplit, 'lines', 5, 1, 1)</l>
 <l>select_contours_xld (ContourCsSplit, SelectedContourCs, 'contour_length', 20, 2000, -0.5, 0.5)</l>
-<l>union_collinear_contours_xld (SelectedContourCs, UnionContourCs, 100, 10, 10, 0.5, 'attr_keep')</l>
-<l>select_contours_xld (UnionContourCs, SelectedContourCs, 'contour_length', 50, 2000, -0.5, 0.5)</l>
+<l>union_collinear_contours_ext_xld (SelectedContourCs, UnionContourCs, 200, 10, 10, 0.1, 10, -1, 1, 1, 1, 1, 1, 0, 'attr_keep')</l>
+<l>select_contours_xld (UnionContourCs, SelectedContourCs, 'contour_length', 200, 2000, -0.5, 0.5)</l>
 <l>sort_contours_xld (SelectedContourCs, SortedContourCs, 'character', 'true', 'row')</l>
-<l>select_obj (SortedContourCs, ObjectSelectedC, 2)</l>
-<l>union_collinear_contours_xld (ObjectSelectedC, UnionContours1, 1000, 20, 20, 0.5, 'attr_keep')</l>
-<l>fit_line_contour_xld (UnionContours1, 'drop', -1, 0, 5, 1, RowBeginC, ColBeginC, RowEndC, ColEndC, NrC, NcC, DistC)</l>
+<l>count_obj (SortedContourCs, Number)</l>
+<l>select_obj (SortedContourCs, ObjectSelectedC, Number)</l>
+<l>fit_line_contour_xld (ObjectSelectedC, 'drop', -1, 0, 5, 1, RowBeginC, ColBeginC, RowEndC, ColEndC, NrC, NcC, DistC)</l>
 <l>gen_contour_polygon_xld (OrginLineC, [RowBeginC,RowEndC], [ColBeginC,ColEndC])</l>
 <l>return ()</l>
 </body>
@@ -696,7 +726,7 @@
 <l>        endfor</l>
 <l>    elseif (plane='E')</l>
 <l>            for Index1 := 0 to |Grayval|-1 by 1</l>
-<l>                if (Grayval[Index1]&gt;-3800 and Grayval[Index1]&lt;=-3500)</l>
+<l>                if (Grayval[Index1]&gt;-3800 and Grayval[Index1]&lt;=-3200)</l>
 <l>                    tempGrayvalues := [tempGrayvalues,Grayval[Index1]]</l>
 <l>                endif</l>
 <l>            endfor</l>
@@ -873,6 +903,33 @@
 <parameter id="ys"/>
 <parameter id="z"/>
 <parameter id="zs"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_Grayimage">
+<interface>
+<io>
+<par name="GrayImage" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="GrayImageNew" base_type="iconic" dimension="0"/>
+<par name="GrayImageNewToByte" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>convert_image_type (GrayImage, GrayImageConverted, 'int2')</l>
+<c></c>
+<l>mirror_image (GrayImageConverted, GrayImageMirror, 'column')</l>
+<l>rotate_image (GrayImageMirror, GrayImageNew, 90, 'constant')</l>
+<c></c>
+<l>convert_image_type (GrayImageNew, GrayImageNewToByte, 'byte')</l>
+<l>return ()</l>
+</body>
+<docu id="get_Grayimage">
+<parameters>
+<parameter id="GrayImage"/>
+<parameter id="GrayImageNew"/>
+<parameter id="GrayImageNewToByte"/>
 </parameters>
 </docu>
 </procedure>
